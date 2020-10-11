@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Rebase({ scrollToParameters }) {
+export default function Rebase() {
 	return (
 		<div className="section">
 			<div className="container block is-fluid ">
@@ -25,11 +25,6 @@ export default function Rebase({ scrollToParameters }) {
 					For all accounts that own DEBASE tokens, a rebasing can either result in an increase or decrease in
 					their balance of DEBASE. After a minimum of 24 hours, if the DEBASE:USDC price is still not within
 					the 5% target boundary, a rebase opportunity again becomes available.
-					<br />
-					<br />
-					Since Debase is a modifiable token so parameters mentioned here can be modified using the Degov
-					governance token. So you can the list of modifiable parameters{' '}
-					<a onClick={() => scrollToParameters()}>here</a>.
 				</div>
 			</div>
 		</div>

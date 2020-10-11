@@ -1,31 +1,32 @@
 import React from 'react';
 import InfoCard from '../components/InfoCard';
+import { ownerShipAddress, etherScanTX } from '../utils';
 
-export default function Ownership() {
+const Ownership = React.forwardRef(({}, ref) => {
 	let list = [
 		{
 			name: 'Degov',
-			link: 'https://etherscan.io/tx/0x3f70039e3d77ba582c000ea2ede8a4e0d705cd6638bb47bcce8937ad82a207eb',
+			link: etherScanTX + ownerShipAddress.degovOwnerShip,
 			info: 'Transferring ownership to timelock'
 		},
 		{
 			name: 'Debase Policy',
-			link: 'https://etherscan.io/tx/0x471b397a6ef630b535b7b330b414a390b70899ceca28a389e917b4e5862123de',
+			link: etherScanTX + ownerShipAddress.debasePolicyOwnerShip,
 			info: 'Transferring ownership to timelock'
 		},
 		{
 			name: 'Orchestrator',
-			link: 'https://etherscan.io/tx/0x121a27b6e8f14104b58104af7d13a79083633b3dbe0525b013611866a5632fc4',
+			link: etherScanTX + ownerShipAddress.orchestratorOwnerShip,
 			info: 'Transferring ownership to timelock'
 		},
 		{
 			name: 'GovernorAlpha',
-			link: 'https://etherscan.io/tx/0xdc89824dc956cfb1672edabc00393101ea44f0504a782b813c351f985029c6b2',
+			link: etherScanTX + ownerShipAddress.governorAlphaOwnerShip,
 			info: 'Transferring ownership to timelock'
 		},
 		{
 			name: 'Timelock',
-			link: 'https://etherscan.io/tx/0x131af46f1f93cb9aa6ef0a745161ffa3b95052e529eaecaebc89a6e8fa73efee',
+			link: etherScanTX + ownerShipAddress.timelockOwnerShip,
 			info: 'Transferring ownership to itself'
 		}
 	];
@@ -44,4 +45,6 @@ export default function Ownership() {
 			</div>
 		</div>
 	);
-}
+});
+
+export default Ownership;

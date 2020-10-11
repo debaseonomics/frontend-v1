@@ -11,7 +11,7 @@ export default function Asymmetrical() {
 				<div className="box content is-medium">
 					In addition to the previous discussion on how rebases work. DEBASE introduces the ability to adjust
 					the smoothing parameter (Rebase Lag) that is applied in-order to dampen supply changes during a
-					rebase. Thus preventing the protocol from increasing or decreasing the supply t0o fast by applying
+					rebase. Thus preventing the protocol from increasing or decreasing the supply too fast by applying
 					that change over a number of rebases.
 					<br />
 					<br />

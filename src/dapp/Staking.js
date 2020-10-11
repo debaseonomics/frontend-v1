@@ -1,6 +1,6 @@
 import React from 'react';
 import StakeCard from '../components/StakeCard';
-import { contractAddress, etherScanAddress } from '../utils';
+import { contractAddress, etherScanAddress, uniAddress } from '../utils';
 
 export default function Staking() {
 	return (
@@ -28,11 +28,10 @@ export default function Staking() {
 						contract={contractAddress.debaseUSDCPool}
 						contractLink={etherScanAddress + contractAddress.debaseUSDCPool}
 						website="uniswap.info"
-						websiteLink="https://www.uniswap.info"
+						websiteLink={uniAddress['debase-USDC-POOL']}
 						supply="75,000 DEBASE"
 						initial="37,500 DEBASE"
 						infoText="Incentives debase liquidity"
-						warningText={null}
 						duration="3 days"
 					/>
 				</div>
@@ -43,7 +42,7 @@ export default function Staking() {
 						contract={contractAddress.degovUNIPool}
 						contractLink={etherScanAddress + contractAddress.degovUNIPool}
 						website="uniswap.info"
-						websiteLink="https://www.uniswap.info"
+						websiteLink={uniAddress['degov-UNI-POOL']}
 						supply="25,000 DEGOV"
 						initial="12,500 DEGOV"
 						infoText="Seeds initial supply of degov"

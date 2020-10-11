@@ -60,7 +60,23 @@ export const contractAddress = {
 	debaseUSDCLP: '0xC5D06b0Fdfc7dd46049d4e62C0AE30bf06E2A4A3'
 };
 
+export const uniAddress = {
+	'debase-USDC-POOL': '',
+	'debase-WETH-POOL': '',
+	'debase-YCurve-Pool': '',
+	'degov-UNI-POOL': ''
+};
+
+export const ownerShipAddress = {
+	degovOwnerShip: '',
+	debasePolicyOwnerShip: '',
+	orchestratorOwnerShip: '',
+	governorAlphaOwnerShip: '',
+	timelockOwnerShip: ''
+};
+
 export const etherScanAddress = 'https://etherscan.io/address/';
+export const etherScanTX = 'https://etherscan.io/tx/';
 
 export const weth = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
 

@@ -34,12 +34,17 @@ function getLibrary(provider) {
 function App() {
 	const overviewRef = useRef(null);
 	const parametersRef = useRef(null);
+	const ownershipRef = useRef(null);
 
 	function scrollToOverview() {
 		overviewRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	}
 	function scrollToParameters() {
 		parametersRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	}
+
+	function scrollToOwnership() {
+		ownershipRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	}
 
 	return (
@@ -98,13 +103,13 @@ function App() {
 				<Route path="/">
 					<Landing scrollToOverview={scrollToOverview} />
 					<Overview ref={overviewRef} />
-					<Rebase scrollToParameters={scrollToParameters} />
+					<Rebase />
 					<Asymmetrical />
 					<Governance scrollToParameters={scrollToParameters} />
 					<Distribution />
 					<Parameters ref={parametersRef} />
 					<Contracts />
-					<Ownership />
+					<Ownership ref={ownershipRef} scrollToOwnership={scrollToOwnership} />
 				</Route>
 			</Switch>
 		</Router>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Governance({ scrollToParameters }) {
+export default function Governance({ scrollToParameters, scrollToOwnership }) {
 	return (
 		<div className="section">
 			<div className="container block is-fluid ">
@@ -29,7 +29,8 @@ export default function Governance({ scrollToParameters }) {
 					<br />
 					To view the types of editable parameters please view the{' '}
 					<a onClick={() => scrollToParameters()}>parameters</a> page to see what they are and their current
-					values.
+					values. Also to view the ownership transfer to the timelock contract please view the{' '}
+					<a onClick={() => scrollToOwnership()}>ownership</a> page.
 				</div>
 			</div>
 		</div>
