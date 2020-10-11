@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    width="1366" height="632" preserveAspectRatio="xMidYMid" viewBox="0 0 1366 632" data-darkreader-inline-bgimage=""
+    data-darkreader-inline-bgcolor=""
+    style="z-index:1;margin-right:-2px;display:block;background-repeat-y:initial;background-repeat-x:initial;animation-play-state:paused">
+    <g transform="" style="animation-play-state:paused">
+        <linearGradient id="lg-0.8394377893719405" x1="0" x2="1" y1="0" y2="0" style="animation-play-state:paused">
+            <stop stop-color="#ff00ff" offset="0" style="animation-play-state:paused"></stop>
+
+
+            <stop stop-color="#00ffff" offset="1" style="animation-play-state:paused"></stop>
+        </linearGradient>
+        <path
+            d="M 0 0 L 0 594.881 Q 136.6 588.874 273.2 550.962 T 546.4 505.032 T 819.6 439.129 T 1092.8 283.161 T 1366 324.283 L 1366 0 Z"
+            fill="url(#lg-0.8394377893719405)" opacity="0.4" style="opacity:0.4;animation-play-state:paused"></path>
+        <path
+            d="M 0 0 L 0 591.284 Q 136.6 566.884 273.2 532.284 T 546.4 467.503 T 819.6 409.668 T 1092.8 316.554 T 1366 340.52 L 1366 0 Z"
+            fill="url(#lg-0.8394377893719405)" opacity="0.4" style="opacity:0.4;animation-play-state:paused"></path>
+        <path
+            d="M 0 0 L 0 573.938 Q 136.6 595.227 273.2 553.046 T 546.4 463.694 T 819.6 366.722 T 1092.8 275.033 T 1366 233.047 L 1366 0 Z"
+            fill="url(#lg-0.8394377893719405)" opacity="0.4" style="opacity:0.4;animation-play-state:paused"></path>
+        <path
+            d="M 0 0 L 0 582.68 Q 136.6 517.753 273.2 498.27 T 546.4 421.539 T 819.6 340.747 T 1092.8 309.093 T 1366 283.821 L 1366 0 Z"
+            fill="url(#lg-0.8394377893719405)" opacity="0.4" style="opacity:0.4;animation-play-state:paused"></path>
+        <path
+            d="M 0 0 L 0 541.549 Q 136.6 533.591 273.2 508.802 T 546.4 485.459 T 819.6 363.084 T 1092.8 287.058 T 1366 327.459 L 1366 0 Z"
+            fill="url(#lg-0.8394377893719405)" opacity="0.4" style="opacity:0.4;animation-play-state:paused"></path>
+    </g>
+</svg>
