@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Icon from '../components/Icon';
 import Typed from 'react-typed';
 import Wave from '../assets/Wave.svg';
 
@@ -31,10 +30,12 @@ export default function Landing({ scrollToOverview }) {
 			</div>
 
 			<div className="container block mt-3">
-				<div className="field is-grouped is-grouped-centered">
-					<Icon iconName="fab fa-github fa-lg" />
-					<Icon iconName="fab fa-discord fa-lg" />
-				</div>
+				<a href="https://github.com/de-base/" className="icon has-text-white">
+					<i className="fab fa-github" />
+				</a>
+				<a href="https://discord.gg/QjmTMnx" className="icon has-text-white">
+					<i className="fab fa-discord" />
+				</a>
 			</div>
 		</div>
 	);

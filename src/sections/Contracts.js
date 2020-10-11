@@ -47,9 +47,9 @@ export default function Contracts() {
 			info: 'Handles initial debase seeding'
 		},
 		{
-			address: contractAddress.USDCPool,
-			name: 'Debase/USDC Pool',
-			link: etherScanAddress + contractAddress.USDCPool,
+			address: contractAddress.DAIPool,
+			name: 'Debase/DAI Pool',
+			link: etherScanAddress + contractAddress.DAIPool,
 			info: 'Handles incentivising debase liquidity '
 		},
 		{

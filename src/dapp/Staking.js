@@ -23,12 +23,12 @@ export default function Staking() {
 				</div>
 				<div className="column is-4">
 					<StakeCard
-						title="Debase/USDC-LP Pool"
-						link="debase-usdc"
-						contract={contractAddress.debaseUSDCPool}
-						contractLink={etherScanAddress + contractAddress.debaseUSDCPool}
+						title="Debase/DAI-LP Pool"
+						link="debase-dai"
+						contract={contractAddress.debaseDAIPool}
+						contractLink={etherScanAddress + contractAddress.debaseDAIPool}
 						website="uniswap.info"
-						websiteLink={uniAddress['debase-USDC-POOL']}
+						websiteLink={uniAddress['debase-DAI-POOL']}
 						supply="75,000 DEBASE"
 						initial="37,500 DEBASE"
 						infoText="Incentives debase liquidity"

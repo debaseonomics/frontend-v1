@@ -31,7 +31,7 @@ const Ownership = React.forwardRef(({}, ref) => {
 		}
 	];
 	return (
-		<div className="section">
+		<div className="section" ref={ref}>
 			<div className="container block is-fluid ">
 				<h3 className="title is-size-3-tablet is-size-4-mobile">Ownership</h3>
 				<h4 className="subtitle is-size-4-tablet is-size-5-mobile">Contract ownership transfer transactions</h4>

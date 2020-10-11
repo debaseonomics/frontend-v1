@@ -13,7 +13,7 @@ const Overview = React.forwardRef(({}, ref) => {
 					<a href={etherScanAddress + contractAddress.debase}>DEBASE</a> is a flexible supply token working
 					together with <a href={etherScanAddress + contractAddress.degov}>DEGOV</a> , a governance token ,
 					in-order to make DEBASE achieve it's <strong>fixed</strong> target price of 1{' '}
-					<a href={etherScanAddress + contractAddress.USDC}>USDC</a>.
+					<a href={etherScanAddress + contractAddress.DAI}>DAI</a>.
 					<br />
 					<br />
 					So DEBASE is based on the flexible supply policies brought forth by{' '}

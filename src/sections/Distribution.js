@@ -15,7 +15,7 @@ export default function Distribution() {
 				<div className="box content is-medium">
 					DEBASE token has two separate staking pools. The first pool yields the initial DEBASE token supply.
 					To join this pool, you need to stake <a href="https://www.curve.fi/iearn/deposit">yCurve</a> tokens
-					the into the <Link to="/dapp/staking/debase-usdc">DEBASE/YCurve</Link> staking pool. A total of
+					the into the <Link to="/dapp/staking/debase-dai">DEBASE/YCurve</Link> staking pool. A total of
 					25,000 DEBASE tokens will be distributed from this pool with 12,500 DEBASE being during the first 24
 					hours. After which the tokens to distribute will half to 6,250 and this halving will continue every
 					24 hours until 25,000 DEBASE are distributed from the pool. Also for the first 24 hours only 10,000
@@ -24,10 +24,10 @@ export default function Distribution() {
 					<br />
 					The second pool is meant to provide stability and security to the DEBASE by provide liquidity. To
 					join tis pool, you need to add liquidity into the{' '}
-					<a href={uniAddress['debase-USDC-POOL']}>DEBASE/USDC</a> Uniswap pool to acquire{' '}
-					<a href={etherScanAddress + contractAddress.debaseUSDCPool}>DEBASE-USDC-V2</a> liquidity pool
-					tokens. These tokens can be deposited into the into the{' '}
-					<Link to="/dapp/staking/debase-usdc">DEBASE/USDC</Link> staking pool to earn debase reward tokens. A
+					<a href={uniAddress['debase-DAI-POOL']}>DEBASE/DAI</a> Uniswap pool to acquire{' '}
+					<a href={etherScanAddress + contractAddress.debaseDAIPool}>DEBASE-DAI-V2</a> liquidity pool tokens.
+					These tokens can be deposited into the into the{' '}
+					<Link to="/dapp/staking/debase-dai">DEBASE/DAI</Link> staking pool to earn debase reward tokens. A
 					total of 75,000 DEBASE tokens will be distributed from this pool with 37,500 DEBASE being during the
 					first 72 hours. After which the tokens to distribute will half to 18,750 and this halving will
 					continue every 72 hours until 75,000 DEBASE are distributed from the pool.
@@ -42,7 +42,7 @@ export default function Distribution() {
 					DEGOV token has one staking pool. This pool will only be available to stake into after the
 					orchestrator initiated the first rebase. With the conditions of when the first rebase mentioned
 					above. So to join this pool, you need to stake <a href="https://app.uniswap.org/#/uni">UNI</a>{' '}
-					tokens into the <Link to="/dapp/staking/debase-usdc">DEGOV/UNI</Link> pool.A total of 25,000 DEGOV
+					tokens into the <Link to="/dapp/staking/debase-dai">DEGOV/UNI</Link> pool.A total of 25,000 DEGOV
 					tokens will be distributed from this pool with 12,500 DEGOV being distributed during the first 96
 					hours of the pools launch. After which the tokens to distribute will half to 6,250 and this halving
 					will continue every 96 hours until 25,000 DEGOV are distributed from the pool.

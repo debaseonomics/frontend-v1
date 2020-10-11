@@ -23,7 +23,7 @@ import degov from './assets/degov.png';
 import curve from './assets/curve.png';
 import uni from './assets/uni.png';
 import debase from './assets/debase.png';
-import usdc from './assets/usdc.png';
+import dai from './assets/dai.png';
 
 function getLibrary(provider) {
 	const library = new ethers.providers.Web3Provider(provider);
@@ -65,15 +65,15 @@ function App() {
 										poolAddress={contractAddress.debaseYCurvePool}
 									/>
 								</Route>
-								<Route path="/dapp/staking/debase-usdc">
+								<Route path="/dapp/staking/debase-dai">
 									<Pool
-										tokenText="USDC-LP"
+										tokenText="DAI-LP"
 										rewardText="Debase"
-										poolName="Debase/USDC-LP Pool"
+										poolName="Debase/DAI-LP Pool"
 										rewardTokenImage={debase}
-										stakeTokenImage={usdc}
-										tokenAddress={contractAddress.debaseUSDCLP}
-										poolAddress={contractAddress.debaseUSDCPool}
+										stakeTokenImage={dai}
+										tokenAddress={contractAddress.debaseDAILP}
+										poolAddress={contractAddress.debaseDAIPool}
 									/>
 								</Route>
 								<Route path="/dapp/staking/degov-uni">
@@ -105,11 +105,11 @@ function App() {
 					<Overview ref={overviewRef} />
 					<Rebase />
 					<Asymmetrical />
-					<Governance scrollToParameters={scrollToParameters} />
+					<Governance scrollToParameters={scrollToParameters} scrollToOwnership={scrollToOwnership} />
 					<Distribution />
 					<Parameters ref={parametersRef} />
 					<Contracts />
-					<Ownership ref={ownershipRef} scrollToOwnership={scrollToOwnership} />
+					<Ownership ref={ownershipRef} />
 				</Route>
 			</Switch>
 		</Router>

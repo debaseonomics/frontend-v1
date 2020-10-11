@@ -13,17 +13,17 @@ export default function Rebase() {
 					demand decreases, the number of DEBASE tokens you own decreases. The DEBASE protocol’s rebase
 					function queries a{' '}
 					<a href="https://uniswap.org/docs/v2/core-concepts/oracles/">Uniswap v2 oracle</a> to compare the
-					price of DEBASE to USDC. This function initially cannot execute more than once every 24 hours.
+					price of DEBASE to DAI. This function initially cannot execute more than once every 24 hours.
 					<br />
 					<br />
-					If the price difference between USDC and DEBASE initially is more than 5% in either direction, this
+					If the price difference between DAI and DEBASE initially is more than 5% in either direction, this
 					triggers a rebase event. Above the 5% threshold, the supply expands. Below the 5% threshold, the
 					supply contracts. When a rebase event is triggered, DEBASE supply for all holders is adjusted
-					smoothly over a ten-day period in an attempt to meet the targeted value of 1 DEBASE to 1 USDC.
+					smoothly over a ten-day period in an attempt to meet the targeted value of 1 DEBASE to 1 DAI.
 					<br />
 					<br />
 					For all accounts that own DEBASE tokens, a rebasing can either result in an increase or decrease in
-					their balance of DEBASE. After a minimum of 24 hours, if the DEBASE:USDC price is still not within
+					their balance of DEBASE. After a minimum of 24 hours, if the DEBASE:DAI price is still not within
 					the 5% target boundary, a rebase opportunity again becomes available.
 				</div>
 			</div>
