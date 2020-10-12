@@ -10,9 +10,10 @@ const Overview = React.forwardRef(({}, ref) => {
 			</div>
 			<div className="container block is-fluid ">
 				<div className="box content is-medium">
-					<a href={etherScanAddress + contractAddress.debase}>DEBASE</a> is a flexible supply token working
-					together with <a href={etherScanAddress + contractAddress.degov}>DEGOV</a> , a governance token ,
-					in-order to make DEBASE achieve it's <strong>fixed</strong> target price of 1{' '}
+					Debaseonomics is a combination of <a href={etherScanAddress + contractAddress.debase}>DEBASE</a>, a
+					flexible supply token, working together with{' '}
+					<a href={etherScanAddress + contractAddress.degov}>DEGOV</a> , a governance token , in-order to make
+					DEBASE achieve it's <strong>fixed</strong> target price of 1{' '}
 					<a href={etherScanAddress + contractAddress.DAI}>DAI</a>.
 					<br />
 					<br />
