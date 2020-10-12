@@ -10,6 +10,7 @@ import curve from './assets/curve.png';
 import uni from './assets/uni.png';
 import debase from './assets/debase.png';
 import dai from './assets/dai.png';
+import Loading from './components/Loading';
 
 const Landing = React.lazy(() => import('./sections/Landing'));
 const Parameters = React.lazy(() => import('./sections/Parameters'));
@@ -18,13 +19,14 @@ const Distribution = React.lazy(() => import('./sections/Distribution'));
 const Governance = React.lazy(() => import('./sections/Governance'));
 const Overview = React.lazy(() => import('./sections/Overview'));
 const Rebase = React.lazy(() => import('./sections/Rebase'));
+const Asymmetrical = React.lazy(() => import('./sections/Asymmetrical'));
+const Ownership = React.lazy(() => import('./sections/Ownership'));
+
 const Staking = React.lazy(() => import('./dapp/Staking'));
 const Gov = React.lazy(() => import('./dapp/Gov'));
 const Pool = React.lazy(() => import('./dapp/Pool'));
 const StakeNav = React.lazy(() => import('./components/StakeNav'));
 const Rebaser = React.lazy(() => import('./dapp/Rebaser'));
-const Asymmetrical = React.lazy(() => import('./sections/Asymmetrical'));
-const Ownership = React.lazy(() => import('./sections/Ownership'));
 
 function getLibrary(provider) {
 	const library = new ethers.providers.Web3Provider(provider);
@@ -49,8 +51,8 @@ function App() {
 	}
 
 	return (
-		<Suspense fallback={<div>Loading...</div>}>
-			<Router>
+		<Router>
+			<Suspense fallback={<Loading />}>
 				<Switch>
 					<Route path="/dapp">
 						<Web3ReactProvider getLibrary={getLibrary}>
@@ -114,8 +116,8 @@ function App() {
 						<Ownership ref={ownershipRef} />
 					</Route>
 				</Switch>
-			</Router>
-		</Suspense>
+			</Suspense>
+		</Router>
 	);
 }
 
