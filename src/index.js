@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import './myBulma.css';
 import '@creativebulma/bulma-divider/dist/bulma-divider.css';
 
 import * as serviceWorker from './serviceWorker';

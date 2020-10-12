@@ -1,29 +1,30 @@
-import React, { useRef } from 'react';
+import React, { useRef, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { contractAddress } from './utils/index';
 
 import { ethers } from 'ethers';
 import { Web3ReactProvider } from '@web3-react/core';
-import Landing from './sections/Landing';
-import Parameters from './sections/Parameters';
-import Contracts from './sections/Contracts';
-import Distribution from './sections/Distribution';
-import Governance from './sections/Governance';
-import Overview from './sections/Overview';
-import Rebase from './sections/Rebase';
-import Staking from './dapp/Staking';
-import Gov from './dapp/Gov';
-import Pool from './dapp/Pool';
-import StakeNav from './components/StakeNav';
-import Rebaser from './dapp/Rebaser';
-import Asymmetrical from './sections/Asymmetrical';
-import Ownership from './sections/Ownership';
 
 import degov from './assets/degov.png';
 import curve from './assets/curve.png';
 import uni from './assets/uni.png';
 import debase from './assets/debase.png';
 import dai from './assets/dai.png';
+
+const Landing = React.lazy(() => import('./sections/Landing'));
+const Parameters = React.lazy(() => import('./sections/Parameters'));
+const Contracts = React.lazy(() => import('./sections/Contracts'));
+const Distribution = React.lazy(() => import('./sections/Distribution'));
+const Governance = React.lazy(() => import('./sections/Governance'));
+const Overview = React.lazy(() => import('./sections/Overview'));
+const Rebase = React.lazy(() => import('./sections/Rebase'));
+const Staking = React.lazy(() => import('./dapp/Staking'));
+const Gov = React.lazy(() => import('./dapp/Gov'));
+const Pool = React.lazy(() => import('./dapp/Pool'));
+const StakeNav = React.lazy(() => import('./components/StakeNav'));
+const Rebaser = React.lazy(() => import('./dapp/Rebaser'));
+const Asymmetrical = React.lazy(() => import('./sections/Asymmetrical'));
+const Ownership = React.lazy(() => import('./sections/Ownership'));
 
 function getLibrary(provider) {
 	const library = new ethers.providers.Web3Provider(provider);
@@ -48,71 +49,73 @@ function App() {
 	}
 
 	return (
-		<Router>
-			<Switch>
-				<Route path="/dapp">
-					<Web3ReactProvider getLibrary={getLibrary}>
-						<StakeNav>
-							<Route path="/dapp/staking">
-								<Route path="/dapp/staking/debase-yCurve">
-									<Pool
-										tokenText="YCurve"
-										rewardText="Debase"
-										poolName="Debase/YCurve Pool"
-										rewardTokenImage={debase}
-										stakeTokenImage={curve}
-										tokenAddress={contractAddress.YCurve}
-										poolAddress={contractAddress.debaseYCurvePool}
-									/>
+		<Suspense fallback={<div>Loading...</div>}>
+			<Router>
+				<Switch>
+					<Route path="/dapp">
+						<Web3ReactProvider getLibrary={getLibrary}>
+							<StakeNav>
+								<Route path="/dapp/staking">
+									<Route path="/dapp/staking/debase-yCurve">
+										<Pool
+											tokenText="YCurve"
+											rewardText="Debase"
+											poolName="Debase/YCurve Pool"
+											rewardTokenImage={debase}
+											stakeTokenImage={curve}
+											tokenAddress={contractAddress.YCurve}
+											poolAddress={contractAddress.debaseYCurvePool}
+										/>
+									</Route>
+									<Route path="/dapp/staking/debase-dai">
+										<Pool
+											tokenText="DAI-LP"
+											rewardText="Debase"
+											poolName="Debase/DAI-LP Pool"
+											rewardTokenImage={debase}
+											stakeTokenImage={dai}
+											tokenAddress={contractAddress.debaseDAILP}
+											poolAddress={contractAddress.debaseDAIPool}
+										/>
+									</Route>
+									<Route path="/dapp/staking/degov-uni">
+										<Pool
+											tokenText="UNI"
+											rewardText="Degov"
+											poolName="Degov/UNI Pool"
+											rewardTokenImage={degov}
+											stakeTokenImage={uni}
+											tokenAddress={contractAddress.UNI}
+											poolAddress={contractAddress.degovUNIPool}
+										/>
+									</Route>
+									<Route exact path="/dapp/staking">
+										<Staking />
+									</Route>
 								</Route>
-								<Route path="/dapp/staking/debase-dai">
-									<Pool
-										tokenText="DAI-LP"
-										rewardText="Debase"
-										poolName="Debase/DAI-LP Pool"
-										rewardTokenImage={debase}
-										stakeTokenImage={dai}
-										tokenAddress={contractAddress.debaseDAILP}
-										poolAddress={contractAddress.debaseDAIPool}
-									/>
+								<Route path="/dapp/rebaser">
+									<Rebaser />
 								</Route>
-								<Route path="/dapp/staking/degov-uni">
-									<Pool
-										tokenText="UNI"
-										rewardText="Degov"
-										poolName="Degov/UNI Pool"
-										rewardTokenImage={degov}
-										stakeTokenImage={uni}
-										tokenAddress={contractAddress.UNI}
-										poolAddress={contractAddress.degovUNIPool}
-									/>
+								<Route path="/dapp/governance">
+									<Gov />
 								</Route>
-								<Route exact path="/dapp/staking">
-									<Staking />
-								</Route>
-							</Route>
-							<Route path="/dapp/rebaser">
-								<Rebaser />
-							</Route>
-							<Route path="/dapp/governance">
-								<Gov />
-							</Route>
-						</StakeNav>
-					</Web3ReactProvider>
-				</Route>
-				<Route path="/">
-					<Landing scrollToOverview={scrollToOverview} />
-					<Overview ref={overviewRef} />
-					<Rebase />
-					<Asymmetrical />
-					<Governance scrollToParameters={scrollToParameters} scrollToOwnership={scrollToOwnership} />
-					<Distribution />
-					<Parameters ref={parametersRef} />
-					<Contracts />
-					<Ownership ref={ownershipRef} />
-				</Route>
-			</Switch>
-		</Router>
+							</StakeNav>
+						</Web3ReactProvider>
+					</Route>
+					<Route path="/">
+						<Landing scrollToOverview={scrollToOverview} />
+						<Overview ref={overviewRef} />
+						<Rebase />
+						<Asymmetrical />
+						<Governance scrollToParameters={scrollToParameters} scrollToOwnership={scrollToOwnership} />
+						<Distribution />
+						<Parameters ref={parametersRef} />
+						<Contracts />
+						<Ownership ref={ownershipRef} />
+					</Route>
+				</Switch>
+			</Router>
+		</Suspense>
 	);
 }
 
