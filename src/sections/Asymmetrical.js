@@ -8,7 +8,7 @@ export default function Asymmetrical() {
 				<h4 className="subtitle is-size-4-tablet is-size-5-mobile">Additional flexibility</h4>
 			</div>
 			<div className="container block is-fluid ">
-				<div className="box content is-medium">
+				<div className="box content ">
 					In addition to the previous discussion on how rebases work. DEBASE introduces the ability to adjust
 					the smoothing parameter (Rebase Lag) that is applied in-order to dampen supply changes during a
 					rebase. Thus preventing the protocol from increasing or decreasing the supply too fast by applying

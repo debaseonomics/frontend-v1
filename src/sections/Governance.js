@@ -8,7 +8,7 @@ export default function Governance({ scrollToParameters, scrollToOwnership }) {
 				<h4 className="subtitle is-size-4-tablet is-size-5-mobile">How governance works</h4>
 			</div>
 			<div className="container block is-fluid ">
-				<div className="box content is-medium">
+				<div className="box content ">
 					DEGOV tokens represent a vote in the governance of the protocol. The token allows a user to propose
 					new protocol or vote on changes proposed by other users. Initially to propose a new proposal a user
 					needs to have 1% of all the DEGOV tokens in supply. For a proposal to pass a quorum of 10% of the

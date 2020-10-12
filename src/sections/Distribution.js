@@ -12,7 +12,7 @@ export default function Distribution() {
 				</h4>
 			</div>
 			<div className="container block is-fluid">
-				<div className="box content is-medium">
+				<div className="box content ">
 					DEBASE token has two separate staking pools. The first pool yields the initial DEBASE token supply.
 					To join this pool, you need to stake <a href="https://www.curve.fi/iearn/deposit">yCurve</a> tokens
 					the into the <Link to="/dapp/staking/debase-dai">DEBASE/YCurve</Link> staking pool. A total of

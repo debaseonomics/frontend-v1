@@ -9,7 +9,7 @@ const Overview = React.forwardRef(({}, ref) => {
 				<h4 className="subtitle is-size-4-tablet is-size-5-mobile">How it all works</h4>
 			</div>
 			<div className="container block is-fluid ">
-				<div className="box content is-medium">
+				<div className="box content ">
 					Debaseonomics is a combination of <a href={etherScanAddress + contractAddress.debase}>DEBASE</a>, a
 					flexible supply token, working together with{' '}
 					<a href={etherScanAddress + contractAddress.degov}>DEGOV</a> , a governance token , in-order to make

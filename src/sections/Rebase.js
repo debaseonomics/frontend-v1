@@ -8,7 +8,7 @@ export default function Rebase() {
 				<h4 className="subtitle is-size-4-tablet is-size-5-mobile">Flexible supply management</h4>
 			</div>
 			<div className="container block is-fluid ">
-				<div className="box content is-medium">
+				<div className="box content ">
 					As the demand for DEBASE tokens increases, the number of DEBASE tokens you own increases. If the
 					demand decreases, the number of DEBASE tokens you own decreases. The DEBASE protocol’s rebase
 					function queries a{' '}
