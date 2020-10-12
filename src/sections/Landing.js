@@ -1,25 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Typed from 'react-typed';
 import Wave from '../assets/Wave.svg';
 
 export default function Landing({ scrollToOverview }) {
 	const content = (
 		<div className="container has-text-centered">
 			<h1 className="title is-size-1-tablet is-size-2-mobile">Debaseonomics</h1>
-			<Typed
-				className="subtitle is-block is-size-3-tablet is-size-4-mobile"
-				strings={[
-					'A tale of two tokens.',
-					'Debase - Modifiable flexible supply token.',
-					'Degov - Reward based governance token.',
-					'No pre-mine. No founder fees.',
-					'Fair distribution.'
-				]}
-				typeSpeed={30}
-				backSpeed={15}
-				loop
-			/>
+			<h2 className="subtitle is-size-3-tablet is-size-4-mobile">A tale of two tokens</h2>
 			<div className="buttons are-medium is-centered">
 				<button onClick={() => scrollToOverview()} className="button is-medium is-rounded is-info is-outline">
 					Details
