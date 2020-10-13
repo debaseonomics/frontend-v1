@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import '@creativebulma/bulma-divider/dist/bulma-divider.css';
-
+import Loading from './components/Loading';
 import * as serviceWorker from './serviceWorker';
 
+import '@creativebulma/bulma-divider/dist/bulma-divider.css';
+import './styles.css';
+
+const App = React.lazy(() => import('./App'));
+
 ReactDOM.render(
-	<React.StrictMode>
+	<Suspense fallback={<Loading />}>
 		<App />
-	</React.StrictMode>,
+	</Suspense>,
 	document.getElementById('root')
 );
 

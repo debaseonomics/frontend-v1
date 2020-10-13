@@ -67,8 +67,12 @@ export default function Pool({
 		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
 		try {
 			const toStake = parseEther(stakeRef.current.value);
-			let transaction = await tokenContract.approve(poolAddress, toStake);
-			await transaction.wait(1);
+			let allowance = await tokenContract.allowance(account, poolAddress);
+			let transaction;
+			if (allowance.lt(toStake)) {
+				transaction = await tokenContract.approve(poolAddress, toStake);
+				await transaction.wait(1);
+			}
 			transaction = await poolContract.stake(toStake);
 			await transaction.wait(1);
 

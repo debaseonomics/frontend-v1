@@ -10,7 +10,6 @@ import curve from './assets/curve.png';
 import uni from './assets/uni.png';
 import debase from './assets/debase.png';
 import dai from './assets/dai.png';
-import Loading from './components/Loading';
 
 const Landing = React.lazy(() => import('./sections/Landing'));
 const Parameters = React.lazy(() => import('./sections/Parameters'));
@@ -52,7 +51,7 @@ function App() {
 
 	return (
 		<Router>
-			<Suspense fallback={<Loading />}>
+			<Suspense>
 				<Switch>
 					<Route path="/dapp">
 						<Web3ReactProvider getLibrary={getLibrary}>
