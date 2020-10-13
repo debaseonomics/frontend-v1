@@ -61,7 +61,8 @@ export const contractAddress = {
 };
 
 export const uniAddress = {
-	'debase-DAI-POOL': '',
+	'debase-DAI-POOL':
+		'https://app.uniswap.org/#/add/0xa059b04F5293DE69fB3CC9ae5EE1E51083111247/0x6B175474E89094C44Da98b954EedeAC495271d0F',
 	'debase-WETH-POOL': '',
 	'debase-YCurve-Pool': '',
 	'degov-UNI-POOL': ''

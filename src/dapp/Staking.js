@@ -42,12 +42,12 @@ export default function Staking() {
 						contract={contractAddress.degovUNIPool}
 						contractLink={etherScanAddress + contractAddress.degovUNIPool}
 						website="uniswap.info"
-						websiteLink={uniAddress['degov-UNI-POOL']}
+						websiteLink="https://app.uniswap.org/#/uni"
 						supply="25,000 DEGOV"
 						initial="12,500 DEGOV"
 						infoText="Seeds initial supply of degov"
 						warningText="Staking only available after debase starts rebasing"
-						warningText2="Max deposit of 5,000 yCurve/account for the first 48 hours"
+						warningText2="Max deposit of 5,000 UNI/account for the first 48 hours"
 						duration="4 days"
 					/>
 				</div>
