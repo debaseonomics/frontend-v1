@@ -106,7 +106,7 @@ function App() {
 					</Route>
 					<Route path="/">
 						<Landing scrollToOverview={scrollToOverview} />
-						<Overview ref={overviewRef} />
+						<Overview ref={overviewRef} scrollToOwnership={scrollToOwnership} />
 						<Rebase />
 						<Asymmetrical />
 						<Governance scrollToParameters={scrollToParameters} scrollToOwnership={scrollToOwnership} />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { contractAddress, etherScanAddress } from '../utils';
 
-const Overview = React.forwardRef(({}, ref) => {
+const Overview = React.forwardRef(({ scrollToOwnership }, ref) => {
 	return (
 		<div className="section" ref={ref}>
 			<div className="container block is-fluid ">
@@ -14,7 +14,8 @@ const Overview = React.forwardRef(({}, ref) => {
 					flexible supply token, working together with{' '}
 					<a href={etherScanAddress + contractAddress.degov}>DEGOV</a> , a governance token , in-order to make
 					DEBASE achieve it's <strong>fixed</strong> target price of 1{' '}
-					<a href={etherScanAddress + contractAddress.DAI}>DAI</a>.
+					<a href={etherScanAddress + contractAddress.DAI}>DAI</a>. While distributing 100% of both the tokens
+					using staking pools to promote fairness and decentralization.
 					<br />
 					<br />
 					So DEBASE is based on the flexible supply policies brought forth by{' '}
@@ -25,15 +26,18 @@ const Overview = React.forwardRef(({}, ref) => {
 					governance token DEGOV operating on-top of DEBASE.
 					<br />
 					<br />
-					While DEGOV follows the governance model brought by{' '}
+					DEGOV follows the governance model brought by{' '}
 					<a href="https://compound.finance/docs/governance">Compound Finance</a> to allow manipulation of
 					various parameters related to governance, distribution and most importantly the supply adjustment
 					parameters. So the community can get together to completely control the behaviour of the protocol
 					in-order to help DEBASE it's target price.
 					<br />
 					<br />
-					Since both the DEBASE and the DEGOV tokens have been sent to and solely distributed by the staking
-					pools so user's funds are protected from rug pools.
+					<strong>
+						Since both the DEBASE and the DEGOV tokens have been sent to and solely distributed by the
+						staking pools. No exit scams can happen hence ensuring user fund safety
+					</strong>. Also <a onClick={() => scrollToOwnership()}>ownership</a> of the editable contracts has
+					been transferred to governance contracts hence enforcing decentralization.
 				</div>
 			</div>
 		</div>

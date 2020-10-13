@@ -19,7 +19,11 @@ export default function Distribution() {
 					25,000 DEBASE tokens will be distributed from this pool with 12,500 DEBASE being during the first 24
 					hours. After which the tokens to distribute will half to 6,250 and this halving will continue every
 					24 hours until 25,000 DEBASE are distributed from the pool. Also for the first 24 hours only 10,000
-					yCurve can be staked per account to support fairer distribution.
+					yCurve can be staked per account to support fairer distribution.{' '}
+					<strong>
+						So if you account an error while staking, be sure that you are staking under the mentioned
+						limit.
+					</strong>
 					<br />
 					<br />
 					The second pool is meant to provide stability and security to the DEBASE by provide liquidity. To
@@ -45,7 +49,11 @@ export default function Distribution() {
 					tokens into the <Link to="/dapp/staking/debase-dai">DEGOV/UNI</Link> pool.A total of 25,000 DEGOV
 					tokens will be distributed from this pool with 12,500 DEGOV being distributed during the first 96
 					hours of the pools launch. After which the tokens to distribute will half to 6,250 and this halving
-					will continue every 96 hours until 25,000 DEGOV are distributed from the pool.
+					will continue every 96 hours until 25,000 DEGOV are distributed from the pool.{' '}
+					<strong>
+						So if you account an error while staking, be sure that you are staking under the mentioned
+						limit.
+					</strong>
 				</div>
 			</div>
 		</div>
