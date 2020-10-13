@@ -54,7 +54,7 @@ export default function Contracts() {
 		},
 		{
 			address: contractAddress.degovUNIPool,
-			name: 'Degov Debase Pool',
+			name: 'Degov/UNI Pool',
 			link: etherScanAddress + contractAddress.degovUNIPool,
 			info: 'Handles degov distribution'
 		}

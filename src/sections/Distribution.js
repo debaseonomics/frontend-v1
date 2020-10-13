@@ -21,7 +21,7 @@ export default function Distribution() {
 					24 hours until 25,000 DEBASE are distributed from the pool. Also for the first 24 hours only 10,000
 					yCurve can be staked per account to support fairer distribution.{' '}
 					<strong>
-						So if you account an error while staking, be sure that you are staking under the mentioned
+						So if you encounter an error while staking, be sure that you are staking under the mentioned
 						limit.
 					</strong>
 					<br />
@@ -51,8 +51,8 @@ export default function Distribution() {
 					hours of the pools launch. After which the tokens to distribute will half to 6,250 and this halving
 					will continue every 96 hours until 25,000 DEGOV are distributed from the pool.{' '}
 					<strong>
-						So if you account an error while staking, be sure that you are staking under the mentioned
-						limit.
+						So if you encounter an error while staking, be sure that you are staking under the mentioned
+						limit or the first rebase has been initiated and the DEGOV/UNI pool started.
 					</strong>
 				</div>
 			</div>
