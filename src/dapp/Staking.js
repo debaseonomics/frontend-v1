@@ -17,7 +17,7 @@ export default function Staking() {
 						supply="25,000 DEBASE"
 						initial="12,500 DEBASE"
 						infoText="Seeds initial supply of debase"
-						warningText="Max deposit of 10,000 yCurve/account for first 24 hours"
+						warningText="Max deposit of 10,000 yCurve/account for the first 24 hours"
 						duration="1 day"
 					/>
 				</div>
@@ -47,7 +47,7 @@ export default function Staking() {
 						initial="12,500 DEGOV"
 						infoText="Seeds initial supply of degov"
 						warningText="Staking only available after debase starts rebasing"
-						warningText2="Max deposit of 5,000 yCurve/account for first 48 hours"
+						warningText2="Max deposit of 5,000 yCurve/account for the first 48 hours"
 						duration="4 days"
 					/>
 				</div>

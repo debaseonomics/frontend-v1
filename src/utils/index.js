@@ -45,19 +45,19 @@ export const lpAbi = [
 ];
 
 export const contractAddress = {
-	degov: '0x583a50222Dd9cE78E4c4D8fEC9f288998df3632B',
-	debase: '0xa3411ca34606f95c64FbeDd62cC3b4966ebf95fe',
-	debasePolicy: '0x51EBfB7b287efE9E37DDAc6dd9fc8216F7811Ef5',
-	governorAlpha: '0x59CD5390A2FaDD2A553Fe01ba342FfBB1568e059',
-	timelock: '0x2A918AFD78C74e8cEB50947dF936814DF1b94e0c',
-	debaseDAIPool: '0x2B43a5cd2d6e667B08816cC272542A1B83794bB9',
-	debaseYCurvePool: '0x2A7e2d7DAb430A9Bc9D6D6ec164e83d94E0C7f41',
-	degovUNIPool: '0x61ebc0D52dF203C1e3afB475c87e4Bf3843E035B',
-	orchestrator: '0x804c2dD653294F4219a8564774196C0Be532084C',
-	DAI: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+	degov: '0xd96c8EB4Df169A463318A65C86F667ebA633b3a1',
+	debase: '0xa059b04F5293DE69fB3CC9ae5EE1E51083111247',
+	debasePolicy: '0xAC937a27686edeCdF03500ad9903F038716eF8Dc',
+	governorAlpha: '0x21AcdCac88255AA3f83F2E17F67ab4E5cfA9D777',
+	timelock: '0xD5401c392ED80Ac3486183CAc53aeC8302f802d0',
+	debaseDAIPool: '0x1f441E9835234EE2265Fba792C300ab1B268ca38',
+	debaseYCurvePool: '0xB2FCa91dce1bB8d3b486eFD197371A3e72A915B1',
+	degovUNIPool: '0x31a4c65eEdc4a178c5Ee011E6E08de0C9c838b3E',
+	orchestrator: '0x73De3220C32E6BaF81816464B29b2f61160D004e',
+	DAI: '0x6b175474e89094c44da98b954eedeac495271d0f',
 	YCurve: '0xdF5e0e81Dff6FAF3A7e52BA697820c5e32D806A8',
 	UNI: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
-	debaseDAILP: '0xEAB0bC0bfa4f4C6386f7baAAF451C4cBfd69EBad'
+	debaseDAILP: '0x143139f884c456a729E1F764B82Ce057D3FE08A6'
 };
 
 export const uniAddress = {
@@ -68,11 +68,11 @@ export const uniAddress = {
 };
 
 export const ownerShipAddress = {
-	degovOwnerShip: '',
-	debasePolicyOwnerShip: '',
-	orchestratorOwnerShip: '',
-	governorAlphaOwnerShip: '',
-	timelockOwnerShip: ''
+	degovOwnerShip: '0xe5c0db0425e48b2d5036cb41b1c086c905a79b4f572ae54496afb5a331e1f65f',
+	debasePolicyOwnerShip: '0x789e60618d5a9209b438ceb8017aec59d0723c531ed2545a8db71ddecda1c135',
+	orchestratorOwnerShip: '0x46d1aa58621c032f288cb828ada67841bfde628df77ef093fe8e1600307d41f0',
+	governorAlphaOwnerShip: '0xd652880dd2b4730194f47e5872f34c4a7e29cd9149051a783108135cdb7ca4aa',
+	timelockOwnerShip: '0x7178927425394f2f7d555e27b404b507de3db0c899abd9819c5506370a809be3'
 };
 
 export const etherScanAddress = 'https://etherscan.io/address/';
