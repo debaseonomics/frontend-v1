@@ -6,10 +6,10 @@ import { ethers } from 'ethers';
 import { Web3ReactProvider } from '@web3-react/core';
 
 import degov from './assets/degov.png';
-import curve from './assets/curve.png';
 import uni from './assets/uni.png';
 import debase from './assets/debase.png';
 import dai from './assets/dai.png';
+import empty from './assets/empty.png';
 
 const Landing = React.lazy(() => import('./sections/Landing'));
 const Parameters = React.lazy(() => import('./sections/Parameters'));
@@ -57,26 +57,26 @@ function App() {
 						<Web3ReactProvider getLibrary={getLibrary}>
 							<StakeNav>
 								<Route path="/dapp/staking">
-									<Route path="/dapp/staking/debase-yCurve">
+									<Route path="/dapp/staking/debase-dai">
 										<Pool
-											tokenText="YCurve"
+											tokenText="DAI"
 											rewardText="Debase"
-											poolName="Debase/YCurve Pool"
+											poolName="Debase/DAI Pool"
 											rewardTokenImage={debase}
-											stakeTokenImage={curve}
-											tokenAddress={contractAddress.YCurve}
-											poolAddress={contractAddress.debaseYCurvePool}
+											stakeTokenImage={dai}
+											tokenAddress={contractAddress.DAI}
+											poolAddress={contractAddress.debaseDaiPool}
 										/>
 									</Route>
-									<Route path="/dapp/staking/debase-dai">
+									<Route path="/dapp/staking/debase-dai-lp">
 										<Pool
 											tokenText="DAI-LP"
 											rewardText="Debase"
 											poolName="Debase/DAI-LP Pool"
 											rewardTokenImage={debase}
-											stakeTokenImage={dai}
-											tokenAddress={contractAddress.debaseDAILP}
-											poolAddress={contractAddress.debaseDAIPool}
+											stakeTokenImage={empty}
+											tokenAddress={contractAddress.debaseDaiLp}
+											poolAddress={contractAddress.debaseDaiLpPool}
 										/>
 									</Route>
 									<Route path="/dapp/staking/degov-uni">
@@ -87,7 +87,18 @@ function App() {
 											rewardTokenImage={degov}
 											stakeTokenImage={uni}
 											tokenAddress={contractAddress.UNI}
-											poolAddress={contractAddress.degovUNIPool}
+											poolAddress={contractAddress.degovUniPool}
+										/>
+									</Route>
+									<Route path="/dapp/staking/degov-uni-lp">
+										<Pool
+											tokenText="UNI-LP"
+											rewardText="Degov"
+											poolName="Degov/UNI-LP Pool"
+											rewardTokenImage={degov}
+											stakeTokenImage={empty}
+											tokenAddress={contractAddress.degovUniLp}
+											poolAddress={contractAddress.degovUniLpPool}
 										/>
 									</Route>
 									<Route exact path="/dapp/staking">

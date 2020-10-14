@@ -14,12 +14,12 @@ export default function Distribution() {
 			<div className="container block is-fluid">
 				<div className="box content ">
 					DEBASE token has two separate staking pools. The first pool yields the initial DEBASE token supply.
-					To join this pool, you need to stake <a href="https://www.curve.fi/iearn/deposit">yCurve</a> tokens
-					the into the <Link to="/dapp/staking/debase-dai">DEBASE/YCurve</Link> staking pool. A total of
-					25,000 DEBASE tokens will be distributed from this pool with 12,500 DEBASE being during the first 24
-					hours. After which the tokens to distribute will half to 6,250 and this halving will continue every
-					24 hours until 25,000 DEBASE are distributed from the pool. Also for the first 24 hours only 10,000
-					yCurve can be staked per account to support fairer distribution.{' '}
+					To join this pool, you need to stake <a href="https://www.curve.fi/iearn/deposit">DAI</a> tokens the
+					into the <Link to="/dapp/staking/debase-dai">DEBASE/DAI</Link> staking pool. A total of 25,000
+					DEBASE tokens will be distributed from this pool with 12,500 DEBASE being during the first 24 hours.
+					After which the tokens to distribute will half to 6,250 and this halving will continue every 24
+					hours until 25,000 DEBASE are distributed from the pool. Also for the first 24 hours only 10,000 DAI
+					can be staked per account to support fairer distribution.{' '}
 					<strong>
 						So if you encounter an error while staking, be sure that you are staking under the mentioned
 						limit.

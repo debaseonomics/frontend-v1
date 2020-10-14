@@ -5,51 +5,74 @@ import { contractAddress, etherScanAddress, uniAddress } from '../utils';
 export default function Staking() {
 	return (
 		<div className="container block is-fluid">
-			<div className="columns is-multiline is-vcentered">
-				<div className="column is-4 ">
-					<StakeCard
-						title="Debase/YCurve Pool"
-						link="debase-yCurve"
-						contract={contractAddress.debaseYCurvePool}
-						contractLink={etherScanAddress + contractAddress.debaseYCurvePool}
-						website="curve.fi/iearn"
-						websiteLink="https://www.curve.fi/iearn/deposit"
-						supply="25,000 DEBASE"
-						initial="12,500 DEBASE"
-						infoText="Seeds initial supply of debase"
-						warningText="Max deposit of 10,000 yCurve/account for the first 24 hours"
-						duration="1 day"
-					/>
+			<div className="columns is-multiline is-centered">
+				<div className="column is-10">
+					<div className="columns is-vcentered">
+						<div className="column">
+							<StakeCard
+								title="Debase/DAI Pool"
+								link="debase-dai"
+								contract={contractAddress.debaseDaiPool}
+								contractLink={etherScanAddress + contractAddress.debaseDaiPool}
+								website="uniswap.info"
+								websiteLink={uniAddress['debase-DAI-POOL']}
+								supply="25,000 DEBASE"
+								initial="12,500 DEBASE"
+								infoText="Seeds initial supply of debase"
+								warningText="Max deposit of 10,000 DAI/account for the first 24 hours"
+								duration="1 day"
+							/>
+						</div>
+						<div className="column">
+							<StakeCard
+								title="Debase/DAI-LP Pool"
+								link="debase-dai-lp"
+								contract={contractAddress.debaseDaiLpPool}
+								contractLink={etherScanAddress + contractAddress.debaseDaiLpPool}
+								website="uniswap.info"
+								websiteLink={uniAddress['debase-DAI-LP-POOL']}
+								supply="75,000 DEBASE"
+								initial="37,500 DEBASE"
+								infoText="Incentives debase liquidity"
+								duration="3 days"
+							/>
+						</div>
+					</div>
 				</div>
-				<div className="column is-4">
-					<StakeCard
-						title="Debase/DAI-LP Pool"
-						link="debase-dai"
-						contract={contractAddress.debaseDAIPool}
-						contractLink={etherScanAddress + contractAddress.debaseDAIPool}
-						website="uniswap.info"
-						websiteLink={uniAddress['debase-DAI-POOL']}
-						supply="75,000 DEBASE"
-						initial="37,500 DEBASE"
-						infoText="Incentives debase liquidity"
-						duration="3 days"
-					/>
-				</div>
-				<div className="column is-4">
-					<StakeCard
-						title="Degov/UNI Pool"
-						link="degov-uni"
-						contract={contractAddress.degovUNIPool}
-						contractLink={etherScanAddress + contractAddress.degovUNIPool}
-						website="uniswap.info"
-						websiteLink="https://app.uniswap.org/#/uni"
-						supply="25,000 DEGOV"
-						initial="12,500 DEGOV"
-						infoText="Seeds initial supply of degov"
-						warningText="Staking only available after debase starts rebasing"
-						warningText2="Max deposit of 5,000 UNI/account for the first 48 hours"
-						duration="4 days"
-					/>
+				<div className="column is-10">
+					<div className="columns is-vcentered">
+						<div className="column">
+							<StakeCard
+								title="Degov/UNI Pool"
+								link="degov-uni"
+								contract={contractAddress.degovUniPool}
+								contractLink={etherScanAddress + contractAddress.degovUniPool}
+								website="uniswap.info"
+								websiteLink="https://app.uniswap.org/#/uni"
+								supply="6,250 DEGOV"
+								initial="3,125 DEGOV"
+								infoText="Seeds initial supply of degov"
+								warningText="Staking only available after debase starts rebasing"
+								warningText2="Max deposit of 5,000 UNI/account for the first 48 hours"
+								duration="2 days"
+							/>
+						</div>
+						<div className="column">
+							<StakeCard
+								title="Degov/UNI-LP Pool"
+								link="degov-uni-lp"
+								contract={contractAddress.degovUniLpPool}
+								contractLink={etherScanAddress + contractAddress.degovUniLpPool}
+								website="uniswap.info"
+								websiteLink="https://app.uniswap.org/#/uni"
+								supply="18,750 DEGOV"
+								initial="9,375 DEGOV"
+								infoText="Incentives degov liquidity"
+								warningText="Staking only available after debase starts rebasing"
+								duration="4 days"
+							/>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

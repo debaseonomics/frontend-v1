@@ -41,21 +41,27 @@ export default function Contracts() {
 			info: 'Handles executing proposal'
 		},
 		{
-			address: contractAddress.YCurvePool,
-			name: 'Debase/YCurve Pool',
-			link: etherScanAddress + contractAddress.YCurvePool,
+			address: contractAddress.debaseDaiPool,
+			name: 'Debase/DAI Pool',
+			link: etherScanAddress + contractAddress.debaseDaiPool,
 			info: 'Handles initial debase seeding'
 		},
 		{
-			address: contractAddress.DAIPool,
-			name: 'Debase/DAI Pool',
-			link: etherScanAddress + contractAddress.DAIPool,
+			address: contractAddress.debaseDaiLpPool,
+			name: 'Debase/DAI-LP Pool',
+			link: etherScanAddress + contractAddress.debaseDaiLpPool,
 			info: 'Handles incentivising debase liquidity '
 		},
 		{
-			address: contractAddress.degovUNIPool,
+			address: contractAddress.degovUniPool,
 			name: 'Degov/UNI Pool',
 			link: etherScanAddress + contractAddress.degovUNIPool,
+			info: 'Handles degov distribution'
+		},
+		{
+			address: contractAddress.degovUniLpPool,
+			name: 'Degov/UNI-LP Pool',
+			link: etherScanAddress + contractAddress.degovUniLpPool,
 			info: 'Handles degov distribution'
 		}
 	];
