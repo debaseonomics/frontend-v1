@@ -53,15 +53,15 @@ export default function Contracts() {
 			info: 'Handles incentivising debase liquidity '
 		},
 		{
-			address: contractAddress.degovUniPool,
-			name: 'Degov/UNI Pool',
-			link: etherScanAddress + contractAddress.degovUNIPool,
+			address: contractAddress.degovUsdcPool,
+			name: 'Degov/USDC Pool',
+			link: etherScanAddress + contractAddress.degovUsdcPool,
 			info: 'Handles degov distribution'
 		},
 		{
-			address: contractAddress.degovUniLpPool,
-			name: 'Degov/UNI-LP Pool',
-			link: etherScanAddress + contractAddress.degovUniLpPool,
+			address: contractAddress.degovUsdcLpPool,
+			name: 'Degov/USDC-LP Pool',
+			link: etherScanAddress + contractAddress.degovUsdcLpPool,
 			info: 'Handles degov distribution'
 		}
 	];

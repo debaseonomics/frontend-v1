@@ -1,6 +1,6 @@
 import React from 'react';
 import StakeCard from '../components/StakeCard';
-import { contractAddress, etherScanAddress, uniAddress } from '../utils';
+import { contractAddress, etherScanAddress } from '../utils';
 
 export default function Staking() {
 	return (
@@ -43,28 +43,28 @@ export default function Staking() {
 					<div className="columns is-vcentered">
 						<div className="column">
 							<StakeCard
-								title="Degov/UNI Pool"
-								link="degov-uni"
-								contract={contractAddress.degovUniPool}
-								contractLink={etherScanAddress + contractAddress.degovUniPool}
+								title="Degov/USDC Pool"
+								link="degov-usdc"
+								contract={contractAddress.degovUsdcPool}
+								contractLink={etherScanAddress + contractAddress.degovUsdcPool}
 								website="uniswap.info"
-								websiteLink="https://app.uniswap.org/#/uni"
+								websiteLink="https://app.uniswap.org/#/usdc"
 								supply="6,250 DEGOV"
 								initial="3,125 DEGOV"
 								infoText="Seeds initial supply of degov"
 								warningText="Staking only available after debase starts rebasing"
-								warningText2="Max deposit of 5,000 UNI/account for the first 48 hours"
+								warningText2="Max deposit of 5,000 USDC/account for the first 48 hours"
 								duration="2 days"
 							/>
 						</div>
 						<div className="column">
 							<StakeCard
-								title="Degov/UNI-LP Pool"
-								link="degov-uni-lp"
-								contract={contractAddress.degovUniLpPool}
-								contractLink={etherScanAddress + contractAddress.degovUniLpPool}
+								title="Degov/USDC-LP Pool"
+								link="degov-usdc-lp"
+								contract={contractAddress.degovUsdcLpPool}
+								contractLink={etherScanAddress + contractAddress.degovUsdcLpPool}
 								website="uniswap.info"
-								websiteLink="https://app.uniswap.org/#/uni"
+								websiteLink="https://app.uniswap.org/#/usdc"
 								supply="18,750 DEGOV"
 								initial="9,375 DEGOV"
 								infoText="Incentives degov liquidity"

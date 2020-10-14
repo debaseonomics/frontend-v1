@@ -6,7 +6,7 @@ import { ethers } from 'ethers';
 import { Web3ReactProvider } from '@web3-react/core';
 
 import degov from './assets/degov.png';
-import uni from './assets/uni.png';
+import usdc from './assets/usdc.png';
 import debase from './assets/debase.png';
 import dai from './assets/dai.png';
 import empty from './assets/empty.png';
@@ -79,26 +79,26 @@ function App() {
 											poolAddress={contractAddress.debaseDaiLpPool}
 										/>
 									</Route>
-									<Route path="/dapp/staking/degov-uni">
+									<Route path="/dapp/staking/degov-usdc">
 										<Pool
-											tokenText="UNI"
+											tokenText="USDC"
 											rewardText="Degov"
-											poolName="Degov/UNI Pool"
+											poolName="Degov/USDC Pool"
 											rewardTokenImage={degov}
-											stakeTokenImage={uni}
-											tokenAddress={contractAddress.UNI}
-											poolAddress={contractAddress.degovUniPool}
+											stakeTokenImage={usdc}
+											tokenAddress={contractAddress.USDC}
+											poolAddress={contractAddress.degovUsdcPool}
 										/>
 									</Route>
-									<Route path="/dapp/staking/degov-uni-lp">
+									<Route path="/dapp/staking/degov-usdc-lp">
 										<Pool
-											tokenText="UNI-LP"
+											tokenText="USDC-LP"
 											rewardText="Degov"
-											poolName="Degov/UNI-LP Pool"
+											poolName="Degov/USDC-LP Pool"
 											rewardTokenImage={degov}
 											stakeTokenImage={empty}
-											tokenAddress={contractAddress.degovUniLp}
-											poolAddress={contractAddress.degovUniLpPool}
+											tokenAddress={contractAddress.degovUsdcLp}
+											poolAddress={contractAddress.degovUsdcLpPool}
 										/>
 									</Route>
 									<Route exact path="/dapp/staking">

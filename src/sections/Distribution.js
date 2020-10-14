@@ -45,14 +45,16 @@ export default function Distribution() {
 					<br />
 					DEGOV token has one staking pool. This pool will only be available to stake into after the
 					orchestrator initiated the first rebase. With the conditions of when the first rebase mentioned
-					above. So to join this pool, you need to stake <a href="https://app.uniswap.org/#/uni">UNI</a>{' '}
-					tokens into the <Link to="/dapp/staking/debase-dai">DEGOV/UNI</Link> pool.A total of 25,000 DEGOV
+					above. So to join this pool, you need to stake <a href="https://app.uniswap.org/#/usdc">
+						USDC
+					</a>{' '}
+					tokens into the <Link to="/dapp/staking/debase-dai">DEGOV/USDC</Link> pool.A total of 25,000 DEGOV
 					tokens will be distributed from this pool with 12,500 DEGOV being distributed during the first 96
 					hours of the pools launch. After which the tokens to distribute will half to 6,250 and this halving
 					will continue every 96 hours until 25,000 DEGOV are distributed from the pool.{' '}
 					<strong>
 						So if you encounter an error while staking, be sure that you are staking under the mentioned
-						limit or the first rebase has been initiated and the DEGOV/UNI pool started.
+						limit or the first rebase has been initiated and the DEGOV/USDC pool started.
 					</strong>
 				</div>
 			</div>

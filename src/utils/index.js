@@ -53,20 +53,20 @@ export const contractAddress = {
 	timelock: '0xdd4C3e6e9f581683d0Ac9510Cd414416FC6AdDf5',
 	debaseDaiPool: '0x5cA79d26F9488d58444314B8d7f1a9B71bF82880',
 	debaseDaiLpPool: '0x2859143c595CD3e74EC7d97Fe62D414080669599',
-	degovUniPool: '0x28008905CdE7Fa10e77B7150170BB5cEadc55bA9',
-	degovUniLpPool: '0x05Db16b3CCf654Df98b6986AaF7685b50e3B8184',
+	degovUsdcPool: '0x28008905CdE7Fa10e77B7150170BB5cEadc55bA9',
+	degovUsdcLpPool: '0x05Db16b3CCf654Df98b6986AaF7685b50e3B8184',
 	orchestrator: '0x245d3b7dFB29b3eCCb91Bc469E1768e6D6147efa',
 	DAI: '0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea',
-	UNI: '0xddea378a6ddc8afec82c36e9b0078826bf9e68b6',
+	USDC: '0xddea378a6ddc8afec82c36e9b0078826bf9e68b6',
 	debaseDaiLp: '0x0ab537235d93bac83d2d29d327cc0c9f00da29d7',
-	degovUniLp: '0x495582b715e55ea58f5d9de533291804ba1e1072'
+	degovUsdcLp: '0x495582b715e55ea58f5d9de533291804ba1e1072'
 };
 
 export const uniAddress = {
 	'debase-DAI-POOL':
 		'https://app.uniswap.org/#/add/0xa059b04F5293DE69fB3CC9ae5EE1E51083111247/0x6B175474E89094C44Da98b954EedeAC495271d0F',
 	'debase-WETH-POOL': '',
-	'degov-UNI-POOL': ''
+	'degov-USDC-POOL': ''
 };
 
 export const ownerShipAddress = {
