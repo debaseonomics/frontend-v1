@@ -161,7 +161,7 @@ export default function Pool({
 					<TextInfo
 						label="Reward"
 						value={
-							rewardBalance !== undefined ? parseFloat(formatEther(rewardBalance)).toFixed(8) : '0.000'
+							rewardBalance !== undefined ? parseFloat(formatEther(rewardBalance)).toFixed(8) * 1 : '0'
 						}
 						token={rewardText}
 						img={rewardTokenImage}
@@ -170,9 +170,9 @@ export default function Pool({
 						label="Balance"
 						value={
 							tokenBalance !== undefined ? (
-								parseFloat(formatUnits(tokenBalance, unit)).toFixed(8)
+								parseFloat(formatUnits(tokenBalance, unit)).toFixed(8) * 1
 							) : (
-								'0.000'
+								'0'
 							)
 						}
 						token={tokenText}
@@ -182,9 +182,9 @@ export default function Pool({
 						label="Staked"
 						value={
 							stakeBalance !== undefined ? (
-								parseFloat(formatUnits(stakeBalance, unit)).toFixed(8)
+								parseFloat(formatUnits(stakeBalance, unit)).toFixed(8) * 1
 							) : (
-								'0.000'
+								'0'
 							)
 						}
 						token={tokenText}
