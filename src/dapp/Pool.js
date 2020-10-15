@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { poolAbi, lpAbi, toaster } from '../utils/index';
 import useSWR from 'swr';
-import { formatEther, isAddress, parseEther } from 'ethers/lib/utils';
+import { formatEther, formatUnits, isAddress, parseUnits } from 'ethers/lib/utils';
 import { Contract } from 'ethers';
 import TextInfo from '../components/TextInfo.js';
 import PoolInput from '../components/PoolInput';
@@ -26,7 +26,8 @@ export default function Pool({
 	tokenText,
 	rewardText,
 	rewardTokenImage,
-	stakeTokenImage
+	stakeTokenImage,
+	unit
 }) {
 	const stakeRef = useRef();
 	const withdrawRef = useRef();
@@ -66,7 +67,7 @@ export default function Pool({
 		const tokenContract = new Contract(tokenAddress, lpAbi, library.getSigner());
 		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
 		try {
-			const toStake = parseEther(stakeRef.current.value);
+			const toStake = parseUnits(stakeRef.current.value, unit);
 			let allowance = await tokenContract.allowance(account, poolAddress);
 			let transaction;
 			if (allowance.lt(toStake)) {
@@ -94,7 +95,7 @@ export default function Pool({
 		const tokenContract = new Contract(tokenAddress, lpAbi, library.getSigner());
 		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
 		try {
-			const toWithdraw = parseEther(withdrawRef.current.value);
+			const toWithdraw = parseUnits(withdrawRef.current.value, unit);
 			let transaction = await poolContract.withdraw(toWithdraw);
 			await transaction.wait(1);
 
@@ -160,25 +161,37 @@ export default function Pool({
 					<TextInfo
 						label="Reward"
 						value={
-							rewardBalance !== undefined ? parseFloat(formatEther(rewardBalance)).toFixed(3) : '0.000'
+							rewardBalance !== undefined ? parseFloat(formatEther(rewardBalance)).toFixed(8) : '0.000'
 						}
 						token={rewardText}
 						img={rewardTokenImage}
 					/>
 					<TextInfo
 						label="Balance"
-						value={tokenBalance !== undefined ? parseFloat(formatEther(tokenBalance)).toFixed(3) : '0.000'}
+						value={
+							tokenBalance !== undefined ? (
+								parseFloat(formatUnits(tokenBalance, unit)).toFixed(8)
+							) : (
+								'0.000'
+							)
+						}
 						token={tokenText}
 						img={stakeTokenImage}
 					/>
 					<TextInfo
 						label="Staked"
-						value={stakeBalance !== undefined ? parseFloat(formatEther(stakeBalance)).toFixed(3) : '0.000'}
+						value={
+							stakeBalance !== undefined ? (
+								parseFloat(formatUnits(stakeBalance, unit)).toFixed(8)
+							) : (
+								'0.000'
+							)
+						}
 						token={tokenText}
 						img={stakeTokenImage}
 					/>
-					<PoolInput ref={stakeRef} balance={tokenBalance} placeholderText="Stake Amount" />
-					<PoolInput ref={withdrawRef} balance={stakeBalance} placeholderText="Withdraw Amount" />
+					<PoolInput ref={stakeRef} balance={tokenBalance} placeholderText="Stake Amount" unit={unit} />
+					<PoolInput ref={withdrawRef} balance={stakeBalance} placeholderText="Withdraw Amount" unit={unit} />
 
 					<div className="buttons has-addons is-centered">
 						<button

@@ -4,6 +4,7 @@ import Loading from './components/Loading';
 import * as serviceWorker from './serviceWorker';
 
 import '@creativebulma/bulma-divider/dist/bulma-divider.css';
+import './loading.css';
 import './styles.css';
 
 const App = React.lazy(() => import('./App'));

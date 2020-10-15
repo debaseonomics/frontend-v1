@@ -5,7 +5,7 @@ import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core';
 import { InjectedConnector, NoEthereumProviderError, UserRejectedRequestError } from '@web3-react/injected-connector';
 
 export default function StakeNav({ children }) {
-	const injected = new InjectedConnector({ supportedChainIds: [ 4 ] });
+	const injected = new InjectedConnector({ supportedChainIds: [ 3 ] });
 	const { account, activate, active, error } = useWeb3React();
 
 	const [ menuActive, setMenuActive ] = useState(false);

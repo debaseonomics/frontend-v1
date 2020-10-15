@@ -1,6 +1,6 @@
 import React from 'react';
 import StakeCard from '../components/StakeCard';
-import { contractAddress, etherScanAddress } from '../utils';
+import { contractAddress, etherScanAddress, uniAddress } from '../utils';
 
 export default function Staking() {
 	return (

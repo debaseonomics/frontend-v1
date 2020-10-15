@@ -62,9 +62,10 @@ function App() {
 											tokenText="DAI"
 											rewardText="Debase"
 											poolName="Debase/DAI Pool"
+											unit={18}
 											rewardTokenImage={debase}
 											stakeTokenImage={dai}
-											tokenAddress={contractAddress.DAI}
+											tokenAddress={contractAddress.dai}
 											poolAddress={contractAddress.debaseDaiPool}
 										/>
 									</Route>
@@ -73,6 +74,7 @@ function App() {
 											tokenText="DAI-LP"
 											rewardText="Debase"
 											poolName="Debase/DAI-LP Pool"
+											unit={18}
 											rewardTokenImage={debase}
 											stakeTokenImage={empty}
 											tokenAddress={contractAddress.debaseDaiLp}
@@ -84,9 +86,10 @@ function App() {
 											tokenText="USDC"
 											rewardText="Degov"
 											poolName="Degov/USDC Pool"
+											unit={6}
 											rewardTokenImage={degov}
 											stakeTokenImage={usdc}
-											tokenAddress={contractAddress.USDC}
+											tokenAddress={contractAddress.usdc}
 											poolAddress={contractAddress.degovUsdcPool}
 										/>
 									</Route>
@@ -95,6 +98,7 @@ function App() {
 											tokenText="USDC-LP"
 											rewardText="Degov"
 											poolName="Degov/USDC-LP Pool"
+											unit={18}
 											rewardTokenImage={degov}
 											stakeTokenImage={empty}
 											tokenAddress={contractAddress.degovUsdcLp}

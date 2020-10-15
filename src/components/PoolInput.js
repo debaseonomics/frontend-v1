@@ -1,7 +1,7 @@
-import { formatEther } from 'ethers/lib/utils';
+import { formatUnits } from 'ethers/lib/utils';
 import React, { useState } from 'react';
 
-const PoolInput = React.forwardRef(({ placeholderText, balance }, ref) => {
+const PoolInput = React.forwardRef(({ placeholderText, balance, unit }, ref) => {
 	const [ value, setValue ] = useState('');
 
 	return (
@@ -17,7 +17,7 @@ const PoolInput = React.forwardRef(({ placeholderText, balance }, ref) => {
 				/>
 			</div>
 			<div className="control">
-				<button className="button is-warning" onClick={() => setValue(formatEther(balance))}>
+				<button className="button is-warning" onClick={() => setValue(formatUnits(balance, unit))}>
 					Max
 				</button>
 			</div>
