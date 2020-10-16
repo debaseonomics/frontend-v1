@@ -86,7 +86,7 @@ function App() {
 											tokenText="USDC"
 											rewardText="Degov"
 											poolName="Degov/USDC Pool"
-											unit={6}
+											unit={18}
 											rewardTokenImage={degov}
 											stakeTokenImage={usdc}
 											tokenAddress={contractAddress.usdc}
