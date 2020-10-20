@@ -165,15 +165,15 @@ export default function Pool({
 	return (
 		<div className="container is-fluid">
 			<div className="columns is-centered">
-				<div className="box column is-6">
+				<div className="box column is-7">
 					<nav className="level is-mobile">
 						<div className="level-item has-text-centered">
 							<button className="button is-warning is-outlined">Back</button>
 						</div>
 						<div className="level-item has-text-centered">
-							<h2 className="title is-size-3-tablet is-size-4-mobile ">{poolName}</h2>
+							<h2 className="title is-size-2-tablet is-size-3-mobile ">{poolName}</h2>
 						</div>
-						<div className="level-item has-text-centered">
+						<div className="level-item has-text-centered is-invisible">
 							<button className="button is-link is-outlined">Info</button>
 						</div>
 					</nav>
