@@ -68,6 +68,7 @@ export default function StakeNav({ children }) {
 						{menuLink('Staking', '/dapp/staking')}
 						{menuLink('Governance', '/dapp/governance')}
 						{menuLink('Rebaser', '/dapp/rebaser')}
+						{menuLink('Stabilizer', '/dapp/stabilizer')}
 					</div>
 					<div className="navbar-end">
 						<div className="navbar-item">

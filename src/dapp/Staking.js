@@ -7,7 +7,7 @@ export default function Staking() {
 		<div className="container block is-fluid">
 			<div className="columns is-multiline is-centered">
 				<div className="column is-10">
-					<div className="columns is-vcentered">
+					<div className="columns">
 						<div className="column">
 							<StakeCard
 								title="Debase/DAI Pool"
@@ -40,7 +40,7 @@ export default function Staking() {
 					</div>
 				</div>
 				<div className="column is-10">
-					<div className="columns is-vcentered">
+					<div className="columns">
 						<div className="column">
 							<StakeCard
 								title="Degov/USDC Pool"

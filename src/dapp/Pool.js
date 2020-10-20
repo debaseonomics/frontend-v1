@@ -23,6 +23,7 @@ export default function Pool({
 	poolName,
 	tokenAddress,
 	poolAddress,
+	rewardTokenAddress,
 	tokenText,
 	rewardText,
 	rewardTokenImage,
@@ -33,6 +34,13 @@ export default function Pool({
 	const withdrawRef = useRef();
 
 	const { account, library } = useWeb3React();
+
+	const { data: rewardTokenBalance, mutate: getRewardTokenBalance } = useSWR(
+		[ rewardTokenAddress, 'balanceOf', account ],
+		{
+			fetcher: fetcher(library, lpAbi)
+		}
+	);
 
 	const { data: tokenBalance, mutate: getTokenBalance } = useSWR([ tokenAddress, 'balanceOf', account ], {
 		fetcher: fetcher(library, lpAbi)
@@ -53,6 +61,7 @@ export default function Pool({
 
 	useEffect(() => {
 		library.on('block', () => {
+			getRewardTokenBalance(undefined, true);
 			getTokenBalance(undefined, true);
 			getRewardBalance(undefined, true);
 			getStakeBalance(undefined, true);
@@ -157,9 +166,31 @@ export default function Pool({
 		<div className="container is-fluid">
 			<div className="columns is-centered">
 				<div className="box column is-6">
-					<h2 className="title is-size-3-tablet is-size-4-mobile has-text-centered">{poolName}</h2>
+					<nav className="level is-mobile">
+						<div className="level-item has-text-centered">
+							<button className="button is-warning is-outlined">Back</button>
+						</div>
+						<div className="level-item has-text-centered">
+							<h2 className="title is-size-3-tablet is-size-4-mobile ">{poolName}</h2>
+						</div>
+						<div className="level-item has-text-centered">
+							<button className="button is-link is-outlined">Info</button>
+						</div>
+					</nav>
 					<TextInfo
-						label="Reward"
+						label="Reward Balance"
+						value={
+							rewardBalance !== undefined ? (
+								parseFloat(formatEther(rewardTokenBalance)).toFixed(8) * 1
+							) : (
+								'0'
+							)
+						}
+						token={rewardText}
+						img={rewardTokenImage}
+					/>
+					<TextInfo
+						label="Reward To Claim"
 						value={
 							rewardBalance !== undefined ? parseFloat(formatEther(rewardBalance)).toFixed(8) * 1 : '0'
 						}
@@ -167,7 +198,7 @@ export default function Pool({
 						img={rewardTokenImage}
 					/>
 					<TextInfo
-						label="Balance"
+						label="Balance Available"
 						value={
 							tokenBalance !== undefined ? (
 								parseFloat(formatUnits(tokenBalance, unit)).toFixed(8) * 1
@@ -179,7 +210,7 @@ export default function Pool({
 						img={stakeTokenImage}
 					/>
 					<TextInfo
-						label="Staked"
+						label="Tokens Staked"
 						value={
 							stakeBalance !== undefined ? (
 								parseFloat(formatUnits(stakeBalance, unit)).toFixed(8) * 1
@@ -190,34 +221,60 @@ export default function Pool({
 						token={tokenText}
 						img={stakeTokenImage}
 					/>
-					<PoolInput ref={stakeRef} balance={tokenBalance} placeholderText="Stake Amount" unit={unit} />
-					<PoolInput ref={withdrawRef} balance={stakeBalance} placeholderText="Withdraw Amount" unit={unit} />
+					<div className="columns">
+						<div className="column">
+							<PoolInput
+								action={handleStake}
+								loading={stakingLoading}
+								buttonText="Stake Amount"
+								ref={stakeRef}
+								balance={tokenBalance}
+								placeholderText="Stake Amount"
+								unit={unit}
+							/>
+						</div>
+						<div className="column">
+							<PoolInput
+								action={handleWithdraw}
+								loading={withdrawLoading}
+								buttonText="Withdraw Amount"
+								ref={withdrawRef}
+								balance={stakeBalance}
+								placeholderText="Withdraw Amount"
+								unit={unit}
+							/>
+						</div>
+					</div>
 
-					<div className="buttons has-addons is-centered">
-						<button
-							className={stakingLoading ? 'button is-loading is-primary' : 'button is-primary'}
-							onClick={handleStake}
-						>
-							Stake
-						</button>
-						<button
-							className={withdrawLoading ? 'button is-loading is-info' : 'button is-info'}
-							onClick={handleWithdraw}
-						>
-							Withdraw
-						</button>
-						<button
-							className={claimLoading ? 'button is-loading is-link' : 'button is-link'}
-							onClick={claimReward}
-						>
-							Claim Reward
-						</button>
-						<button
-							className={claimUnstakeLoading ? 'button is-loading is-success' : 'button is-success'}
-							onClick={claimRewardThenUnstake}
-						>
-							Claim & Unstake
-						</button>
+					<div className="columns">
+						<div className="column">
+							<button
+								className={
+									claimLoading ? (
+										'button is-loading is-link is-fullwidth is-outlined'
+									) : (
+										'button is-link is-fullwidth is-outlined'
+									)
+								}
+								onClick={claimReward}
+							>
+								Claim Reward
+							</button>
+						</div>
+						<div className="column">
+							<button
+								className={
+									claimUnstakeLoading ? (
+										'button is-loading is-success is-fullwidth is-outlined'
+									) : (
+										'button is-success is-fullwidth is-outlined'
+									)
+								}
+								onClick={claimRewardThenUnstake}
+							>
+								Claim Reward & Unstake
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>

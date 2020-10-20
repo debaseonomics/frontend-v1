@@ -10,6 +10,7 @@ import usdc from './assets/usdc.png';
 import debase from './assets/debase.png';
 import dai from './assets/dai.png';
 import empty from './assets/empty.png';
+import Stabilizer from './sections/Stabilizer';
 
 const Landing = React.lazy(() => import('./sections/Landing'));
 const Parameters = React.lazy(() => import('./sections/Parameters'));
@@ -66,6 +67,7 @@ function App() {
 											rewardTokenImage={debase}
 											stakeTokenImage={dai}
 											tokenAddress={contractAddress.dai}
+											rewardTokenAddress={contractAddress.debase}
 											poolAddress={contractAddress.debaseDaiPool}
 										/>
 									</Route>
@@ -78,6 +80,7 @@ function App() {
 											rewardTokenImage={debase}
 											stakeTokenImage={empty}
 											tokenAddress={contractAddress.debaseDaiLp}
+											rewardTokenAddress={contractAddress.debase}
 											poolAddress={contractAddress.debaseDaiLpPool}
 										/>
 									</Route>
@@ -86,10 +89,11 @@ function App() {
 											tokenText="USDC"
 											rewardText="Degov"
 											poolName="Degov/USDC Pool"
-											unit={18}
+											unit={6}
 											rewardTokenImage={degov}
 											stakeTokenImage={usdc}
 											tokenAddress={contractAddress.usdc}
+											rewardTokenAddress={contractAddress.degov}
 											poolAddress={contractAddress.degovUsdcPool}
 										/>
 									</Route>
@@ -102,12 +106,16 @@ function App() {
 											rewardTokenImage={degov}
 											stakeTokenImage={empty}
 											tokenAddress={contractAddress.degovUsdcLp}
+											rewardTokenAddress={contractAddress.degov}
 											poolAddress={contractAddress.degovUsdcLpPool}
 										/>
 									</Route>
 									<Route exact path="/dapp/staking">
 										<Staking />
 									</Route>
+								</Route>
+								<Route path="/dapp/stabilizer">
+									<Stabilizer />
 								</Route>
 								<Route path="/dapp/rebaser">
 									<Rebaser />
@@ -123,6 +131,7 @@ function App() {
 						<Overview ref={overviewRef} scrollToOwnership={scrollToOwnership} />
 						<Rebase />
 						<Asymmetrical />
+						<Stabilizer />
 						<Governance scrollToParameters={scrollToParameters} scrollToOwnership={scrollToOwnership} />
 						<Distribution />
 						<Parameters ref={parametersRef} />
