@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { poolAbi, lpAbi, toaster } from '../utils/index';
 import useSWR from 'swr';
+import { useHistory } from 'react-router-dom';
 import { formatEther, formatUnits, isAddress, parseUnits } from 'ethers/lib/utils';
 import { Contract } from 'ethers';
 import TextInfo from '../components/TextInfo.js';
@@ -30,6 +31,7 @@ export default function Pool({
 	stakeTokenImage,
 	unit
 }) {
+	let history = useHistory();
 	const stakeRef = useRef();
 	const withdrawRef = useRef();
 
@@ -164,63 +166,81 @@ export default function Pool({
 
 	return (
 		<div className="container is-fluid">
-			<div className="columns is-centered">
-				<div className="box column is-7">
+			<div className="columns is-centered is-mobile">
+				<div className="box column is-6-tablet is-11-mobile">
 					<nav className="level is-mobile">
-						<div className="level-item has-text-centered">
-							<button className="button is-warning is-outlined">Back</button>
+						<div className="level-left">
+							<div className="level-item">
+								<button class="button is-warning is-outlined">
+									<span class="icon">
+										<i class="fas fa-arrow-left" />
+									</span>
+								</button>
+							</div>
 						</div>
-						<div className="level-item has-text-centered">
-							<h2 className="title is-size-2-tablet is-size-3-mobile ">{poolName}</h2>
+						<div className="level-item">
+							<h2 className="title is-size-3-tablet is-size-4-mobile">{poolName}</h2>
 						</div>
-						<div className="level-item has-text-centered is-invisible">
-							<button className="button is-link is-outlined">Info</button>
+						<div className="level-right">
+							<button className="button is-invisible">
+								<span className="icon is-small">
+									<i className="fas fa-arrow-circle-left" />
+								</span>
+							</button>
 						</div>
 					</nav>
-					<TextInfo
-						label="Reward Balance"
-						value={
-							rewardBalance !== undefined ? (
-								parseFloat(formatEther(rewardTokenBalance)).toFixed(8) * 1
-							) : (
-								'0'
-							)
-						}
-						token={rewardText}
-						img={rewardTokenImage}
-					/>
-					<TextInfo
-						label="Reward To Claim"
-						value={
-							rewardBalance !== undefined ? parseFloat(formatEther(rewardBalance)).toFixed(8) * 1 : '0'
-						}
-						token={rewardText}
-						img={rewardTokenImage}
-					/>
-					<TextInfo
-						label="Balance Available"
-						value={
-							tokenBalance !== undefined ? (
-								parseFloat(formatUnits(tokenBalance, unit)).toFixed(8) * 1
-							) : (
-								'0'
-							)
-						}
-						token={tokenText}
-						img={stakeTokenImage}
-					/>
-					<TextInfo
-						label="Tokens Staked"
-						value={
-							stakeBalance !== undefined ? (
-								parseFloat(formatUnits(stakeBalance, unit)).toFixed(8) * 1
-							) : (
-								'0'
-							)
-						}
-						token={tokenText}
-						img={stakeTokenImage}
-					/>
+					<table className="table is-fullwidth" style={{ backgroundColor: '#363636' }}>
+						<tbody>
+							<TextInfo
+								label="Farmed"
+								value={
+									rewardBalance !== undefined ? (
+										parseFloat(formatEther(rewardTokenBalance)).toFixed(8) * 1
+									) : (
+										'0'
+									)
+								}
+								token={rewardText}
+								img={rewardTokenImage}
+							/>
+							<TextInfo
+								label="Claimable"
+								value={
+									rewardBalance !== undefined ? (
+										parseFloat(formatEther(rewardBalance)).toFixed(8) * 1
+									) : (
+										'0'
+									)
+								}
+								token={rewardText}
+								img={rewardTokenImage}
+							/>
+							<TextInfo
+								label="To Stake"
+								value={
+									tokenBalance !== undefined ? (
+										parseFloat(formatUnits(tokenBalance, unit)).toFixed(8) * 1
+									) : (
+										'0'
+									)
+								}
+								token={tokenText}
+								img={stakeTokenImage}
+							/>
+							<TextInfo
+								label="Staked"
+								value={
+									stakeBalance !== undefined ? (
+										parseFloat(formatUnits(stakeBalance, unit)).toFixed(8) * 1
+									) : (
+										'0'
+									)
+								}
+								token={tokenText}
+								img={stakeTokenImage}
+							/>
+						</tbody>
+					</table>
 					<div className="columns">
 						<div className="column">
 							<PoolInput
