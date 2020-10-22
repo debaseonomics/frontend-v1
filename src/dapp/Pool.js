@@ -171,7 +171,7 @@ export default function Pool({
 					<nav className="level is-mobile">
 						<div className="level-left">
 							<div className="level-item">
-								<button class="button is-warning is-outlined">
+								<button class="button is-warning is-outlined" onClick={() => history.goBack()}>
 									<span class="icon">
 										<i class="fas fa-arrow-left" />
 									</span>

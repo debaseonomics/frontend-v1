@@ -51,6 +51,7 @@ export default function StakeNav({ children }) {
 							</span>
 						</Link>
 					</div>
+					{/* eslint-disable-next-line */}
 					<a
 						role="button"
 						onClick={() => setMenuActive(!menuActive)}

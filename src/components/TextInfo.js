@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 export default function TextInfo({ label, value, token, img }) {
 	return (
@@ -28,7 +28,4 @@ export default function TextInfo({ label, value, token, img }) {
 			</td>
 		</tr>
 	);
-}
-
-{
 }

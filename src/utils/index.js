@@ -46,22 +46,22 @@ export const lpAbi = [
 ];
 
 export const contractAddress = {
-	degov: '0xe1a3771a93CD3908aA78bF70DC11A480bCb7c37D',
-	debase: '0xE5E167D508F597a9f50f02Fd099631b379Ce905a',
-	debasePolicy: '0x9Baf4C360FB0C8647992B30Fce70eb8b3d6Da711',
-	governorAlpha: '0x021FC96ef74D676323B96F178fdCDc657b75AB9e',
-	timelock: '0xb0b9FFBdFF346bF0a204ffb87e07Dc5D958500B5',
-	debaseDaiPool: '0xdcc886232B99B213Ae680B86A9f36388904f2bCB',
-	debaseDaiLpPool: '0xAdffC6EA819eaFED5c458E5799b9a8f1C72f7B5e',
-	degovUsdcPool: '0x14B8367478Baa89aD240fD76e1ECf19829AD8f26',
-	degovUsdcLpPool: '0x0c319D85ff816220d240EB2A63034fe95A50543E',
-	orchestrator: '0x5DaAEF418394B9D69fb68f17aDE21557C24557FD',
+	degov: '0xda160c15DEFB9Fd3aD41D511f45937Ece5C6F701',
+	debase: '0x76d4E27a6dcaE689F1d1193C33D82c0af9564130',
+	debasePolicy: '0x94C21Cd271497C05472b5DfFb47C5A9B83AD2513',
+	governorAlpha: '0x6B138117f72Fc716585782b8c4aa60bed1A3Dc11',
+	timelock: '0x7f40AfA8BE2E4397C2abe8D7044e2A7943F2B4cb',
+	debaseDaiPool: '0x4bC9E964a041c0852c7A180e994e8579745A48Bd',
+	debaseDaiLpPool: '0xa47619a84DF38843088d548Ad9FC36F0228d5101',
+	degovUsdcPool: '0x50F7Eb2edd62D4a1592a6865961A773f0d31fb95',
+	degovUsdcLpPool: '0x486c803c90e9cFC84fA30c03F83Ed2a0caeF4801',
+	orchestrator: '0x1507a7B7Ae4db6132cf5Ea3Ce2115298936839D2',
 	dai: '0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea',
 	usdc: '0x4dbcdf9b62e891a7cec5a2568c3f4faf9e8abe2b',
-	debaseDaiLp: '0x96365c52de72cfbff65bd7706c4cbe620a23f852',
-	degovUsdcLp: '0xa491d063d4b6c93400ff88208d9db57c180c7c55',
+	debaseDaiLp: '0xcc0ccdba7debdd69d9d0e3cc1471d7c1141d7876',
+	degovUsdcLp: '0x1051d641c0a6a5920decdfeca9dd4c866fb97345',
 	oracle: '',
-	debaseDaiLpStabilizerPool: '0xDf238f0b8A9db52d369d627AeAA5042E63e461ed'
+	debaseDaiLpStabilizerPool: '0x16C6532Dd4A843261f2EbBFbDaD8BCAC11e64517'
 };
 
 export const uniAddress = {
@@ -81,8 +81,6 @@ export const ownerShipAddress = {
 
 export const etherScanAddress = 'https://etherscan.io/address/';
 export const etherScanTX = 'https://etherscan.io/tx/';
-
-export const weth = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2';
 
 export const mobile = 768;
 export const tablet = 769;

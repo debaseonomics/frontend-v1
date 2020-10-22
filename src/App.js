@@ -11,6 +11,7 @@ import debase from './assets/debase.png';
 import dai from './assets/dai.png';
 import empty from './assets/empty.png';
 import Stabilizer from './sections/Stabilizer';
+import CoinPie from './sections/CoinPie';
 
 const Landing = React.lazy(() => import('./sections/Landing'));
 const Parameters = React.lazy(() => import('./sections/Parameters'));
@@ -129,6 +130,7 @@ function App() {
 					<Route path="/">
 						<Landing scrollToOverview={scrollToOverview} />
 						<Overview ref={overviewRef} scrollToOwnership={scrollToOwnership} />
+						<CoinPie />
 						<Rebase />
 						<Asymmetrical />
 						<Stabilizer />
