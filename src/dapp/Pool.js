@@ -61,17 +61,20 @@ export default function Pool({
 	const [ claimLoading, setClaimLoading ] = useState(false);
 	const [ claimUnstakeLoading, setClaimUnstakeLoading ] = useState(false);
 
-	useEffect(() => {
-		library.on('block', () => {
-			getRewardTokenBalance(undefined, true);
-			getTokenBalance(undefined, true);
-			getRewardBalance(undefined, true);
-			getStakeBalance(undefined, true);
-		});
-		return () => {
-			library.removeAllListeners('block');
-		};
-	}, []);
+	useEffect(
+		() => {
+			library.on('block', () => {
+				getRewardTokenBalance(undefined, true);
+				getTokenBalance(undefined, true);
+				getRewardBalance(undefined, true);
+				getStakeBalance(undefined, true);
+			});
+			return () => {
+				library.removeAllListeners('block');
+			};
+		},
+		[ library, getStakeBalance, getRewardBalance, getTokenBalance, getRewardTokenBalance ]
+	);
 
 	async function handleStake() {
 		setStakingLoading(true);
@@ -171,9 +174,9 @@ export default function Pool({
 					<nav className="level is-mobile">
 						<div className="level-left">
 							<div className="level-item">
-								<button class="button is-warning is-outlined" onClick={() => history.goBack()}>
-									<span class="icon">
-										<i class="fas fa-arrow-left" />
+								<button className="button is-warning is-outlined" onClick={() => history.goBack()}>
+									<span className="icon">
+										<i className="fas fa-arrow-left" />
 									</span>
 								</button>
 							</div>
@@ -192,7 +195,7 @@ export default function Pool({
 					<table className="table is-fullwidth" style={{ backgroundColor: '#363636' }}>
 						<tbody>
 							<TextInfo
-								label="Farmed"
+								label="Balance"
 								value={
 									rewardBalance !== undefined ? (
 										parseFloat(formatEther(rewardTokenBalance)).toFixed(8) * 1

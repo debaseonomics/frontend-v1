@@ -6,30 +6,38 @@ const Stabilizer = React.forwardRef(
 		return (
 			<div className="section" ref={ref}>
 				<div className="container block is-fluid ">
-					<h3 className="title is-size-3-tablet is-size-4-mobile">Stabilizer</h3>
-					<h4 className="subtitle is-size-4-tablet is-size-5-mobile">Performance based rewards</h4>
+					<h3 className="title is-size-3-tablet is-size-4-mobile">Stabilizer Pools</h3>
+					<h4 className="subtitle is-size-4-tablet is-size-5-mobile">
+						Custom pools helping to stabilize debase
+					</h4>
 				</div>
 				<div className="container block is-fluid ">
 					<div className="box content ">
 						<p>
-							To reward debase user's being able to hit it's price target during a rebase. A stabilizer
-							pool will be available to stake into after the start of the first rebase. The pool will
-							reward debase tokens and to stake into it Debase/DAI-LP uniswap token will be provided thus
-							helping to secure long term pool liquidity.
+							Stabilizers are custom pools built and approved by the community to help reward behaviour
+							that could help stabilize debase to it's target price in the long or short term. These pools
+							will initially have no funding and will have custom triggers that will be check against
+							during every rebase. So if the pools conditions are met then the policy contract, which
+							initially contains all stability pool funds, will transfer a configurable amount of funds to
+							called stabilizer pool. Then the pool can use it's own unique strategies to distribute these
+							funds.
 						</p>
 						<p>
-							This pool will be funds with a configurable amount of reward tokens with certain conditions
-							are met. So say when a <strong>sequence</strong> of neutral rebases ( current exchange rate
-							within deviation threshold of price target ) have been recorded then 10,000 DEBASE token
-							will be sent into stabilizer pool to be distributed as a reward to the community. Under the
-							condition that the stabilizer pool previous distribution cycle has ended which itself can be
-							configured to be ignored.
+							An example of a stabilizer pool is a pool that counts the number of times debase hits its
+							target price when a rebase happens. If the count goes above a configurable threshold then
+							the stabilizer pool will be funded with a configurable amount of Debase tokens to be
+							rewarded to the community. To earn this reward the community will be staking in
+							Debase/Dai-LP tokens then providing more long term liquidity when the distribution pools
+							have dried up. The neutral rebase count can also be configured to reset it's count when
+							during a rebase the target price is not hit.
 						</p>
 						<p>
-							Finally keeping mind the portion (60%) of the DEBASE total supply that is available to be
-							distributed and Debase policy contract distributing funds to the stabilizer pool. The whole
-							stabilizer contract can be replaced with another pool that meets a set interface. Thus
-							providing a greater degree of flexibility in how the stabilizer funds will be distributed.
+							This is just a basic example of a stabilizer pool that will usable when rebases are
+							available. Other examples of potential pools could be where users will be rewarded wrapped
+							Debase tokens that have specialized behaviors time based to de-incentivize it's holding or
+							selling when debase is not at it's target price. This is an area of development and will
+							hopefully be the main focus of the debase community to write and vote on which stabilizer
+							pools to use.
 						</p>
 					</div>
 				</div>

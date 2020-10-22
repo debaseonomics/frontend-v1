@@ -10,20 +10,20 @@ export default function Governance({ scrollToParameters, scrollToOwnership }) {
 			<div className="container block is-fluid ">
 				<div className="box content ">
 					<p>
-						DEGOV tokens represent a vote in the governance of the protocol. The token allows a user to
+						Degov tokens represent a vote in the governance of the protocol. The token allows a user to
 						propose new protocol or vote on changes proposed by other users. Initially to propose a new
-						proposal a user needs to have 1% of all the DEGOV tokens in supply. For a proposal to pass a
-						quorum of 10% of the current DEGOV token supply needs to be reached.
+						proposal a user needs to have 1% of all the Degov tokens in supply. For a proposal to pass a
+						quorum of 10% of the current Degov token supply needs to be reached.
 					</p>
 					<p>
 						When a proposal is passed it will be queued and can be executed after a set delay of 2 days by a
 						Timelock contract, that behaves as the owner of the editable contracts. For better detail on
 						this behaviour please view how compound finance's{' '}
-						<a href="https://compound.finance/docs/governance">governance</a> works of which DEGOV
+						<a href="https://compound.finance/docs/governance">governance</a> works of which Degov
 						governance is based of.
 					</p>
 					<p>
-						So what DEGOV offers a user is control from how governance parameters should behave to how
+						So what Degov offers a user is control from how governance parameters should behave to how
 						rebasing parameters should behave. Giving users an unprecedented level of control to answer the
 						question whether the community can build a token that will eventually be stable.
 					</p>

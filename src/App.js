@@ -6,7 +6,6 @@ import { ethers } from 'ethers';
 import { Web3ReactProvider } from '@web3-react/core';
 
 import degov from './assets/degov.png';
-import usdc from './assets/usdc.png';
 import debase from './assets/debase.png';
 import dai from './assets/dai.png';
 import empty from './assets/empty.png';
@@ -71,7 +70,7 @@ function App() {
 								<Route path="/dapp/staking">
 									<Route path="/dapp/staking/debase-dai">
 										<Pool
-											tokenText="DAI"
+											tokenText="Dai"
 											rewardText="Debase"
 											poolName="Debase/DAI Pool"
 											unit={18}
@@ -84,7 +83,7 @@ function App() {
 									</Route>
 									<Route path="/dapp/staking/debase-dai-lp">
 										<Pool
-											tokenText="DAI-LP"
+											tokenText="Dai-Lp"
 											rewardText="Debase"
 											poolName="Debase/DAI-LP Pool"
 											unit={18}
@@ -95,30 +94,17 @@ function App() {
 											poolAddress={contractAddress.debaseDaiLpPool}
 										/>
 									</Route>
-									<Route path="/dapp/staking/degov-usdc">
+									<Route path="/dapp/staking/degov-dai-lp">
 										<Pool
-											tokenText="USDC"
+											tokenText="Dai-Lp"
 											rewardText="Degov"
-											poolName="Degov/USDC Pool"
-											unit={6}
-											rewardTokenImage={degov}
-											stakeTokenImage={usdc}
-											tokenAddress={contractAddress.usdc}
-											rewardTokenAddress={contractAddress.degov}
-											poolAddress={contractAddress.degovUsdcPool}
-										/>
-									</Route>
-									<Route path="/dapp/staking/degov-usdc-lp">
-										<Pool
-											tokenText="USDC-LP"
-											rewardText="Degov"
-											poolName="Degov/USDC-LP Pool"
+											poolName="Degov/Dai-Lp Pool"
 											unit={18}
 											rewardTokenImage={degov}
 											stakeTokenImage={empty}
-											tokenAddress={contractAddress.degovUsdcLp}
+											tokenAddress={contractAddress.debaseDaiLp}
 											rewardTokenAddress={contractAddress.degov}
-											poolAddress={contractAddress.degovUsdcLpPool}
+											poolAddress={contractAddress.degovDaiLpPool}
 										/>
 									</Route>
 									<Route exact path="/dapp/staking">
@@ -139,7 +125,11 @@ function App() {
 					</Route>
 					<Route path="/">
 						<Landing scrollToOverview={scrollToOverview} />
-						<Overview ref={overviewRef} scrollToOwnership={scrollToOwnership} />
+						<Overview
+							ref={overviewRef}
+							scrollToOwnership={scrollToOwnership}
+							scrollToStabilizer={scrollToStabilizer}
+						/>
 						<CoinPie scrollToDistribution={scrollToDistribution} scrollToStabilizer={scrollToStabilizer} />
 						<Rebase />
 						<Asymmetrical />

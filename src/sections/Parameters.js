@@ -5,13 +5,18 @@ const Parameters = React.forwardRef(
 	// eslint-disable-next-line
 	({}, ref) => {
 		const editableList = [
+			{ heading: 'Price target', info: 'Debase target price' },
 			{ heading: 'Rebase Interval', info: 'Minimum time before a rebase' },
 			{ heading: 'Rebase Offset', info: 'When a rebase can happen' },
-			{ heading: 'Default Rebase Lag', info: 'Symmetrical dampening rebase changes' },
-			{ heading: 'Rebase Lag Breakpoints', info: 'Asymmetrical dampening of rebase changes' },
 			{ heading: 'Rebase Window', info: 'Period within a rebase can execute' },
-			{ heading: 'Upper Deviation Threshold', info: 'Upper target threshold within not to rebase' },
-			{ heading: 'Lower Deviation Threshold', info: 'Lower target threshold within not to rebase' },
+			{ heading: 'Oracle', info: 'Oracle which gets current Debase/DAI price' },
+			{ heading: 'Default Rebase Lags', info: 'Enable default dampening rebase changes' },
+			{
+				heading: 'Rebase Lag Breakpoints',
+				info: 'Add,update and delete asymmetrical dampening for set ranges changes'
+			},
+			{ heading: 'Stabilizer Pools', info: 'Add,update and delete stabilizers pool' },
+			{ heading: 'Deviation Thresholds', info: 'Thresholds within not to rebase' },
 			{ heading: 'Quorum Threshold', info: 'Votes needed to pass a proposal' },
 			{ heading: 'Proposal Threshold', info: 'Token needed to start a proposal' },
 			{ heading: 'Voting Delay', info: 'Delay before voting on a proposal' },

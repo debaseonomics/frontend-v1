@@ -29,7 +29,7 @@ export default function Landing({ scrollToOverview }) {
 	return (
 		<section
 			className="hero is-fullheight"
-			style={{ backgroundImage: `url(${Wave})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat' }}
+			style={{ backgroundImage: `url(${Wave})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
 		>
 			<div className="hero-body">{content}</div>
 		</section>

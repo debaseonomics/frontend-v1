@@ -1,4 +1,4 @@
-import { ResponsivePie } from '@nivo/pie';
+import { ResponsivePie, linearGradientDef } from '@nivo/pie';
 import React from 'react';
 
 export default function Coin({ data, scheme }) {
@@ -23,10 +23,23 @@ export default function Coin({ data, scheme }) {
 					}
 				}
 			}}
+			defs={[
+				{
+					id: 'gradientC',
+					type: 'linearGradient',
+					colors: [
+						{ offset: 0, color: '#e90c59' },
+						{ offset: 25, color: '#f90c5f' },
+						{ offset: 50, color: '#a9f6ff' },
+						{ offset: 75, color: '#00e6ff' }
+					]
+				}
+			]}
+			fill={[ { match: { id: 'Dai-Lp Pool' }, id: 'gradientC' } ]}
 			sortByValue={true}
 			radialLabelsLinkOffset={0}
 			radialLabelsLinkDiagonalLength={6}
-			radialLabelsLinkHorizontalLength={6}
+			radialLabelsLinkHorizontalLength={15}
 			radialLabelsLinkStrokeWidth={2}
 			radialLabelsLinkColor={{ from: 'color' }}
 			slicesLabelsTextColor="#ffffff"

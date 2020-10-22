@@ -33,19 +33,11 @@ export default function CoinPie({ scrollToDistribution, scrollToStabilizer }) {
 
 	const degovData = [
 		{
-			id: 'USDC Pool',
-			value: 25,
-			label: '25%',
-			tool: 'Initial degov seeding pool',
+			id: 'Dai-Lp Pool',
+			value: 100,
+			label: '100%',
+			tool: 'Degov seed pool',
 			supply: '25,000 Degov',
-			click: scrollToDistribution
-		},
-		{
-			id: 'USDC-LP Pool',
-			value: 75,
-			label: '75%',
-			tool: 'Incentives degov liquidity',
-			supply: '75,000 Degov',
 			click: scrollToDistribution
 		}
 	];
@@ -82,7 +74,7 @@ export default function CoinPie({ scrollToDistribution, scrollToStabilizer }) {
 								</div>
 								<div className="media-content">
 									<p className="title is-3">Degov</p>
-									<p className="mt-1 subtitle is-5">100,000</p>
+									<p className="mt-1 subtitle is-5">25,000</p>
 								</div>
 							</div>
 						</div>
