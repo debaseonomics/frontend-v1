@@ -39,6 +39,8 @@ function App() {
 	const overviewRef = useRef(null);
 	const parametersRef = useRef(null);
 	const ownershipRef = useRef(null);
+	const distributionRef = useRef(null);
+	const stabilizerRef = useRef(null);
 
 	function scrollToOverview() {
 		overviewRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -49,6 +51,14 @@ function App() {
 
 	function scrollToOwnership() {
 		ownershipRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	}
+
+	function scrollToDistribution() {
+		distributionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	}
+
+	function scrollToStabilizer() {
+		stabilizerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	}
 
 	return (
@@ -130,12 +140,12 @@ function App() {
 					<Route path="/">
 						<Landing scrollToOverview={scrollToOverview} />
 						<Overview ref={overviewRef} scrollToOwnership={scrollToOwnership} />
-						<CoinPie />
+						<CoinPie scrollToDistribution={scrollToDistribution} scrollToStabilizer={scrollToStabilizer} />
 						<Rebase />
 						<Asymmetrical />
-						<Stabilizer />
+						<Stabilizer ref={stabilizerRef} />
 						<Governance scrollToParameters={scrollToParameters} scrollToOwnership={scrollToOwnership} />
-						<Distribution />
+						<Distribution ref={distributionRef} />
 						<Parameters ref={parametersRef} />
 						<Contracts />
 						<Ownership ref={ownershipRef} />

@@ -3,28 +3,31 @@ import Coin from '../components/Coin';
 import debase from '../assets/debase.png';
 import degov from '../assets/degov.png';
 
-export default function CoinPie() {
+export default function CoinPie({ scrollToDistribution, scrollToStabilizer }) {
 	const debaseData = [
 		{
 			id: 'Dai Pool',
 			value: 10,
 			label: '10%',
 			tool: 'Initial debase seeding pool',
-			supply: '25,000 Debase'
+			supply: '25,000 Debase',
+			click: scrollToDistribution
 		},
 		{
 			id: 'Dai-LP Pool',
 			value: 15,
 			label: '15%',
 			tool: 'Incentives debase liquidity',
-			supply: '75,000 Debase'
+			supply: '75,000 Debase',
+			click: scrollToDistribution
 		},
 		{
 			id: 'Stabilizer Pools',
 			value: 75,
 			label: '75%',
 			tool: 'Custom pools helping to stabilize debase',
-			supply: '900,000 Debase'
+			supply: '900,000 Debase',
+			click: scrollToStabilizer
 		}
 	];
 
@@ -34,14 +37,16 @@ export default function CoinPie() {
 			value: 25,
 			label: '25%',
 			tool: 'Initial degov seeding pool',
-			supply: '25,000 Degov'
+			supply: '25,000 Degov',
+			click: scrollToDistribution
 		},
 		{
 			id: 'USDC-LP Pool',
 			value: 75,
 			label: '75%',
 			tool: 'Incentives degov liquidity',
-			supply: '75,000 Degov'
+			supply: '75,000 Degov',
+			click: scrollToDistribution
 		}
 	];
 	return (
@@ -54,7 +59,7 @@ export default function CoinPie() {
 							<div className="media">
 								<div className="media-left">
 									<figure className="image is-64x64">
-										<img src={debase} alt="Placeholder image" />
+										<img src={debase} alt="Debase" />
 									</figure>
 								</div>
 								<div className="media-content">
@@ -72,7 +77,7 @@ export default function CoinPie() {
 							<div className="media">
 								<div className="media-left">
 									<figure className="image is-64x64">
-										<img src={degov} alt="Placeholder image" />
+										<img src={degov} alt="Degov" />
 									</figure>
 								</div>
 								<div className="media-content">

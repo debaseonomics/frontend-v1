@@ -39,7 +39,7 @@ export default function Coin({ data, scheme }) {
 					<p className="subtitle is-6">Supply: {supply}</p>
 				</div>
 			)}
-			onClick={(data) => console.log(data)}
+			onClick={({ click }) => click()}
 			motionStiffness={90}
 			motionDamping={15}
 		/>
