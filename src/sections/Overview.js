@@ -1,6 +1,8 @@
 import React from 'react';
 import { contractAddress, etherScanAddress } from '../utils';
 import Coin from '../components/Coin';
+import debase from '../assets/debase.png';
+import degov from '../assets/degov.png';
 
 const Overview = React.forwardRef(({ scrollToDistribution, scrollToOwnership, scrollToStabilizer, isMobile }, ref) => {
 	const debaseData = [
@@ -76,11 +78,55 @@ const Overview = React.forwardRef(({ scrollToDistribution, scrollToOwnership, sc
 					</p>
 					<h4>Pool Distribution</h4>
 					<div className="columns">
-						<div className="column is-half" style={{ height: '250px' }}>
-							<Coin data={debaseData} scheme="set1" />
+						<div className="column is-half">
+							<div className="block" style={{ height: '240px' }}>
+								<Coin data={debaseData} />
+							</div>
+							<div className="columns is-centered block">
+								<div className="column is-half">
+									<article className="media">
+										<figure className="media-left ">
+											<p className="image is-64x64">
+												<img src={debase} alt="debase" />
+											</p>
+										</figure>
+										<div className="media-content">
+											<div class="content">
+												<p>
+													<strong>Debase</strong>
+													<br />
+													100,000
+												</p>
+											</div>
+										</div>
+									</article>
+								</div>
+							</div>
 						</div>
-						<div className="column is-half" style={{ height: '250px' }}>
-							<Coin data={degovData} scheme="category10" />
+						<div className="column is-half">
+							<div className="block" style={{ height: '240px' }}>
+								<Coin data={degovData} />
+							</div>
+							<div className="columns is-centered block">
+								<div className="column is-half">
+									<article className="media">
+										<figure className="media-left ">
+											<p className="image is-64x64">
+												<img src={degov} alt="debase" />
+											</p>
+										</figure>
+										<div className="media-content">
+											<div class="content">
+												<p>
+													<strong>Degov</strong>
+													<br />
+													25,000
+												</p>
+											</div>
+										</div>
+									</article>
+								</div>
+							</div>
 						</div>
 					</div>
 					<p>
