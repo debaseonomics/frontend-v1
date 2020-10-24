@@ -21,19 +21,19 @@ export default function StakeCard({
 			<div className="block">
 				<h3 className="title is-size-3-tablet is-size-4-mobile has-text-centered">{title}</h3>
 				<div className="divider">{infoText}</div>
-				<h5 className="title is-size-4-tablet is-size-6-mobile">
+				<h5 className="title is-size-5-tablet is-size-6-mobile">
 					<strong>Contract</strong>: <a href={contractLink}>{turncate(contract, 16, '...')}</a>
 				</h5>
-				<h5 className="title is-size-4-tablet is-size-6-mobile">
+				<h5 className="title is-size-5-tablet is-size-6-mobile">
 					<strong>Website</strong>: <a href={websiteLink}>{website}</a>
 				</h5>
-				<h5 className="title is-size-4-tablet is-size-6-mobile">
+				<h5 className="title is-size-5-tablet is-size-6-mobile">
 					<strong>Total supply</strong>: {supply}
 				</h5>
-				<h5 className="title is-size-4-tablet is-size-6-mobile">
+				<h5 className="title is-size-5-tablet is-size-6-mobile">
 					<strong>Initial supply</strong>: {initial}
 				</h5>
-				<h5 className="title is-size-4-tablet is-size-6-mobile">
+				<h5 className="title is-size-5-tablet is-size-6-mobile">
 					<strong>Halving period</strong>: {duration}
 				</h5>
 

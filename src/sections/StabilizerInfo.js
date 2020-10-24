@@ -2,7 +2,7 @@ import React from 'react';
 
 const Stabilizer = React.forwardRef(
 	// eslint-disable-next-line
-	({}, ref) => {
+	({ isMobile }, ref) => {
 		return (
 			<div className="section" ref={ref}>
 				<div className="container block is-fluid ">
@@ -12,7 +12,7 @@ const Stabilizer = React.forwardRef(
 					</h4>
 				</div>
 				<div className="container block is-fluid ">
-					<div className="box content ">
+					<div className={isMobile ? 'box content' : 'box content is-medium'}>
 						<p>
 							Stabilizers are custom pools built and approved by the community to help reward behaviour
 							that could help stabilize debase to it's target price in the long or short term. These pools

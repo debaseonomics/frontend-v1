@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Rebase() {
+export default function Rebase({ isMobile }) {
 	return (
 		<div className="section">
 			<div className="container block is-fluid ">
@@ -8,7 +8,7 @@ export default function Rebase() {
 				<h4 className="subtitle is-size-4-tablet is-size-5-mobile">Flexible supply management</h4>
 			</div>
 			<div className="container block is-fluid ">
-				<div className="box content ">
+				<div className={isMobile ? 'box content' : 'box content is-medium'}>
 					<p>
 						As the demand for Debase tokens increases, the number of Debase tokens you own increases. If the
 						demand decreases, the number of Debase tokens you own decreases. The Debase protocol’s rebase

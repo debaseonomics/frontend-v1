@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Distribution = React.forwardRef(
 	// eslint-disable-next-line
-	({}, ref) => {
+	({ isMobile }, ref) => {
 		return (
 			<div className="section" ref={ref}>
 				<div className="container block is-fluid ">
@@ -14,7 +14,7 @@ const Distribution = React.forwardRef(
 					</h4>
 				</div>
 				<div className="container block is-fluid">
-					<div className="box content ">
+					<div className={isMobile ? 'box content' : 'box content is-medium'}>
 						<h3>Debase</h3>
 						<p>
 							Debase token has two separate staking pools. The first pool yields the initial Debase token
@@ -24,7 +24,7 @@ const Distribution = React.forwardRef(
 							tokens will be distributed from this pool with 12,500 Debase being during the first 24
 							hours. After which the tokens to distribute will half to 6,250 and this halving will
 							continue every 24 hours until 25,000 Debase are distributed from the pool. Also for the
-							first 24 hours only 10,000 DAI can be staked per account to support fairer distribution.
+							first 24 hours only 10,000 DAI can be staked per account to support fairer distribution.{' '}
 							<strong>
 								So if you encounter an error while staking, be sure that you are staking under the
 								mentioned limit.

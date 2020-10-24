@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Asymmetrical() {
+export default function Asymmetrical({ isMobile }) {
 	return (
 		<div className="section">
 			<div className="container block is-fluid ">
@@ -8,7 +8,7 @@ export default function Asymmetrical() {
 				<h4 className="subtitle is-size-4-tablet is-size-5-mobile">Additional flexibility</h4>
 			</div>
 			<div className="container block is-fluid ">
-				<div className="box content ">
+				<div className={isMobile ? 'box content' : 'box content is-medium'}>
 					<p>
 						Debase allows for the community to adjust the smoothing parameter (Rebase Lag) over configurable
 						ranges that is applied in-order to dampen supply changes during a rebase. Thus preventing the

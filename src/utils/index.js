@@ -46,29 +46,24 @@ export const lpAbi = [
 ];
 
 export const contractAddress = {
-	degov: '0xda160c15DEFB9Fd3aD41D511f45937Ece5C6F701',
-	debase: '0x76d4E27a6dcaE689F1d1193C33D82c0af9564130',
-	debasePolicy: '0x94C21Cd271497C05472b5DfFb47C5A9B83AD2513',
-	governorAlpha: '0x6B138117f72Fc716585782b8c4aa60bed1A3Dc11',
-	timelock: '0x7f40AfA8BE2E4397C2abe8D7044e2A7943F2B4cb',
-	debaseDaiPool: '0x4bC9E964a041c0852c7A180e994e8579745A48Bd',
-	debaseDaiLpPool: '0xa47619a84DF38843088d548Ad9FC36F0228d5101',
-	degovUsdcPool: '0x50F7Eb2edd62D4a1592a6865961A773f0d31fb95',
-	degovUsdcLpPool: '0x486c803c90e9cFC84fA30c03F83Ed2a0caeF4801',
-	orchestrator: '0x1507a7B7Ae4db6132cf5Ea3Ce2115298936839D2',
+	degov: '0xA40FaB39382D9ea8D95371f4a2177bdDaE0EC15c',
+	debase: '0xE7ED1aC3ea97c236EF4c7c66a3CcD7032991269e',
+	debasePolicy: '0x40060d8EA4247e7621267f3373429fDdE25Ed759',
+	governorAlpha: '0xAf411707eA2d89F08EB9cdAD2007E3aE3C887245',
+	timelock: '0xe9178e41AC96554dF70aBb391DC76f9a82CB78Bb',
+	debaseDaiPool: '0x5168118F21dF95bAAFcAeDeE42C739A2FD6591D5',
+	debaseDaiLpPool: '0xd1762ec70D0fe82D78bC02b579b2871f44c03AbE',
+	degovDaiLpPool: '0x79Ff610111b7FEEdaA545bcD0Ef16EAdD9174AA2',
+	orchestrator: '0x11f11B853f2E2C34c5c00F22D986774e7EE1d986',
 	dai: '0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea',
-	usdc: '0x4dbcdf9b62e891a7cec5a2568c3f4faf9e8abe2b',
-	debaseDaiLp: '0xcc0ccdba7debdd69d9d0e3cc1471d7c1141d7876',
-	degovUsdcLp: '0x1051d641c0a6a5920decdfeca9dd4c866fb97345',
+	debaseDaiLp: '0x90e5Bb3FE3be3207e23B0DEdb019a40A3f074649',
 	oracle: '',
-	debaseDaiLpStabilizerPool: '0x16C6532Dd4A843261f2EbBFbDaD8BCAC11e64517'
+	stabilizerPool: '0xC30C00C73a145F9dc91AC1447518934f713D2877'
 };
 
 export const uniAddress = {
 	'debase-DAI-POOL':
-		'https://app.uniswap.org/#/add/0xa059b04F5293DE69fB3CC9ae5EE1E51083111247/0x6B175474E89094C44Da98b954EedeAC495271d0F',
-	'debase-WETH-POOL': '',
-	'degov-USDC-POOL': ''
+		'https://app.uniswap.org/#/add/0xa059b04F5293DE69fB3CC9ae5EE1E51083111247/0x6B175474E89094C44Da98b954EedeAC495271d0F'
 };
 
 export const ownerShipAddress = {
@@ -84,4 +79,3 @@ export const etherScanTX = 'https://etherscan.io/tx/';
 
 export const mobile = 768;
 export const tablet = 769;
-export const desktop = 1215;

@@ -170,7 +170,7 @@ export default function Pool({
 	return (
 		<div className="container is-fluid">
 			<div className="columns is-centered is-mobile">
-				<div className="box column is-6-tablet is-11-mobile">
+				<div className="box column is-6-tablet is-10-mobile">
 					<nav className="level is-mobile">
 						<div className="level-left">
 							<div className="level-item">

@@ -1,6 +1,7 @@
 import React, { useRef, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { contractAddress } from './utils/index';
+import { contractAddress, mobile } from './utils/index';
+import { useMediaQuery } from 'react-responsive';
 
 import { ethers } from 'ethers';
 import { Web3ReactProvider } from '@web3-react/core';
@@ -9,9 +10,10 @@ import degov from './assets/degov.png';
 import debase from './assets/debase.png';
 import dai from './assets/dai.png';
 import empty from './assets/empty.png';
-import Stabilizer from './sections/Stabilizer';
-import CoinPie from './sections/CoinPie';
 
+const StabilizerInfo = React.lazy(() => import('./sections/StabilizerInfo'));
+const Layout = React.lazy(() => import('./components/Layout'));
+const Stabilizer = React.lazy(() => import('./dapp/Stabilizer'));
 const Landing = React.lazy(() => import('./sections/Landing'));
 const Parameters = React.lazy(() => import('./sections/Parameters'));
 const Contracts = React.lazy(() => import('./sections/Contracts'));
@@ -40,6 +42,8 @@ function App() {
 	const ownershipRef = useRef(null);
 	const distributionRef = useRef(null);
 	const stabilizerRef = useRef(null);
+
+	const isMobile = useMediaQuery({ query: `(max-width: ${mobile}px)` });
 
 	function scrollToOverview() {
 		overviewRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -124,21 +128,28 @@ function App() {
 						</Web3ReactProvider>
 					</Route>
 					<Route path="/">
-						<Landing scrollToOverview={scrollToOverview} />
-						<Overview
-							ref={overviewRef}
-							scrollToOwnership={scrollToOwnership}
-							scrollToStabilizer={scrollToStabilizer}
-						/>
-						<CoinPie scrollToDistribution={scrollToDistribution} scrollToStabilizer={scrollToStabilizer} />
-						<Rebase />
-						<Asymmetrical />
-						<Stabilizer ref={stabilizerRef} />
-						<Governance scrollToParameters={scrollToParameters} scrollToOwnership={scrollToOwnership} />
-						<Distribution ref={distributionRef} />
-						<Parameters ref={parametersRef} />
-						<Contracts />
-						<Ownership ref={ownershipRef} />
+						<Layout>
+							<Landing scrollToOverview={scrollToOverview} />
+							<Overview
+								isMobile={isMobile}
+								ref={overviewRef}
+								scrollToDistribution={scrollToDistribution}
+								scrollToOwnership={scrollToOwnership}
+								scrollToStabilizer={scrollToStabilizer}
+							/>
+							<Rebase isMobile={isMobile} />
+							<Asymmetrical isMobile={isMobile} />
+							<StabilizerInfo ref={stabilizerRef} isMobile={isMobile} />
+							<Governance
+								scrollToParameters={scrollToParameters}
+								scrollToOwnership={scrollToOwnership}
+								isMobile={isMobile}
+							/>
+							<Distribution ref={distributionRef} isMobile={isMobile} />
+							<Parameters ref={parametersRef} />
+							<Contracts />
+							<Ownership ref={ownershipRef} />
+						</Layout>
 					</Route>
 				</Switch>
 			</Suspense>

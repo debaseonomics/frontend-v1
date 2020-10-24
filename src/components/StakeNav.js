@@ -3,6 +3,7 @@ import { toaster, turncate } from '../utils/index';
 import { Link } from 'react-router-dom';
 import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core';
 import { InjectedConnector, NoEthereumProviderError, UserRejectedRequestError } from '@web3-react/injected-connector';
+import Valley from '../assets/Valley.svg';
 
 export default function StakeNav({ children }) {
 	const injected = new InjectedConnector();
@@ -90,7 +91,16 @@ export default function StakeNav({ children }) {
 				</div>
 			</nav>
 			{active ? (
-				children
+				<div
+					style={{
+						backgroundImage: `url(${Valley})`,
+						backgroundSize: 'cover',
+						backgroundRepeat: 'no-repeat',
+						minHeight: '100%'
+					}}
+				>
+					{children}
+				</div>
 			) : (
 				<div className="container is-fluid">
 					<div className="columns is-centered has-text-centered">

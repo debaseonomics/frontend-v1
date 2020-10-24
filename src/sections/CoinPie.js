@@ -4,43 +4,6 @@ import debase from '../assets/debase.png';
 import degov from '../assets/degov.png';
 
 export default function CoinPie({ scrollToDistribution, scrollToStabilizer }) {
-	const debaseData = [
-		{
-			id: 'Dai Pool',
-			value: 10,
-			label: '10%',
-			tool: 'Initial debase seeding pool',
-			supply: '25,000 Debase',
-			click: scrollToDistribution
-		},
-		{
-			id: 'Dai-LP Pool',
-			value: 15,
-			label: '15%',
-			tool: 'Incentives debase liquidity',
-			supply: '75,000 Debase',
-			click: scrollToDistribution
-		},
-		{
-			id: 'Stabilizer Pools',
-			value: 75,
-			label: '75%',
-			tool: 'Custom pools helping to stabilize debase',
-			supply: '900,000 Debase',
-			click: scrollToStabilizer
-		}
-	];
-
-	const degovData = [
-		{
-			id: 'Dai-Lp Pool',
-			value: 100,
-			label: '100%',
-			tool: 'Degov seed pool',
-			supply: '25,000 Degov',
-			click: scrollToDistribution
-		}
-	];
 	return (
 		<div className="section">
 			<div className="columns">

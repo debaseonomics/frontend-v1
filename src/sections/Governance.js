@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Governance({ scrollToParameters, scrollToOwnership }) {
+export default function Governance({ scrollToParameters, scrollToOwnership, isMobile }) {
 	return (
 		<div className="section">
 			<div className="container block is-fluid ">
@@ -8,7 +8,7 @@ export default function Governance({ scrollToParameters, scrollToOwnership }) {
 				<h4 className="subtitle is-size-4-tablet is-size-5-mobile">How governance works</h4>
 			</div>
 			<div className="container block is-fluid ">
-				<div className="box content ">
+				<div className={isMobile ? 'box content' : 'box content is-medium'}>
 					<p>
 						Degov tokens represent a vote in the governance of the protocol. The token allows a user to
 						propose new protocol or vote on changes proposed by other users. Initially to propose a new
