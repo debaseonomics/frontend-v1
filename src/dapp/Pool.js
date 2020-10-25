@@ -192,7 +192,7 @@ export default function Pool({
 							</button>
 						</div>
 					</nav>
-					<table className="table is-fullwidth" style={{ backgroundColor: '#363636' }}>
+					<table className="table is-fullwidth" style={{ backgroundColor: '#242424' }}>
 						<tbody>
 							<TextInfo
 								label="Balance"
@@ -274,9 +274,9 @@ export default function Pool({
 							<button
 								className={
 									claimLoading ? (
-										'button is-loading is-success is-fullwidth is-outlined'
+										'button is-loading is-link is-fullwidth is-outlined'
 									) : (
-										'button is-success is-fullwidth is-outlined'
+										'button is-link is-fullwidth is-outlined'
 									)
 								}
 								onClick={claimReward}
@@ -288,9 +288,9 @@ export default function Pool({
 							<button
 								className={
 									claimUnstakeLoading ? (
-										'button is-loading is-success is-fullwidth is-outlined'
+										'button is-loading is-link is-fullwidth is-outlined'
 									) : (
-										'button is-success is-fullwidth is-outlined'
+										'button is-link is-fullwidth is-outlined'
 									)
 								}
 								onClick={claimRewardThenUnstake}

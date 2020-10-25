@@ -14,8 +14,8 @@ export default function Staking() {
 						contractLink={etherScanAddress + contractAddress.debaseDaiPool}
 						website="uniswap.info"
 						websiteLink={uniAddress['debase-DAI-POOL']}
-						supply="8,000 Debase"
-						initial="4,000 Debase"
+						supply="30,000 Debase"
+						initial="15,000 Debase"
 						infoText="Seeds initial supply of debase"
 						warningText="Max deposit of 10,000 DAI/account for the first 24 hours"
 						duration="1 day"
@@ -29,8 +29,8 @@ export default function Staking() {
 						contractLink={etherScanAddress + contractAddress.debaseDaiLpPool}
 						website="uniswap.info"
 						websiteLink={uniAddress['debase-DAI-LP-POOL']}
-						supply="17,000 Debase"
-						initial="8,500 Debase"
+						supply="70,000 Debase"
+						initial="35,000 Debase"
 						infoText="Incentives debase liquidity"
 						duration="3 days"
 					/>

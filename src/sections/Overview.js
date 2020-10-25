@@ -22,7 +22,7 @@ const Overview = React.forwardRef(({ scrollToParameters, scrollToOwnership, scro
 				<div className="level-item">
 					<div>
 						<p className="heading">Supply</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">100,000</p>
+						<p className="title is-size-5-tablet is-size-4-mobile">1,000,000</p>
 					</div>
 				</div>
 				<div className="level-item">
@@ -40,19 +40,19 @@ const Overview = React.forwardRef(({ scrollToParameters, scrollToOwnership, scro
 				<div className="level-item">
 					<div>
 						<p className="heading">Stabilizer Pools Reward</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">75,000 Debase</p>
+						<p className="title is-size-5-tablet is-size-4-mobile">900,000 Debase</p>
 					</div>
 				</div>
 				<div className="level-item">
 					<div>
 						<p className="heading">Debase/Dai Pool Reward</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">17,000 Debase</p>
+						<p className="title is-size-5-tablet is-size-4-mobile">70,000 Debase</p>
 					</div>
 				</div>
 				<div className="level-item">
 					<div>
 						<p className="heading">Debase/Dai-Lp Pool Reward</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">8,000 Debase</p>
+						<p className="title is-size-5-tablet is-size-4-mobile">30,000 Debase</p>
 					</div>
 				</div>
 			</nav>
@@ -146,7 +146,7 @@ const Overview = React.forwardRef(({ scrollToParameters, scrollToOwnership, scro
 						{/* eslint-disable-next-line */}
 						<a onClick={() => scrollToStabilizer()}> stabilizer</a>. These pools can have their own novel
 						triggering and distribution mechanisms to incentivize Debase holders in unique ways when Debase
-						hit its target price. Keeping this is mind, 75% off all Debase tokens will be available only
+						hit its target price. Keeping this is mind, 90% off all Debase tokens will be available only
 						through the stabilizer pools.
 					</p>
 					<p>

@@ -19,7 +19,7 @@ const Stabilizer = React.forwardRef(
 							that could help stabilize debase to it's target price in the long or short term. These pools
 							will initially have no funding and will have custom triggers that will be check against
 							during every rebase. So if the pools conditions are met then the policy contract, which
-							initially contains all <strong>75%</strong> of debase tokens, will transfer a configurable
+							initially contains all <strong>90%</strong> of debase tokens, will transfer a configurable
 							amount of funds to called stabilizer pool. Then the pool can use it's own unique strategies
 							to distribute these funds.
 						</p>

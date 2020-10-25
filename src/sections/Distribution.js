@@ -20,11 +20,11 @@ const Distribution = React.forwardRef(
 							Debase token has two separate staking pools. The first pool yields the initial Debase token
 							supply. To join this pool, you need to stake{' '}
 							<a href="https://www.curve.fi/iearn/deposit">DAI</a> tokens the into the{' '}
-							<Link to="/dapp/staking/debase-dai">Debase/DAI</Link> staking pool. A total of 25,000 Debase
-							tokens will be distributed from this pool with 12,500 Debase being during the first 24
-							hours. After which the tokens to distribute will half to 6,250 and this halving will
-							continue every 24 hours until 25,000 Debase are distributed from the pool. Also for the
-							first 24 hours only 10,000 DAI can be staked per account to support fairer distribution.{' '}
+							<Link to="/dapp/staking/debase-dai">Debase/DAI</Link> staking pool. A total of 30,000 Debase
+							tokens will be distributed from this pool with 15,000 Debase being during the first 24
+							hours. This halving will continue every 24 hours until 30,000 Debase are distributed from
+							the pool. Also for the first 24 hours only 10,000 DAI can be staked per account to support
+							fairer distribution.{' '}
 							<strong>
 								So if you encounter an error while staking, be sure that you are staking under the
 								mentioned limit.
@@ -37,10 +37,9 @@ const Distribution = React.forwardRef(
 							<a href={etherScanAddress + contractAddress.debaseDAIPool}>Debase-DAI-V2</a> liquidity pool
 							tokens. These tokens can be deposited into the into the{' '}
 							<Link to="/dapp/staking/debase-dai">Debase/DAI</Link> staking pool to earn debase reward
-							tokens. A total of 75,000 Debase tokens will be distributed from this pool with 37,500
-							Debase being during the first 72 hours. After which the tokens to distribute will half to
-							18,750 and this halving will continue every 72 hours until 75,000 Debase are distributed
-							from the pool.
+							tokens. A total of 70,000 Debase tokens will be distributed from this pool with 35,000
+							Debase being during the first 72 hours. This halving will continue every 72 hours until
+							75,000 Debase are distributed from the pool.
 						</p>
 						<p>
 							Keeping this distribution scheme is mind rebases will only be available when 95% of the
@@ -58,12 +57,15 @@ const Distribution = React.forwardRef(
 							<a href="https://app.uniswap.org/#/Debase">DEBASE</a> tokens into the{' '}
 							<Link to="/dapp/staking/debase-dai">Degov/Dai-Lp</Link> pool.A total of 25,000 Degov tokens
 							will be distributed from this pool with 12,500 Degov being distributed during the first 96
-							hours of the pools launch. After which the tokens to distribute will half to 6,250 and this
-							halving will continue every 96 hours until 25,000 Degov are distributed from the pool.
+							hours of the pools launch. This halving will continue every 1 week until 25,000 Degov are
+							distributed from the pool.
 						</p>
 						<p>
-							So if you encounter an error while staking, be sure that you are staking under the mentioned
-							limit or the first rebase has been initiated and the Degov/Dai-Lp pool started.
+							<strong>
+								So if you encounter an error while staking, be sure that you are staking under the
+								mentioned limit or the first rebase has been initiated and the Degov/Dai-Lp pool
+								started.
+							</strong>
 						</p>
 					</div>
 				</div>
