@@ -14,7 +14,7 @@
 	left: 0;
 }
 .ld-wave div:nth-child(1) {
-	background: #e90c59;
+	background: #923db3;
 }
 .ld-wave div:nth-child(2) div {
 	position: absolute;
@@ -28,19 +28,19 @@
 .ld-wave div:nth-child(2) div:nth-child(1) {
 	top: -250px;
 	border-radius: 90px;
-	background: #a9f6ff;
+	background: #f5468e;
 	animation-duration: 1.11s;
 }
 .ld-wave div:nth-child(2) div:nth-child(2) {
 	top: -260px;
 	border-radius: 95px;
-	background: #00e6ff;
+	background: #ff803f;
 	animation-duration: 1.6666666666666667s;
 }
 .ld-wave div:nth-child(2) div:nth-child(3) {
 	top: -270px;
 	border-radius: 100px;
-	background: #0be7ff;
+	background: #c6d63c;
 }
 .ld-spinner {
 	width: 60px;

@@ -274,9 +274,9 @@ export default function Pool({
 							<button
 								className={
 									claimLoading ? (
-										'button is-loading is-link is-fullwidth is-outlined'
+										'button is-loading is-success is-fullwidth is-outlined'
 									) : (
-										'button is-link is-fullwidth is-outlined'
+										'button is-success is-fullwidth is-outlined'
 									)
 								}
 								onClick={claimReward}

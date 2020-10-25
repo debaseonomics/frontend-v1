@@ -48,6 +48,8 @@ const Distribution = React.forwardRef(
 							Orchestrator contract incase not enough tokens are distributed from the pool. So rebases can
 							be available as early as 2 weeks from the launch.
 						</p>
+					</div>
+					<div className={isMobile ? 'box content' : 'box content is-medium'}>
 						<h3>Degov</h3>
 						<p>
 							Degov token has one staking pool. This pool will only be available to stake into after the
@@ -57,9 +59,11 @@ const Distribution = React.forwardRef(
 							<Link to="/dapp/staking/debase-dai">Degov/Dai-Lp</Link> pool.A total of 25,000 Degov tokens
 							will be distributed from this pool with 12,500 Degov being distributed during the first 96
 							hours of the pools launch. After which the tokens to distribute will half to 6,250 and this
-							halving will continue every 96 hours until 25,000 Degov are distributed from the pool. So if
-							you encounter an error while staking, be sure that you are staking under the mentioned limit
-							or the first rebase has been initiated and the Degov/Dai-Lp pool started.
+							halving will continue every 96 hours until 25,000 Degov are distributed from the pool.
+						</p>
+						<p>
+							So if you encounter an error while staking, be sure that you are staking under the mentioned
+							limit or the first rebase has been initiated and the Degov/Dai-Lp pool started.
 						</p>
 					</div>
 				</div>

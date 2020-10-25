@@ -18,13 +18,22 @@ const PoolInput = React.forwardRef(({ placeholderText, balance, unit, loading, a
 					/>
 				</div>
 				<div className="control">
-					<button className="button is-warning" onClick={() => setValue(formatUnits(balance, unit))}>
+					<button
+						className="button is-warning is-outlined"
+						onClick={() => setValue(formatUnits(balance, unit))}
+					>
 						Max
 					</button>
 				</div>
 			</div>
 			<div
-				className={loading ? 'button is-loading is-primary is-fullwidth' : 'button is-primary is-fullwidth'}
+				className={
+					loading ? (
+						'button is-loading is-primary is-fullwidth is-outlined'
+					) : (
+						'button is-primary is-fullwidth is-outlined'
+					)
+				}
 				onClick={action}
 			>
 				{buttonText}

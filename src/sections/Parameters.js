@@ -13,7 +13,7 @@ const Parameters = React.forwardRef(
 			{ heading: 'Default Rebase Lags', info: 'Enable default dampening rebase changes' },
 			{
 				heading: 'Rebase Lag Breakpoints',
-				info: 'Add,update and delete asymmetrical dampening for set ranges changes'
+				info: 'Add, update and delete asymmetrical dampening for set ranges changes'
 			},
 			{ heading: 'Stabilizer Pools', info: 'Add,update and delete stabilizers pool' },
 			{ heading: 'Deviation Thresholds', info: 'Thresholds within not to rebase' },
