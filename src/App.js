@@ -56,10 +56,6 @@ function App() {
 		ownershipRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	}
 
-	function scrollToDistribution() {
-		distributionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-	}
-
 	function scrollToStabilizer() {
 		stabilizerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	}
@@ -133,7 +129,6 @@ function App() {
 							<Overview
 								isMobile={isMobile}
 								ref={overviewRef}
-								scrollToDistribution={scrollToDistribution}
 								scrollToOwnership={scrollToOwnership}
 								scrollToStabilizer={scrollToStabilizer}
 								scrollToParameters={scrollToParameters}

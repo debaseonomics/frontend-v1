@@ -1,4 +1,5 @@
 import React from 'react';
+import { contractAddress, etherScanAddress } from '../utils/index';
 
 const Stabilizer = React.forwardRef(
 	// eslint-disable-next-line
@@ -23,13 +24,14 @@ const Stabilizer = React.forwardRef(
 							to distribute these funds.
 						</p>
 						<p>
-							An example of a stabilizer pool is a pool that counts the number of times debase hits its
-							target price when a rebase happens. If the count goes above a configurable threshold then
-							the stabilizer pool will be funded with a configurable amount of Debase tokens to be
-							rewarded to the community. To earn this reward the community will be staking in
-							Debase/Dai-LP tokens then providing more long term liquidity when the distribution pools
-							have dried up. The neutral rebase count can also be configured to reset it's count when
-							during a rebase the target price is not hit.
+							An example of a stabilizer pool that is currently
+							<a href={etherScanAddress + contractAddress.stabilizerPool}> launched</a> counts the number
+							of times debase hits its target price when a rebase happens. If the count goes above a
+							configurable threshold then the stabilizer pool will be funded with a configurable amount of
+							Debase tokens to be rewarded to the community. To earn this reward the community will be
+							staking in Debase/Dai-LP tokens then providing more long term liquidity when the
+							distribution pools have dried up. The neutral rebase count can also be configured to reset
+							it's count when during a rebase the target price is not hit.
 						</p>
 						<p>
 							This is just a basic example of a stabilizer pool that will usable when rebases are
