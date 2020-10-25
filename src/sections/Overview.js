@@ -139,11 +139,9 @@ const Overview = React.forwardRef(
 						<p>
 							So Debase is based on the flexible supply policies brought forth by{' '}
 							<a href="https://www.ampleforth.org/basics/">Ampleforth</a> with the fair distribution
-							mechanism brought forth by by <a href="https://www.yearn.finance">YFI</a>. To put forward
-							the idea of a completely community owned token very similar to{' '}
-							<a href="https://www.based.money">Based</a> token. What differentiates Debase from similar
-							tokens is the addition of the governance token Degov operating on-top of Debase and custom{' '}
-							{/* eslint-disable-next-line */}
+							mechanism brought forth by by <a href="https://www.yearn.finance">YFI</a>. What
+							differentiates Debase from similar tokens is the addition of the governance token Degov
+							operating on-top of Debase and community programmed {/* eslint-disable-next-line */}
 							<a onClick={() => scrollToStabilizer()}>stabilizer</a> pools to incentivize Debase hitting
 							its target price during a rebase.
 						</p>
