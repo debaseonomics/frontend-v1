@@ -133,7 +133,7 @@ const Overview = React.forwardRef(({ scrollToParameters, scrollToOwnership, scro
 						</a>, a flexible supply token, working together with{' '}
 						<a href={etherScanAddress + contractAddress.degov}>Degov</a> , a governance token , in-order to
 						make Debase achieve it's programmable target price of 1{' '}
-						<a href={etherScanAddress + contractAddress.DAI}>DAI</a>. While distributing 100% of both the
+						<a href={etherScanAddress + contractAddress.dai}>DAI</a>. While distributing 100% of both the
 						tokens using staking and stabilizer pools to promote fairness and decentralization.
 					</p>
 					<p>

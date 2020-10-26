@@ -15,7 +15,8 @@ const Parameters = React.forwardRef(
 				heading: 'Rebase Lag Breakpoints',
 				info: 'Add, update and delete asymmetrical dampening for set ranges changes'
 			},
-			{ heading: 'Stabilizer Pools', info: 'Add,update and delete stabilizers pool' },
+			{ heading: 'Stabilizer Pools', info: 'Add, update and delete stabilizer pools' },
+			{ heading: 'Stabilizer Parameters', info: 'Any parameters related to parameter pools' },
 			{ heading: 'Deviation Thresholds', info: 'Thresholds within not to rebase' },
 			{ heading: 'Quorum Threshold', info: 'Votes needed to pass a proposal' },
 			{ heading: 'Proposal Threshold', info: 'Token needed to start a proposal' },

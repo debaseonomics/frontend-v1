@@ -34,12 +34,12 @@ const Distribution = React.forwardRef(
 							The second pool is meant to provide stability and security to the Debase by provide
 							liquidity. To join tis pool, you need to add liquidity into the{' '}
 							<a href={uniAddress['debase-DAI-POOL']}>Debase/DAI</a> Uniswap pool to acquire{' '}
-							<a href={etherScanAddress + contractAddress.debaseDAIPool}>Debase-DAI-V2</a> liquidity pool
-							tokens. These tokens can be deposited into the into the{' '}
-							<Link to="/dapp/staking/debase-dai">Debase/DAI</Link> staking pool to earn debase reward
+							<a href={etherScanAddress + contractAddress.debaseDaiLpPool}>Debase-DAI-V2</a> liquidity
+							pool tokens. These tokens can be deposited into the into the{' '}
+							<Link to="/dapp/staking/debase-dai">Debase/DAI staking pool</Link> to earn debase reward
 							tokens. A total of 70,000 Debase tokens will be distributed from this pool with 35,000
 							Debase being during the first 72 hours. This halving will continue every 72 hours until
-							75,000 Debase are distributed from the pool.
+							70,000 Debase are distributed from the pool.
 						</p>
 						<p>
 							Keeping this distribution scheme is mind rebases will only be available when 95% of the
@@ -53,18 +53,18 @@ const Distribution = React.forwardRef(
 						<p>
 							Degov token has one staking pool. This pool will only be available to stake into after the
 							orchestrator initiated the first rebase. With the conditions of when the first rebase
-							mentioned above. So to join this pool, you need to stake{' '}
-							<a href="https://app.uniswap.org/#/Debase">DEBASE</a> tokens into the{' '}
-							<Link to="/dapp/staking/debase-dai">Degov/Dai-Lp</Link> pool.A total of 25,000 Degov tokens
-							will be distributed from this pool with 12,500 Degov being distributed during the first 96
-							hours of the pools launch. This halving will continue every 1 week until 25,000 Degov are
-							distributed from the pool.
+							mentioned above. So to join this pool, you need to acquire Debase-DAI-V2 pool tokens by
+							staking into the <a href={uniAddress['debase-DAI-POOL']}>Debase/DAI</a> Uniswap pool. These
+							pool tokens can then be staked into{' '}
+							<Link to="/dapp/staking/debase-dai">Degov/Dai-Lp pool </Link>
+							to earn Degov tokens. A total of 25,000 Degov tokens will be distributed from this pool with
+							12,500 Degov being distributed during the first 1 week of the pools launch. This halving
+							will continue every 1 week until 25,000 Degov are distributed from the pool.
 						</p>
 						<p>
 							<strong>
-								So if you encounter an error while staking, be sure that you are staking under the
-								mentioned limit or the first rebase has been initiated and the Degov/Dai-Lp pool
-								started.
+								So if you encounter an error while staking, be sure that the first rebase has been
+								initiated by the orchestrator.
 							</strong>
 						</p>
 					</div>

@@ -6,7 +6,7 @@ import { InjectedConnector, NoEthereumProviderError, UserRejectedRequestError } 
 import Valley from '../assets/Valley.svg';
 
 export default function StakeNav({ children }) {
-	const injected = new InjectedConnector();
+	const injected = new InjectedConnector({ supportedChainIds: [ 1 ] });
 	const { account, activate, active, error } = useWeb3React();
 
 	const [ menuActive, setMenuActive ] = useState(false);

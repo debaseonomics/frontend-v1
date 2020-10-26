@@ -57,6 +57,12 @@ export default function Contracts() {
 			name: 'Degov/Dai-Lp Pool',
 			link: etherScanAddress + contractAddress.degovDaiLpPool,
 			info: 'Handles degov distribution'
+		},
+		{
+			address: contractAddress.stabilizerPool,
+			name: 'Stabilizer Pool',
+			link: etherScanAddress + contractAddress.stabilizerPool,
+			info: 'Rebase sequence incentivization'
 		}
 	];
 	return (
