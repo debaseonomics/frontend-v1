@@ -18,13 +18,12 @@ const Distribution = React.forwardRef(
 						<h3>Debase</h3>
 						<p>
 							Debase token has two separate staking pools. The first pool yields the initial Debase token
-							supply. To join this pool, you need to stake{' '}
-							<a href="https://https://oasis.app/borrow">DAI</a> tokens the into the{' '}
-							<Link to="/dapp/staking/debase-dai">Debase/DAI</Link> staking pool. A total of 30,000 Debase
-							tokens will be distributed from this pool with 15,000 Debase being during the first 24
-							hours. This halving will continue every 24 hours until 30,000 Debase are distributed from
-							the pool. Also for the first 24 hours only 10,000 DAI can be staked per account to support
-							fairer distribution.{' '}
+							supply. To join this pool, you need to stake <a href="https://oasis.app/borrow">DAI</a>{' '}
+							tokens the into the <Link to="/dapp/staking/debase-dai">Debase/DAI</Link> staking pool. A
+							total of 30,000 Debase tokens will be distributed from this pool with 15,000 Debase being
+							during the first 24 hours. This halving will continue every 24 hours until 30,000 Debase are
+							distributed from the pool. Also for the first 24 hours only 10,000 DAI can be staked per
+							account to support fairer distribution.{' '}
 							<strong>
 								So if you encounter an error while staking, be sure that you are staking under the
 								mentioned limit.

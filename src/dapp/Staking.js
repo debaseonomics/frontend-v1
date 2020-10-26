@@ -13,7 +13,7 @@ export default function Staking() {
 						contract={contractAddress.debaseDaiPool}
 						contractLink={etherScanAddress + contractAddress.debaseDaiPool}
 						website="uniswap.info"
-						websiteLink={uniAddress['debase-DAI-POOL']}
+						websiteLink="https://oasis.app/borrow"
 						supply="30,000 Debase"
 						initial="15,000 Debase"
 						infoText="Seeds initial supply of debase"
@@ -28,7 +28,7 @@ export default function Staking() {
 						contract={contractAddress.debaseDaiLpPool}
 						contractLink={etherScanAddress + contractAddress.debaseDaiLpPool}
 						website="uniswap.info"
-						websiteLink={uniAddress['debase-DAI-LP-POOL']}
+						websiteLink={uniAddress['debase-DAI-POOL']}
 						supply="70,000 Debase"
 						initial="35,000 Debase"
 						infoText="Incentives debase liquidity"
@@ -41,8 +41,8 @@ export default function Staking() {
 						link="degov-dai-lp"
 						contract={contractAddress.degovDaiLpPool}
 						contractLink={etherScanAddress + contractAddress.degovDaiLpPool}
-						website="uniswap.info"
-						websiteLink="https://app.uniswap.org/#/Debase"
+						website="Will launch after rebase"
+						websiteLink=""
 						supply="25,000 Degov"
 						initial="12,500 Degov"
 						infoText="Seeds initial supply of degov"
