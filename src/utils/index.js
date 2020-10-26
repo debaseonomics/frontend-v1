@@ -67,12 +67,12 @@ export const uniAddress = {
 };
 
 export const ownerShipAddress = {
-	degovOwnerShip: '',
-	debasePolicyOwnerShip: '',
-	orchestratorOwnerShip: '',
-	governorAlphaOwnerShip: '',
-	timelockOwnerShip: '',
-	stabilizerOwnerShip: ''
+	degovOwnerShip: '0x8a53b840c26eaef4705fd0a9a307b0bec9b1bb44',
+	debasePolicyOwnerShip: '0xaaf2f923e15ce6d83ea107f2312c209957582e08324fde92288e003cc5489764',
+	orchestratorOwnerShip: '0xafcd9d344728a5dac0acc2632a3a131b3f29d1f232479658d1dabb99105d15f9',
+	governorAlphaOwnerShip: '0xeefcea39f7745f842e5b6148abd21595513c272d57513d9a7b8c2063da6506e8',
+	timelockOwnerShip: '0xefc71d2dcbc3e0b91c4bd4f5eea31bca32900d31f257216ecb4878d4a9f714b7',
+	stabilizerOwnerShip: '0xd2272847262c77a7006e909392d00d3545833d925c880e0f92fd9a09b277b315'
 };
 
 export const etherScanAddress = 'https://etherscan.io/address/';
