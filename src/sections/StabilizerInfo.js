@@ -36,10 +36,9 @@ const Stabilizer = React.forwardRef(
 						<p>
 							This is just a basic example of a stabilizer pool that will usable when rebases are
 							available. Other examples of potential pools could be where users will be rewarded wrapped
-							Debase tokens that have specialized behaviors time based to de-incentivize it's holding or
-							selling when debase is not at it's target price. This is an area of development and will
-							hopefully be the main focus of the debase community to write and vote on which stabilizer
-							pools to use.
+							Debase tokens that have specialized time based behaviors to de-incentivize it's holding or
+							selling when debase is not at it's target price. This is an area of development and will be
+							the main focus of the debase community to write pools with unique behaviors.
 						</p>
 					</div>
 				</div>

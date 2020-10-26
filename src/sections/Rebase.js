@@ -21,8 +21,7 @@ export default function Rebase({ isMobile }) {
 						If the price difference between DAI and Debase initially is more than 5% in either direction,
 						this triggers a rebase event. Above the 5% threshold, the supply expands. Below the 5%
 						threshold, the supply contracts. When a rebase event is triggered, Debase supply for all holders
-						is adjusted smoothly over a ten-day period in an attempt to meet the targeted value of 1 Debase
-						to 1 DAI.
+						is adjusted smoothly in an attempt to meet the targeted value of 1 Debase to 1 DAI.
 					</p>
 					<p>
 						For all accounts that own Debase tokens, a rebasing can either result in an increase or decrease
