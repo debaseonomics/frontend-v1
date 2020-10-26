@@ -16,11 +16,11 @@ export default function Landing({ scrollToOverview }) {
 			</div>
 
 			<div className="container block mt-3">
-				<a href="https://github.com/debaseonomics/" className="icon has-text-white">
-					<i className="fab fa-github" />
+				<a href="https://github.com/debaseonomics/" className="icon is-medium has-text-white">
+					<i className="fab fa-github fa-lg" />
 				</a>
-				<a href="https://discord.gg/QjmTMnx" className="icon has-text-white">
-					<i className="fab fa-discord" />
+				<a href="https://discord.gg/QjmTMnx" className="icon is-medium has-text-white">
+					<i className="fab fa-discord fa-lg" />
 				</a>
 			</div>
 		</div>
