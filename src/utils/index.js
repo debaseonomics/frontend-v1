@@ -63,16 +63,16 @@ export const contractAddress = {
 
 export const uniAddress = {
 	'debase-DAI-POOL':
-		'https://app.uniswap.org/#/add/0xa059b04F5293DE69fB3CC9ae5EE1E51083111247/0x6B175474E89094C44Da98b954EedeAC495271d0F'
+		'https://app.uniswap.org/#/add/0xe20303b4f80Ef868F653d1feD3f797b5116C3a2E/0x6B175474E89094C44Da98b954EedeAC495271d0F'
 };
 
 export const ownerShipAddress = {
-	degovOwnerShip: '0xe5c0db0425e48b2d5036cb41b1c086c905a79b4f572ae54496afb5a331e1f65f',
-	debasePolicyOwnerShip: '0x789e60618d5a9209b438ceb8017aec59d0723c531ed2545a8db71ddecda1c135',
-	orchestratorOwnerShip: '0x46d1aa58621c032f288cb828ada67841bfde628df77ef093fe8e1600307d41f0',
-	governorAlphaOwnerShip: '0xd652880dd2b4730194f47e5872f34c4a7e29cd9149051a783108135cdb7ca4aa',
-	timelockOwnerShip: '0x7178927425394f2f7d555e27b404b507de3db0c899abd9819c5506370a809be3',
-	stabilizerOwnerShip: '0x7178927425394f2f7d555e27b404b507de3db0c899abd9819c5506370a809be3'
+	degovOwnerShip: '',
+	debasePolicyOwnerShip: '',
+	orchestratorOwnerShip: '',
+	governorAlphaOwnerShip: '',
+	timelockOwnerShip: '',
+	stabilizerOwnerShip: ''
 };
 
 export const etherScanAddress = 'https://etherscan.io/address/';
