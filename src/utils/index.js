@@ -62,8 +62,7 @@ export const contractAddress = {
 };
 
 export const uniAddress = {
-	'debase-DAI-POOL':
-		'https://app.uniswap.org/#/add/0xe20303b4f80Ef868F653d1feD3f797b5116C3a2E/0x6B175474E89094C44Da98b954EedeAC495271d0F'
+	'debase-DAI-POOL': 'https://info.uniswap.org/pair/0x8ab3E1FaEb44B51E003a8BF1338B090Dd5247E50'
 };
 
 export const ownerShipAddress = {
