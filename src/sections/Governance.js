@@ -18,7 +18,7 @@ export default function Governance({ scrollToParameters, scrollToOwnership, isMo
 					<p>
 						When a proposal is passed it will be queued and can be executed after a set delay of 2 days by a
 						Timelock contract, that behaves as the owner of the editable contracts. For better detail on
-						this behaviour please view how compound finance's{' '}
+						this behavior please view how compound finance's{' '}
 						<a href="https://compound.finance/docs/governance">governance</a> works of which Degov
 						governance is based of.
 					</p>
@@ -29,8 +29,8 @@ export default function Governance({ scrollToParameters, scrollToOwnership, isMo
 					</p>
 					<p>
 						To view the types of editable parameters please view the {/* eslint-disable-next-line */}
-						<a onClick={() => scrollToParameters()}>parameters</a> page to see what they are and their
-						current values. Also to view the ownership transfer to the timelock contract please view the{' '}
+						<a onClick={() => scrollToParameters()}>parameters</a> page to see what they are and there
+						current values. Also, to view the ownership transfer to the time lock contract please view the{' '}
 						{/* eslint-disable-next-line */}
 						<a onClick={() => scrollToOwnership()}>ownership</a> page.
 					</p>

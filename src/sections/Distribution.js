@@ -22,7 +22,7 @@ const Distribution = React.forwardRef(
 							tokens the into the <Link to="/dapp/staking/debase-dai">Debase/DAI</Link> staking pool. A
 							total of 30,000 Debase tokens will be distributed from this pool with 15,000 Debase being
 							during the first 24 hours. This halving will continue every 24 hours until 30,000 Debase are
-							distributed from the pool. Also for the first 24 hours only 10,000 DAI can be staked per
+							distributed from the pool. Also, for the first 24 hours only 10,000 DAI can be staked per
 							account to support fairer distribution.{' '}
 							<strong>
 								So if you encounter an error while staking, be sure that you are staking under the
@@ -30,11 +30,11 @@ const Distribution = React.forwardRef(
 							</strong>
 						</p>
 						<p>
-							The second pool is meant to provide stability and security to the Debase by provide
-							liquidity. To join tis pool, you need to add liquidity into the{' '}
+							The second pool is meant to provide stability and security to Debase by provide liquidity.
+							To join this pool, you need to add liquidity into the{' '}
 							<a href={uniAddress['debase-DAI-POOL']}>Debase/DAI</a> Uniswap pool to acquire{' '}
 							<a href={etherScanAddress + contractAddress.debaseDaiLpPool}>Debase-DAI-V2</a> liquidity
-							pool tokens. These tokens can be deposited into the into the{' '}
+							pool tokens. These tokens can be deposited into the{' '}
 							<Link to="/dapp/staking/debase-dai">Debase/DAI staking pool</Link> to earn debase reward
 							tokens. A total of 70,000 Debase tokens will be distributed from this pool with 35,000
 							Debase being during the first 72 hours. This halving will continue every 72 hours until
@@ -43,8 +43,8 @@ const Distribution = React.forwardRef(
 						<p>
 							Keeping this distribution scheme is mind rebases will only be available when 95% of the
 							Debase are distributed from the above mentioned pools or 3 weeks after the launch of the
-							Orchestrator contract incase not enough tokens are distributed from the pool. So rebases can
-							be available as early as 2 weeks from the launch.
+							Orchestrator contract in case not enough tokens are distributed from the pool. So rebases
+							can be available as early as 2 weeks from the launch.
 						</p>
 					</div>
 					<div className={isMobile ? 'box content' : 'box content is-medium'}>

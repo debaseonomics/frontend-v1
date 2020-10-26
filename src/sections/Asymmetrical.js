@@ -21,11 +21,11 @@ export default function Asymmetrical({ isMobile }) {
 						from the target price.
 					</p>
 					<p>
-						So say the supply needs needs to increase by an addition 1000 Debase tokens to account for the
-						price difference from the target price and we have configured a lag parameter of 20 to applied
-						for the supply change range of 500-1500. We will dampen the supply increase by dividing the
-						supply increase by 20 and to reduce the supply change to 50 Debase only. Thus we would not need
-						such a dramatic increase in the supply.
+						So say the supply needs to increase by an addition 1000 Debase tokens to account for the price
+						difference from the target price, and we have configured a lag parameter of 20 to applied for
+						the supply change range of 500-1500. We will dampen the supply increase by dividing the supply
+						increase by 20 and to reduce the supply change to 50 Debase only. Thus, we would not need such a
+						dramatic increase in the supply.
 					</p>
 					<p>
 						Compared to the supply change being 10000 Debase tokens we will apply a lower lag parameter of 5

@@ -139,10 +139,10 @@ const Overview = React.forwardRef(({ scrollToParameters, scrollToOwnership, scro
 					<p>
 						So Debase is based on the flexible supply policies brought forth by{' '}
 						<a href="https://www.ampleforth.org/basics/">Ampleforth</a> with the fair distribution mechanism
-						brought forth by by <a href="https://www.yearn.finance">YFI</a>. What differentiates Debase from
+						brought forth by <a href="https://www.yearn.finance">YFI</a>. What differentiates Debase from
 						similar tokens is the addition of the governance token Degov operating on-top of Debase. That
-						can allow the community to set various rebasing parameters and even add custom distribution pool
-						called
+						can allow the community to set various rebasing parameters and even add a custom distribution
+						pool called
 						{/* eslint-disable-next-line */}
 						<a onClick={() => scrollToStabilizer()}> stabilizer</a>. These pools can have their own novel
 						triggering and distribution mechanisms to incentivize Debase holders in unique ways when Debase
