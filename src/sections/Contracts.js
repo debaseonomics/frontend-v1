@@ -29,9 +29,9 @@ export default function Contracts() {
 			info: 'Handles pool setup and rebase entry point'
 		},
 		{
-			address: contractAddress.governanceAlpha,
+			address: contractAddress.governorAlpha,
 			name: 'GovernorAlpha',
-			link: etherScanAddress + contractAddress.governanceAlpha,
+			link: etherScanAddress + contractAddress.governorAlpha,
 			info: 'Handles voting and proposals'
 		},
 		{
