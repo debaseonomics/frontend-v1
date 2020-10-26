@@ -34,7 +34,7 @@ const Ownership = React.forwardRef(
 			{
 				name: 'Stabilizer',
 				link: etherScanTX + ownerShipAddress.stabilizerOwnerShip,
-				info: 'Transferring ownership to itself'
+				info: 'Transferring ownership to timelock'
 			}
 		];
 		return (
