@@ -19,7 +19,7 @@ const Distribution = React.forwardRef(
 						<p>
 							Debase token has two separate staking pools. The first pool yields the initial Debase token
 							supply. To join this pool, you need to stake{' '}
-							<a href="https://www.curve.fi/iearn/deposit">DAI</a> tokens the into the{' '}
+							<a href="https://https://oasis.app/borrow">DAI</a> tokens the into the{' '}
 							<Link to="/dapp/staking/debase-dai">Debase/DAI</Link> staking pool. A total of 30,000 Debase
 							tokens will be distributed from this pool with 15,000 Debase being during the first 24
 							hours. This halving will continue every 24 hours until 30,000 Debase are distributed from
