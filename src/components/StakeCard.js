@@ -71,8 +71,9 @@ export default function StakeCard({
 
 	function res() {
 		if (price1 !== undefined && price0 !== undefined && rewardRate !== undefined) {
-			let res = formatEther(rewardRate) * (price1 / price0);
-			return parseFloat((Math.pow(1 + res / yearSeconds, yearSeconds) - 1) * 100).toFixed(1) * 1;
+			return (
+				parseFloat((Math.pow(1 + formatEther(rewardRate) / yearSeconds, yearSeconds) - 1) * 100).toFixed(1) * 1
+			);
 		}
 		return 0;
 	}
@@ -99,7 +100,7 @@ export default function StakeCard({
 					{currentReward ? parseFloat(formatEther(currentReward)) * 1 + tokenTag : '...'}
 				</h5>
 				<h5 className="title is-size-5-tablet is-size-6-mobile">
-					<strong>Apy</strong>: {res() + ' %'}
+					<strong>Apy</strong>: {res() + ' % per token staked'}
 				</h5>
 				{enabled ? (
 					<h5 className="title is-size-5-tablet is-size-6-mobile has-text-centered">
