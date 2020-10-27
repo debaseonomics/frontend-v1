@@ -10,7 +10,9 @@ export default function Staking() {
 					<StakeCard
 						title="Debase/Dai Pool"
 						link="debase-dai"
-						token=" Debase"
+						tokenTag=" Debase"
+						rewardToken={contractAddress.debase}
+						debaseDaiLp={contractAddress.debaseDaiLp}
 						contract={contractAddress.debaseDaiPool}
 						contractLink={etherScanAddress + contractAddress.debaseDaiPool}
 						website="oasis.app/borrow"
@@ -18,7 +20,6 @@ export default function Staking() {
 						supply="30,000 Debase"
 						initial="15,000 Debase"
 						infoText="Seeds initial supply of debase"
-						warningText="Max deposit of 10,000 DAI/account for the first 24 hours"
 						duration="1 day"
 						enabled={true}
 					/>
@@ -27,7 +28,9 @@ export default function Staking() {
 					<StakeCard
 						title="Debase/Dai-Lp Pool"
 						link="debase-dai-lp"
-						token=" Debase"
+						tokenTag=" Debase"
+						rewardToken={contractAddress.debase}
+						debaseDaiLp={contractAddress.debaseDaiLp}
 						contract={contractAddress.debaseDaiLpPool}
 						contractLink={etherScanAddress + contractAddress.debaseDaiLpPool}
 						website="uniswap.info"
@@ -43,7 +46,8 @@ export default function Staking() {
 					<StakeCard
 						title="Degov/Dai-Lp Pool"
 						link="degov-dai-lp"
-						token=" Degov"
+						tokenTag=" Degov"
+						rewardToken={contractAddress.degov}
 						contract={contractAddress.degovDaiLpPool}
 						contractLink={etherScanAddress + contractAddress.degovDaiLpPool}
 						website="Will launch after rebase"
