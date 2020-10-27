@@ -1,21 +1,49 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { turncate } from '../utils/index';
+import { turncate, poolAbi } from '../utils/index';
+import { DateTime } from 'luxon';
+import { useWeb3React } from '@web3-react/core';
+import useSWR from 'swr';
+import { formatEther, isAddress } from 'ethers/lib/utils';
+import { Contract } from 'ethers';
+
+const fetcher = (library, abi) => (...args) => {
+	const [ arg1, arg2, ...params ] = args;
+	if (isAddress(arg1)) {
+		const address = arg1;
+		const method = arg2;
+		const contract = new Contract(address, abi, library.getSigner());
+		return contract[method](...params);
+	}
+	const method = arg1;
+	return library[method](arg2, ...params);
+};
 
 export default function StakeCard({
 	title,
 	link,
+	token,
 	contract,
 	contractLink,
 	website,
 	websiteLink,
 	supply,
-	initial,
 	infoText,
 	warningText,
 	warningText2,
-	duration
+	duration,
+	enabled
 }) {
+	const { library } = useWeb3React();
+
+	const { data: getPeriodFinish } = useSWR([ contract, 'periodFinish' ], {
+		fetcher: fetcher(library, poolAbi)
+	});
+
+	const { data: currentReward } = useSWR([ contract, 'initReward' ], {
+		fetcher: fetcher(library, poolAbi)
+	});
+
 	return (
 		<div className="box">
 			<div className="block">
@@ -28,14 +56,25 @@ export default function StakeCard({
 					<strong>Website</strong>: <a href={websiteLink}>{website}</a>
 				</h5>
 				<h5 className="title is-size-5-tablet is-size-6-mobile">
-					<strong>Total supply</strong>: {supply}
-				</h5>
-				<h5 className="title is-size-5-tablet is-size-6-mobile">
-					<strong>Initial supply</strong>: {initial}
+					<strong>Total Reward</strong>: {supply}
 				</h5>
 				<h5 className="title is-size-5-tablet is-size-6-mobile">
 					<strong>Halving period</strong>: {duration}
 				</h5>
+				<h5 className="title is-size-5-tablet is-size-6-mobile">
+					<strong>Halving Reward</strong>:{' '}
+					{currentReward ? parseFloat(formatEther(currentReward)) * 1 + token : '...'}
+				</h5>
+				{enabled ? (
+					<h5 className="title is-size-5-tablet is-size-6-mobile has-text-centered">
+						<strong>Time to next halving</strong>{' '}
+						{getPeriodFinish ? (
+							DateTime.fromSeconds(getPeriodFinish.toNumber()).toRelative({ round: false })
+						) : (
+							'...'
+						)}
+					</h5>
+				) : null}
 
 				<h6
 					className={

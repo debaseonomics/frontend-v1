@@ -9,6 +9,7 @@
 		"bulma": "^0.9.1",
 		"bulma-toast": "^2.0.3",
 		"ethers": "^5.0.17",
+		"luxon": "^1.25.0",
 		"react": "^16.14.0",
 		"react-dom": "^16.14.0",
 		"react-responsive": "^8.1.0",
@@ -26,7 +27,15 @@
 		"extends": "react-app"
 	},
 	"browserslist": {
-		"production": [ ">0.2%", "not dead", "not op_mini all" ],
-		"development": [ "last 1 chrome version", "last 1 firefox version", "last 1 safari version" ]
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
 	}
 }
