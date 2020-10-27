@@ -46,13 +46,13 @@ const Overview = React.forwardRef(({ scrollToParameters, scrollToOwnership, scro
 				<div className="level-item">
 					<div>
 						<p className="heading">Debase/Dai Pool Reward</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">70,000 Debase</p>
+						<p className="title is-size-5-tablet is-size-4-mobile">30,000 Debase</p>
 					</div>
 				</div>
 				<div className="level-item">
 					<div>
 						<p className="heading">Debase/Dai-Lp Pool Reward</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">30,000 Debase</p>
+						<p className="title is-size-5-tablet is-size-4-mobile">70,000 Debase</p>
 					</div>
 				</div>
 			</nav>
