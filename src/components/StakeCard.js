@@ -38,7 +38,6 @@ export default function StakeCard({
 	enabled
 }) {
 	const { library } = useWeb3React();
-	const yearSeconds = 60 * 60 * 24 * 365 / 15;
 
 	const { data: getPeriodFinish } = useSWR([ contract, 'periodFinish' ], {
 		fetcher: fetcher(library, poolAbi)
@@ -47,36 +46,6 @@ export default function StakeCard({
 	const { data: currentReward } = useSWR([ contract, 'initReward' ], {
 		fetcher: fetcher(library, poolAbi)
 	});
-
-	const { data: rewardRate, mutate: getRewardRate } = useSWR([ contract, 'rewardRate' ], {
-		fetcher: fetcher(library, poolAbi)
-	});
-
-	const { data: price0, mutate: getPrice0 } = useSWR([ debaseDaiLp, 'price0CumulativeLast' ], {
-		fetcher: fetcher(library, uniAbi)
-	});
-
-	const { data: price1, mutate: getPrice1 } = useSWR([ debaseDaiLp, 'price1CumulativeLast' ], {
-		fetcher: fetcher(library, uniAbi)
-	});
-
-	useEffect(() => {
-		library.on('block', () => {
-			getRewardRate(null, true);
-			getPrice0(null, true);
-			getPrice1(null, true);
-		});
-		library.removeAllListeners('block');
-	}, []);
-
-	function res() {
-		if (price1 !== undefined && price0 !== undefined && rewardRate !== undefined) {
-			return (
-				parseFloat((Math.pow(1 + formatEther(rewardRate) / yearSeconds, yearSeconds) - 1) * 100).toFixed(1) * 1
-			);
-		}
-		return 0;
-	}
 
 	return (
 		<div className="box">
@@ -98,9 +67,6 @@ export default function StakeCard({
 				<h5 className="title is-size-5-tablet is-size-6-mobile">
 					<strong>Halving Reward</strong>:{' '}
 					{currentReward ? parseFloat(formatEther(currentReward)) * 1 + tokenTag : '...'}
-				</h5>
-				<h5 className="title is-size-5-tablet is-size-6-mobile">
-					<strong>Apy</strong>: {res() + ' % per token staked'}
 				</h5>
 				{enabled ? (
 					<h5 className="title is-size-5-tablet is-size-6-mobile has-text-centered">
