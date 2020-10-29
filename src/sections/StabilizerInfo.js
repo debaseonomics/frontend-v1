@@ -15,13 +15,12 @@ const Stabilizer = React.forwardRef(
 				<div className="container block is-fluid ">
 					<div className={isMobile ? 'box content' : 'box content is-medium'}>
 						<p>
-							Stabilizers are custom pools built and approved by the community to help reward behavior
+							Stabilizers are custom pools built and approved by the community to help reward behaviors
 							that could help stabilize debase to its target price in the long or short term. These pools
-							will initially have no funding and will have custom triggers that will be check against
+							will initially have no funding and will have custom triggers that will be checked against
 							during every rebase. So if the pools conditions are met then the policy contract, which
 							initially contains all 90% of debase tokens, will transfer a configurable amount of funds to
-							called stabilizer pool. Then the pool can use its own unique strategies to distribute these
-							funds.
+							stabilizer pool. Then the pool can use its own unique strategies to distribute these funds.
 						</p>
 						<p>
 							An example of a stabilizer pool that is currently{' '}
@@ -29,7 +28,7 @@ const Stabilizer = React.forwardRef(
 							of times debase hits its target price when a rebase happens. If the count goes above a
 							configurable threshold then the stabilizer pool will be funded with a configurable amount of
 							Debase tokens to be rewarded to the community. To earn this reward the community will be
-							staking in Debase/Dai-LP tokens then providing more long term liquidity when the
+							staking in Debase/Dai-LP tokens so in turn providing more long term liquidity when the
 							distribution pools have dried up. The neutral rebase count can also be configured to reset
 							its count when during a rebase the target price is not hit.
 						</p>
@@ -37,8 +36,10 @@ const Stabilizer = React.forwardRef(
 							This is just a basic example of a stabilizer pool that will usable when rebases are
 							available. Other examples of potential pools could be where users will be rewarded wrapped
 							Debase tokens that have specialized time based behaviors to de-incentivize it's holding or
-							selling when debase is not at its target price. This is an area of development and will be
-							the main focus of the community.
+							selling when debase is not at its target price. Or pools that themselves can encapsulate
+							behaviors used by other rebasing token like random rebases implemented by{' '}
+							<a href="https://www.rmpl.io/">RMPL</a>. This is an area of development and will be the main
+							focus of the community.
 						</p>
 					</div>
 				</div>

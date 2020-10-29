@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { turncate, poolAbi } from '../utils/index';
 import { DateTime } from 'luxon';
@@ -6,7 +6,6 @@ import { useWeb3React } from '@web3-react/core';
 import useSWR from 'swr';
 import { formatEther, isAddress } from 'ethers/lib/utils';
 import { Contract } from 'ethers';
-import { uniAbi } from '../utils/index';
 
 const fetcher = (library, abi) => (...args) => {
 	const [ arg1, arg2, ...params ] = args;
@@ -25,8 +24,6 @@ export default function StakeCard({
 	link,
 	tokenTag,
 	contract,
-	debaseDaiLp,
-	rewardToken,
 	contractLink,
 	website,
 	websiteLink,

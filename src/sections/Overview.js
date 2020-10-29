@@ -3,164 +3,175 @@ import { contractAddress, etherScanAddress } from '../utils';
 import debase from '../assets/debase.png';
 import degov from '../assets/degov.png';
 
-const Overview = React.forwardRef(({ scrollToParameters, scrollToOwnership, scrollToStabilizer, isMobile }, ref) => {
-	const charts = (
-		<div className="box">
-			<h4 className="title is-4 ">Token Information</h4>
+const Overview = React.forwardRef(
+	({ scrollToParameters, scrollToOwnership, scrollToStabilizer, scrollToUniswap, isMobile }, ref) => {
+		const charts = (
+			<div className="box">
+				<h4 className="title is-4 ">Token Information</h4>
 
-			<nav className="level has-text-centered">
-				<div className="level-left">
-					<div className="level-item">
-						<figure className="image is-48x48">
-							<img src={debase} alt="debase" />
-						</figure>
-					</div>
-					<div className="level-item">
-						<p className="title is-size-5-tablet is-size-4-mobile">Debase</p>
-					</div>
-				</div>
-				<div className="level-item">
-					<div>
-						<p className="heading">Supply</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">1,000,000</p>
-					</div>
-				</div>
-				<div className="level-item">
-					<div>
-						<p className="heading">Rebase Period</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">24 Hours</p>
-					</div>
-				</div>
-				<div className="level-item">
-					<div>
-						<p className="heading">Rebase Lag</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">30</p>
-					</div>
-				</div>
-				<div className="level-item">
-					<div>
-						<p className="heading">Stabilizer Pools Reward</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">900,000 Debase</p>
-					</div>
-				</div>
-				<div className="level-item">
-					<div>
-						<p className="heading">Debase/Dai Pool Reward</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">30,000 Debase</p>
-					</div>
-				</div>
-				<div className="level-item">
-					<div>
-						<p className="heading">Debase/Dai-Lp Pool Reward</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">70,000 Debase</p>
-					</div>
-				</div>
-			</nav>
-
-			<nav className="level has-text-centered">
-				<div className="level-left">
-					<div className="level-item">
-						<figure className="image is-48x48">
-							<img src={degov} alt="degov" />
-						</figure>
-					</div>
-					<div className="level-item">
+				<nav className="level has-text-centered">
+					<div className="level-left">
 						<div className="level-item">
-							<p className="title is-size-5-tablet is-size-4-mobile">Degov</p>
+							<figure className="image is-48x48">
+								<img src={debase} alt="debase" />
+							</figure>
+						</div>
+						<div className="level-item">
+							<p className="title is-size-5-tablet is-size-4-mobile">Debase</p>
 						</div>
 					</div>
-				</div>
-				<div className="level-item">
-					<div>
-						<p className="heading">Supply</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">25,000</p>
+					<div className="level-item">
+						<div>
+							<p className="heading">Supply</p>
+							<p className="title is-size-5-tablet is-size-4-mobile">1,000,000</p>
+						</div>
 					</div>
-				</div>
-				<div className="level-item">
-					<div>
-						<p className="heading">Voting Period</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">24 Hours</p>
+					<div className="level-item">
+						<div>
+							<p className="heading">Rebase Period</p>
+							<p className="title is-size-5-tablet is-size-4-mobile">24 Hours</p>
+						</div>
 					</div>
-				</div>
-				<div className="level-item">
-					<div>
-						<p className="heading">Implementation Delay</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">24 Hours</p>
+					<div className="level-item">
+						<div>
+							<p className="heading">Rebase Lag</p>
+							<p className="title is-size-5-tablet is-size-4-mobile">30</p>
+						</div>
 					</div>
-				</div>
-				<div className="level-item">
-					<div>
-						<p className="heading">Proposal Threshold</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">250 Degov</p>
+					<div className="level-item">
+						<div>
+							<p className="heading">Stabilizer Pools Reward</p>
+							<p className="title is-size-5-tablet is-size-4-mobile">900,000 Debase</p>
+						</div>
 					</div>
-				</div>
-				<div className="level-item">
-					<div>
-						<p className="heading">Quorum Threshold</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">5000 Degov</p>
+					<div className="level-item">
+						<div>
+							<p className="heading">Debase/Dai Pool Reward</p>
+							<p className="title is-size-5-tablet is-size-4-mobile">30,000 Debase</p>
+						</div>
 					</div>
-				</div>
-				<div className="level-item">
-					<div>
-						<p className="heading">Degov/Dai-Lp Pool Reward</p>
-						<p className="title is-size-5-tablet is-size-4-mobile">25,000 Degov</p>
+					<div className="level-item">
+						<div>
+							<p className="heading">Debase/Dai-Lp Pool Reward</p>
+							<p className="title is-size-5-tablet is-size-4-mobile">70,000 Debase</p>
+						</div>
 					</div>
-				</div>
-			</nav>
+				</nav>
 
-			<div className={isMobile ? 'content' : 'content is-medium'}>
-				<p>
-					Since both the Debase and the Degov tokens have been sent to and solely distributed by pools. No
-					exit scams can happen hence ensuring user fund safety. Also {/* eslint-disable-next-line */}
-					<a onClick={() => scrollToOwnership()}>ownership</a> of the editable contracts has been transferred
-					to governance contracts hence enforcing decentralization.
-				</p>
-			</div>
-		</div>
-	);
+				<nav className="level has-text-centered">
+					<div className="level-left">
+						<div className="level-item">
+							<figure className="image is-48x48">
+								<img src={degov} alt="degov" />
+							</figure>
+						</div>
+						<div className="level-item">
+							<div className="level-item">
+								<p className="title is-size-5-tablet is-size-4-mobile">Degov</p>
+							</div>
+						</div>
+					</div>
+					<div className="level-item">
+						<div>
+							<p className="heading">Supply</p>
+							<p className="title is-size-5-tablet is-size-4-mobile">25,000</p>
+						</div>
+					</div>
+					<div className="level-item">
+						<div>
+							<p className="heading">Voting Period</p>
+							<p className="title is-size-5-tablet is-size-4-mobile">24 Hours</p>
+						</div>
+					</div>
+					<div className="level-item">
+						<div>
+							<p className="heading">Implementation Delay</p>
+							<p className="title is-size-5-tablet is-size-4-mobile">24 Hours</p>
+						</div>
+					</div>
+					<div className="level-item">
+						<div>
+							<p className="heading">Proposal Threshold</p>
+							<p className="title is-size-5-tablet is-size-4-mobile">250 Degov</p>
+						</div>
+					</div>
+					<div className="level-item">
+						<div>
+							<p className="heading">Quorum Threshold</p>
+							<p className="title is-size-5-tablet is-size-4-mobile">5000 Degov</p>
+						</div>
+					</div>
+					<div className="level-item">
+						<div>
+							<p className="heading">Degov/Dai-Lp Pool Reward</p>
+							<p className="title is-size-5-tablet is-size-4-mobile">25,000 Degov</p>
+						</div>
+					</div>
+				</nav>
 
-	return (
-		<div className="section" ref={ref}>
-			<div className="container block is-fluid ">
-				<h3 className="title is-size-3-tablet is-size-4-mobile">Overview</h3>
-				<h4 className="subtitle is-size-4-tablet is-size-5-mobile">How it all works</h4>
-			</div>
-			<div className="container block is-fluid ">
-				<div className={isMobile ? 'content box' : 'content box is-medium'}>
+				<div className={isMobile ? 'content' : 'content is-medium'}>
 					<p>
-						Debaseonomics is a combination of <a href={etherScanAddress + contractAddress.debase}>
-							Debase
-						</a>, a flexible supply token, working together with{' '}
-						<a href={etherScanAddress + contractAddress.degov}>Degov</a> , a governance token , in-order to
-						make Debase achieve it's programmable target price of 1{' '}
-						<a href={etherScanAddress + contractAddress.dai}>DAI</a>. While distributing 100% of both the
-						tokens using staking and stabilizer pools to promote fairness and decentralization.
-					</p>
-					<p>
-						So Debase is based on the flexible supply policies brought forth by{' '}
-						<a href="https://www.ampleforth.org/basics/">Ampleforth</a> with the fair distribution mechanism
-						brought forth by <a href="https://www.yearn.finance">YFI</a>. What differentiates Debase from
-						similar tokens is the addition of the governance token Degov operating on-top of Debase. That
-						can allow the community to set various rebasing parameters and even add a custom distribution
-						pool called
-						{/* eslint-disable-next-line */}
-						<a onClick={() => scrollToStabilizer()}> stabilizer</a>. These pools can have their own novel
-						triggering and distribution mechanisms to incentivize Debase holders in unique ways when Debase
-						hit its target price. Keeping this is mind, 90% off all Debase tokens will be available only
-						through the stabilizer pools.
-					</p>
-					<p>
-						Degov follows the governance model brought by{' '}
-						<a href="https://compound.finance/docs/governance">Compound Finance</a> to allow manipulation of
-						various {/* eslint-disable-next-line */}
-						<a onClick={() => scrollToParameters()}>parameters</a> related to governance, rebase and
-						stabilizer pools.
+						Since both Debase and Degov tokens have been sent to and solely distributed by pools. No exit
+						scams can happen hence ensuring user fund safety. Also, {/* eslint-disable-next-line */}
+						<a onClick={() => scrollToOwnership()}>ownership</a> of the editable contracts has been
+						transferred to governance contracts hence enforcing decentralization.
 					</p>
 				</div>
-				{charts}
 			</div>
-		</div>
-	);
-});
+		);
+
+		return (
+			<div className="section" ref={ref}>
+				<div className="container block is-fluid ">
+					<h3 className="title is-size-3-tablet is-size-4-mobile">Overview</h3>
+					<h4 className="subtitle is-size-4-tablet is-size-5-mobile">How it all works</h4>
+				</div>
+				<div className="container block is-fluid ">
+					<div className={isMobile ? 'content box' : 'content box is-medium'}>
+						<p>
+							Debaseonomics is an experimental combination of {' '}
+							<a href={etherScanAddress + contractAddress.debase}>Debase</a>, a flexible supply token,
+							working together with <a href={etherScanAddress + contractAddress.degov}>Degov</a>, a
+							governance token working together to try to solve issues faced by similarly designed tokens.
+							While distributing 100% of both the tokens using staking and stabilizer pools to promote
+							fairness and decentralization.
+						</p>
+						<p>
+							Debase doesn't aim to be just another flexible supply token proposing a small set of
+							features that might in theory make them reach their stated value. Instead, it tries to
+							encompass all the previously released tokens by proposing {/* eslint-disable-next-line */}
+							<a onClick={() => scrollToStabilizer()}>stabilizer pools</a> which can be programmed in
+							unique ways to try to incentivize Debase holders to stabilize the token price. These pools
+							can be programmed to reward users for stabilizing Debase over a number of cycles, use random
+							rebase mechanisms or behave like a worse off Uniswap in an attempt to solve the biggest
+							{/* eslint-disable-next-line */}
+							<a onClick={() => scrollToUniswap()}> issue</a> faced by such coins.
+						</p>
+						<p>
+							Keeping this flexibility in mind, <strong>90%</strong> of all debase tokens have been
+							assigned to be rewarded to any number of stabilizers proposed and voted on by the community.
+							Serving as an incentivisation mechanism for the community to develop and in turn stabilize
+							debase further.
+						</p>
+						<p>
+							So to control such pools and the protocol itself a governance token has been paired token
+							with debase. To allow the community to decide what types of stabilizers to include and how
+							should the protocol rebase in general. Degov itself follows the governance model brought by{' '}
+							<a href="https://compound.finance/docs/governance">Compound Finance</a> to allow the
+							manipulation of various {/* eslint-disable-next-line */}
+							<a onClick={() => scrollToParameters()}>parameters</a> in a decentralized manner.
+						</p>
+						<p>
+							So think of Debaseonomics as a live research project trying to move forward development into
+							flexible supply tokens with boundless experimentation. While trying to achieve its target
+							price in the long or short term.
+						</p>
+					</div>
+					{charts}
+				</div>
+			</div>
+		);
+	}
+);
 
 export default Overview;

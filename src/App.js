@@ -23,6 +23,7 @@ const Overview = React.lazy(() => import('./sections/Overview'));
 const Rebase = React.lazy(() => import('./sections/Rebase'));
 const Asymmetrical = React.lazy(() => import('./sections/Asymmetrical'));
 const Ownership = React.lazy(() => import('./sections/Ownership'));
+const Uniswap = React.lazy(() => import('./sections/Uniswap'));
 
 const Staking = React.lazy(() => import('./dapp/Staking'));
 const Gov = React.lazy(() => import('./dapp/Gov'));
@@ -42,6 +43,7 @@ function App() {
 	const ownershipRef = useRef(null);
 	const distributionRef = useRef(null);
 	const stabilizerRef = useRef(null);
+	const uniswapRef = useRef(null);
 
 	const isMobile = useMediaQuery({ query: `(max-width: ${mobile}px)` });
 
@@ -58,6 +60,10 @@ function App() {
 
 	function scrollToStabilizer() {
 		stabilizerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	}
+
+	function scrollToUniswap() {
+		uniswapRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	}
 
 	return (
@@ -135,7 +141,8 @@ function App() {
 							/>
 							<Rebase isMobile={isMobile} />
 							<Asymmetrical isMobile={isMobile} />
-							<StabilizerInfo ref={stabilizerRef} isMobile={isMobile} />
+							<StabilizerInfo ref={stabilizerRef} scrollToUniswap={scrollToUniswap} isMobile={isMobile} />
+							<Uniswap ref={uniswapRef} isMobile={isMobile} />
 							<Governance
 								scrollToParameters={scrollToParameters}
 								scrollToOwnership={scrollToOwnership}
