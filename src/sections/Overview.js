@@ -111,10 +111,10 @@ const Overview = React.forwardRef(
 
 				<div className={isMobile ? 'content' : 'content is-medium'}>
 					<p>
-						Since both Debase and Degov tokens have been sent to and solely distributed by pools. No exit
-						scams can happen hence ensuring user fund safety. Also, {/* eslint-disable-next-line */}
+						SinceDebase and Degov tokens have been sent to and solely distributed by pools, no exit scams
+						can happen, ensuring user fund safety. Additionally, {/* eslint-disable-next-line */}
 						<a onClick={() => scrollToOwnership()}>ownership</a> of the editable contracts has been
-						transferred to governance contracts hence enforcing decentralization.
+						transferred to governance contracts enforcing decentralization.
 					</p>
 				</div>
 			</div>
@@ -129,42 +129,42 @@ const Overview = React.forwardRef(
 				<div className="container block is-fluid ">
 					<div className={isMobile ? 'content box' : 'content box is-medium'}>
 						<p>
-							Debaseonomics is an experimental combination of {' '}
+							Debaseonomics is a combination of{' '}
 							<a href={etherScanAddress + contractAddress.debase}>Debase</a>, a flexible supply token,
 							working together with <a href={etherScanAddress + contractAddress.degov}>Degov</a>, a
-							governance token working together to try to solve issues faced by similarly designed tokens.
-							While distributing 100% of both the tokens using staking and stabilizer pools to promote
-							fairness and decentralization.
+							governance token working together to solve issues faced by similarly designed tokens. 100%
+							of the tokens are distributed through staking and "stabilizer pools" to promote fairness and
+							decentralization.
 						</p>
 						<p>
 							Debase doesn't aim to be just another flexible supply token proposing a small set of
-							features that might in theory make them reach their stated value. Instead, it tries to
+							features that might in theory make them reach their pegged value. Instead, it tries to
 							encompass all the previously released tokens by proposing {/* eslint-disable-next-line */}
 							<a onClick={() => scrollToStabilizer()}>stabilizer pools</a> which can be programmed in
 							unique ways to try to incentivize Debase holders to stabilize the token price. These pools
 							can be programmed to reward users for stabilizing Debase over a number of cycles, use random
 							rebase mechanisms or behave like a worse off Uniswap in an attempt to solve the biggest
 							{/* eslint-disable-next-line */}
-							<a onClick={() => scrollToUniswap()}> issue</a> faced by such coins.
+							<a onClick={() => scrollToUniswap()}> issue faced by such coins</a> .
 						</p>
 						<p>
 							Keeping this flexibility in mind, <strong>90%</strong> of all debase tokens have been
 							assigned to be rewarded to any number of stabilizers proposed and voted on by the community.
-							Serving as an incentivisation mechanism for the community to develop and in turn stabilize
+							Serving as an incentivization mechanism for the community to develop and, in turn, stabilize
 							debase further.
 						</p>
 						<p>
-							So to control such pools and the protocol itself a governance token has been paired token
-							with debase. To allow the community to decide what types of stabilizers to include and how
-							should the protocol rebase in general. Degov itself follows the governance model brought by{' '}
+							So to control such pools and the protocol itself, a governance token has been paired token
+							with Debase. To allow the community to decide what types of stabilizers to include and how
+							the protocol should rebase in general. Degov follows the governance model brought by{' '}
 							<a href="https://compound.finance/docs/governance">Compound Finance</a> to allow the
-							manipulation of various {/* eslint-disable-next-line */}
-							<a onClick={() => scrollToParameters()}>parameters</a> in a decentralized manner.
+							manipulation of various<a onClick={() => scrollToParameters()}>parameters</a> in a
+							decentralized manner.
 						</p>
 						<p>
-							So think of Debaseonomics as a live research project trying to move forward development into
-							flexible supply tokens with boundless experimentation. While trying to achieve its target
-							price in the long or short term.
+							Debaseonomics is a live research project trying to move forward development into flexible
+							supply tokens with boundless experimentation while trying to achieve its target price in the
+							long or short term.
 						</p>
 					</div>
 					{charts}

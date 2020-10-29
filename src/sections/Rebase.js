@@ -10,8 +10,8 @@ export default function Rebase({ isMobile }) {
 			<div className="container block is-fluid ">
 				<div className={isMobile ? 'box content' : 'box content is-medium'}>
 					<p>
-						As the demand for Debase tokens increases, the number of Debase tokens you own increases. If the
-						demand decreases, the number of Debase tokens you own decreases. Debase protocol’s rebase
+						As the demand for Debase tokens increases, the number of Debase tokens you own increases, and as
+						the demand decreases, the number of Debase tokens you own decreases. Debase protocol’s rebase
 						function queries a{' '}
 						<a href="https://uniswap.org/docs/v2/core-concepts/oracles/">Uniswap v2 oracle</a> to compare
 						the price of Debase to DAI. This function initially cannot execute more than once every 24
@@ -21,8 +21,10 @@ export default function Rebase({ isMobile }) {
 						If the price difference between DAI and Debase initially is more than 5% in either direction,
 						this triggers a rebase event. Above the 5% threshold, the supply expands. Below the 5%
 						threshold, the supply contracts. When a rebase event is triggered, Debase supply for all holders
-						is adjusted smoothly in an attempt to meet the targeted value of 1 Debase to its programmable
-						Dai target price.
+						is adjusted smoothly in an attempt to meet the targeted value of Debase to its programmable Dai
+						target price. For all accounts that own Debase tokens, a rebasing can either increase or
+						decrease their balance of Debase. After a minimum of 24 hours, if Debase:DAI price is still not
+						within the 5% target boundary, a rebase opportunity again becomes available.
 					</p>
 					<p>
 						For all accounts that own Debase tokens, a rebasing can either result in an increase or decrease
