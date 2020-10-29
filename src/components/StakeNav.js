@@ -92,29 +92,38 @@ export default function StakeNav({ children }) {
 			</nav>
 			{active ? (
 				<div
+					className="staking-bg"
 					style={{
 						backgroundImage: `url(${Valley})`,
 						backgroundSize: 'cover',
-						backgroundRepeat: 'no-repeat',
-						minHeight: '100%'
+						backgroundRepeat: 'no-repeat'
 					}}
 				>
 					{children}
 				</div>
 			) : (
-				<div className="container is-fluid">
-					<div className="columns is-centered has-text-centered">
-						<div className="column is-7">
-							<div className="box">
-								<h4 className="title is-4">Must connect with metamask to interact with dapp</h4>
-								<button className="button is-primary" onClick={() => activate(injected)}>
-									Connect to metamask
-								</button>
+				<div
+					className="staking-bg"
+					style={{
+						backgroundImage: `url(${Valley})`,
+						backgroundSize: 'cover',
+						backgroundRepeat: 'no-repeat'
+					}}
+				>
+					<div className="container is-fluid">
+						<div className="columns is-centered has-text-centered">
+							<div className="column is-7">
+								<div className="box">
+									<h4 className="title is-4">Must connect with metamask to interact with dapp</h4>
+									<button className="button is-primary" onClick={() => activate(injected)}>
+										Connect to metamask
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			)}
-		</div>
+		</div> 
 	);
 }
