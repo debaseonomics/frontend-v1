@@ -138,6 +138,7 @@ function App() {
 								scrollToOwnership={scrollToOwnership}
 								scrollToStabilizer={scrollToStabilizer}
 								scrollToParameters={scrollToParameters}
+								scrollToUniswap={scrollToUniswap}
 							/>
 							<Rebase isMobile={isMobile} />
 							<Asymmetrical isMobile={isMobile} />
