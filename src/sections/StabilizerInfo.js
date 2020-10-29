@@ -18,28 +18,29 @@ const Stabilizer = React.forwardRef(
 							Stabilizers are custom pools built and approved by the community to help reward behaviors
 							that could help stabilize debase to its target price in the long or short term. These pools
 							will initially have no funding and will have custom triggers that will be checked against
-							during every rebase. So if the pools conditions are met then the policy contract, which
-							initially contains all 90% of debase tokens, will transfer a configurable amount of funds to
-							stabilizer pool. Then the pool can use its own unique strategies to distribute these funds.
+							during every rebase. So if the pool's conditions are met, then the policy contract, which
+							initially contains all 90% of Debase tokens, will transfer a configurable amount of funds to
+							the stabilizer pool. The pool can then use its own unique strategies to distribute these
+							funds.
 						</p>
 						<p>
 							An example of a stabilizer pool that is currently{' '}
 							<a href={etherScanAddress + contractAddress.stabilizerPool}> launched</a> counts the number
 							of times debase hits its target price when a rebase happens. If the count goes above a
-							configurable threshold then the stabilizer pool will be funded with a configurable amount of
-							Debase tokens to be rewarded to the community. To earn this reward the community will be
-							staking in Debase/Dai-LP tokens so in turn providing more long term liquidity when the
-							distribution pools have dried up. The neutral rebase count can also be configured to reset
-							its count when during a rebase the target price is not hit.
+							configurable threshold, then the stabilizer pool will be funded with a configurable amount
+							of Debase tokens to be rewarded to the community. To earn this reward the community will be
+							staking in Debase/Dai-LP tokens, providing more long-term liquidity when the distribution
+							pools have dried up. The neutral rebase count can also be configured to reset its count when
+							the target price is not hit during a rebase.
 						</p>
 						<p>
-							This is just a basic example of a stabilizer pool that will usable when rebases are
+							This is just a basic example of a stabilizer pool that will be usable whenever rebases are
 							available. Other examples of potential pools could be where users will be rewarded wrapped
-							Debase tokens that have specialized time based behaviors to de-incentivize it's holding or
-							selling when debase is not at its target price. Or pools that themselves can encapsulate
+							Debase tokens with specialized time-based behaviors to de-incentivize it's holding or
+							selling when debase is not at its target price, or pools that themselves can encapsulate
 							behaviors used by other rebasing token like random rebases implemented by{' '}
-							<a href="https://www.rmpl.io/">RMPL</a>. This is an area of development and will be the main
-							focus of the community.
+							<a href="https://www.rmpl.io/">RMPL</a>. This is an area of development and the main focus
+							of the community governance going forward.
 						</p>
 					</div>
 				</div>
