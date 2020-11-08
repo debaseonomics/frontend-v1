@@ -5,7 +5,7 @@ export default function Landing({ scrollToOverview }) {
 	const content = (
 		<div className="container has-text-centered">
 			<h1 className="title is-size-1-tablet is-size-2-mobile">Debaseonomics</h1>
-			<h2 className="subtitle is-size-3-tablet is-size-4-mobile">Boundless Experimentation</h2>
+			<h2 className="subtitle is-size-3-tablet is-size-4-mobile">Boundless Flexibility</h2>
 			<div className="buttons has-addons is-centered">
 				<button onClick={() => scrollToOverview()} className="button is-rounded is-info">
 					Info
