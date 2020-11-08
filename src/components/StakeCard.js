@@ -78,14 +78,14 @@ export default function StakeCard({
 
 				<h6
 					className={
-						warningText == null ? 'is-hidden' : 'subtitle mt-1 is-6 has-text-centered has-text-warning'
+						warningText == null ? 'is-hidden' : 'title is-size-5-tablet is-size-6-mobile has-text-centered has-text-warning'
 					}
 				>
 					{warningText}
 				</h6>
 				<h6
 					className={
-						warningText2 == null ? 'is-hidden' : 'subtitle mt-1 is-6 has-text-centered has-text-warning'
+						warningText2 == null ? 'is-hidden' : 'title is-size-5-tablet is-size-6-mobile has-text-centered has-text-warning'
 					}
 				>
 					{warningText2}
