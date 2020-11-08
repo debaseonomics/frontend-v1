@@ -111,7 +111,7 @@ const Overview = React.forwardRef(
 
 				<div className={isMobile ? 'content' : 'content is-medium'}>
 					<p>
-						SinceDebase and Degov tokens have been sent to and solely distributed by pools, no exit scams
+						Since Debase and Degov tokens have been sent to and solely distributed by pools, no exit scams
 						can happen, ensuring user fund safety. Additionally, {/* eslint-disable-next-line */}
 						<a onClick={() => scrollToOwnership()}>ownership</a> of the editable contracts has been
 						transferred to governance contracts enforcing decentralization.
@@ -131,21 +131,21 @@ const Overview = React.forwardRef(
 						<p>
 							Debaseonomics is a combination of{' '}
 							<a href={etherScanAddress + contractAddress.debase}>Debase</a>, a flexible supply token,
-							working together with <a href={etherScanAddress + contractAddress.degov}>Degov</a>, a
+							and <a href={etherScanAddress + contractAddress.degov}>Degov</a>, a
 							governance token working together to solve issues faced by similarly designed tokens. 100%
 							of the tokens are distributed through staking and "stabilizer pools" to promote fairness and
 							decentralization.
 						</p>
 						<p>
 							Debase doesn't aim to be just another flexible supply token proposing a small set of
-							features that might in theory make them reach their pegged value. Instead, it tries to
+							features that might, in theory, make them reach their pegged value. Instead, it tries to
 							encompass all the previously released tokens by proposing {/* eslint-disable-next-line */}
 							<a onClick={() => scrollToStabilizer()}>stabilizer pools</a> which can be programmed in
 							unique ways to try to incentivize Debase holders to stabilize the token price. These pools
-							can be programmed to reward users for stabilizing Debase over a number of cycles, use random
-							rebase mechanisms or behave like a worse off Uniswap in an attempt to solve the biggest
+							can be programmed to reward users for stabilizing Debase over a number of cycles, by using various strategies 
+							in an attempt to solve the biggest
 							{/* eslint-disable-next-line */}
-							<a onClick={() => scrollToUniswap()}> issue faced by such coins</a> .
+							<a onClick={() => scrollToUniswap()}> issue faced by such coins</a>.
 						</p>
 						<p>
 							Keeping this flexibility in mind, <strong>90%</strong> of all debase tokens have been
