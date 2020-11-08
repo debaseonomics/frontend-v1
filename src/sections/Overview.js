@@ -6,7 +6,7 @@ import degov from '../assets/degov.png';
 const Overview = React.forwardRef(
 	({ scrollToParameters, scrollToOwnership, scrollToStabilizer, scrollToUniswap, isMobile }, ref) => {
 		const charts = (
-			<div className="box">
+			<div className="box mt-4">
 				<h4 className="title is-4 ">Token Information</h4>
 
 				<nav className="level has-text-centered">
@@ -130,11 +130,10 @@ const Overview = React.forwardRef(
 					<div className={isMobile ? 'content box' : 'content box is-medium'}>
 						<p>
 							Debaseonomics is a combination of{' '}
-							<a href={etherScanAddress + contractAddress.debase}>Debase</a>, a flexible supply token,
-							and <a href={etherScanAddress + contractAddress.degov}>Degov</a>, a
-							governance token, working together to solve issues faced by similarly designed tokens. 100%
-							of the tokens are distributed through staking and "stabilizer pools" to promote fairness and
-							decentralization.
+							<a href={etherScanAddress + contractAddress.debase}>Debase</a>, a flexible supply token, and{' '}
+							<a href={etherScanAddress + contractAddress.degov}>Degov</a>, a governance token, working
+							together to solve issues faced by similarly designed tokens. 100% of the tokens are
+							distributed through staking and "stabilizer pools" to promote fairness and decentralization.
 						</p>
 						<p>
 							Debase doesn't aim to be just another flexible supply token proposing a small set of
@@ -142,8 +141,8 @@ const Overview = React.forwardRef(
 							encompass all the previously released tokens by proposing {/* eslint-disable-next-line */}
 							<a onClick={() => scrollToStabilizer()}>stabilizer pools</a> which can be programmed in
 							unique ways to try to incentivize Debase holders to stabilize the token price. These pools
-							can be programmed to reward users for stabilizing Debase over a number of cycles, by using various strategies 
-							in an attempt to solve the biggest
+							can be programmed to reward users for stabilizing Debase over a number of cycles, by using
+							various strategies in an attempt to solve the biggest
 							{/* eslint-disable-next-line */}
 							<a onClick={() => scrollToUniswap()}> issue faced by such coins</a>.
 						</p>
