@@ -4,7 +4,7 @@ import { contractAddress, etherScanAddress, uniAddress } from '../utils';
 
 export default function Staking() {
 	return (
-		<div className="container block is-fluid">
+		<div className="container block">
 			<div className="columns is-multiline is-vcentered">
 				<div className="column is-4">
 					<StakeCard

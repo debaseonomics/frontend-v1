@@ -16,6 +16,11 @@ export default function StakeNav({ children }) {
 	const isNoEthereumProviderError = error instanceof NoEthereumProviderError;
 	const isUnsupportedChainIdError = error instanceof UnsupportedChainIdError;
 
+	function toggleMode() {
+		const body = document.body;
+		body.classList.toggle("dark-mode");
+	 }
+
 	useEffect(
 		() => {
 			if (isUnsupportedChainIdError) {
@@ -74,6 +79,27 @@ export default function StakeNav({ children }) {
 					</div>
 					<div className="navbar-end">
 						<div className="navbar-item">
+						{/*<div className="toggle-container">
+							<div className='toggle-mode' onClick={toggleMode}>
+								<span class="icon"></span>
+								<span class="on">Dark</span>
+								<span class="off">Light</span>
+							</div>
+						</div>*/}
+						<div className="toggle-container">
+							<div className="toggle-button-cover" onClick={toggleMode}>
+								<div className="button-cover">
+									<div className="toggle r" id="button-9">
+										<input type="checkbox" className="checkbox"></input>
+										<div className="knobs">
+											<span></span>
+										</div>
+										<div className="layer"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+
 							{active ? (
 								<span className="tag is-primary is-medium">
 									<span className="icon is-medium has-text-white">
@@ -82,10 +108,11 @@ export default function StakeNav({ children }) {
 									<span>{turncate(account, 15, '...')}</span>
 								</span>
 							) : (
-								<div className="button is-primary" onClick={() => activate(injected)}>
+								<div className="button is-primary nav-connect-mask" onClick={() => activate(injected)}>
 									Connect to Metamask
 								</div>
 							)}
+
 						</div>
 					</div>
 				</div>
@@ -100,7 +127,7 @@ export default function StakeNav({ children }) {
 					}}
 				>
 					{children}
-				</div>
+				 </div>
 			) : (
 				<div
 					className="staking-bg"
@@ -110,7 +137,7 @@ export default function StakeNav({ children }) {
 						backgroundRepeat: 'no-repeat'
 					}}
 				>
-					<div className="container is-fluid">
+					<div className="container">
 						<div className="columns is-centered has-text-centered">
 							<div className="column is-7">
 								<div className="box">

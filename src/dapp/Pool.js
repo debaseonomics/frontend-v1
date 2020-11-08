@@ -168,7 +168,7 @@ export default function Pool({
 	}
 
 	return (
-		<div className="container is-fluid">
+		<div className="container">
 			<div className="columns is-centered is-mobile">
 				<div className="box column is-6-tablet is-10-mobile">
 					<nav className="level is-mobile">
@@ -255,22 +255,6 @@ export default function Pool({
 								placeholderText="Stake Amount"
 								unit={unit}
 							/>
-						</div>
-						<div className="column">
-							<PoolInput
-								action={handleWithdraw}
-								loading={withdrawLoading}
-								buttonText="Withdraw Amount"
-								ref={withdrawRef}
-								balance={stakeBalance}
-								placeholderText="Withdraw Amount"
-								unit={unit}
-							/>
-						</div>
-					</div>
-
-					<div className="columns">
-						<div className="column">
 							<button
 								className={
 									claimLoading ? (
@@ -285,6 +269,15 @@ export default function Pool({
 							</button>
 						</div>
 						<div className="column">
+							<PoolInput
+								action={handleWithdraw}
+								loading={withdrawLoading}
+								buttonText="Withdraw Amount"
+								ref={withdrawRef}
+								balance={stakeBalance}
+								placeholderText="Withdraw Amount"
+								unit={unit}
+							/>
 							<button
 								className={
 									claimUnstakeLoading ? (
@@ -299,6 +292,8 @@ export default function Pool({
 							</button>
 						</div>
 					</div>
+
+					
 				</div>
 			</div>
 		</div>
