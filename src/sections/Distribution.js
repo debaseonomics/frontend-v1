@@ -47,7 +47,7 @@ const Distribution = React.forwardRef(
 							can be available as early as 2 weeks from the launch.
 						</p>
 					</div>
-					<div className={isMobile ? 'box content' : 'box content is-medium'}>
+					<div className={isMobile ? 'box content mt-4' : 'box content mt-4 is-medium'}>
 						<h3>Degov</h3>
 						<p>
 							Degov token has one staking pool. This pool will only be available to stake into after the
