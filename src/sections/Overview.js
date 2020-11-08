@@ -157,7 +157,7 @@ const Overview = React.forwardRef(
 							with Debase. To allow the community to decide what types of stabilizers to include and how
 							the protocol should rebase in general. Degov follows the governance model brought by{' '}
 							<a href="https://compound.finance/docs/governance">Compound Finance</a> to allow the
-							manipulation of various<a onClick={() => scrollToParameters()}>parameters</a> in a
+							manipulation of various <a onClick={() => scrollToParameters()}>parameters</a> in a
 							decentralized manner.
 						</p>
 						<p>
