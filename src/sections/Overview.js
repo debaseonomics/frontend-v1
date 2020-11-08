@@ -144,7 +144,8 @@ const Overview = React.forwardRef(
 							These pools can be programmed to reward users for stabilizing Debase over a number of cycles, by using
 							various strategies in an attempt to solve some of the biggest
 							{/* eslint-disable-next-line */}
-							<a onClick={() => scrollToUniswap()}> issues faced by such coins</a>. //I would mention both issues: Uniswap and peg during Negative Rebases .
+							<a onClick={() => scrollToUniswap()}> issues faced by such coins</a>, including incentivizing pegging 
+							Debase during negative rebases.
 						</p>
 						<p>
 							Keeping this flexibility in mind, <strong>90%</strong> of all debase tokens have been
