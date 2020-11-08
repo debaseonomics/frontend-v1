@@ -145,11 +145,11 @@ const Overview = React.forwardRef(
 							various strategies in an attempt to solve some of the biggest
 							{/* eslint-disable-next-line */}
 							<a onClick={() => scrollToUniswap()}> issues faced by such coins</a>, including incentivizing pegging 
-							Debase during negative rebases.
+							Debase to target during negative rebases.
 						</p>
 						<p>
 							Keeping this flexibility in mind, <strong>90%</strong> of all debase tokens have been
-							assigned to be rewarded to any number of stabilizers proposed and voted on by the community.
+							assigned to be rewarded to any number of stabilizers proposed and voted on by governance.
 							Serving as an incentivization mechanism for the community to develop and, in turn, stabilize
 							debase further.
 						</p>
