@@ -140,11 +140,11 @@ const Overview = React.forwardRef(
 							features that might, in theory, make them reach their pegged value. Instead, it tries to
 							encompass all the previously released tokens by proposing {/* eslint-disable-next-line */}
 							<a onClick={() => scrollToStabilizer()}>stabilizer pools</a> which can be programmed in
-							unique ways to try to incentivize Debase holders to stabilize the token price. These pools
-							can be programmed to reward users for stabilizing Debase over a number of cycles, by using
-							various strategies in an attempt to solve the biggest
+							unique ways to try to incentivize Debase holders to stabilize the token price in a process mediated by governance. 
+							These pools can be programmed to reward users for stabilizing Debase over a number of cycles, by using
+							various strategies in an attempt to solve some of the biggest
 							{/* eslint-disable-next-line */}
-							<a onClick={() => scrollToUniswap()}> issue faced by such coins</a>.
+							<a onClick={() => scrollToUniswap()}> issues faced by such coins</a>. //I would mention both issues: Uniswap and peg during Negative Rebases .
 						</p>
 						<p>
 							Keeping this flexibility in mind, <strong>90%</strong> of all debase tokens have been
@@ -161,9 +161,9 @@ const Overview = React.forwardRef(
 							decentralized manner.
 						</p>
 						<p>
-							Debaseonomics is a live research project trying to move forward development into flexible
-							supply tokens with boundless experimentation while trying to achieve its target price in the
-							long or short term.
+							Debaseonomics is moving forward development in elastic
+							supply tokens by allowing for boundless possibilities in trying to stabilize Debase price in the
+							long or short term through governance and stability pools.
 						</p>
 					</div>
 					{charts}
