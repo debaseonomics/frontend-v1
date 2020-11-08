@@ -132,7 +132,7 @@ const Overview = React.forwardRef(
 							Debaseonomics is a combination of{' '}
 							<a href={etherScanAddress + contractAddress.debase}>Debase</a>, a flexible supply token,
 							and <a href={etherScanAddress + contractAddress.degov}>Degov</a>, a
-							governance token working together to solve issues faced by similarly designed tokens. 100%
+							governance token, working together to solve issues faced by similarly designed tokens. 100%
 							of the tokens are distributed through staking and "stabilizer pools" to promote fairness and
 							decentralization.
 						</p>
