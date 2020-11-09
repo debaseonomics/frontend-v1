@@ -14,7 +14,7 @@ export default function Rebase({ isMobile }) {
 						function queries a{' '}
 						<a href="https://uniswap.org/docs/v2/core-concepts/oracles/">Uniswap v2 oracle</a> to compare
 						the price of Debase to DAI. This function initially cannot execute more than once every 24
-						hours. Note: Governance can vote on choice of the Oracle(s).
+						hours. Note:{/* eslint-disable-next-line */} Governance can vote on choice of the Oracle(s).
 					</p>
 					<p>
 						Assuming current parameters for DEBASE, if the price difference between DAI and DEBASE initially 
