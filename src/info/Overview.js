@@ -112,7 +112,7 @@ const Overview = React.forwardRef(
 				<div className={isMobile ? 'content' : 'content is-medium'}>
 					<p>
 						Since DEBASE and DEGOV tokens have been sent to and solely distributed by pools (as well as an
-						auditor approved airdrop), exit scams/unfair distribution is avoided , ensuring user fund safety
+						auditor approved airdrop), exit scams/unfair distribution is avoided, ensuring user fund safety
 						and tokenomics integrity. Additionally, {/* eslint-disable-next-line */}
 						<a onClick={() => scrollToOwnership()}>ownership</a> of the editable contracts has been
 						transferred to governance contracts enforcing decentralization.
