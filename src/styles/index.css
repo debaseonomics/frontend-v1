@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css2?family=Montserrat&display=swap);
 @font-face {
 	font-family: rift;
-	src: url(assets/fonts/rift.woff2) format('woff2'), url(assets/fonts/rift.woff) format('woff');
+	src: url(../assets/fonts/rift.woff2) format('woff2'), url(../assets/fonts/rift.woff) format('woff');
 	font-weight: 400;
 	font-style: normal;
 }
