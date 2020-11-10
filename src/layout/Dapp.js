@@ -4,12 +4,17 @@ import { Link } from 'react-router-dom';
 import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core';
 import { InjectedConnector, NoEthereumProviderError, UserRejectedRequestError } from '@web3-react/injected-connector';
 import DarkModeToggle from 'react-dark-mode-toggle';
-import Valley from '../assets/Valley.svg';
+
+import { useRecoilState } from 'recoil';
+import { darkModeState } from '../state/index.js';
+
 import debase from '../assets/debase.png';
+import Valley from '../assets/Valley.svg';
 
 export default function DappLayout({ children }) {
 	const injected = new InjectedConnector({ supportedChainIds: [ 1 ] });
 	const { account, activate, active, error } = useWeb3React();
+	const [ isDarkMode, setIsDarkMode ] = useRecoilState(darkModeState);
 
 	const [ menuActive, setMenuActive ] = useState(false);
 	const [ activeLink, setActiveLink ] = useState('Staking');
@@ -17,8 +22,6 @@ export default function DappLayout({ children }) {
 	const isUserRejectedRequestError = error instanceof UserRejectedRequestError;
 	const isNoEthereumProviderError = error instanceof NoEthereumProviderError;
 	const isUnsupportedChainIdError = error instanceof UnsupportedChainIdError;
-
-	const [ isDarkMode, setIsDarkMode ] = useState(false);
 
 	function toggleMode() {
 		const body = document.body;
@@ -104,7 +107,7 @@ export default function DappLayout({ children }) {
 								) : null}
 							</div>
 							<div className="navbar-item">
-								<DarkModeToggle onChange={toggleMode} checked={isDarkMode} size={50} />
+								<DarkModeToggle onChange={toggleMode} checked={isDarkMode} speed={3} size={40} />
 							</div>
 						</div>
 					</div>

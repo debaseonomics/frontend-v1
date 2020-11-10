@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import Loading from './components/Loading';
 import * as serviceWorker from './serviceWorker';
+import { RecoilRoot } from 'recoil';
 
 import '@creativebulma/bulma-divider/dist/bulma-divider.css';
 import './styles/loading.css';
@@ -11,7 +12,9 @@ const App = React.lazy(() => import('./App'));
 
 ReactDOM.render(
 	<Suspense fallback={<Loading />}>
-		<App />
+		<RecoilRoot>
+			<App />
+		</RecoilRoot>
 	</Suspense>,
 	document.getElementById('root')
 );
