@@ -61,7 +61,7 @@ export default function DappLayout({ children }) {
 			}}
 		>
 			<div className="hero-head">
-				<nav className="navbar is-transparent" role="navigation" aria-label="main navigation">
+				<nav className="navbar is-transparent is-spaced" role="navigation" aria-label="main navigation">
 					<div className="navbar-brand">
 						<div className="navbar-item">
 							<Link to="/">
