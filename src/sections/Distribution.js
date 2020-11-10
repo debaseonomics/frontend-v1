@@ -15,7 +15,7 @@ const Distribution = React.forwardRef(
 				</div>
 				<div className="container block is-fluid">
 					<div className={isMobile ? 'box content' : 'box content is-medium'}>
-						<h3>Debase</h3>
+						<h3 className="title">Debase</h3>
 						<p>
 							Debase token has two separate staking pools. The first pool yields the initial Debase token
 							supply. To join this pool, you need to stake <a href="https://oasis.app/borrow">DAI</a>{' '}
@@ -23,11 +23,7 @@ const Distribution = React.forwardRef(
 							total of 30,000 Debase tokens will be distributed from this pool with 15,000 Debase being
 							during the first 24 hours. This halving will continue every 24 hours until 30,000 Debase are
 							distributed from the pool. Also, for the first 24 hours only 10,000 DAI can be staked per
-							account to support fairer distribution.{' '}
-							<strong>
-								So if you encounter an error while staking, be sure that you are staking under the
-								mentioned limit.
-							</strong>
+							account to support fairer distribution.
 						</p>
 						<p>
 							The second pool is meant to provide stability and security to Debase by provide liquidity.
@@ -48,7 +44,7 @@ const Distribution = React.forwardRef(
 						</p>
 					</div>
 					<div className={isMobile ? 'box content mt-4' : 'box content mt-4 is-medium'}>
-						<h3>Degov</h3>
+						<h3 className="title">Degov</h3>
 						<p>
 							Degov token has one staking pool. This pool will only be available to stake into after the
 							orchestrator initiated the first rebase. With the conditions of when the first rebase
@@ -59,12 +55,6 @@ const Distribution = React.forwardRef(
 							to earn Degov tokens. A total of 25,000 Degov tokens will be distributed from this pool with
 							12,500 Degov being distributed during the first 1 week of the pools launch. This halving
 							will continue every 1 week until 25,000 Degov are distributed from the pool.
-						</p>
-						<p>
-							<strong>
-								So if you encounter an error while staking, be sure that the first rebase has been
-								initiated by the orchestrator.
-							</strong>
 						</p>
 					</div>
 				</div>

@@ -11,6 +11,7 @@
 		"ethers": "^5.0.17",
 		"luxon": "^1.25.0",
 		"react": "^16.14.0",
+		"react-dark-mode-toggle": "0.0.10",
 		"react-dom": "^16.14.0",
 		"react-responsive": "^8.1.0",
 		"react-router-dom": "^5.2.0",
