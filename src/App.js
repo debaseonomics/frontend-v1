@@ -11,24 +11,24 @@ import debase from './assets/debase.png';
 import dai from './assets/dai.png';
 import empty from './assets/empty.png';
 
-const StabilizerInfo = React.lazy(() => import('./sections/StabilizerInfo'));
-const Layout = React.lazy(() => import('./components/Layout'));
+const InfoLayout = React.lazy(() => import('./layout/Info'));
+const StabilizerInfo = React.lazy(() => import('./info/StabilizerInfo'));
 const Stabilizer = React.lazy(() => import('./dapp/Stabilizer'));
-const Landing = React.lazy(() => import('./sections/Landing'));
-const Parameters = React.lazy(() => import('./sections/Parameters'));
-const Contracts = React.lazy(() => import('./sections/Contracts'));
-const Distribution = React.lazy(() => import('./sections/Distribution'));
-const Governance = React.lazy(() => import('./sections/Governance'));
-const Overview = React.lazy(() => import('./sections/Overview'));
-const Rebase = React.lazy(() => import('./sections/Rebase'));
-const Asymmetrical = React.lazy(() => import('./sections/Asymmetrical'));
-const Ownership = React.lazy(() => import('./sections/Ownership'));
-const Uniswap = React.lazy(() => import('./sections/Uniswap'));
+const Landing = React.lazy(() => import('./info/Landing'));
+const Parameters = React.lazy(() => import('./info/Parameters'));
+const Contracts = React.lazy(() => import('./info/Contracts'));
+const Distribution = React.lazy(() => import('./info/Distribution'));
+const Governance = React.lazy(() => import('./info/Governance'));
+const Overview = React.lazy(() => import('./info/Overview'));
+const Rebase = React.lazy(() => import('./info/Rebase'));
+const Asymmetrical = React.lazy(() => import('./info/Asymmetrical'));
+const Ownership = React.lazy(() => import('./info/Ownership'));
+const Uniswap = React.lazy(() => import('./info/Uniswap'));
 
+const DappLayout = React.lazy(() => import('./layout/Dapp'));
 const Staking = React.lazy(() => import('./dapp/Staking'));
 const Gov = React.lazy(() => import('./dapp/Gov'));
 const Pool = React.lazy(() => import('./dapp/Pool'));
-const StakeNav = React.lazy(() => import('./components/StakeNav'));
 const Rebaser = React.lazy(() => import('./dapp/Rebaser'));
 
 function getLibrary(provider) {
@@ -72,7 +72,7 @@ function App() {
 				<Switch>
 					<Route path="/dapp">
 						<Web3ReactProvider getLibrary={getLibrary}>
-							<StakeNav>
+							<DappLayout>
 								<Route path="/dapp/staking">
 									<Route path="/dapp/staking/debase-dai">
 										<Pool
@@ -126,11 +126,11 @@ function App() {
 								<Route path="/dapp/governance">
 									<Gov />
 								</Route>
-							</StakeNav>
+							</DappLayout>
 						</Web3ReactProvider>
 					</Route>
 					<Route path="/">
-						<Layout>
+						<InfoLayout>
 							<Landing scrollToOverview={scrollToOverview} />
 							<Overview
 								isMobile={isMobile}
@@ -153,7 +153,7 @@ function App() {
 							<Parameters ref={parametersRef} />
 							<Contracts />
 							<Ownership ref={ownershipRef} />
-						</Layout>
+						</InfoLayout>
 					</Route>
 				</Switch>
 			</Suspense>

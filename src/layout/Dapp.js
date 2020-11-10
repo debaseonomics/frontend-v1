@@ -7,7 +7,7 @@ import DarkModeToggle from 'react-dark-mode-toggle';
 import Valley from '../assets/Valley.svg';
 import debase from '../assets/debase.png';
 
-export default function StakeNav({ children }) {
+export default function DappLayout({ children }) {
 	const injected = new InjectedConnector({ supportedChainIds: [ 1 ] });
 	const { account, activate, active, error } = useWeb3React();
 
