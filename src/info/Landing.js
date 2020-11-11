@@ -16,7 +16,7 @@ export default function Landing({ scrollToOverview }) {
 	return (
 		<section className="hero is-fullheight">
 			<div className="hero-body">
-				<div className=" has-text-centered">
+				<div className="container has-text-centered">
 					<h1 className="title is-size-2-tablet is-size-4-mobile">Debaseonomics v87</h1>
 					<h2 className="subtitle is-size-3-tablet is-size-4-mobile">Boundless Flexibility</h2>
 

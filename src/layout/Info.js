@@ -12,7 +12,7 @@ export default function Layout({ children }) {
 				backgroundAttachment: 'fixed'
 			}}
 		>
-			<div class="">{children}</div>
+			<div class="container is-fluid">{children}</div>
 		</div>
 	);
 }

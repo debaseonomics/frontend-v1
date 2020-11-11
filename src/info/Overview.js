@@ -116,7 +116,7 @@ const Overview = React.forwardRef(
 						</p>
 						<p>
 							Keeping this flexibility in mind, 90% of all debase tokens have been assigned to be rewarded
-							to any number of sucessful stabilizers proposed and voted on by governance. Serving as an
+							to any number of successful stabilizers proposed and voted on by governance. Serving as an
 							incentivization mechanism for the community to develop and, in turn, stabilize DEBASE
 							further.
 						</p>

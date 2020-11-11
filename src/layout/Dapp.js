@@ -121,7 +121,9 @@ export default function DappLayout({ children }) {
 						<div className="columns is-centered has-text-centered">
 							<div className="column is-7">
 								<div className="box">
-									<h4 className="title is-4">Must connect with metamask to interact with dapp</h4>
+									<h4 className="title is-size-4-tablet is-size-5-mobile">
+										Must connect with metamask to interact with dapp
+									</h4>
 									<button className="button is-primary" onClick={() => activate(injected)}>
 										Connect to metamask
 									</button>
