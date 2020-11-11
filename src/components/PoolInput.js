@@ -29,9 +29,9 @@ const PoolInput = React.forwardRef(({ placeholderText, balance, unit, loading, a
 			<div
 				className={
 					loading ? (
-						'button is-loading is-primary is-fullwidth is-outlined'
+						'button is-loading is-primary is-fullwidth is-edged'
 					) : (
-						'button is-primary is-fullwidth is-outlined'
+						'button is-primary is-fullwidth is-edged'
 					)
 				}
 				onClick={action}

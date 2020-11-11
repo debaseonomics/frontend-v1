@@ -68,7 +68,7 @@ export default function Contracts() {
 	return (
 		<div className="section">
 			<div className=" block ">
-				<h3 className="title is-size-3-tablet is-size-5-mobile">Contracts</h3>
+				<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">Contracts</h3>
 				<h4 className="subtitle is-size-4-tablet is-size-5-mobile">List of Contracts and their addresses</h4>
 			</div>
 			<div className=" block ">

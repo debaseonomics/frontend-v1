@@ -45,7 +45,7 @@ export default function DappLayout({ children }) {
 	const menuLink = (link, to) => (
 		<div className="navbar-item">
 			<Link
-				className={activeLink === link ? 'has-text-white-ter has-text-weight-bold' : 'has-text-white-ter'}
+				className={activeLink === link ? ' has-text-weight-bold' : null}
 				to={to}
 				onClick={() => setActiveLink(link)}
 			>
@@ -113,7 +113,7 @@ export default function DappLayout({ children }) {
 					</div>
 				</nav>
 			</div>
-			<div className="hero-body staking-bg">
+			<div className="hero-body">
 				{active ? (
 					<div className="container is-fluid">{children}</div>
 				) : (
@@ -121,10 +121,10 @@ export default function DappLayout({ children }) {
 						<div className="columns is-centered has-text-centered">
 							<div className="column is-7">
 								<div className="box">
-									<h4 className="title is-size-4-tablet is-size-5-mobile">
+									<h4 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">
 										Must connect with metamask to interact with dapp
 									</h4>
-									<button className="button is-primary" onClick={() => activate(injected)}>
+									<button className="button is-primary is-edged" onClick={() => activate(injected)}>
 										Connect to metamask
 									</button>
 								</div>

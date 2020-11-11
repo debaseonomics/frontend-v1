@@ -4,7 +4,7 @@ export default function Asymmetrical({ isMobile }) {
 	return (
 		<div className="section">
 			<div className=" block  ">
-				<h3 className="title is-size-3-tablet is-size-5-mobile">asymmetrical lag</h3>
+				<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">asymmetrical lag</h3>
 				<h4 className="subtitle is-size-4-tablet is-size-5-mobile">Additional flexibility</h4>
 			</div>
 			<div className=" block  ">

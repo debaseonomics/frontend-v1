@@ -6,7 +6,7 @@ const Uniswap = React.forwardRef(
 		return (
 			<div className="section" ref={ref}>
 				<div className=" block  ">
-					<h3 className="title is-size-3-tablet is-size-5-mobile">Uniswap</h3>
+					<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">Uniswap</h3>
 					<h4 className="subtitle is-size-4-tablet is-size-5-mobile">The biggest issue with rebase tokens</h4>
 				</div>
 				<div className=" block  ">

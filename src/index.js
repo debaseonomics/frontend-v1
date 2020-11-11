@@ -6,7 +6,7 @@ import { RecoilRoot } from 'recoil';
 
 import '@creativebulma/bulma-divider/dist/bulma-divider.css';
 import './styles/loading.css';
-import './styles/index.css';
+import './styles/bulma.css';
 
 const App = React.lazy(() => import('./App'));
 

@@ -47,7 +47,9 @@ export default function StakeCard({
 	return (
 		<div className="box">
 			<div className="block">
-				<h3 className="title is-size-4-tablet is-size-5-mobile has-text-centered">{title}</h3>
+				<h3 className="title is-size-4-tablet is-size-5-mobile has-text-centered is-family-secondary">
+					{title}
+				</h3>
 				<div className="divider">{infoText}</div>
 				<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
 					Contract: <a href={contractLink}>{turncate(contract, 16, '...')}</a>
@@ -96,7 +98,7 @@ export default function StakeCard({
 			</div>
 			<div className="block">
 				<Link to={'/dapp/staking/' + link}>
-					<button className="button is-rounded is-fullwidth is-primary">Get Token</button>
+					<button className="button is-edged is-fullwidth is-primary">Get Token</button>
 				</Link>
 			</div>
 		</div>

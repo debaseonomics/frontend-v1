@@ -7,7 +7,7 @@ const Stabilizer = React.forwardRef(
 		return (
 			<div className="section" ref={ref}>
 				<div className=" block  ">
-					<h3 className="title is-size-3-tablet is-size-5-mobile">Stabilizer Pools</h3>
+					<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">Stabilizer Pools</h3>
 					<h4 className="subtitle is-size-4-tablet is-size-5-mobile">
 						Custom pools helping to stabilize debase
 					</h4>

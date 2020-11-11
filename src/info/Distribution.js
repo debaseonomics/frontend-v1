@@ -8,14 +8,14 @@ const Distribution = React.forwardRef(
 		return (
 			<div className="section" ref={ref}>
 				<div className=" block  ">
-					<h3 className="title is-size-3-tablet is-size-5-mobile">Distribution Pools</h3>
+					<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">Distribution Pools</h3>
 					<h4 className="subtitle is-size-4-tablet is-size-5-mobile">
 						No pre-mine. No founder fees. 100% community distribution.
 					</h4>
 				</div>
 				<div className=" block ">
 					<div className={isMobile ? 'box content' : 'box content is-medium'}>
-						<h4 className="title">Debase</h4>
+						<h4 className="title is-family-secondary">Debase</h4>
 						<p>
 							Debase token has two separate staking pools. The first pool yields the initial Debase token
 							supply. To join this pool, you need to stake <a href="https://oasis.app/borrow">DAI</a>{' '}
@@ -44,7 +44,7 @@ const Distribution = React.forwardRef(
 						</p>
 					</div>
 					<div className={isMobile ? 'box content mt-4' : 'box content mt-4 is-medium'}>
-						<h4 className="title">Degov</h4>
+						<h4 className="title is-family-secondary">Degov</h4>
 						<p>
 							Degov token has one staking pool. This pool will only be available to stake into after the
 							orchestrator initiated the first rebase. With the conditions of when the first rebase

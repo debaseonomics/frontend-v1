@@ -169,7 +169,7 @@ export default function Pool({
 
 	return (
 		<div className="">
-			<div className="columns is-centered is-mobile">
+			<div className="columns is-centered">
 				<div className="box column is-6-tablet is-10-mobile">
 					<nav className="level is-mobile">
 						<div className="level-left">
@@ -182,7 +182,7 @@ export default function Pool({
 							</div>
 						</div>
 						<div className="level-item">
-							<h2 className="title is-size-4-tablet is-size-5-mobile">{poolName}</h2>
+							<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">{poolName}</h2>
 						</div>
 						<div className="level-right">
 							<button className="button is-invisible">
@@ -258,9 +258,9 @@ export default function Pool({
 							<button
 								className={
 									claimLoading ? (
-										'button is-loading is-link is-fullwidth is-outlined'
+										'mt-2 button is-loading is-link is-fullwidth is-edged'
 									) : (
-										'button is-link is-fullwidth is-outlined'
+										'mt-2 button is-link is-fullwidth is-edged'
 									)
 								}
 								onClick={claimReward}
@@ -281,9 +281,9 @@ export default function Pool({
 							<button
 								className={
 									claimUnstakeLoading ? (
-										'button is-loading is-link is-fullwidth is-outlined'
+										'mt-2 button is-loading is-link is-fullwidth is-edged'
 									) : (
-										'button is-link is-fullwidth is-outlined'
+										'mt-2 button is-link is-fullwidth is-edged'
 									)
 								}
 								onClick={claimRewardThenUnstake}

@@ -88,7 +88,7 @@ const Overview = React.forwardRef(
 		return (
 			<div className="section" ref={ref}>
 				<div className=" block  ">
-					<h3 className="title is-size-3-tablet is-size-5-mobile">Overview</h3>
+					<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">Overview</h3>
 					<h4 className="subtitle is-size-4-tablet is-size-5-mobile">How it all works</h4>
 				</div>
 				<div className=" block  ">
