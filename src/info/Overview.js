@@ -97,9 +97,12 @@ const Overview = React.forwardRef(
 							Debaseonomics is a combination of{' '}
 							<a href={etherScanAddress + contractAddress.debase}>DEBASE</a>, a flexible supply token, and{' '}
 							<a href={etherScanAddress + contractAddress.degov}>DEGOV</a>, a governance token, working
-							together to solve the fundamental issues faced by elastic supply tokens. 100% of the tokens
-							are distributed through staking and "stabilizer pools" to promote fairness and
-							decentralization.
+							together to solve the fundamental issues faced by elastic supply tokens. These issues include
+							incentivizing pegging DEBASE to target during negative rebases, as well as avoiding 
+							 {/* eslint-disable-next-line */}
+							<a onClick={() => scrollToUniswap()}> price setting by AMMs after rebases instead of the market.</a>
+							100% of the tokens are distributed through a auditor mediated airdrop, staking and 
+							"stabilizer pools" to promote fairness and decentralization.
 						</p>
 						<p>
 							Debaseonomics doesn't aim to be create another flexible supply token proposing a small set
@@ -108,11 +111,8 @@ const Overview = React.forwardRef(
 							{/* eslint-disable-next-line */}
 							<a onClick={() => scrollToStabilizer()}>stabilizer pools</a> which can be programmed in
 							unique ways to try to incentivize DEBASE holders to stabilize the token price over a number
-							of cycles, in a process mediated by governance. These pools attempt to solve some of the
-							biggest
-							{/* eslint-disable-next-line */}
-							<a onClick={() => scrollToUniswap()}> issues faced by such coins</a>, including
-							incentivizing pegging DEBASE to target during negative rebases.
+							of cycles, in a process mediated by governance. These pools attempt to solve the problems faced by elastic 
+							supply tokens mentioned above.
 						</p>
 						<p>
 							Keeping this flexibility in mind, 90% of all debase tokens have been assigned to be rewarded
@@ -131,7 +131,8 @@ const Overview = React.forwardRef(
 						<p>
 							Debaseonomics is moving forward development in elastic supply tokens by incentivizing
 							boundless possibilities in trying to stabilize DEBASE price in the long or short term
-							through governance and stability pools.
+							through governance and stability pools as well as the discovery of the ideal solution(s) 
+							to the problems faced by algorthmic stable coins.
 						</p>
 					</div>
 					{charts}
