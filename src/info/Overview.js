@@ -100,8 +100,8 @@ const Overview = React.forwardRef(
 							together to solve the fundamental issues faced by elastic supply tokens. These issues include
 							incentivizing pegging DEBASE to target during negative rebases, as well as avoiding 
 							 {/* eslint-disable-next-line */}
-							<a onClick={() => scrollToUniswap()}> price setting by AMMs after rebases instead of the market.</a>
-							100% of the tokens are distributed through a auditor mediated airdrop, staking and 
+							<a onClick={() => scrollToUniswap()}> price setting by AMMs after rebases instead of the market.</a> 100% of the tokens are 
+							distributed through a auditor mediated airdrop, staking and 
 							"stabilizer pools" to promote fairness and decentralization.
 						</p>
 						<p>
