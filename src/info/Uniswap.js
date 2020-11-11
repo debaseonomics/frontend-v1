@@ -5,11 +5,11 @@ const Uniswap = React.forwardRef(
 	({ isMobile }, ref) => {
 		return (
 			<div className="section" ref={ref}>
-				<div className="container block is-fluid ">
-					<h3 className="title is-size-3-tablet is-size-4-mobile">Uniswap</h3>
+				<div className=" block  ">
+					<h3 className="title is-size-3-tablet is-size-5-mobile">Uniswap</h3>
 					<h4 className="subtitle is-size-4-tablet is-size-5-mobile">The biggest issue with rebase tokens</h4>
 				</div>
-				<div className="container block is-fluid ">
+				<div className=" block  ">
 					<div className={isMobile ? 'box content' : 'box content is-medium'}>
 						<p>
 							Uniswap is by far the biggest issue that is faced by such flexible coins. The issue relates

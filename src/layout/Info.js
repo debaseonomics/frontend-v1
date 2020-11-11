@@ -12,7 +12,7 @@ export default function Layout({ children }) {
 				backgroundAttachment: 'fixed'
 			}}
 		>
-			<div class="container">{children}</div>
+			<div class="">{children}</div>
 		</div>
 	);
 }

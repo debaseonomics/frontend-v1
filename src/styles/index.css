@@ -1,7 +1,13 @@
 @import url(https://fonts.googleapis.com/css2?family=Montserrat&display=swap);
 @font-face {
-	font-family: rift;
-	src: url(../assets/fonts/rift.woff2) format('woff2'), url(../assets/fonts/rift.woff) format('woff');
+	font-family: brandon;
+	src: url(../assets/fonts/brandon.woff2) format('woff2'), url(../assets/fonts/brandon.woff) format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+@font-face {
+	font-family: blade;
+	src: url(../assets/fonts/blade.woff) format('woff');
 	font-weight: 400;
 	font-style: normal;
 }
@@ -22,7 +28,7 @@ body {
 	padding: 0.1rem;
 }
 
-.account .title {
+.account .subtitle {
 	margin-right: 0.6rem;
 }
 
@@ -85,11 +91,12 @@ body.dark-mode .staking-bg input::placeholder {
 	align-items: center;
 }
 .title {
-	font-family: rift;
+	font-family: blade;
 	color: #1c1c1c;
 	font-size: 2rem;
-	font-weight: 900;
+	font-weight: 400;
 	line-height: 1.125;
+	letter-spacing: 1px;
 }
 .content h3,
 p strong {
@@ -97,6 +104,7 @@ p strong {
 }
 .subtitle {
 	color: #1c1c1c !important;
+	font-weight: 450 !important;
 }
 .has-text-warning,
 h5 a {
@@ -139,9 +147,13 @@ h5 a {
 	padding: 1.5rem;
 	margin: 1rem;
 }
-.box .title,
+.box .title {
+	font-family: blade;
+	color: #1c1c1c;
+}
+
 .box .subtitle {
-	font-family: rift;
+	font-family: brandon;
 	color: #1c1c1c;
 }
 .hero.is-fullheight .box {
@@ -154,7 +166,7 @@ h5 a {
 
 .button.is-primary {
 	transition: 0.2s ease-in-out;
-	font-family: rift;
+	font-family: brandon;
 	/*--gradient-from-color: #923db3!important;
 	--gradient-to-color: #f06!important;
 	--gradient-color-stops: var(--gradient-from-color), var(--gradient-to-color, rgba(212, 48, 229, 0))!important;
@@ -173,7 +185,7 @@ h5 a {
 }
 .tag:not(body).is-primary,
 .button.is-primary.nav-connect-mask {
-	font-family: rift;
+	font-family: brandon;
 	--gradient-from-color: #fff !important;
 	--gradient-to-color: #fff !important;
 	--gradient-color-stops: var(--gradient-from-color), var(--gradient-to-color, rgba(212, 48, 229, 0)) !important;
@@ -201,7 +213,7 @@ h5 a {
 }
 .staking-bg button.is-link {
 	transition: 0.2s ease-in-out;
-	font-family: rift;
+	font-family: brandon;
 	letter-spacing: 1px;
 	color: #fff !important;
 	border: none !important;
@@ -661,8 +673,8 @@ button,
 input,
 select,
 textarea {
-	font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans",
-		"Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: Brandon, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans",
+		"Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 code,
@@ -1363,7 +1375,7 @@ fieldset[disabled] .button.is-dark.is-inverted.is-outlined {
 }
 
 .is-info {
-	font-family: rift;
+	font-family: brandon;
 	letter-spacing: 1px;
 	border-radius: .25rem !important;
 	--gradient-from-color: #f5468e !important;

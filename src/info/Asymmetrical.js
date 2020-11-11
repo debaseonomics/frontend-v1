@@ -3,11 +3,11 @@ import React from 'react';
 export default function Asymmetrical({ isMobile }) {
 	return (
 		<div className="section">
-			<div className="container block is-fluid ">
-				<h3 className="title is-size-3-tablet is-size-4-mobile">Asymmetrical Lag</h3>
+			<div className=" block  ">
+				<h3 className="title is-size-3-tablet is-size-5-mobile">asymmetrical lag</h3>
 				<h4 className="subtitle is-size-4-tablet is-size-5-mobile">Additional flexibility</h4>
 			</div>
-			<div className="container block is-fluid ">
+			<div className=" block  ">
 				<div className={isMobile ? 'box content' : 'box content is-medium'}>
 					<p>
 						Debase allows for the community to adjust the smoothing parameter (Rebase Lag) over configurable

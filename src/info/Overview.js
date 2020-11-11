@@ -28,18 +28,6 @@ const Overview = React.forwardRef(
 					</div>
 					<div className="level-item">
 						<div>
-							<p className="heading">Rebase Period</p>
-							<p className="title is-size-5-tablet is-size-4-mobile">24 Hours</p>
-						</div>
-					</div>
-					<div className="level-item">
-						<div>
-							<p className="heading">Rebase Lag</p>
-							<p className="title is-size-5-tablet is-size-4-mobile">30</p>
-						</div>
-					</div>
-					<div className="level-item">
-						<div>
 							<p className="heading">Stabilizer Pools Reward</p>
 							<p className="title is-size-5-tablet is-size-4-mobile">900,000 Debase</p>
 						</div>
@@ -79,30 +67,6 @@ const Overview = React.forwardRef(
 					</div>
 					<div className="level-item">
 						<div>
-							<p className="heading">Voting Period</p>
-							<p className="title is-size-5-tablet is-size-4-mobile">24 Hours</p>
-						</div>
-					</div>
-					<div className="level-item">
-						<div>
-							<p className="heading">Implementation Delay</p>
-							<p className="title is-size-5-tablet is-size-4-mobile">24 Hours</p>
-						</div>
-					</div>
-					<div className="level-item">
-						<div>
-							<p className="heading">Proposal Threshold</p>
-							<p className="title is-size-5-tablet is-size-4-mobile">250 Degov</p>
-						</div>
-					</div>
-					<div className="level-item">
-						<div>
-							<p className="heading">Quorum Threshold</p>
-							<p className="title is-size-5-tablet is-size-4-mobile">5000 Degov</p>
-						</div>
-					</div>
-					<div className="level-item">
-						<div>
 							<p className="heading">Degov/Dai-Lp Pool Reward</p>
 							<p className="title is-size-5-tablet is-size-4-mobile">25,000 Degov</p>
 						</div>
@@ -123,11 +87,11 @@ const Overview = React.forwardRef(
 
 		return (
 			<div className="section" ref={ref}>
-				<div className="container block is-fluid ">
-					<h3 className="title is-size-3-tablet is-size-4-mobile">Overview</h3>
+				<div className=" block  ">
+					<h3 className="title is-size-3-tablet is-size-5-mobile">Overview</h3>
 					<h4 className="subtitle is-size-4-tablet is-size-5-mobile">How it all works</h4>
 				</div>
-				<div className="container block is-fluid ">
+				<div className=" block  ">
 					<div className={isMobile ? 'box content' : 'box content is-medium'}>
 						<p>
 							Debaseonomics is a combination of{' '}

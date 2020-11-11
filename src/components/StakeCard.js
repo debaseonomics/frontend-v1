@@ -47,27 +47,22 @@ export default function StakeCard({
 	return (
 		<div className="box">
 			<div className="block">
-				<h3 className="title is-size-3-tablet is-size-4-mobile has-text-centered">{title}</h3>
+				<h3 className="title is-size-4-tablet is-size-5-mobile has-text-centered">{title}</h3>
 				<div className="divider">{infoText}</div>
-				<h5 className="title is-size-5-tablet is-size-6-mobile">
-					<strong>Contract</strong>: <a href={contractLink}>{turncate(contract, 16, '...')}</a>
+				<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
+					Contract: <a href={contractLink}>{turncate(contract, 16, '...')}</a>
 				</h5>
-				<h5 className="title is-size-5-tablet is-size-6-mobile">
-					<strong>Website</strong>: <a href={websiteLink}>{website}</a>
+				<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
+					Website: <a href={websiteLink}>{website}</a>
 				</h5>
-				<h5 className="title is-size-5-tablet is-size-6-mobile">
-					<strong>Total Reward</strong>: {supply}
-				</h5>
-				<h5 className="title is-size-5-tablet is-size-6-mobile">
-					<strong>Halving period</strong>: {duration}
-				</h5>
-				<h5 className="title is-size-5-tablet is-size-6-mobile">
-					<strong>Halving Reward</strong>:{' '}
-					{currentReward ? parseFloat(formatEther(currentReward)) * 1 + tokenTag : '...'}
+				<h5 className="subtitle is-size-5-tablet is-size-6-mobile">Total Reward: {supply}</h5>
+				<h5 className="subtitle is-size-5-tablet is-size-6-mobile">Halving period: {duration}</h5>
+				<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
+					Halving Reward: {currentReward ? parseFloat(formatEther(currentReward)) * 1 + tokenTag : '...'}
 				</h5>
 				{enabled ? (
-					<h5 className="title is-size-5-tablet is-size-6-mobile has-text-centered">
-						<strong>Time to next halving</strong>{' '}
+					<h5 className="subtitle is-size-5-tablet is-size-6-mobile has-text-centered">
+						Time to next halving{' '}
 						{getPeriodFinish ? (
 							DateTime.fromSeconds(getPeriodFinish.toNumber()).toRelative({ round: false })
 						) : (
@@ -78,14 +73,22 @@ export default function StakeCard({
 
 				<h6
 					className={
-						warningText == null ? 'is-hidden' : 'title is-size-5-tablet is-size-6-mobile has-text-centered has-text-warning'
+						warningText == null ? (
+							'is-hidden'
+						) : (
+							'subtitle is-size-5-tablet is-size-6-mobile has-text-centered has-text-warning'
+						)
 					}
 				>
 					{warningText}
 				</h6>
 				<h6
 					className={
-						warningText2 == null ? 'is-hidden' : 'title is-size-5-tablet is-size-6-mobile has-text-centered has-text-warning'
+						warningText2 == null ? (
+							'is-hidden'
+						) : (
+							'subtitle is-size-5-tablet is-size-6-mobile has-text-centered has-text-warning'
+						)
 					}
 				>
 					{warningText2}

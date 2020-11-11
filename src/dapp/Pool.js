@@ -168,7 +168,7 @@ export default function Pool({
 	}
 
 	return (
-		<div className="container">
+		<div className="">
 			<div className="columns is-centered is-mobile">
 				<div className="box column is-6-tablet is-10-mobile">
 					<nav className="level is-mobile">
@@ -182,7 +182,7 @@ export default function Pool({
 							</div>
 						</div>
 						<div className="level-item">
-							<h2 className="title is-size-3-tablet is-size-4-mobile">{poolName}</h2>
+							<h2 className="title is-size-4-tablet is-size-5-mobile">{poolName}</h2>
 						</div>
 						<div className="level-right">
 							<button className="button is-invisible">
@@ -292,8 +292,6 @@ export default function Pool({
 							</button>
 						</div>
 					</div>
-
-					
 				</div>
 			</div>
 		</div>

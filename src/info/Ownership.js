@@ -22,7 +22,7 @@ const Ownership = React.forwardRef(
 				info: 'Transferring ownership to timelock'
 			},
 			{
-				name: 'GovernorAlpha',
+				name: 'Governor alpha',
 				link: etherScanTX + ownerShipAddress.governorAlphaOwnerShip,
 				info: 'Transferring ownership to timelock'
 			},
@@ -39,14 +39,14 @@ const Ownership = React.forwardRef(
 		];
 		return (
 			<div className="section" ref={ref}>
-				<div className="container block is-fluid ">
+				<div className=" block  ">
 					<h3 className="title is-size-3-tablet is-size-4-mobile">Ownership</h3>
 					<h4 className="subtitle is-size-4-tablet is-size-5-mobile">
 						Contract ownership transfer transactions
 					</h4>
 				</div>
-				<div className="container block is-fluid">
-					<div className="columns is-mobile is-multiline is-vcentered">
+				<div className=" block ">
+					<div className="columns is-multiline is-vcentered">
 						{list.map((ele, index) => (
 							<InfoCard key={index + ele.name} name={ele.name} link={ele.link} info={ele.info} />
 						))}

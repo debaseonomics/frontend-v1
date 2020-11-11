@@ -4,7 +4,7 @@ export default function TextInfo({ label, value, token, img }) {
 	return (
 		<tr>
 			<th>
-				<span className="title is-size-5-tablet is-size-6-mobile">{label}</span>
+				<span className="subtitle is-size-5-tablet is-size-6-mobile">{label}</span>
 			</th>
 			<td>
 				<nav className="level is-mobile">

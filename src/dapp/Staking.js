@@ -4,7 +4,7 @@ import { contractAddress, etherScanAddress, uniAddress } from '../utils';
 
 export default function Staking() {
 	return (
-		<div className="container block">
+		<div className=" block">
 			<div className="columns is-multiline is-vcentered">
 				<div className="column is-4">
 					<StakeCard
@@ -26,7 +26,7 @@ export default function Staking() {
 				</div>
 				<div className="column is-4">
 					<StakeCard
-						title="Debase/Dai-Lp Pool"
+						title="Debase/Dai-lp Pool"
 						link="debase-dai-lp"
 						tokenTag=" Debase"
 						rewardToken={contractAddress.debase}
@@ -44,7 +44,7 @@ export default function Staking() {
 				</div>
 				<div className="column is-4">
 					<StakeCard
-						title="Degov/Dai-Lp Pool"
+						title="Degov/Dai-lp Pool"
 						link="degov-dai-lp"
 						tokenTag=" Degov"
 						rewardToken={contractAddress.degov}

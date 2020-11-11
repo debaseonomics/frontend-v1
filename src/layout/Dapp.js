@@ -101,7 +101,7 @@ export default function DappLayout({ children }) {
 											<span className="icon is-medium ">
 												<i className="fas fa-user-circle" />
 											</span>
-											<h5 className="title is-6">{turncate(account, 15, '...')}</h5>
+											<h5 className="subtitle is-6">{turncate(account, 15, '...')}</h5>
 										</div>
 									</Fragment>
 								) : null}
@@ -115,9 +115,9 @@ export default function DappLayout({ children }) {
 			</div>
 			<div className="hero-body staking-bg">
 				{active ? (
-					<div className="container">{children}</div>
+					<div className="container is-fluid">{children}</div>
 				) : (
-					<div className="container">
+					<div className="container is-fluid">
 						<div className="columns is-centered has-text-centered">
 							<div className="column is-7">
 								<div className="box">

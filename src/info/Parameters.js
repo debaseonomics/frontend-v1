@@ -6,13 +6,13 @@ const Parameters = React.forwardRef(
 	({}, ref) => {
 		const editableList = [
 			{ heading: 'Price target', info: 'Debase target price' },
-			{ heading: 'Rebase Interval', info: 'Minimum time before a rebase' },
-			{ heading: 'Rebase Offset', info: 'When a rebase can happen' },
-			{ heading: 'Rebase Window', info: 'Period within a rebase can execute' },
+			{ heading: 'rebase Interval', info: 'Minimum time before a rebase' },
+			{ heading: 'rebase Offset', info: 'When a rebase can happen' },
+			{ heading: 'rebase Window', info: 'Period within a rebase can execute' },
 			{ heading: 'Oracle', info: 'Oracle which gets current Debase/DAI price' },
-			{ heading: 'Default Rebase Lags', info: 'Enable default dampening rebase changes' },
+			{ heading: 'Default rebase lags', info: 'Enable default dampening rebase changes' },
 			{
-				heading: 'Rebase Lag Breakpoints',
+				heading: 'rebase lag breakpoints',
 				info: 'Add, update and delete asymmetrical dampening for set ranges changes'
 			},
 			{ heading: 'Stabilizer Pools', info: 'Add, update and delete stabilizer pools' },
@@ -28,12 +28,12 @@ const Parameters = React.forwardRef(
 
 		return (
 			<div className="section" ref={ref}>
-				<div className="container block is-fluid ">
+				<div className=" block  ">
 					<h3 className="title is-size-3-tablet is-size-4-mobile">Parameters</h3>
 					<h4 className="subtitle is-size-4-tablet is-size-5-mobile">Editable parameters</h4>
 				</div>
-				<div className="container block is-fluid ">
-					<div className="columns is-multiline is-mobile is-vcentered">
+				<div className=" block  ">
+					<div className="columns is-multiline is-vcentered">
 						{editableList.map((ele, index) => (
 							<ParametersCard key={index + ele.heading} heading={ele.heading} value={ele.info} />
 						))}

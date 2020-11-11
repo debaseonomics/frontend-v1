@@ -78,7 +78,7 @@ function App() {
 										<Pool
 											tokenText="Dai"
 											rewardText="Debase"
-											poolName="Debase/DAI Pool"
+											poolName="Debase/Dai"
 											unit={18}
 											rewardTokenImage={debase}
 											stakeTokenImage={dai}
@@ -89,9 +89,9 @@ function App() {
 									</Route>
 									<Route path="/dapp/staking/debase-dai-lp">
 										<Pool
-											tokenText="Dai-Lp"
+											tokenText="Dai-lp"
 											rewardText="Debase"
-											poolName="Debase/DAI-LP Pool"
+											poolName="Debase/Dai-lp"
 											unit={18}
 											rewardTokenImage={debase}
 											stakeTokenImage={empty}
@@ -102,9 +102,9 @@ function App() {
 									</Route>
 									<Route path="/dapp/staking/degov-dai-lp">
 										<Pool
-											tokenText="Dai-Lp"
+											tokenText="Dai-lp"
 											rewardText="Degov"
-											poolName="Degov/Dai-Lp Pool"
+											poolName="Degov/Dai-lp"
 											unit={18}
 											rewardTokenImage={degov}
 											stakeTokenImage={empty}

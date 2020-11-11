@@ -8,13 +8,13 @@ export default function Contracts() {
 			address: contractAddress.debase,
 			name: 'Debase',
 			link: etherScanAddress + contractAddress.debase,
-			info: 'Flexible supply ERC-20 token'
+			info: 'Flexible supply token'
 		},
 		{
 			address: contractAddress.degov,
 			name: 'Degov',
 			link: etherScanAddress + contractAddress.degov,
-			info: 'Governance ERC-20 token'
+			info: 'Governance token'
 		},
 		{
 			address: contractAddress.debasePolicy,
@@ -30,7 +30,7 @@ export default function Contracts() {
 		},
 		{
 			address: contractAddress.governorAlpha,
-			name: 'GovernorAlpha',
+			name: 'Governor alpha',
 			link: etherScanAddress + contractAddress.governorAlpha,
 			info: 'Handles voting and proposals'
 		},
@@ -42,19 +42,19 @@ export default function Contracts() {
 		},
 		{
 			address: contractAddress.debaseDaiPool,
-			name: 'Debase/DAI Pool',
+			name: 'Debase/Dai Pool',
 			link: etherScanAddress + contractAddress.debaseDaiPool,
 			info: 'Handles initial debase seeding'
 		},
 		{
 			address: contractAddress.debaseDaiLpPool,
-			name: 'Debase/DAI-LP Pool',
+			name: 'Debase/Dai-lp Pool',
 			link: etherScanAddress + contractAddress.debaseDaiLpPool,
 			info: 'Handles incentivising debase liquidity '
 		},
 		{
 			address: contractAddress.degovDaiLpPool,
-			name: 'Degov/Dai-Lp Pool',
+			name: 'Degov/Dai-lp Pool',
 			link: etherScanAddress + contractAddress.degovDaiLpPool,
 			info: 'Handles degov distribution'
 		},
@@ -67,12 +67,12 @@ export default function Contracts() {
 	];
 	return (
 		<div className="section">
-			<div className="container block is-fluid">
-				<h3 className="title is-size-3-tablet is-size-4-mobile">Contracts</h3>
+			<div className=" block ">
+				<h3 className="title is-size-3-tablet is-size-5-mobile">Contracts</h3>
 				<h4 className="subtitle is-size-4-tablet is-size-5-mobile">List of Contracts and their addresses</h4>
 			</div>
-			<div className="container block is-fluid">
-				<div className="columns is-mobile is-multiline is-vcentered">
+			<div className=" block ">
+				<div className="columns is-multiline is-vcentered">
 					{list.map((ele, index) => (
 						<InfoCard key={index + ele.name} name={ele.name} link={ele.link} info={ele.info} />
 					))}
