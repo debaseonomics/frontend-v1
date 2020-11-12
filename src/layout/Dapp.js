@@ -45,7 +45,7 @@ export default function DappLayout({ children }) {
 	const menuLink = (link, to) => (
 		<div className="navbar-item">
 			<Link
-				className={activeLink === link ? ' has-text-weight-bold' : null}
+				className={activeLink === link ? 'has-text-grey-darker has-text-weight-bold' : 'has-text-grey-darker'}
 				to={to}
 				onClick={() => setActiveLink(link)}
 			>

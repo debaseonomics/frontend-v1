@@ -6,10 +6,10 @@ const Distribution = React.forwardRef(
 	// eslint-disable-next-line
 	({ isMobile }, ref) => {
 		return (
-			<div className="section" ref={ref}>
+			<div className="section pl-0 pr-0" ref={ref}>
 				<div className=" block  ">
 					<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">Distribution Pools</h3>
-					<h4 className="subtitle is-size-4-tablet is-size-5-mobile">
+					<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
 						No pre-mine. No founder fees. 100% community distribution.
 					</h4>
 				</div>

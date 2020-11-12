@@ -66,10 +66,12 @@ export default function Contracts() {
 		}
 	];
 	return (
-		<div className="section">
+		<div className="section pl-0 pr-0">
 			<div className=" block ">
 				<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">Contracts</h3>
-				<h4 className="subtitle is-size-4-tablet is-size-5-mobile">List of Contracts and their addresses</h4>
+				<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
+					List of Contracts and their addresses
+				</h4>
 			</div>
 			<div className=" block ">
 				<div className="columns is-multiline is-vcentered">

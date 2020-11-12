@@ -1,10 +1,10 @@
 import React from 'react';
 
-export default function TextInfo({ label, value, token, img }) {
+export default function TextInfo({ isMobile, label, value, token, img }) {
 	return (
 		<tr>
-			<th>
-				<span className="subtitle is-size-5-tablet is-size-6-mobile">{label}</span>
+			<th className="has-text-left">
+				<span className={isMobile ? 'subtitle is-6' : 'subtitle is-5'}>{label}</span>
 			</th>
 			<td>
 				<nav className="level is-mobile">
@@ -13,16 +13,19 @@ export default function TextInfo({ label, value, token, img }) {
 					</div>
 					<div className="level-right">
 						<div className="level-item">
-							<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{value}</h5>
+							<h5 className={isMobile ? 'subtitle is-6' : 'subtitle is-5'}>{value}</h5>
 						</div>
+
 						<div className="level-item">
 							<figure className="image is-24x24 is-inline-block">
 								<img src={img} alt="" />
 							</figure>
 						</div>
-						<div className="level-item">
-							<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{token}</h5>
-						</div>
+						{isMobile ? null : (
+							<div className="level-item">
+								<h5 className={isMobile ? 'subtitle is-6' : 'subtitle is-5'}>{token}</h5>
+							</div>
+						)}
 					</div>
 				</nav>
 			</td>

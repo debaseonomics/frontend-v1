@@ -4,10 +4,12 @@ const Uniswap = React.forwardRef(
 	// eslint-disable-next-line
 	({ isMobile }, ref) => {
 		return (
-			<div className="section" ref={ref}>
+			<div className="section pl-0 pr-0" ref={ref}>
 				<div className=" block  ">
 					<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">Uniswap</h3>
-					<h4 className="subtitle is-size-4-tablet is-size-5-mobile">The biggest issue with rebase tokens</h4>
+					<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
+						The biggest issue with rebase tokens
+					</h4>
 				</div>
 				<div className=" block  ">
 					<div className={isMobile ? 'box content' : 'box content is-medium'}>

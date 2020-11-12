@@ -11,6 +11,7 @@ import debase from './assets/debase.png';
 import dai from './assets/dai.png';
 import empty from './assets/empty.png';
 
+const TokensInfo = React.lazy(() => import('./info/TokensInfo'));
 const InfoLayout = React.lazy(() => import('./layout/Info'));
 const StabilizerInfo = React.lazy(() => import('./info/StabilizerInfo'));
 const Stabilizer = React.lazy(() => import('./dapp/Stabilizer'));
@@ -132,6 +133,7 @@ function App() {
 					<Route path="/">
 						<InfoLayout>
 							<Landing scrollToOverview={scrollToOverview} />
+							<TokensInfo isMobile={isMobile} />
 							<Overview
 								isMobile={isMobile}
 								ref={overviewRef}

@@ -7,6 +7,7 @@ import { formatEther, formatUnits, isAddress, parseUnits } from 'ethers/lib/util
 import { Contract } from 'ethers';
 import TextInfo from '../components/TextInfo.js';
 import PoolInput from '../components/PoolInput';
+import { useMediaQuery } from 'react-responsive';
 
 const fetcher = (library, abi) => (...args) => {
 	const [ arg1, arg2, ...params ] = args;
@@ -55,6 +56,8 @@ export default function Pool({
 	const { data: rewardBalance, mutate: getRewardBalance } = useSWR([ poolAddress, 'earned', account ], {
 		fetcher: fetcher(library, poolAbi)
 	});
+
+	const isMobile = useMediaQuery({ query: `(max-width: 482px)` });
 
 	const [ stakingLoading, setStakingLoading ] = useState(false);
 	const [ withdrawLoading, setWithdrawLoading ] = useState(false);
@@ -168,37 +171,23 @@ export default function Pool({
 	}
 
 	return (
-		<div className="">
-			<div className="columns is-centered">
-				<div className="box column is-6-tablet is-10-mobile">
-					<nav className="level is-mobile">
-						<div className="level-left">
-							<div className="level-item">
-								<button className="button is-warning is-outlined" onClick={() => history.goBack()}>
-									<span className="icon">
-										<i className="fas fa-arrow-left" />
-									</span>
-								</button>
-							</div>
-						</div>
-						<div className="level-item">
-							<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">{poolName}</h2>
-						</div>
-						<div className="level-right">
-							<button className="button is-invisible">
-								<span className="icon is-small">
-									<i className="fas fa-arrow-circle-left" />
-								</span>
-							</button>
-						</div>
-					</nav>
-					<table className="table is-fullwidth" style={{ backgroundColor: '#242424' }}>
+		<div className="columns is-centered">
+			<div className="column is-6">
+				<div className="box column has-text-centered ">
+					<div className="mb-2">
+						<h2 className="is-inline title is-size-4-tablet is-size-5-mobile is-family-secondary">
+							{poolName}
+						</h2>
+						<a className="delete is-pulled-right" onClick={() => history.goBack()} />
+					</div>
+					<table className="table is-fullwidth">
 						<tbody>
 							<TextInfo
+								isMobile={isMobile}
 								label="Balance"
 								value={
 									rewardBalance !== undefined ? (
-										parseFloat(formatEther(rewardTokenBalance)).toFixed(8) * 1
+										parseFloat(formatEther(rewardTokenBalance)).toFixed(isMobile ? 4 : 8) * 1
 									) : (
 										'0'
 									)
@@ -207,10 +196,11 @@ export default function Pool({
 								img={rewardTokenImage}
 							/>
 							<TextInfo
+								isMobile={isMobile}
 								label="Claimable"
 								value={
 									rewardBalance !== undefined ? (
-										parseFloat(formatEther(rewardBalance)).toFixed(8) * 1
+										parseFloat(formatEther(rewardBalance)).toFixed(isMobile ? 4 : 8) * 1
 									) : (
 										'0'
 									)
@@ -219,10 +209,11 @@ export default function Pool({
 								img={rewardTokenImage}
 							/>
 							<TextInfo
+								isMobile={isMobile}
 								label="To Stake"
 								value={
 									tokenBalance !== undefined ? (
-										parseFloat(formatUnits(tokenBalance, unit)).toFixed(8) * 1
+										parseFloat(formatUnits(tokenBalance, unit)).toFixed(isMobile ? 4 : 8) * 1
 									) : (
 										'0'
 									)
@@ -231,10 +222,11 @@ export default function Pool({
 								img={stakeTokenImage}
 							/>
 							<TextInfo
+								isMobile={isMobile}
 								label="Staked"
 								value={
 									stakeBalance !== undefined ? (
-										parseFloat(formatUnits(stakeBalance, unit)).toFixed(8) * 1
+										parseFloat(formatUnits(stakeBalance, unit)).toFixed(isMobile ? 4 : 8) * 1
 									) : (
 										'0'
 									)
