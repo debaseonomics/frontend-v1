@@ -17,8 +17,8 @@ export default function Staking() {
 						contractLink={etherScanAddress + contractAddress.debaseDaiPool}
 						website="oasis.app/borrow"
 						websiteLink="https://oasis.app/borrow"
-						supply="30,000 Debase"
-						initial="15,000 Debase"
+						supply="10,000 Debase"
+						initial="5,000 Debase"
 						infoText="Seeds initial supply of debase"
 						duration="1 day"
 						enabled={true}
@@ -35,10 +35,10 @@ export default function Staking() {
 						contractLink={etherScanAddress + contractAddress.debaseDaiLpPool}
 						website="uniswap.info"
 						websiteLink={uniAddress['debase-DAI-POOL']}
-						supply="70,000 Debase"
-						initial="35,000 Debase"
+						supply="25,000 Debase"
+						initial="12,500 Debase"
 						infoText="Incentives debase liquidity"
-						duration="3 days"
+						duration="1 days"
 						enabled={true}
 					/>
 				</div>

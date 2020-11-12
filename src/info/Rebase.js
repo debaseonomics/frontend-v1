@@ -12,13 +12,11 @@ export default function Rebase({ isMobile }) {
 			<div className=" block  ">
 				<div className={isMobile ? 'box content' : 'box content is-medium'}>
 					<p>
-						As the demand for DEBASE tokens waxes and wanes, so does the supply. Assuming initial parameters, 
-						Debaseonomics protocol’s rebase
-						function queries a{' '}
+						As the demand for DEBASE tokens waxes and wanes, so does the supply. Assuming initial
+						parameters, Debaseonomics protocol’s rebase function queries a{' '}
 						<a href="https://uniswap.org/docs/v2/core-concepts/oracles/">Uniswap v2 oracle</a> to compare
-						the price of Debase to DAI. This function cannot execute more than once every 24
-						hours. Note:{/* eslint-disable-next-line */} Governance can vote on choice of the Oracle(s) 
-						as well as the rebase interval.
+						the price of Debase to DAI. This function cannot execute more than once every 24 hours. Note:{/* eslint-disable-next-line */}{' '}
+						Governance can vote on choice of the Oracle(s) as well as the rebase interval.
 					</p>
 					<p>
 						Assuming current parameters for DEBASE, if the price difference between DAI and DEBASE initially

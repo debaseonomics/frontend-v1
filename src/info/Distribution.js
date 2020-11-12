@@ -20,10 +20,9 @@ const Distribution = React.forwardRef(
 							Debase token has two separate staking pools. The first pool yields the initial Debase token
 							supply. To join this pool, you need to stake <a href="https://oasis.app/borrow">DAI</a>{' '}
 							tokens the into the <Link to="/dapp/staking/debase-dai">Debase/DAI</Link> staking pool. A
-							total of 30,000 Debase tokens will be distributed from this pool with 15,000 Debase being
-							during the first 24 hours. This halving will continue every 24 hours until 30,000 Debase are
-							distributed from the pool. Also, for the first 24 hours only 10,000 DAI can be staked per
-							account to support fairer distribution.
+							total of 10,000 Debase tokens will be distributed from this pool with 5,000 Debase being
+							during the first 24 hours. This halving will continue every 24 hours until 10,000 Debase are
+							distributed from the pool.
 						</p>
 						<p>
 							The second pool is meant to provide stability and security to Debase by provide liquidity.
@@ -32,9 +31,9 @@ const Distribution = React.forwardRef(
 							<a href={etherScanAddress + contractAddress.debaseDaiLpPool}>Debase-DAI-V2</a> liquidity
 							pool tokens. These tokens can be deposited into the{' '}
 							<Link to="/dapp/staking/debase-dai">Debase/DAI staking pool</Link> to earn debase reward
-							tokens. A total of 70,000 Debase tokens will be distributed from this pool with 35,000
-							Debase being during the first 72 hours. This halving will continue every 72 hours until
-							70,000 Debase are distributed from the pool.
+							tokens. A total of 25,000 Debase tokens will be distributed from this pool with 12,500
+							Debase being during the first 24 hours. This halving will continue every 24 hours until
+							25,000 Debase are distributed from the pool.
 						</p>
 						<p>
 							Keeping this distribution scheme is mind rebases will only be available when 95% of the
