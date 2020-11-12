@@ -48,7 +48,7 @@ export default function TokensInfo({ isMobile }) {
 								debase,
 								'Debase',
 								'Flexible Supply Token',
-								'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla consectetur sem purus, id consequat tellus interdum vel. Duis tristique rutrum lacus, nec consequat enim rutrum ac.',
+								'DEBASE is an elastic supply token whose features (price target, price oracle(s), rebase lag, etc.) are parameterized  to be controlled through governance and whose value is stabilized through "stabilizer pools"',
 								'1,000,000',
 								'100,000'
 							)}
@@ -58,7 +58,7 @@ export default function TokensInfo({ isMobile }) {
 								degov,
 								'Degov',
 								'Governance Token',
-								'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla consectetur sem purus, id consequat tellus interdum vel. Duis tristique rutrum lacus, nec consequat enim rutrum ac.',
+								'DEGOV is the governance token of Debaseonomics which is used to vote on the parameters of DEBASE, stabilizer pools as well as other parameters of governance (quorum threshold, execution delay, etc.)',
 								'25,000',
 								'25,000'
 							)}
