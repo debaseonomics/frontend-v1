@@ -102,7 +102,7 @@ export default function StakeCard({
 			</div>
 			<div className="block">
 				<Link to={'/dapp/staking/' + link}>
-					<button className="button is-edged is-fullwidth is-primary">Get Token</button>
+					<button className="button is-edged is-fullwidth is-primary">Stake</button>
 				</Link>
 			</div>
 		</div>
