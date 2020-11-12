@@ -37,9 +37,9 @@ const Distribution = React.forwardRef(
 						</p>
 						<p>
 							Keeping this distribution scheme is mind rebases will only be available when 95% of the
-							Debase are distributed from the above mentioned pools or 3 weeks after the launch of the
+							Debase are distributed from the above mentioned pools or 2 weeks after the launch of the
 							Orchestrator contract in case not enough tokens are distributed from the pool. So rebases
-							can be available as early as 2 weeks from the launch.
+							can be available as early as 1 week from the launch.
 						</p>
 					</div>
 					<div className={isMobile ? 'box content mt-4' : 'box content mt-4 is-medium'}>
