@@ -1,4 +1,4 @@
-import React, { useRef, Suspense } from 'react';
+import React, { useRef, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { contractAddress, mobile } from './utils/index';
 import { useMediaQuery } from 'react-responsive';
@@ -47,6 +47,11 @@ function App() {
 	const uniswapRef = useRef(null);
 
 	const isMobile = useMediaQuery({ query: `(max-width: ${mobile}px)` });
+
+	useEffect(() => {
+		const body = document.body;
+		body.classList.toggle('dark-mode');
+	}, []);
 
 	function scrollToOverview() {
 		overviewRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
