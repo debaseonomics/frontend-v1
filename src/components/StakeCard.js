@@ -66,7 +66,7 @@ export default function StakeCard({
 				<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
 					Halving Reward: {currentReward ? parseFloat(formatEther(currentReward)) * 1 + tokenTag : '...'}
 				</h5>
-				{enabled ? (
+				{/* {enabled ? (
 					<h5 className="subtitle is-size-5-tablet is-size-6-mobile has-text-centered">
 						Staking starts in{' '}
 						{getStartTime ? (
@@ -75,7 +75,7 @@ export default function StakeCard({
 							'...'
 						)}
 					</h5>
-				) : null}
+				) : null} */}
 
 				<h6
 					className={
