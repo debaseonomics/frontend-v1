@@ -44,6 +44,10 @@ export default function StakeCard({
 		fetcher: fetcher(library, poolAbi)
 	});
 
+	const { data: getStartTime } = useSWR([ contract, 'startTime' ], {
+		fetcher: fetcher(library, poolAbi)
+	});
+
 	return (
 		<div className="box">
 			<div className="block">
@@ -64,9 +68,9 @@ export default function StakeCard({
 				</h5>
 				{enabled ? (
 					<h5 className="subtitle is-size-5-tablet is-size-6-mobile has-text-centered">
-						Time to next halving{' '}
-						{getPeriodFinish ? (
-							DateTime.fromSeconds(getPeriodFinish.toNumber()).toRelative({ round: false })
+						Staking starts in{' '}
+						{getStartTime ? (
+							DateTime.fromSeconds(getStartTime.toNumber()).toRelative({ round: false })
 						) : (
 							'...'
 						)}

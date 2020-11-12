@@ -26,9 +26,9 @@ export default function Landing({ scrollToOverview }) {
 						<button onClick={() => scrollToOverview()} className="button is-edged is-medium is-primary">
 							Overview
 						</button>
-						{/* <Link className="button is-edged is-medium is-link" to="/dapp/staking">
+						<Link className="button is-edged is-medium is-link" to="/dapp/staking">
 							Application
-						</Link> */}
+						</Link>
 					</div>
 
 					<a
