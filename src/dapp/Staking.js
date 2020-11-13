@@ -37,7 +37,7 @@ export default function Staking() {
 						websiteLink={uniAddress['debase-DAI-POOL']}
 						supply="25,000 Debase"
 						initial="12,500 Debase"
-						infoText="Incentives debase liquidity"
+						infoText="Incentivizes debase liquidity"
 						duration="1 days"
 						enabled={true}
 					/>
