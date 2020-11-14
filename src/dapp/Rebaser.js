@@ -65,19 +65,23 @@ export default function Rebaser() {
 						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
 							Debase Distributed:{' '}
 							{getDaiPoolRewardDistributed && getLpPoolRewardDistributed ? (
-								parseFloat(
+								(parseFloat(
 									parseFloat(formatEther(getDaiPoolRewardDistributed)) +
 										parseFloat(formatEther(getLpPoolRewardDistributed))
 								).toFixed(2) *
 									1 +
-								70000
+									70000).toString() + ' Debase'
 							) : (
 								'...'
 							)}
 						</h5>
 						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
 							Required Distribution to Rebase:{' '}
-							{getRebaseRequiredSupply ? parseFloat(formatEther(getRebaseRequiredSupply)) + 70000 : '...'}
+							{getRebaseRequiredSupply ? (
+								(parseFloat(formatEther(getRebaseRequiredSupply)) + 70000).toString() + ' Debase'
+							) : (
+								'...'
+							)}
 						</h5>
 						<h5 className="subtitle is-size-5-tablet is-size-6-mobile ">
 							Maximum time to rebase {' '}
