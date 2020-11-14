@@ -28,6 +28,7 @@ export function toaster(message, toastType, duration = 2000) {
 export const poolAbi = [
 	'function rewardPerToken() public view returns (uint256)',
 	'function earned(address account) public view returns (uint256)',
+	'function rewardDistributed() public view returns(uint256)',
 	'function periodFinish() public view returns(uint256)',
 	'function initReward() public view returns(uint256)',
 	'function rewardRate() public view returns(uint256)',
@@ -37,6 +38,12 @@ export const poolAbi = [
 	'function exit()',
 	'function getReward()',
 	'function balanceOf(address account) public view returns (uint256)'
+];
+
+export const orchestratorAbi = [
+	'function maximumRebaseTime() public view returns(uint256)',
+	'function rebaseRequiredSupply() public view returns(uint256)',
+	'function rebase() public'
 ];
 
 export const lpAbi = [

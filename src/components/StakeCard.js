@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { turncate, poolAbi } from '../utils/index';
-import { DateTime } from 'luxon';
 import { useWeb3React } from '@web3-react/core';
 import useSWR from 'swr';
 import { formatEther, isAddress } from 'ethers/lib/utils';
@@ -36,15 +35,11 @@ export default function StakeCard({
 }) {
 	const { library } = useWeb3React();
 
-	const { data: getPeriodFinish } = useSWR([ contract, 'periodFinish' ], {
-		fetcher: fetcher(library, poolAbi)
-	});
-
 	const { data: currentReward } = useSWR([ contract, 'initReward' ], {
 		fetcher: fetcher(library, poolAbi)
 	});
 
-	const { data: getStartTime } = useSWR([ contract, 'startTime' ], {
+	const { data: getRewardDistributed } = useSWR([ contract, 'rewardDistributed' ], {
 		fetcher: fetcher(library, poolAbi)
 	});
 
@@ -66,16 +61,16 @@ export default function StakeCard({
 				<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
 					Halving Reward: {currentReward ? parseFloat(formatEther(currentReward)) * 1 + tokenTag : '...'}
 				</h5>
-				{/* {enabled ? (
-					<h5 className="subtitle is-size-5-tablet is-size-6-mobile has-text-centered">
-						Staking starts in{' '}
-						{getStartTime ? (
-							DateTime.fromSeconds(getStartTime.toNumber()).toRelative({ round: false })
+				{enabled ? (
+					<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
+						Rewards Claimed:{' '}
+						{getRewardDistributed ? (
+							parseFloat(formatEther(getRewardDistributed)).toFixed(2) + tokenTag
 						) : (
 							'...'
 						)}
 					</h5>
-				) : null} */}
+				) : null}
 
 				<h6
 					className={
