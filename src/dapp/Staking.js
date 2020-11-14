@@ -44,7 +44,7 @@ export default function Staking() {
 				</div>
 				<div className="column is-4">
 					<StakeCard
-						title="Degov/Dai-lp Pool"
+						title="Debase/Dai-lp Pool"
 						link="degov-dai-lp"
 						tokenTag=" Degov"
 						rewardToken={contractAddress.degov}
