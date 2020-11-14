@@ -8,7 +8,7 @@ export default function Staking() {
 			<div className="columns is-multiline is-vcentered">
 				<div className="column is-4">
 					<StakeCard
-						title="Debase/Dai Pool"
+						title="Dai Pool"
 						link="debase-dai"
 						tokenTag=" Debase"
 						rewardToken={contractAddress.debase}
