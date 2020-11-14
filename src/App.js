@@ -84,7 +84,7 @@ function App() {
 										<Pool
 											tokenText="Dai"
 											rewardText="Debase"
-											poolName="Debase/Dai"
+											poolName="Dai"
 											unit={18}
 											rewardTokenImage={debase}
 											stakeTokenImage={dai}
@@ -110,7 +110,7 @@ function App() {
 										<Pool
 											tokenText="Dai-lp"
 											rewardText="Degov"
-											poolName="Degov/Dai-lp"
+											poolName="Debase/Dai-lp"
 											unit={18}
 											rewardTokenImage={degov}
 											stakeTokenImage={empty}
