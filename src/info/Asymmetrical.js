@@ -15,7 +15,7 @@ export default function Asymmetrical({ isMobile }) {
 						Debaseonomics allows for the governance to adjust the smoothing parameter (Rebase Lag) over
 						configurable ranges that is applied in-order to dampen supply changes during a rebase. The
 						rebase lag can be configured to behave in accordance with both the amplitude and sign of
-						deviation between the current price and the target price thus allowing for assymmetric lag. This
+						deviation between the current price and the target price thus allowing for asymmetric lag. This
 						flexibility prevents the protocol from increasing or decreasing the supply too fast if suitable
 						to circumstance.
 					</p>
