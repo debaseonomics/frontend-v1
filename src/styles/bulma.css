@@ -40,6 +40,11 @@ body.dark-mode .table {
 	background: #212429 !important;
 }
 
+body.dark-mode tr,
+body.dark-mode th {
+	color: #f7f7f7 !important;
+}
+
 body.dark-mode .box .title,
 body.dark-mode .box .subtitle,
 body.dark-mode .card .title,
@@ -47,7 +52,15 @@ body.dark-mode .card .subtitle {
 	color: #f7f7f7 !important;
 }
 
+body.dark-mode .h3 {
+	color: #f7f7f7 !important;
+}
+
 body.dark-mode .content {
+	color: #f7f7f7 !important;
+}
+
+body.dark-mode .div .strong {
 	color: #f7f7f7 !important;
 }
 

@@ -11,6 +11,7 @@ import debase from './assets/debase.png';
 import dai from './assets/dai.png';
 import empty from './assets/empty.png';
 
+const Proposal = React.lazy(() => import('./dapp/Proposal'));
 const TokensInfo = React.lazy(() => import('./info/TokensInfo'));
 const InfoLayout = React.lazy(() => import('./layout/Info'));
 const StabilizerInfo = React.lazy(() => import('./info/StabilizerInfo'));
@@ -129,8 +130,11 @@ function App() {
 								<Route path="/dapp/rebaser">
 									<Rebaser />
 								</Route>
-								<Route path="/dapp/governance">
+								<Route exact path="/dapp/governance">
 									<Gov />
+								</Route>
+								<Route path="/dapp/governance/proposal/:proposalId">
+									<Proposal />
 								</Route>
 							</DappLayout>
 						</Web3ReactProvider>
