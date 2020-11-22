@@ -75,7 +75,7 @@ export default function Proposal() {
 				<div className="columns is-multiline">
 					<div className="column is-half">
 						<div className="box">
-							<nav className="level">
+							<nav className="level is-mobile">
 								<div className="level-left">
 									<div className="level-item">
 										<h4 className="title is-4">For</h4>
@@ -92,7 +92,7 @@ export default function Proposal() {
 					</div>
 					<div className="column is-half">
 						<div className="box">
-							<nav className="level">
+							<nav className="level is-mobile">
 								<div className="level-left">
 									<div className="level-item">
 										<h4 className="title is-4">Against</h4>
