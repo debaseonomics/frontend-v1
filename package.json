@@ -3,6 +3,7 @@
 	"version": "0.1.0",
 	"private": false,
 	"dependencies": {
+		"@creativebulma/bulma-collapsible": "^1.0.4",
 		"@creativebulma/bulma-divider": "^1.1.0",
 		"@web3-react/core": "^6.1.1",
 		"@web3-react/injected-connector": "^6.0.7",
@@ -30,7 +31,18 @@
 		"extends": "react-app"
 	},
 	"browserslist": {
-		"production": [ ">0.2%", "not dead", "not op_mini all" ],
-		"development": [ "last 1 chrome version", "last 1 firefox version", "last 1 safari version" ]
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"@creativebulma/bulma-tooltip": "^1.2.0"
 	}
 }

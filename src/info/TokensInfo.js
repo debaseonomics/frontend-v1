@@ -9,7 +9,7 @@ export default function TokensInfo({ isMobile }) {
 				<div class="media">
 					<div class="media-left">
 						<figure class="image is-48x48">
-							<img src={tokenImg} alt="Placeholder image" />
+							<img src={tokenImg} alt="Placeholder" />
 						</figure>
 					</div>
 					<div class="media-content is-clipped">
@@ -39,7 +39,7 @@ export default function TokensInfo({ isMobile }) {
 		</div>
 	);
 	return (
-		<div className="section pl-0 pr-0">
+		<div className="pl-0 pr-0 section">
 			<div className="columns is-centered">
 				<div className="column is-10">
 					<div className="columns">

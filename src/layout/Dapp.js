@@ -91,7 +91,7 @@ export default function DappLayout({ children }) {
 							{menuLink('Staking', '/dapp/staking')}
 							{menuLink('Governance', '/dapp/governance')}
 							{menuLink('Rebaser', '/dapp/rebaser')}
-							{menuLink('Stabilizer', '/dapp/stabilizer')}
+							{menuLink('Stabilizers', '/dapp/stabilizers')}
 						</div>
 						<div className="navbar-end">
 							<div className="navbar-item">

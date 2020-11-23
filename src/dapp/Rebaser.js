@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { turncate, poolAbi, contractAddress, orchestratorAbi, toaster } from '../utils/index';
+import { poolAbi, contractAddress, orchestratorAbi, toaster } from '../utils/index';
 import { useWeb3React } from '@web3-react/core';
 import { DateTime } from 'luxon';
 import useSWR from 'swr';
 import { formatEther, isAddress } from 'ethers/lib/utils';
 import { Contract } from 'ethers';
-import { useLocation } from 'react-router-dom';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const fetcher = (library, abi) => (...args) => {
@@ -21,8 +20,6 @@ const fetcher = (library, abi) => (...args) => {
 };
 
 export default function Rebaser() {
-	const location = useLocation();
-	console.log(location.pathname); // path is /contact
 	const { library } = useWeb3React();
 
 	const { data: getDaiPoolRewardDistributed } = useSWR([ contractAddress.debaseDaiPool, 'rewardDistributed' ], {

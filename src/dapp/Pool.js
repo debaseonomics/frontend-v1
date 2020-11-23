@@ -30,7 +30,8 @@ export default function Pool({
 	rewardText,
 	rewardTokenImage,
 	stakeTokenImage,
-	unit
+	unit,
+	showName
 }) {
 	let history = useHistory();
 	const stakeRef = useRef();
@@ -170,122 +171,130 @@ export default function Pool({
 		setClaimUnstakeLoading(false);
 	}
 
-	return (
-		<div className="columns is-centered">
-			<div className="column is-6">
-				<div className="box column has-text-centered ">
-					<div className="mb-2">
-						<h2 className="is-inline title is-size-4-tablet is-size-5-mobile is-family-secondary">
-							{poolName}
-						</h2>
-						<a className="delete is-pulled-right" onClick={() => history.goBack()} />
-					</div>
-					<table className="table is-fullwidth">
-						<tbody>
-							<TextInfo
-								isMobile={isMobile}
-								label="Balance"
-								value={
-									rewardBalance !== undefined ? (
-										parseFloat(formatEther(rewardTokenBalance)).toFixed(isMobile ? 4 : 8) * 1
-									) : (
-										'0'
-									)
-								}
-								token={rewardText}
-								img={rewardTokenImage}
-							/>
-							<TextInfo
-								isMobile={isMobile}
-								label="Claimable"
-								value={
-									rewardBalance !== undefined ? (
-										parseFloat(formatEther(rewardBalance)).toFixed(isMobile ? 4 : 8) * 1
-									) : (
-										'0'
-									)
-								}
-								token={rewardText}
-								img={rewardTokenImage}
-							/>
-							<TextInfo
-								isMobile={isMobile}
-								label="To Stake"
-								value={
-									tokenBalance !== undefined ? (
-										parseFloat(formatUnits(tokenBalance, unit)).toFixed(isMobile ? 4 : 8) * 1
-									) : (
-										'0'
-									)
-								}
-								token={tokenText}
-								img={stakeTokenImage}
-							/>
-							<TextInfo
-								isMobile={isMobile}
-								label="Staked"
-								value={
-									stakeBalance !== undefined ? (
-										parseFloat(formatUnits(stakeBalance, unit)).toFixed(isMobile ? 4 : 8) * 1
-									) : (
-										'0'
-									)
-								}
-								token={tokenText}
-								img={stakeTokenImage}
-							/>
-						</tbody>
-					</table>
-					<div className="columns">
-						<div className="column">
-							<PoolInput
-								action={handleStake}
-								loading={stakingLoading}
-								buttonText="Stake Amount"
-								ref={stakeRef}
-								balance={tokenBalance}
-								placeholderText="Stake Amount"
-								unit={unit}
-							/>
-							<button
-								className={
-									claimLoading ? (
-										'mt-2 button is-loading is-link is-fullwidth is-edged'
-									) : (
-										'mt-2 button is-link is-fullwidth is-edged'
-									)
-								}
-								onClick={claimReward}
-							>
-								Claim Reward
-							</button>
-						</div>
-						<div className="column">
-							<PoolInput
-								action={handleWithdraw}
-								loading={withdrawLoading}
-								buttonText="Withdraw Amount"
-								ref={withdrawRef}
-								balance={stakeBalance}
-								placeholderText="Withdraw Amount"
-								unit={unit}
-							/>
-							<button
-								className={
-									claimUnstakeLoading ? (
-										'mt-2 button is-loading is-link is-fullwidth is-edged'
-									) : (
-										'mt-2 button is-link is-fullwidth is-edged'
-									)
-								}
-								onClick={claimRewardThenUnstake}
-							>
-								Claim Reward & Unstake
-							</button>
-						</div>
-					</div>
+	const data = (
+		<div className="box has-text-centered">
+			{showName ? (
+				<div className="mb-2">
+					<h2 className="is-inline title is-size-4-tablet is-size-5-mobile is-family-secondary">
+						{poolName}
+					</h2>
+					<button className="delete is-pulled-right" onClick={() => history.goBack()} />
+				</div>
+			) : null}
+			<table className="table is-fullwidth">
+				<tbody>
+					<TextInfo
+						isMobile={isMobile}
+						label="Balance"
+						value={
+							rewardBalance !== undefined ? (
+								parseFloat(formatEther(rewardTokenBalance)).toFixed(isMobile ? 4 : 8) * 1
+							) : (
+								'0'
+							)
+						}
+						token={rewardText}
+						img={rewardTokenImage}
+					/>
+					<TextInfo
+						isMobile={isMobile}
+						label="Claimable"
+						value={
+							rewardBalance !== undefined ? (
+								parseFloat(formatEther(rewardBalance)).toFixed(isMobile ? 4 : 8) * 1
+							) : (
+								'0'
+							)
+						}
+						token={rewardText}
+						img={rewardTokenImage}
+					/>
+					<TextInfo
+						isMobile={isMobile}
+						label="To Stake"
+						value={
+							tokenBalance !== undefined ? (
+								parseFloat(formatUnits(tokenBalance, unit)).toFixed(isMobile ? 4 : 8) * 1
+							) : (
+								'0'
+							)
+						}
+						token={tokenText}
+						img={stakeTokenImage}
+					/>
+					<TextInfo
+						isMobile={isMobile}
+						label="Staked"
+						value={
+							stakeBalance !== undefined ? (
+								parseFloat(formatUnits(stakeBalance, unit)).toFixed(isMobile ? 4 : 8) * 1
+							) : (
+								'0'
+							)
+						}
+						token={tokenText}
+						img={stakeTokenImage}
+					/>
+				</tbody>
+			</table>
+			<div className="columns">
+				<div className="column">
+					<PoolInput
+						action={handleStake}
+						loading={stakingLoading}
+						buttonText="Stake Amount"
+						ref={stakeRef}
+						balance={tokenBalance}
+						placeholderText="Stake Amount"
+						unit={unit}
+					/>
+					<button
+						className={
+							claimLoading ? (
+								'mt-2 button is-loading is-link is-fullwidth is-edged'
+							) : (
+								'mt-2 button is-link is-fullwidth is-edged'
+							)
+						}
+						onClick={claimReward}
+					>
+						Claim Reward
+					</button>
+				</div>
+				<div className="column">
+					<PoolInput
+						action={handleWithdraw}
+						loading={withdrawLoading}
+						buttonText="Withdraw Amount"
+						ref={withdrawRef}
+						balance={stakeBalance}
+						placeholderText="Withdraw Amount"
+						unit={unit}
+					/>
+					<button
+						className={
+							claimUnstakeLoading ? (
+								'mt-2 button is-loading is-link is-fullwidth is-edged'
+							) : (
+								'mt-2 button is-link is-fullwidth is-edged'
+							)
+						}
+						onClick={claimRewardThenUnstake}
+					>
+						Claim Reward & Unstake
+					</button>
 				</div>
 			</div>
 		</div>
 	);
+
+	if (showName) {
+		return (
+			<div className="columns is-centered">
+				<div className="column is-6">{data}</div>
+			</div>
+		);
+	} else {
+		return data;
+	}
 }

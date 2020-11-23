@@ -46,10 +46,17 @@ body.dark-mode th {
 }
 
 body.dark-mode .box .title,
-body.dark-mode .box .subtitle,
-body.dark-mode .card .title,
-body.dark-mode .card .subtitle {
+body.dark-mode .card .title {
 	color: #f7f7f7 !important;
+}
+
+body.dark-mode .box .subtitle,
+body.dark-mode .card .subtitle {
+	color: #e0e0e0 !important;
+}
+
+body.dark-mode .subtitle {
+	color: #e0e0e0 !important;
 }
 
 body.dark-mode .h3 {
@@ -65,8 +72,7 @@ body.dark-mode .div .strong {
 }
 
 body.dark-mode .title,
-body.dark-mode .heading,
-body.dark-mode .subtitle {
+body.dark-mode .heading {
 	color: #f7f7f7 !important;
 }
 

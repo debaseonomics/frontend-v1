@@ -11,11 +11,8 @@ import debase from './assets/debase.png';
 import dai from './assets/dai.png';
 import empty from './assets/empty.png';
 
-const Proposal = React.lazy(() => import('./dapp/Proposal'));
 const TokensInfo = React.lazy(() => import('./info/TokensInfo'));
-const InfoLayout = React.lazy(() => import('./layout/Info'));
 const StabilizerInfo = React.lazy(() => import('./info/StabilizerInfo'));
-const Stabilizer = React.lazy(() => import('./dapp/Stabilizer'));
 const Landing = React.lazy(() => import('./info/Landing'));
 const Parameters = React.lazy(() => import('./info/Parameters'));
 const Contracts = React.lazy(() => import('./info/Contracts'));
@@ -27,11 +24,16 @@ const Asymmetrical = React.lazy(() => import('./info/Asymmetrical'));
 const Ownership = React.lazy(() => import('./info/Ownership'));
 const Uniswap = React.lazy(() => import('./info/Uniswap'));
 
+const InfoLayout = React.lazy(() => import('./layout/Info'));
 const DappLayout = React.lazy(() => import('./layout/Dapp'));
 const Staking = React.lazy(() => import('./dapp/Staking'));
 const Gov = React.lazy(() => import('./dapp/Gov'));
+const Proposal = React.lazy(() => import('./dapp/Proposal'));
 const Pool = React.lazy(() => import('./dapp/Pool'));
 const Rebaser = React.lazy(() => import('./dapp/Rebaser'));
+
+const Stabilizers = React.lazy(() => import('./dapp/stabilizers/index'));
+const ThresholdCounter = React.lazy(() => import('./dapp/stabilizers/ThresholdCounter'));
 
 function getLibrary(provider) {
 	const library = new ethers.providers.Web3Provider(provider);
@@ -83,6 +85,7 @@ function App() {
 								<Route path="/dapp/staking">
 									<Route path="/dapp/staking/debase-dai">
 										<Pool
+											showName={true}
 											tokenText="Dai"
 											rewardText="Debase"
 											poolName="Dai"
@@ -96,6 +99,7 @@ function App() {
 									</Route>
 									<Route path="/dapp/staking/debase-dai-lp">
 										<Pool
+											showName={true}
 											tokenText="Dai-lp"
 											rewardText="Debase"
 											poolName="Debase/Dai-lp"
@@ -109,6 +113,7 @@ function App() {
 									</Route>
 									<Route path="/dapp/staking/degov-dai-lp">
 										<Pool
+											showName={true}
 											tokenText="Dai-lp"
 											rewardText="Degov"
 											poolName="Debase/Dai-lp"
@@ -124,17 +129,24 @@ function App() {
 										<Staking />
 									</Route>
 								</Route>
-								<Route path="/dapp/stabilizer">
-									<Stabilizer />
+								<Route path="/dapp/stabilizers">
+									<Route path="/dapp/stabilizers/thresholdCounter">
+										<ThresholdCounter />
+									</Route>
+									<Route exact path="/dapp/stabilizers">
+										<Stabilizers />
+									</Route>
 								</Route>
 								<Route path="/dapp/rebaser">
 									<Rebaser />
 								</Route>
-								<Route exact path="/dapp/governance">
-									<Gov />
-								</Route>
-								<Route path="/dapp/governance/proposal/:proposalId">
-									<Proposal />
+								<Route path="/dapp/governance">
+									<Route path="/dapp/governance/proposal/:proposalId">
+										<Proposal />
+									</Route>
+									<Route exact path="/dapp/governance">
+										<Gov />
+									</Route>
 								</Route>
 							</DappLayout>
 						</Web3ReactProvider>

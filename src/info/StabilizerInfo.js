@@ -1,18 +1,18 @@
 import React from 'react';
 import { contractAddress, etherScanAddress } from '../utils/index';
 
-const Stabilizer = React.forwardRef(
+const StabilizerInfo = React.forwardRef(
 	// eslint-disable-next-line
 	({ isMobile }, ref) => {
 		return (
-			<div className="section pl-0 pr-0" ref={ref}>
-				<div className=" block">
+			<div className="pl-0 pr-0 section" ref={ref}>
+				<div className="block ">
 					<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">Stabilizer Pools</h3>
 					<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
 						Custom pools helping to stabilize debase
 					</h4>
 				</div>
-				<div className=" block">
+				<div className="block ">
 					<div className={isMobile ? 'box content' : 'box content is-medium'}>
 						<p>
 							Stabilizers are custom pools built and approved by governance to help reward behaviors that
@@ -48,4 +48,4 @@ const Stabilizer = React.forwardRef(
 	}
 );
 
-export default Stabilizer;
+export default StabilizerInfo;

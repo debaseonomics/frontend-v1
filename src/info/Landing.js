@@ -22,7 +22,7 @@ export default function Landing({ scrollToOverview }) {
 						Boundless Flexibility
 					</h2>
 
-					<div className="buttons mb-0 is-centered">
+					<div className="mb-0 buttons is-centered">
 						<button onClick={() => scrollToOverview()} className="button is-edged is-medium is-primary">
 							Overview
 						</button>
@@ -31,24 +31,16 @@ export default function Landing({ scrollToOverview }) {
 						</Link>
 					</div>
 
-					<a
-						href="https://github.com/debaseonomics/"
-						target="_blank"
-						className="icon is-large has-text-grey-darker"
-					>
+					<a href="https://github.com/debaseonomics/" className="icon is-large has-text-grey-darker">
 						<i className="fab fa-github fa-lg" />
 					</a>
-					<a href="https://discord.gg/QjmTMnx" target="_blank" className="icon is-large has-text-grey-darker">
+					<a href="https://discord.gg/QjmTMnx" className="icon is-large has-text-grey-darker">
 						<i className="fab fa-discord fa-lg" />
 					</a>
-					<a href="https://t.me/debaseonomics" target="_blank" className="icon is-large has-text-grey-darker">
+					<a href="https://t.me/debaseonomics" className="icon is-large has-text-grey-darker">
 						<i className="fab fa-telegram fa-lg" />
 					</a>
-					<a
-						href="https://twitter.com/debaseonomics"
-						target="_blank"
-						className="icon is-large has-text-grey-darker"
-					>
+					<a href="https://twitter.com/debaseonomics" className="icon is-large has-text-grey-darker">
 						<i className="fab fa-twitter fa-lg" />
 					</a>
 					<div>
