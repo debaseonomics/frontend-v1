@@ -1,25 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { poolAbi, lpAbi, toaster } from '../utils/index';
+import { poolAbi, lpAbi, toaster, fetcher } from '../utils/index';
 import useSWR from 'swr';
 import { useHistory } from 'react-router-dom';
-import { formatEther, formatUnits, isAddress, parseUnits } from 'ethers/lib/utils';
+import { formatEther, formatUnits, parseUnits } from 'ethers/lib/utils';
 import { Contract } from 'ethers';
 import TextInfo from '../components/TextInfo.js';
 import PoolInput from '../components/PoolInput';
 import { useMediaQuery } from 'react-responsive';
-
-const fetcher = (library, abi) => (...args) => {
-	const [ arg1, arg2, ...params ] = args;
-	if (isAddress(arg1)) {
-		const address = arg1;
-		const method = arg2;
-		const contract = new Contract(address, abi, library.getSigner());
-		return contract[method](...params);
-	}
-	const method = arg1;
-	return library[method](arg2, ...params);
-};
 
 export default function Pool({
 	poolName,

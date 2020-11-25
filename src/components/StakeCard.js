@@ -1,22 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { turncate, poolAbi } from '../utils/index';
+import { turncate, poolAbi, fetcher } from '../utils/index';
 import { useWeb3React } from '@web3-react/core';
 import useSWR from 'swr';
-import { formatEther, isAddress } from 'ethers/lib/utils';
+import { formatEther } from 'ethers/lib/utils';
 import { Contract } from 'ethers';
-
-const fetcher = (library, abi) => (...args) => {
-	const [ arg1, arg2, ...params ] = args;
-	if (isAddress(arg1)) {
-		const address = arg1;
-		const method = arg2;
-		const contract = new Contract(address, abi, library.getSigner());
-		return contract[method](...params);
-	}
-	const method = arg1;
-	return library[method](arg2, ...params);
-};
 
 export default function StakeCard({
 	title,

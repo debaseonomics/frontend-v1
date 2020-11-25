@@ -1,4 +1,6 @@
 import { toast } from 'bulma-toast';
+import { Contract } from 'ethers';
+import { isAddress } from 'ethers/lib/utils';
 
 export function turncate(fullStr, strLen, separator) {
 	if (fullStr.length <= strLen) return fullStr;
@@ -40,10 +42,35 @@ export const poolAbi = [
 	'function balanceOf(address account) public view returns (uint256)'
 ];
 
+export const thresholdCounterAbi = [
+	'function rewardAmount() public view returns (uint256)',
+	'function countInSequence() public view returns (bool)',
+	'function countThreshold() public view returns (uint256)',
+	'function beforePeriodFinish() public view returns (bool)',
+	'function duration() public view returns (uint256)',
+	'function poolEnabled() public view returns (bool)'
+];
+
 export const orchestratorAbi = [
 	'function maximumRebaseTime() public view returns(uint256)',
 	'function rebaseRequiredSupply() public view returns(uint256)',
 	'function rebase() public'
+];
+
+export const debasePolicyAbi = [
+	'function priceTargetRate() public view returns(uint256)',
+	'function upperDeviationThreshold() public view returns(uint256)',
+	'function lowerDeviationThreshold() public view returns(uint256)',
+	'function useDefaultRebaseLag() public view returns(bool)',
+	'function defaultPositiveRebaseLag() public view returns(uint256)',
+	'function defaultNegativeRebaseLag() public view returns(uint256)',
+	'function minRebaseTimeIntervalSec() public view returns(uint256)',
+	'function rebaseWindowOffsetSec() public view returns(uint256)',
+	'function rebaseWindowLengthSec() public view returns(uint256)',
+	'function upperLagBreakpoints(uint256) public view returns(uint256)',
+	'function lowerLagBreakpoints(uint256) public view returns(uint256)',
+	'function lastRebaseTimestampSec() public view returns(uint256)',
+	'function stabilizerPools(uint256) public view returns(bool,address)'
 ];
 
 export const lpAbi = [
@@ -56,10 +83,7 @@ export const lpAbi = [
 	'event Transfer(address indexed from, address indexed to, uint amount)'
 ];
 
-export const uniAbi = [
-	'function price0CumulativeLast() view returns (uint256)',
-	'function price1CumulativeLast() view returns (uint256)'
-];
+export const uniAbi = [ 'function getReserves() view returns (uint112,uint112,uint32)' ];
 
 export const contractAddress = {
 	degov: '0x469E66e06fEc34839E5eB1273ba85A119B8D702F',
@@ -95,3 +119,15 @@ export const etherScanTX = 'https://etherscan.io/tx/';
 
 export const mobile = 768;
 export const tablet = 769;
+
+export const fetcher = (library, abi) => (...args) => {
+	const [ arg1, arg2, ...params ] = args;
+	if (isAddress(arg1)) {
+		const address = arg1;
+		const method = arg2;
+		const contract = new Contract(address, abi, library.getSigner());
+		return contract[method](...params);
+	}
+	const method = arg1;
+	return library[method](arg2, ...params);
+};

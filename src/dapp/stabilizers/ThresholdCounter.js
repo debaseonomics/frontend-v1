@@ -3,13 +3,74 @@ import Pool from '../Pool';
 import debase from '../../assets/debase.png';
 import empty from '../../assets/empty.png';
 import { useHistory } from 'react-router-dom';
-import { contractAddress, etherScanAddress, turncate } from '../../utils/index';
+import { contractAddress, etherScanAddress, turncate, fetcher, thresholdCounterAbi } from '../../utils/index';
+import useSWR from 'swr';
+import { useWeb3React } from '@web3-react/core';
+import { formatEther, formatUnits } from 'ethers/lib/utils';
 
 export default function ThresholdCounter() {
 	let history = useHistory();
-	const contract = contractAddress.stabilizerPool;
-
+	const { library } = useWeb3React();
 	const [ hideStake, setHideStake ] = useState(true);
+
+	const { data: rewardAmount } = useSWR([ contractAddress.stabilizerPool, 'rewardAmount' ], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
+
+	const { data: countInSequence } = useSWR([ contractAddress.stabilizerPool, 'countInSequence' ], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
+
+	const { data: countThreshold } = useSWR([ contractAddress.stabilizerPool, 'countThreshold' ], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
+
+	const { data: beforePeriodFinish } = useSWR([ contractAddress.stabilizerPool, 'beforePeriodFinish' ], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
+
+	const { data: duration } = useSWR([ contractAddress.stabilizerPool, 'duration' ], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
+
+	const { data: poolEnabled } = useSWR([ contractAddress.stabilizerPool, 'poolEnabled' ], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
+
+	console.log(countThreshold, countInSequence);
+
+	const paramsData = [
+		{
+			label: 'Reward Amount',
+			value: rewardAmount ? formatEther(rewardAmount) : '...',
+			toolTip: 'Reward given to pool upon hitting count threshold'
+		},
+		{
+			label: 'Count Threshold',
+			value: countThreshold ? countThreshold.toNumber() : '...',
+			toolTip: 'Count threshold upon which reward is given to pool'
+		},
+		{
+			label: 'Count In Sequence',
+			value: countInSequence !== undefined ? (countInSequence ? 'True' : 'False') : '...',
+			toolTip: 'Count of the number of times a neutral rebase has happened'
+		},
+		{
+			label: 'Before Period Finish',
+			value: beforePeriodFinish !== undefined ? (beforePeriodFinish ? 'True' : 'False') : '...',
+			toolTip: 'Pool can be given reward before last reward has been given out'
+		},
+		{
+			label: 'Reward Period',
+			value: duration ? duration.toNumber() : '...',
+			toolTip: 'Period within which pool reward is distributed'
+		},
+		{
+			label: 'Pool Enabled',
+			value: poolEnabled !== undefined ? (poolEnabled ? 'True' : 'False') : '...',
+			toolTip: 'Pool staking/withdraw usage status'
+		}
+	];
 
 	return (
 		<div className="columns is-centered">
@@ -21,111 +82,33 @@ export default function ThresholdCounter() {
 					<span className="delete is-pulled-right" onClick={() => history.goBack()} />
 				</div>
 				<h5 className="pr-1 pl-1 pt-2 subtitle is-size-5-tablet is-size-6-mobile">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur malesuada magna et est gravida
-					faucibus. Aenean hendrerit dui at magna euismod.
+					This stabilizer counts the number of rebases that have happened in/not-in sequence without causing a
+					supply change. If the threshold is hit then this pool rewarded debase which can be earned by staking
+					into the pool.
 				</h5>
 				<div className="is-block">
 					<span className="is-inline title is-size-5-tablet is-size-6-mobile mb-0">Contract:</span>
 					<span className="is-inline subtitle is-size-5-tablet is-size-6-mobile mb-0">
 						{' '}
-						<a href={etherScanAddress + contract}>{turncate(contract, 18, '...')}</a>
+						<a href={etherScanAddress + contractAddress.stabilizerPool}>
+							{turncate(contractAddress.stabilizerPool, 18, '...')}
+						</a>
 					</span>
 				</div>
 				<div className="divider">Stabilizer Variables</div>
 				<div className="columns is-multiline is-mobile">
-					<div className="column is-4 has-text-centered ">
-						<h5
-							data-tooltip="Reward given to pool upon hitting count threshold"
-							style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
-							className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
-						>
-							Reward Amount
-						</h5>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">10,000 Debase</h5>
-					</div>
-					<div className="column is-4 has-text-centered">
-						<h5
-							data-tooltip="Count threshold upon which reward is given to pool"
-							style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
-							className="title is-size-5-tablet is-size-6-mobile"
-						>
-							Count Threshold
-						</h5>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">20</h5>
-					</div>
-					<div className="column is-4 has-text-centered">
-						<h5
-							data-tooltip="Count of the number of times a neutral rebase has happened"
-							style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
-							className="title is-size-5-tablet is-size-6-mobile"
-						>
-							Current Count
-						</h5>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">2</h5>
-					</div>
-					<div className="column is-4 has-text-centered">
-						<h5
-							data-tooltip="Pool can be given reward before last reward has been given out"
-							style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
-							className="title is-size-5-tablet is-size-6-mobile"
-						>
-							Before Period Finish
-						</h5>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile"> True</h5>
-					</div>
-					<div className="column is-4 has-text-centered">
-						<h5
-							data-tooltip="Period within which pool reward is distributed"
-							style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
-							className="title is-size-5-tablet is-size-6-mobile"
-						>
-							Reward Period
-						</h5>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">1 week</h5>
-					</div>
-					<div className="column is-4 has-text-centered">
-						<h5
-							data-tooltip="Pool enabled to receive rewards from stabilizer fund"
-							style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
-							className="title is-size-5-tablet is-size-6-mobile"
-						>
-							Pool Enabled
-						</h5>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">False</h5>
-					</div>
-				</div>
-				<div className="divider">Pool Variables</div>
-				<div className="columns">
-					<div className="column is-4 has-text-centered">
-						<h5
-							data-tooltip="Pool enabled to receive rewards from stabilizer fund"
-							style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
-							className="title is-size-5-tablet is-size-6-mobile"
-						>
-							Staking Enabled
-						</h5>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">False</h5>
-					</div>
-					<div className="column is-4 has-text-centered">
-						<h5
-							data-tooltip="Pool enabled to receive rewards from stabilizer fund"
-							style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
-							className="title is-size-5-tablet is-size-6-mobile"
-						>
-							2123
-						</h5>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">False</h5>
-					</div>
-					<div className="column is-4 has-text-centered">
-						<h5
-							data-tooltip="Pool enabled to receive rewards from stabilizer fund"
-							style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
-							className="title is-size-5-tablet is-size-6-mobile"
-						>
-							Pool Distribution End
-						</h5>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">False</h5>
-					</div>
+					{paramsData.map((ele, index) => (
+						<div key={index} className="column is-4 has-text-centered ">
+							<h5
+								data-tooltip={ele.toolTip}
+								style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
+								className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
+							>
+								{ele.label}
+							</h5>
+							<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
+						</div>
+					))}
 				</div>
 				{hideStake ? (
 					<button className="button is-edged is-fullwidth is-primary" onClick={() => setHideStake(false)}>

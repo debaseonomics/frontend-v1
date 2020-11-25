@@ -1,89 +1,86 @@
-import React, { useState } from 'react';
-import { poolAbi, contractAddress, orchestratorAbi, toaster } from '../utils/index';
+import React, { useEffect, useState } from 'react';
+import { contractAddress, orchestratorAbi, debasePolicyAbi, uniAbi, toaster, fetcher } from '../utils/index';
 import { useWeb3React } from '@web3-react/core';
 import { DateTime } from 'luxon';
-import useSWR from 'swr';
-import { formatEther, isAddress } from 'ethers/lib/utils';
+import { formatEther } from 'ethers/lib/utils';
 import { Contract } from 'ethers';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { request, gql } from 'graphql-request';
+import useSWR from 'swr';
 
-const fetcher = (library, abi) => (...args) => {
-	const [ arg1, arg2, ...params ] = args;
-	if (isAddress(arg1)) {
-		const address = arg1;
-		const method = arg2;
-		const contract = new Contract(address, abi, library.getSigner());
-		return contract[method](...params);
+const query = gql`
+	{
+		rebases(orderBy: epoch, orderDirection: desc) {
+			epoch
+			exchangeRate
+			supplyAdjustment
+			rebaseLag
+			timestamp
+		}
 	}
-	const method = arg1;
-	return library[method](arg2, ...params);
-};
+`;
 
 export default function Rebaser() {
 	const { library } = useWeb3React();
-
-	const { data: getDaiPoolRewardDistributed } = useSWR([ contractAddress.debaseDaiPool, 'rewardDistributed' ], {
-		fetcher: fetcher(library, poolAbi)
-	});
-
-	const { data: getLpPoolRewardDistributed } = useSWR([ contractAddress.debaseDaiLpPool, 'rewardDistributed' ], {
-		fetcher: fetcher(library, poolAbi)
-	});
+	const [ loading, setLoading ] = useState(false);
+	const [ pastRebases, setPastRebases ] = useState([]);
 
 	const { data: getMaximumRebaseTime } = useSWR([ contractAddress.orchestrator, 'maximumRebaseTime' ], {
 		fetcher: fetcher(library, orchestratorAbi)
 	});
 
-	const { data: getRebaseRequiredSupply } = useSWR([ contractAddress.orchestrator, 'rebaseRequiredSupply' ], {
-		fetcher: fetcher(library, orchestratorAbi)
+	const { data: priceTargetRate } = useSWR([ contractAddress.debasePolicy, 'priceTargetRate' ], {
+		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const [ loading, setLoading ] = useState(false);
+	const { data: upperDeviationThreshold } = useSWR([ contractAddress.debasePolicy, 'upperDeviationThreshold' ], {
+		fetcher: fetcher(library, debasePolicyAbi)
+	});
 
-	const data = [
-		{
-			name: 'Page A',
-			uv: 4000,
-			pv: 2400,
-			amt: 2400
-		},
-		{
-			name: 'Page B',
-			uv: 3000,
-			pv: 1398,
-			amt: 2210
-		},
-		{
-			name: 'Page C',
-			uv: 2000,
-			pv: 9800,
-			amt: 2290
-		},
-		{
-			name: 'Page D',
-			uv: 2780,
-			pv: 3908,
-			amt: 2000
-		},
-		{
-			name: 'Page E',
-			uv: 1890,
-			pv: 4800,
-			amt: 2181
-		},
-		{
-			name: 'Page F',
-			uv: 2390,
-			pv: 3800,
-			amt: 2500
-		},
-		{
-			name: 'Page G',
-			uv: 3490,
-			pv: 4300,
-			amt: 2100
+	const { data: lowerDeviationThreshold } = useSWR([ contractAddress.debasePolicy, 'lowerDeviationThreshold' ], {
+		fetcher: fetcher(library, debasePolicyAbi)
+	});
+
+	const { data: useDefaultRebaseLag } = useSWR([ contractAddress.debasePolicy, 'useDefaultRebaseLag' ], {
+		fetcher: fetcher(library, debasePolicyAbi)
+	});
+
+	const { data: defaultPositiveRebaseLag } = useSWR([ contractAddress.debasePolicy, 'defaultPositiveRebaseLag' ], {
+		fetcher: fetcher(library, debasePolicyAbi)
+	});
+
+	const { data: defaultNegativeRebaseLag } = useSWR([ contractAddress.debasePolicy, 'defaultNegativeRebaseLag' ], {
+		fetcher: fetcher(library, debasePolicyAbi)
+	});
+
+	const { data: minRebaseTimeIntervalSec } = useSWR([ contractAddress.debasePolicy, 'minRebaseTimeIntervalSec' ], {
+		fetcher: fetcher(library, debasePolicyAbi)
+	});
+
+	const { data: lastRebaseTimestampSec } = useSWR([ contractAddress.debasePolicy, 'lastRebaseTimestampSec' ], {
+		fetcher: fetcher(library, debasePolicyAbi)
+	});
+
+	const { data: rebaseWindowOffsetSec } = useSWR([ contractAddress.debasePolicy, 'rebaseWindowOffsetSec' ], {
+		fetcher: fetcher(library, debasePolicyAbi)
+	});
+
+	const { data: rebaseWindowLengthSec } = useSWR([ contractAddress.debasePolicy, 'rebaseWindowLengthSec' ], {
+		fetcher: fetcher(library, debasePolicyAbi)
+	});
+
+	const { data: reserves } = useSWR([ contractAddress.debaseDaiLp, 'getReserves' ], {
+		fetcher: fetcher(library, uniAbi)
+	});
+
+	useEffect(() => {
+		async function rebase() {
+			let res = await request('https://api.thegraph.com/subgraphs/name/debaseonomics/subgraph', query);
+			if (res.length) {
+				setPastRebases([ ...res ]);
+			}
 		}
-	];
+		rebase();
+	}, []);
 
 	async function handleRebase() {
 		setLoading(true);
@@ -97,56 +94,121 @@ export default function Rebaser() {
 		setLoading(false);
 	}
 
+	const paramsData = [
+		{
+			label: 'Target Price',
+			value: priceTargetRate ? parseFloat(formatEther(priceTargetRate)) : '...',
+			toolTip: 'The target price in dai debase must meet'
+		},
+		{
+			label: 'Price Upper Deviation',
+			value:
+				upperDeviationThreshold && priceTargetRate
+					? parseFloat(formatEther(upperDeviationThreshold)) + parseFloat(formatEther(priceTargetRate))
+					: '...',
+			toolTip: 'The positive deviation from the target price within not to rebase'
+		},
+		{
+			label: 'Price Lower Deviation',
+			value: lowerDeviationThreshold
+				? parseFloat(formatEther(priceTargetRate)) - parseFloat(formatEther(lowerDeviationThreshold))
+				: '...',
+			toolTip: 'The negative deviation from the target price within not to rebase'
+		},
+		{
+			label: 'Rebase Time Period',
+			value: minRebaseTimeIntervalSec
+				? (minRebaseTimeIntervalSec.toNumber() / (60 * 60)).toString() + ' Hours'
+				: '...',
+			toolTip: 'Time period after which a rebase can occur'
+		},
+		{
+			label: 'Rebase Offset',
+			value: rebaseWindowOffsetSec ? rebaseWindowOffsetSec.toNumber() : '...',
+			toolTip: 'The number of seconds from the beginning of the rebase interval, where the rebase window begins'
+		},
+		{
+			label: 'Rebase Window',
+			value: rebaseWindowLengthSec ? rebaseWindowLengthSec.toNumber() : '...',
+			toolTip: 'The length of time within which a rebase can occur'
+		},
+		{
+			label: 'Use default Lag',
+			value: useDefaultRebaseLag !== undefined ? (useDefaultRebaseLag ? 'True' : 'False') : '...',
+			toolTip: 'Flag to allow usage of default supply smoothing'
+		},
+		{
+			label: 'Default Upper lag',
+			value: defaultPositiveRebaseLag ? defaultPositiveRebaseLag.toNumber() : '...',
+			toolTip: 'Default supply smoothing to use for positive supply changes'
+		},
+		{
+			label: 'Default Lower lag',
+			value: defaultNegativeRebaseLag ? defaultNegativeRebaseLag.toNumber() : '...',
+			toolTip: 'Default supply smoothing to use for negative supply changes'
+		}
+	];
+
+	const liveData = [
+		{
+			label: 'Current Price',
+			value: reserves
+				? parseFloat(parseFloat(formatEther(reserves[0])) / parseFloat(formatEther(reserves[1]))).toFixed(2)
+				: '...',
+			toolTip: 'Tool'
+		},
+		{
+			label: 'Time first to rebase',
+			value: getMaximumRebaseTime
+				? DateTime.fromSeconds(getMaximumRebaseTime.toNumber()).toRelative({ round: false })
+				: '...',
+			toolTip: 'Tool'
+		},
+		{
+			label: 'Last Rebase',
+			value: getMaximumRebaseTime
+				? DateTime.fromSeconds(getMaximumRebaseTime.toNumber()).toRelative({ round: false })
+				: '...',
+			toolTip: 'Tool'
+		}
+	];
+
 	return (
 		<div className="columns is-centered">
-			<div className="column is-8">
+			<div className="column is-7">
 				<div className="box column">
-					<div className="block has-text-centered">
+					<div className="has-text-centered">
 						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">rebase</h2>
 					</div>
-
-					<div className="block" style={{ height: '300px' }}>
-						<ResponsiveContainer>
-							<AreaChart data={data}>
-								<CartesianGrid strokeDasharray="3 3" />
-								<XAxis dataKey="name" />
-								<YAxis />
-								<Tooltip />
-								<Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
-							</AreaChart>
-						</ResponsiveContainer>
+					<div className="divider">Rebasing Variables</div>
+					<div className="columns is-multiline is-mobile is-centered">
+						{paramsData.map((ele, index) => (
+							<div key={index} className="column is-4 has-text-centered">
+								<h5
+									data-tooltip={ele.toolTip}
+									style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
+									className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
+								>
+									{ele.label}
+								</h5>
+								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
+							</div>
+						))}
 					</div>
-
-					<div className="block">
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
-							Debase Distributed:{' '}
-							{getDaiPoolRewardDistributed && getLpPoolRewardDistributed ? (
-								(parseFloat(
-									parseFloat(formatEther(getDaiPoolRewardDistributed)) +
-										parseFloat(formatEther(getLpPoolRewardDistributed))
-								).toFixed(2) *
-									1 +
-									70000).toString() + ' Debase'
-							) : (
-								'...'
-							)}
-						</h5>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
-							Required Distribution to Rebase:{' '}
-							{getRebaseRequiredSupply ? (
-								(parseFloat(formatEther(getRebaseRequiredSupply)) + 70000).toString() + ' Debase'
-							) : (
-								'...'
-							)}
-						</h5>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile ">
-							Maximum time to rebase {' '}
-							{getMaximumRebaseTime ? (
-								DateTime.fromSeconds(getMaximumRebaseTime.toNumber()).toRelative({ round: false })
-							) : (
-								'...'
-							)}
-						</h5>
+					<div className="divider">Live Variables</div>
+					<div className="columns is-multiline is-mobile is-centered">
+						{liveData.map((ele, index) => (
+							<div key={index} className="column is-4 has-text-centered">
+								<h5
+									data-tooltip={ele.toolTip}
+									style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
+									className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
+								>
+									{ele.label}
+								</h5>
+								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
+							</div>
+						))}
 					</div>
 					<div className="block">
 						<button
