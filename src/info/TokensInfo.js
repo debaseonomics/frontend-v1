@@ -4,34 +4,34 @@ import degov from '../assets/degov.png';
 
 export default function TokensInfo({ isMobile }) {
 	const Token = (tokenImg, name, tag, content, supply, distribution) => (
-		<div class="card">
-			<div class="card-content">
-				<div class="media">
-					<div class="media-left">
-						<figure class="image is-48x48">
+		<div className="card">
+			<div className="card-content">
+				<div className="media">
+					<div className="media-left">
+						<figure className="image is-48x48">
 							<img src={tokenImg} alt="Placeholder" />
 						</figure>
 					</div>
-					<div class="media-content is-clipped">
-						<p class="title is-4 is-family-secondary">{name}</p>
-						<p class="subtitle is-6">{tag}</p>
+					<div className="media-content is-clipped">
+						<p className="title is-4 is-family-secondary">{name}</p>
+						<p className="subtitle is-6">{tag}</p>
 					</div>
 				</div>
 
 				<div className={isMobile ? 'content' : 'content is-medium'}>
 					<p>{content}</p>
 				</div>
-				<nav class="level is-mobile">
-					<div class="level-item has-text-centered">
+				<nav className="level is-mobile">
+					<div className="level-item has-text-centered">
 						<div>
-							<p class="heading">Total Supply</p>
-							<p class="title is-4">{supply}</p>
+							<p className="heading">Total Supply</p>
+							<p className="title is-4">{supply}</p>
 						</div>
 					</div>
-					<div class="level-item has-text-centered">
+					<div className="level-item has-text-centered">
 						<div>
-							<p class="heading">Initial Distribution</p>
-							<p class="title is-4">{distribution}</p>
+							<p className="heading">Initial Distribution</p>
+							<p className="title is-4">{distribution}</p>
 						</div>
 					</div>
 				</nav>

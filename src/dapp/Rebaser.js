@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { contractAddress, orchestratorAbi, debasePolicyAbi, uniAbi, toaster, fetcher } from '../utils/index';
 import { useWeb3React } from '@web3-react/core';
 import { DateTime } from 'luxon';
@@ -6,6 +6,7 @@ import { formatEther } from 'ethers/lib/utils';
 import { Contract } from 'ethers';
 import { request, gql } from 'graphql-request';
 import useSWR from 'swr';
+import dai from '../assets/dai.png';
 
 const query = gql`
 	{
@@ -98,7 +99,8 @@ export default function Rebaser() {
 		{
 			label: 'Target Price',
 			value: priceTargetRate ? parseFloat(formatEther(priceTargetRate)) : '...',
-			toolTip: 'The target price in dai debase must meet'
+			toolTip: 'The target price in dai debase must meet',
+			image: dai
 		},
 		{
 			label: 'Price Upper Deviation',
@@ -106,14 +108,16 @@ export default function Rebaser() {
 				upperDeviationThreshold && priceTargetRate
 					? parseFloat(formatEther(upperDeviationThreshold)) + parseFloat(formatEther(priceTargetRate))
 					: '...',
-			toolTip: 'The positive deviation from the target price within not to rebase'
+			toolTip: 'The positive deviation from the target price within not to rebase',
+			image: dai
 		},
 		{
 			label: 'Price Lower Deviation',
 			value: lowerDeviationThreshold
 				? parseFloat(formatEther(priceTargetRate)) - parseFloat(formatEther(lowerDeviationThreshold))
 				: '...',
-			toolTip: 'The negative deviation from the target price within not to rebase'
+			toolTip: 'The negative deviation from the target price within not to rebase',
+			image: dai
 		},
 		{
 			label: 'Rebase Time Period',
@@ -155,21 +159,24 @@ export default function Rebaser() {
 			value: reserves
 				? parseFloat(parseFloat(formatEther(reserves[0])) / parseFloat(formatEther(reserves[1]))).toFixed(2)
 				: '...',
-			toolTip: 'Tool'
+			toolTip: 'Current market price of debase in relation to dai',
+			image: dai
 		},
 		{
-			label: 'Time first to rebase',
+			label: 'Time to first rebase',
 			value: getMaximumRebaseTime
 				? DateTime.fromSeconds(getMaximumRebaseTime.toNumber()).toRelative({ round: false })
 				: '...',
-			toolTip: 'Tool'
+			toolTip: 'Time to first rebase of debase'
 		},
 		{
 			label: 'Last Rebase',
-			value: getMaximumRebaseTime
-				? DateTime.fromSeconds(getMaximumRebaseTime.toNumber()).toRelative({ round: false })
+			value: lastRebaseTimestampSec
+				? lastRebaseTimestampSec.toNumber() == 0
+					? "Hasn't Happened"
+					: DateTime.fromSeconds(lastRebaseTimestampSec.toNumber()).toRelative({ round: false })
 				: '...',
-			toolTip: 'Tool'
+			toolTip: 'Time since the last rebase happened'
 		}
 	];
 
@@ -184,14 +191,38 @@ export default function Rebaser() {
 					<div className="columns is-multiline is-mobile is-centered">
 						{paramsData.map((ele, index) => (
 							<div key={index} className="column is-4 has-text-centered">
-								<h5
-									data-tooltip={ele.toolTip}
-									style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
-									className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
-								>
-									{ele.label}
-								</h5>
-								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
+								{ele.image ? (
+									<Fragment>
+										<h5
+											data-tooltip={ele.toolTip}
+											style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
+											className="title mb-2 is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
+										>
+											{ele.label}
+										</h5>
+										<div
+											style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+										>
+											<h5 className="subtitle m-0 is-size-5-tablet is-size-6-mobile">
+												{ele.value}
+											</h5>
+											<figure className="image is-24x24 ml-1 ">
+												<img src={ele.image} />
+											</figure>
+										</div>
+									</Fragment>
+								) : (
+									<Fragment>
+										<h5
+											data-tooltip={ele.toolTip}
+											style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
+											className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
+										>
+											{ele.label}
+										</h5>
+										<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
+									</Fragment>
+								)}
 							</div>
 						))}
 					</div>
@@ -199,14 +230,38 @@ export default function Rebaser() {
 					<div className="columns is-multiline is-mobile is-centered">
 						{liveData.map((ele, index) => (
 							<div key={index} className="column is-4 has-text-centered">
-								<h5
-									data-tooltip={ele.toolTip}
-									style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
-									className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
-								>
-									{ele.label}
-								</h5>
-								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
+								{ele.image ? (
+									<Fragment>
+										<h5
+											data-tooltip={ele.toolTip}
+											style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
+											className="title mb-2 is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
+										>
+											{ele.label}
+										</h5>
+										<div
+											style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+										>
+											<h5 className="subtitle m-0 is-size-5-tablet is-size-6-mobile">
+												{ele.value}
+											</h5>
+											<figure className="image is-24x24 ml-1 ">
+												<img src={ele.image} />
+											</figure>
+										</div>
+									</Fragment>
+								) : (
+									<Fragment>
+										<h5
+											data-tooltip={ele.toolTip}
+											style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
+											className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
+										>
+											{ele.label}
+										</h5>
+										<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
+									</Fragment>
+								)}
 							</div>
 						))}
 					</div>
