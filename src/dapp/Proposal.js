@@ -1,10 +1,7 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 
 export default function Proposal() {
-	let { proposalId } = useParams();
-
 	const proposalData = {
 		name: 'Uniswap Improvement Strategy',
 		date: 'Executed October 13th, 2020',

@@ -4,7 +4,6 @@ import { turncate, poolAbi, fetcher } from '../utils/index';
 import { useWeb3React } from '@web3-react/core';
 import useSWR from 'swr';
 import { formatEther } from 'ethers/lib/utils';
-import { Contract } from 'ethers';
 
 export default function StakeCard({
 	title,
@@ -37,12 +36,20 @@ export default function StakeCard({
 				<h3 className="title is-size-4-tablet is-size-5-mobile has-text-centered is-family-secondary">
 					{title}
 				</h3>
-				<div className="divider">{infoText}</div>
+				<div className="divider" style={{ color: '#923db3' }}>
+					{infoText}
+				</div>
 				<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
-					Contract: <a href={contractLink}>{turncate(contract, 16, '...')}</a>
+					Contract:{' '}
+					<a target="_blank" rel="noopener noreferrer" href={contractLink}>
+						{turncate(contract, 16, '...')}
+					</a>
 				</h5>
 				<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
-					Website: <a href={websiteLink}>{website}</a>
+					Website:{' '}
+					<a target="_blank" rel="noopener noreferrer" href={websiteLink}>
+						{website}
+					</a>
 				</h5>
 				<h5 className="subtitle is-size-5-tablet is-size-6-mobile">Total Reward: {supply}</h5>
 				<h5 className="subtitle is-size-5-tablet is-size-6-mobile">Halving period: {duration}</h5>

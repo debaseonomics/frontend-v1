@@ -21,8 +21,10 @@ export default function Governance({ scrollToParameters, scrollToOwnership, isMo
 						When a proposal is passed, it will be queued and can be executed after a set delay of 2 days by
 						a Timelock contract which behaves as the owner of the editable contracts. For more details on
 						this behavior, please view how Compound Finance's{' '}
-						<a href="https://compound.finance/docs/governance">governance</a> works, as Debaseonomics'
-						governance is forked from it.
+						<a target="_blank" rel="noopener noreferrer" href="https://compound.finance/docs/governance">
+							governance
+						</a>{' '}
+						works, as Debaseonomics' governance is forked from it.
 					</p>
 					<p>
 						What DEGOV offers a user is wide ranging control of governance parameters as well as rebasing

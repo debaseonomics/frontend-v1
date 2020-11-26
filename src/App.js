@@ -27,8 +27,6 @@ const Uniswap = React.lazy(() => import('./info/Uniswap'));
 const InfoLayout = React.lazy(() => import('./layout/Info'));
 const DappLayout = React.lazy(() => import('./layout/Dapp'));
 const Staking = React.lazy(() => import('./dapp/Staking'));
-const Gov = React.lazy(() => import('./dapp/Gov'));
-const Proposal = React.lazy(() => import('./dapp/Proposal'));
 const Pool = React.lazy(() => import('./dapp/Pool'));
 const Rebaser = React.lazy(() => import('./dapp/Rebaser'));
 

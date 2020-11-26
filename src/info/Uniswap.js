@@ -20,8 +20,9 @@ const Uniswap = React.forwardRef(
 							protocol increases Debases supply by 1000 DEBASE tokens. In theory, users should help
 							discover the new price of the token using the "new" tokens they get by selling, which will
 							help DEBASE reach its target price. This mechanism has been pointed about by the Ampleforth{' '}
-							<a href="https://www.ampleforth.org/papers/">white paper</a>, yet this doesn't happen in
-							practice.
+							<a target="_blank" rel="noopener noreferrer" href="https://www.ampleforth.org/papers/">
+								white paper
+							</a>, yet this doesn't happen in practice.
 						</p>
 						<p>
 							Uniswap pool, where the tokens are given to provide liquidity, automatically get the new

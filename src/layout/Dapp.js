@@ -17,7 +17,6 @@ export default function DappLayout({ children }) {
 	const [ isDarkMode, setIsDarkMode ] = useRecoilState(darkModeState);
 
 	const [ menuActive, setMenuActive ] = useState(false);
-	const [ activeLink, setActiveLink ] = useState('Staking');
 
 	const isUserRejectedRequestError = error instanceof UserRejectedRequestError;
 	const isNoEthereumProviderError = error instanceof NoEthereumProviderError;
@@ -44,16 +43,12 @@ export default function DappLayout({ children }) {
 
 	const menuLink = (link, to) => (
 		<div className="navbar-item">
-			{link == 'Vote' || link == 'Governance' ? (
-				<a href={to}>{link}</a>
-			) : (
-				<Link
-					className={activeLink === link ? 'has-text-weight-bold' : ''}
-					to={to}
-					onClick={() => setActiveLink(link)}
-				>
+			{link === 'Vote' || link === 'Governance' ? (
+				<a target="_blank" rel="noopener noreferrer" href={to}>
 					{link}
-				</Link>
+				</a>
+			) : (
+				<Link to={to}>{link}</Link>
 			)}
 		</div>
 	);
@@ -94,7 +89,6 @@ export default function DappLayout({ children }) {
 						<div className="navbar-start">
 							{menuLink('Staking', '/dapp/staking')}
 							{menuLink('Vote', 'https://snapshot.page/#/debaseonomics')}
-							{menuLink('Governance', 'https://gov.debaseonomics.io')}
 							{menuLink('Rebase', '/dapp/rebase')}
 							{menuLink('Stabilizers', '/dapp/stabilizers')}
 						</div>

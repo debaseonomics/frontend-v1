@@ -18,7 +18,10 @@ const Distribution = React.forwardRef(
 						<h4 className="title is-family-secondary">Debase</h4>
 						<p>
 							Debase token has two separate staking pools. The first pool yields the initial Debase token
-							supply. To join this pool, you need to stake <a href="https://oasis.app/borrow">DAI</a>{' '}
+							supply. To join this pool, you need to stake{' '}
+							<a target="_blank" rel="noopener noreferrer" href="https://oasis.app/borrow">
+								DAI
+							</a>{' '}
 							tokens the into the <Link to="/dapp/staking/debase-dai">Debase/DAI</Link> staking pool. A
 							total of 10,000 Debase tokens will be distributed from this pool with 5,000 Debase being
 							during the first 24 hours. This halving will continue every 24 hours until 10,000 Debase are
@@ -27,9 +30,18 @@ const Distribution = React.forwardRef(
 						<p>
 							The second pool is meant to provide stability and security to Debase by provide liquidity.
 							To join this pool, you need to add liquidity into the{' '}
-							<a href={uniAddress['debase-DAI-POOL']}>Debase/DAI</a> Uniswap pool to acquire{' '}
-							<a href={etherScanAddress + contractAddress.debaseDaiLpPool}>Debase-DAI-V2</a> liquidity
-							pool tokens. These tokens can be deposited into the{' '}
+							<a target="_blank" rel="noopener noreferrer" href={uniAddress['debase-DAI-POOL']}>
+								Debase/DAI
+							</a>{' '}
+							Uniswap pool to acquire{' '}
+							<a
+								target="_blank"
+								rel="noopener noreferrer"
+								href={etherScanAddress + contractAddress.debaseDaiLpPool}
+							>
+								Debase-DAI-V2
+							</a>{' '}
+							liquidity pool tokens. These tokens can be deposited into the{' '}
 							<Link to="/dapp/staking/debase-dai">Debase/DAI staking pool</Link> to earn debase reward
 							tokens. A total of 25,000 Debase tokens will be distributed from this pool with 12,500
 							Debase being during the first 24 hours. This halving will continue every 24 hours until
@@ -48,8 +60,11 @@ const Distribution = React.forwardRef(
 							Degov token has one staking pool. This pool will only be available to stake into after the
 							orchestrator initiated the first rebase. With the conditions of when the first rebase
 							mentioned above. So to join this pool, you need to acquire Debase-DAI-V2 pool tokens by
-							staking into the <a href={uniAddress['debase-DAI-POOL']}>Debase/DAI</a> Uniswap pool. These
-							pool tokens can then be staked into{' '}
+							staking into the{' '}
+							<a target="_blank" rel="noopener noreferrer" href={uniAddress['debase-DAI-POOL']}>
+								Debase/DAI
+							</a>{' '}
+							Uniswap pool. These pool tokens can then be staked into{' '}
 							<Link to="/dapp/staking/debase-dai">Degov/Dai-Lp pool </Link>
 							to earn Degov tokens. A total of 25,000 Degov tokens will be distributed from this pool with
 							12,500 Degov being distributed during the first 1 week of the pools launch. This halving

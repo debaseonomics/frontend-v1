@@ -172,7 +172,7 @@ export default function Rebaser() {
 		{
 			label: 'Last Rebase',
 			value: lastRebaseTimestampSec
-				? lastRebaseTimestampSec.toNumber() == 0
+				? lastRebaseTimestampSec.toNumber() === 0
 					? "Hasn't Happened"
 					: DateTime.fromSeconds(lastRebaseTimestampSec.toNumber()).toRelative({ round: false })
 				: '...',
@@ -207,7 +207,7 @@ export default function Rebaser() {
 												{ele.value}
 											</h5>
 											<figure className="image is-24x24 ml-1 ">
-												<img src={ele.image} />
+												<img src={ele.image} alt="Dai" />
 											</figure>
 										</div>
 									</Fragment>
@@ -246,7 +246,7 @@ export default function Rebaser() {
 												{ele.value}
 											</h5>
 											<figure className="image is-24x24 ml-1 ">
-												<img src={ele.image} />
+												<img src={ele.image} alt="Dai" />
 											</figure>
 										</div>
 									</Fragment>

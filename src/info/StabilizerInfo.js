@@ -25,20 +25,29 @@ const StabilizerInfo = React.forwardRef(
 						</p>
 						<p>
 							An example of a simple stabilizer pool that is currently{' '}
-							<a href={etherScanAddress + contractAddress.stabilizerPool}> launched</a> counts the number
-							of times debase hits its target price when a rebase happens. If the count goes above a
-							configurable threshold, then the stabilizer pool will be funded with a configurable amount
-							of Debase tokens to be rewarded to the community. To earn this reward, the community will be
-							staking in Debase/Dai-LP tokens, providing more long-term liquidity when the distribution
-							pools have dried up. The neutral rebase count can also be configured to reset its count when
-							the target price is not hit during a rebase.
+							<a
+								target="_blank"
+								rel="noopener noreferrer"
+								href={etherScanAddress + contractAddress.stabilizerPool}
+							>
+								{' '}
+								launched
+							</a>{' '}
+							counts the number of times debase hits its target price when a rebase happens. If the count
+							goes above a configurable threshold, then the stabilizer pool will be funded with a
+							configurable amount of Debase tokens to be rewarded to the community. To earn this reward,
+							the community will be staking in Debase/Dai-LP tokens, providing more long-term liquidity
+							when the distribution pools have dried up. The neutral rebase count can also be configured
+							to reset its count when the target price is not hit during a rebase.
 						</p>
 						<p>
 							Other examples of potential pools include one where users will be rewarded wrapped DEBASE
 							tokens with specialized time-based behaviors to incentivize it's holding or selling when
 							DEBASE is not at its target price, or pools that encapsulate behaviors used by other
-							rebasing token like random rebases implemented by <a href="https://www.rmpl.io/">RMPL</a>.
-							Finding the ideal solution to the price stability of DEBASE will be main focus of the
+							rebasing token like random rebases implemented by{' '}
+							<a target="_blank" rel="noopener noreferrer" href="https://www.rmpl.io/">
+								RMPL
+							</a>. Finding the ideal solution to the price stability of DEBASE will be main focus of the
 							community and governance going forward.
 						</p>
 					</div>

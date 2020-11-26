@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { contractAddress, etherScanAddress, turncate, fetcher, thresholdCounterAbi } from '../../utils/index';
 import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
-import { formatEther, formatUnits } from 'ethers/lib/utils';
+import { formatEther } from 'ethers/lib/utils';
 
 export default function ThresholdCounter() {
 	let history = useHistory();
@@ -90,7 +90,11 @@ export default function ThresholdCounter() {
 					<span className="is-inline title is-size-5-tablet is-size-6-mobile mb-0">Contract:</span>
 					<span className="is-inline subtitle is-size-5-tablet is-size-6-mobile mb-0">
 						{' '}
-						<a href={etherScanAddress + contractAddress.stabilizerPool}>
+						<a
+							target="_blank"
+							rel="noopener noreferrer"
+							href={etherScanAddress + contractAddress.stabilizerPool}
+						>
 							{turncate(contractAddress.stabilizerPool, 18, '...')}
 						</a>
 					</span>

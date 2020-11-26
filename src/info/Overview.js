@@ -11,12 +11,15 @@ const Overview = React.forwardRef(({ scrollToParameters, scrollToStabilizer, scr
 			<div className=" block">
 				<div className={isMobile ? 'box content' : 'box content is-medium'}>
 					<p>
-						Debaseonomics is a combination of <a href={etherScanAddress + contractAddress.debase}>
+						Debaseonomics is a combination of{' '}
+						<a target="_blank" rel="noopener noreferrer" href={etherScanAddress + contractAddress.debase}>
 							DEBASE
-						</a>, a flexible supply token, and <a href={etherScanAddress + contractAddress.degov}>DEGOV</a>,
-						a governance token, working together to solve the fundamental issues faced by elastic supply
-						tokens. 100% of the tokens are distributed through staking and "stabilizer pools" to promote
-						fairness and decentralization.
+						</a>, a flexible supply token, and{' '}
+						<a target="_blank" rel="noopener noreferrer" href={etherScanAddress + contractAddress.degov}>
+							DEGOV
+						</a>, a governance token, working together to solve the fundamental issues faced by elastic
+						supply tokens. 100% of the tokens are distributed through staking and "stabilizer pools" to
+						promote fairness and decentralization.
 					</p>
 					<p>
 						Debaseonomics doesn't aim to be create another flexible supply token proposing a small set of
@@ -38,8 +41,10 @@ const Overview = React.forwardRef(({ scrollToParameters, scrollToStabilizer, scr
 						So to control such pools and the protocol itself, a governance token has been paired token with
 						DEBASE. To allow the community to decide what types of stabilizers to include and how the
 						protocol should rebase in general. DEGOV follows the governance model brought by{' '}
-						<a href="https://compound.finance/docs/governance">Compound Finance</a> to allow the
-						manipulation of various <a onClick={() => scrollToParameters()}>parameters</a> in a
+						<a target="_blank" rel="noopener noreferrer" href="https://compound.finance/docs/governance">
+							Compound Finance
+						</a>{' '}
+						to allow the manipulation of various <a onClick={() => scrollToParameters()}>parameters</a> in a
 						decentralized manner.
 					</p>
 					<p>
