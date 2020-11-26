@@ -163,13 +163,6 @@ export default function Rebaser() {
 			image: dai
 		},
 		{
-			label: 'Time to first rebase',
-			value: getMaximumRebaseTime
-				? DateTime.fromSeconds(getMaximumRebaseTime.toNumber()).toRelative({ round: false })
-				: '...',
-			toolTip: 'Time to first rebase of debase'
-		},
-		{
 			label: 'Last Rebase',
 			value: lastRebaseTimestampSec
 				? lastRebaseTimestampSec.toNumber() === 0
