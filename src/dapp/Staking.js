@@ -54,9 +54,8 @@ export default function Staking() {
 					supply="25,000 Degov"
 					initial="12,500 Degov"
 					infoText="Seeds initial supply of degov"
-					warningText="Staking only available after debase starts rebasing"
 					duration="1 week"
-					enabled={false}
+					enabled={true}
 				/>
 			</div>
 		</div>
