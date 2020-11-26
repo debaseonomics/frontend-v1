@@ -34,7 +34,11 @@ export default function Landing({ scrollToOverview }) {
 					<a href="https://github.com/debaseonomics/" className="icon is-large has-text-grey-darker">
 						<i className="fab fa-github fa-lg" />
 					</a>
-					<a href="https://discord.gg/QjmTMnx" className="icon is-large has-text-grey-darker">
+					<a
+						href="https://discord.gg/eHP7jnfD"
+						target="_blank"
+						className="icon is-large has-text-grey-darker"
+					>
 						<i className="fab fa-discord fa-lg" />
 					</a>
 					<a href="https://t.me/debaseonomics" className="icon is-large has-text-grey-darker">
