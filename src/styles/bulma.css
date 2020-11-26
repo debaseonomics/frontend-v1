@@ -25,9 +25,9 @@ body.dark-mode .toggle-mode {
 	color: #f7f7f7;
 }
 
-body.dark-mode .navbar-menu .navbar-item a,
+body.dark-mode .navbar-menu,
 body.dark-mode .navbar-item svg {
-	color: #f7f7f7 !important;
+	color: #e0e0e0 !important;
 }
 
 body.dark-mode .navbar-item .tag svg {
@@ -551,7 +551,7 @@ a strong {
 	color: currentColor;
 }
 a:hover {
-	color: #363636;
+	color: #f877ad;
 }
 
 code {
@@ -4415,7 +4415,7 @@ fieldset[disabled] .select select:hover {
 	padding: 0 0.75em;
 }
 .breadcrumb a:hover {
-	color: #363636;
+	color: #f877ad;
 }
 .breadcrumb li {
 	align-items: center;

@@ -62,7 +62,7 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'Reward Period',
-			value: duration ? duration.toNumber() : '...',
+			value: duration ? (duration.toNumber() / (60 * 60)).toString() + ' Hours' : '...',
 			toolTip: 'Period within which pool reward is distributed'
 		},
 		{

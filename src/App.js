@@ -137,16 +137,8 @@ function App() {
 										<Stabilizers />
 									</Route>
 								</Route>
-								<Route path="/dapp/rebaser">
+								<Route path="/dapp/rebase">
 									<Rebaser />
-								</Route>
-								<Route path="/dapp/governance">
-									<Route path="/dapp/governance/proposal/:proposalId">
-										<Proposal />
-									</Route>
-									<Route exact path="/dapp/governance">
-										<Gov />
-									</Route>
 								</Route>
 							</DappLayout>
 						</Web3ReactProvider>

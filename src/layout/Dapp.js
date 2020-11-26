@@ -44,13 +44,17 @@ export default function DappLayout({ children }) {
 
 	const menuLink = (link, to) => (
 		<div className="navbar-item">
-			<Link
-				className={activeLink === link ? 'has-text-grey-darker has-text-weight-bold' : 'has-text-grey-darker'}
-				to={to}
-				onClick={() => setActiveLink(link)}
-			>
-				{link}
-			</Link>
+			{link == 'Vote' || link == 'Governance' ? (
+				<a href={to}>{link}</a>
+			) : (
+				<Link
+					className={activeLink === link ? 'has-text-weight-bold' : ''}
+					to={to}
+					onClick={() => setActiveLink(link)}
+				>
+					{link}
+				</Link>
+			)}
 		</div>
 	);
 
@@ -89,8 +93,9 @@ export default function DappLayout({ children }) {
 					<div className={menuActive ? 'navbar-menu is-active' : 'navbar-menu'}>
 						<div className="navbar-start">
 							{menuLink('Staking', '/dapp/staking')}
-							{menuLink('Governance', '/dapp/governance')}
-							{menuLink('Rebaser', '/dapp/rebaser')}
+							{menuLink('Vote', 'https://snapshot.page/#/debaseonomics')}
+							{menuLink('Governance', 'https://gov.debaseonomics.io')}
+							{menuLink('Rebase', '/dapp/rebase')}
 							{menuLink('Stabilizers', '/dapp/stabilizers')}
 						</div>
 						<div className="navbar-end">

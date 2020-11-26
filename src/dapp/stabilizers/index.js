@@ -23,7 +23,7 @@ export default function Stabilizers() {
 	];
 
 	return (
-		<div className="columns is-multiline is-vcentered">
+		<div className="columns is-multiline is-centered is-vcentered">
 			{data.map((ele, index) => (
 				<div key={index} className="column is-4">
 					<div className="block box">
