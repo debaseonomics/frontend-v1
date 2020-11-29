@@ -40,7 +40,7 @@ export default function Landing({ scrollToOverview }) {
 						<i className="fab fa-github fa-lg" />
 					</a>
 					<a
-						href="https://discord.gg/eHP7jnfD"
+						href="https://discord.gg/kmt9ESWXKg"
 						target="_blank"
 						rel="noopener noreferrer"
 						className="icon is-large has-text-grey-darker"
