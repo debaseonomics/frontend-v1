@@ -74,13 +74,13 @@ export default function Rebaser() {
 	});
 
 	useEffect(() => {
-		async function fetchRebase() {
+		async function fetchRebaseHistory() {
 			let res = await request('https://api.thegraph.com/subgraphs/name/debaseonomics/subgraph', query);
 			if (res.length) {
 				setPastRebases([ ...res ]);
 			}
 		}
-		fetchRebase();
+		fetchRebaseHistory();
 	}, []);
 
 	async function handleRebase() {
