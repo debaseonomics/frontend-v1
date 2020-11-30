@@ -49,7 +49,7 @@ const Overview = React.forwardRef(({ scrollToParameters, scrollToStabilizer, scr
 					</p>
 					<p>
 						Debaseonomics is moving forward development in elastic supply tokens by incentivizing boundless
-						possibilities, in trying to stabilize DEBASE price in the long or short term using a governable open-ended design.
+						possibilities in trying to stabilize DEBASE price, in the long or short term, using a governable open-ended design.
 					</p>
 				</div>
 			</div>
