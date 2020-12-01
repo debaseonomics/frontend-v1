@@ -122,7 +122,7 @@ export default function Rebaser() {
 		{
 			label: 'Rebase Time Period',
 			value: minRebaseTimeIntervalSec
-				? (minRebaseTimeIntervalSec.toNumber() / (60 * 60)).toString() + ' Hours'
+				? ((minRebaseTimeIntervalSec.toNumber()+ 30*60) / (60 * 60)).toString() + ' Hours'
 				: '...',
 			toolTip: 'Time period after which a rebase can occur'
 		},
