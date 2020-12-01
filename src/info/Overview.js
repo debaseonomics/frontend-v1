@@ -33,14 +33,14 @@ const Overview = React.forwardRef(({ scrollToParameters, scrollToStabilizer, scr
 						pegging DEBASE to target during negative rebases.
 					</p>
 					<p>
-						Keeping this flexibility in mind, 90% of all debase tokens have been assigned to be rewarded to
+						Keeping this flexibility in mind, 90% of all DEBASE tokens have been assigned to be rewarded to
 						any number of successful stabilizers proposed and voted on by governance. Serving as an
 						incentivization mechanism for the community to develop and, in turn, stabilize DEBASE further.
 					</p>
 					<p>
-						So to control such pools and the protocol itself, a governance token has been paired token with
-						DEBASE. To allow the community to decide what types of stabilizers to include and how the
-						protocol should rebase in general. DEGOV follows the governance model brought by{' '}
+						To control such pools and the protocol itself, a governance token has been paired token with
+						DEBASE. This allows the community to decide what types of stabilizers to include in addition to the rebasing parameters. 
+						DEGOV is forked by the governance model brought by{' '}
 						<a target="_blank" rel="noopener noreferrer" href="https://compound.finance/docs/governance">
 							Compound Finance
 						</a>{' '}
@@ -49,8 +49,7 @@ const Overview = React.forwardRef(({ scrollToParameters, scrollToStabilizer, scr
 					</p>
 					<p>
 						Debaseonomics is moving forward development in elastic supply tokens by incentivizing boundless
-						possibilities in trying to stabilize DEBASE price in the long or short term through governance
-						and stability pools.
+						possibilities in trying to stabilize DEBASE price, in the long or short term, using a governable open-ended design.
 					</p>
 				</div>
 			</div>
