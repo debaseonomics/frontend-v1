@@ -1,29 +1,16 @@
 import React, { Fragment, useEffect, useState } from 'react';
+
 import { contractAddress, orchestratorAbi, debasePolicyAbi, uniAbi, toaster, fetcher } from '../utils/index';
 import { useWeb3React } from '@web3-react/core';
 import { DateTime } from 'luxon';
 import { formatEther } from 'ethers/lib/utils';
 import { Contract } from 'ethers';
-import { request, gql } from 'graphql-request';
 import useSWR from 'swr';
 import dai from '../assets/dai.png';
-
-const query = gql`
-	{
-		rebases(orderBy: epoch, orderDirection: desc) {
-			epoch
-			exchangeRate
-			supplyAdjustment
-			rebaseLag
-			timestamp
-		}
-	}
-`;
 
 export default function Rebaser() {
 	const { library } = useWeb3React();
 	const [ loading, setLoading ] = useState(false);
-	const [ pastRebases, setPastRebases ] = useState([]);
 
 	const { data: getMaximumRebaseTime } = useSWR([ contractAddress.orchestrator, 'maximumRebaseTime' ], {
 		fetcher: fetcher(library, orchestratorAbi)
@@ -72,16 +59,6 @@ export default function Rebaser() {
 	const { data: reserves } = useSWR([ contractAddress.debaseDaiLp, 'getReserves' ], {
 		fetcher: fetcher(library, uniAbi)
 	});
-
-	useEffect(() => {
-		async function fetchRebaseHistory() {
-			let res = await request('https://api.thegraph.com/subgraphs/name/debaseonomics/subgraph', query);
-			if (res.length) {
-				setPastRebases([ ...res ]);
-			}
-		}
-		fetchRebaseHistory();
-	}, []);
 
 	async function handleRebase() {
 		setLoading(true);
