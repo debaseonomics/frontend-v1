@@ -67,7 +67,7 @@ export default function DappLayout({ children }) {
 					<div className="navbar-brand">
 						<div className="navbar-item">
 							<Link to="/">
-								<figure className="image">
+								<figure className="image" style={{ width: '28px', height: '28px' }}>
 									<img src={debase} alt="debase" />
 								</figure>
 							</Link>
@@ -87,6 +87,7 @@ export default function DappLayout({ children }) {
 					</div>
 					<div className={menuActive ? 'navbar-menu is-active' : 'navbar-menu'}>
 						<div className="navbar-start">
+							{menuLink('Dashboard', '/dapp/dashboard')}
 							{menuLink('Staking', '/dapp/staking')}
 							{menuLink('Vote', 'https://snapshot.page/#/debaseonomics')}
 							{menuLink('Rebase', '/dapp/rebase')}
