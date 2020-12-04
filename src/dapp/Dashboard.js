@@ -159,7 +159,7 @@ export default function Dashboard() {
                                             color: 'white'
                                         }}
                                     >
-                                    Total Supply:</strong> $ {point.data.yFormatted}
+                                    Total Supply:</strong> ${point.data.yFormatted}
                                 </div>
                             ))}
                         </div>
@@ -183,7 +183,7 @@ export default function Dashboard() {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: 'Debase',
+                    legend: 'DEBASE',
                     legendOffset: -80,
                     legendPosition: 'middle',
                     legendRotation: 90
