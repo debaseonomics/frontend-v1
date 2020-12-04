@@ -12,7 +12,7 @@ import './Dashboard.css';
 
 /* Chart theming */
 const chartTheme = {
-    "textColor": "#ffffff",
+    "textColor": "#fff",
     tooltip: {
         container: {
             background: '#212429',
@@ -133,9 +133,33 @@ export default function Dashboard() {
             <ResponsiveLine
                 data={totalSupplyData}
                 theme={chartTheme}
-                margin={{ top: 20, right: 10, bottom: 60, left: 70 }}
+                margin={{ top: 20, right: 10, bottom: 100, left: 85 }}
                 xScale={{ type: 'point' }}
                 yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+                sliceTooltip={({ slice }) => {
+                    return (
+                        <div
+                            style={{
+                                background: '#212429',
+                                padding: '9px 12px',
+                                boxShadow: '0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02)',
+                                color: 'white'
+                            }}
+                        >
+                            {slice.points.map(point => (
+                                <div
+                                    key={point.id}
+                                    style={{
+                                        color: point.serieColor,
+                                        padding: '3px 0',
+                                    }}
+                                >
+                                    <span style={{color: '#923db3'}}>${point.data.yFormatted}</span>
+                                </div>
+                            ))}
+                        </div>
+                    )
+                }}
                 yFormat=" >-.2f"
                 axisTop={null}
                 axisRight={null}
@@ -144,21 +168,28 @@ export default function Dashboard() {
                     tickSize: 0,
                     tickPadding: 20,
                     tickRotation: -45,
+                    legend: 'Date',
+                    legendOffset: 85,
+                    legendPosition: 'middle',
+                    legendRotation: 90
                 }}
                 axisLeft={{
                     orient: 'left',
-                    tickSize: 0,
-                    tickPadding: 20,
+                    tickSize: 5,
+                    tickPadding: 5,
                     tickRotation: 0,
+                    legend: 'DEBASE',
+                    legendOffset: -80,
+                    legendPosition: 'middle',
+                    legendRotation: 90
                 }}
-                colors='#f5468e'
+                colors='#d741a7'
                 lineWidth={2}
                 pointSize={6}
-                pointColor="#212429"
+                pointColor="#d741a7"
                 pointBorderWidth={2}
                 pointBorderColor={{ from: 'serieColor' }}
                 pointLabelYOffset={-12}
-                tooltip={({ id, value, color }) => ( <strong style={{ color }}>{id}: {value}</strong> )}
                 enableSlices="x"
                 useMesh={true}
             />
@@ -172,9 +203,33 @@ export default function Dashboard() {
             <ResponsiveLine
                 data={rebasePercentageData}
                 theme={chartTheme}
-                margin={{ top: 20, right: 10, bottom: 70, left: 70 }}
+                margin={{ top: 20, right: 10, bottom: 100, left: 80 }}
                 xScale={{ type: 'point' }}
                 yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+                sliceTooltip={({ slice }) => {
+                    return (
+                        <div
+                            style={{
+                                background: '#212429',
+                                padding: '9px 12px',
+                                boxShadow: '0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02)',
+                                color: 'white'
+                            }}
+                        >
+                            {slice.points.map(point => (
+                                <div
+                                    key={point.id}
+                                    style={{
+                                        color: point.serieColor,
+                                        padding: '3px 0',
+                                    }}
+                                >
+                                    <span style={{color: '#923db3'}}>{point.data.yFormatted}%</span>
+                                </div>
+                            ))}
+                        </div>
+                    )
+                }}
                 yFormat=" >-.2f"
                 axisTop={null}
                 axisRight={null}
@@ -183,21 +238,28 @@ export default function Dashboard() {
                     tickSize: 0,
                     tickPadding: 20,
                     tickRotation: -45,
+                    legend: 'Date',
+                    legendOffset: 85,
+                    legendPosition: 'middle',
+                    legendRotation: 90
                 }}
                 axisLeft={{
                     orient: 'left',
                     tickSize: 0,
                     tickPadding: 20,
                     tickRotation: 0,
+                    legend: 'Rebase %',
+                    legendOffset: -60,
+                    legendPosition: 'middle',
+                    legendRotation: 90
                 }}
-                colors='#f5468e'
+                colors='#d741a7'
                 lineWidth={2}
                 pointSize={6}
-                pointColor="#212429"
+                pointColor="#d741a7"
                 pointBorderWidth={2}
                 pointBorderColor={{ from: 'serieColor' }}
                 pointLabelYOffset={-12}
-                tooltip={({ id, value, color }) => ( <strong style={{ color }}>{id}: {value}</strong> )}
                 enableSlices="x"
                 useMesh={true}
             />
@@ -220,7 +282,7 @@ export default function Dashboard() {
             <div className="column is-6">
 				<div className="box column">
                     <div className="has-text-centered">
-						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">rebase %</h2>
+						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">rebase History</h2>
 					</div>
                     <div className="dashboard__chart">
                         {renderRebasePercentageChart()}
