@@ -154,12 +154,7 @@ export default function Dashboard() {
                                         padding: '3px 0',
                                     }}
                                 >
-                                    <strong 
-                                        style={{
-                                            color: 'white'
-                                        }}
-                                    >
-                                    Total Supply:</strong> ${point.data.yFormatted}
+                                    <span style={{color: '#923db3'}}>${point.data.yFormatted}</span>
                                 </div>
                             ))}
                         </div>
@@ -229,12 +224,7 @@ export default function Dashboard() {
                                         padding: '3px 0',
                                     }}
                                 >
-                                    <strong 
-                                        style={{
-                                            color: 'white'
-                                        }}
-                                    >
-                                    Rebase:</strong> {point.data.yFormatted}%
+                                    <span style={{color: '#923db3'}}>{point.data.yFormatted}%</span>
                                 </div>
                             ))}
                         </div>
