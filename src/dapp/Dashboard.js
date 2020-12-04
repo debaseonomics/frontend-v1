@@ -154,7 +154,7 @@ export default function Dashboard() {
                                         padding: '3px 0',
                                     }}
                                 >
-                                    <span style={{color: '#923db3'}}>${point.data.yFormatted}</span>
+                                    <span style={{color: '#923db3'}}>{point.data.yFormatted}</span>
                                 </div>
                             ))}
                         </div>
