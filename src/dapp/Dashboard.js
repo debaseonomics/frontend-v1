@@ -62,30 +62,30 @@ const calcRebasePercentage = (index, pastRebasesArr) => {
 
 export default function Dashboard() {
 
-    const [ pastRebases, setPastRebases ] = useState([]);
-    const [ totalSupplyData, setTotalSupplyData ] = useState([
-        {   
+    const [pastRebases, setPastRebases] = useState([]);
+    const [totalSupplyData, setTotalSupplyData] = useState([
+        {
             id: 'Totalsupply',
             data: []
         }
     ]);
-    const [ rebasePercentageData, setRebasePercentageData ] = useState([
-        {   
+    const [rebasePercentageData, setRebasePercentageData] = useState([
+        {
             id: 'Rebasepercentage',
             data: []
         }
     ]);
 
     useEffect(() => {
-		async function fetchRebaseHistory() {
-			let res = await request('https://api.thegraph.com/subgraphs/name/debaseonomics/subgraph', query)
-			if (res.rebases) {
-				setPastRebases([ ...res.rebases ]);
-			}
-		}
-		fetchRebaseHistory();
+        async function fetchRebaseHistory() {
+            let res = await request('https://api.thegraph.com/subgraphs/name/debaseonomics/subgraph', query)
+            if (res.rebases) {
+                setPastRebases([...res.rebases]);
+            }
+        }
+        fetchRebaseHistory();
     }, []);
-    
+
     useEffect(() => {
         const localPastRebases = [...pastRebases].reverse();
         if (localPastRebases.length === 0) { return }
@@ -128,7 +128,7 @@ export default function Dashboard() {
     }, [pastRebases]);
 
     const renderTotalSupplyChart = () => {
-        if (totalSupplyData[0].data.length === 0) { return null} 
+        if (totalSupplyData[0].data.length === 0) { return null }
         return (
             <ResponsiveLine
                 data={totalSupplyData}
@@ -154,7 +154,7 @@ export default function Dashboard() {
                                         padding: '3px 0',
                                     }}
                                 >
-                                    <span style={{color: '#923db3'}}>{point.data.yFormatted}</span>
+                                    <span style={{ color: '#923db3' }}>{point.data.yFormatted}</span>
                                 </div>
                             ))}
                         </div>
@@ -197,7 +197,7 @@ export default function Dashboard() {
     };
 
     const renderRebasePercentageChart = () => {
-        if (rebasePercentageData[0].data.length === 0) { return null} 
+        if (rebasePercentageData[0].data.length === 0) { return null }
 
         return (
             <ResponsiveLine
@@ -224,7 +224,7 @@ export default function Dashboard() {
                                         padding: '3px 0',
                                     }}
                                 >
-                                    <span style={{color: '#923db3'}}>{point.data.yFormatted}%</span>
+                                    <span style={{ color: '#923db3' }}>{point.data.yFormatted}%</span>
                                 </div>
                             ))}
                         </div>
@@ -269,21 +269,21 @@ export default function Dashboard() {
 
     return (
         <div className="columns is-centered">
-			<div className="column is-6">
-				<div className="box column">
+            <div className="column is-6">
+                <div className="box column">
                     <div className="has-text-centered">
-						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">total supply</h2>
-					</div>
+                        <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">total supply</h2>
+                    </div>
                     <div className="dashboard__chart">
                         {renderTotalSupplyChart()}
                     </div>
                 </div>
             </div>
             <div className="column is-6">
-				<div className="box column">
+                <div className="box column">
                     <div className="has-text-centered">
-						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">rebase History</h2>
-					</div>
+                        <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">rebase History</h2>
+                    </div>
                     <div className="dashboard__chart">
                         {renderRebasePercentageChart()}
                     </div>
