@@ -3,7 +3,7 @@ import debase from '../assets/debase.png';
 import degov from '../assets/degov.png';
 
 export default function TokensInfo({ isMobile }) {
-	const Token = (tokenImg, name, tag, content, supply, distribution) => (
+	const Token = (tokenImg, name, tag, content, supply, distribution, extra) => (
 		<div className="card">
 			<div className="card-content">
 				<div className="media">
@@ -35,6 +35,9 @@ export default function TokensInfo({ isMobile }) {
 						</div>
 					</div>
 				</nav>
+				<div className={isMobile ? 'content' : 'content is-medium'}>
+					<p>{extra}</p>
+				</div>
 			</div>
 		</div>
 	);
@@ -49,8 +52,9 @@ export default function TokensInfo({ isMobile }) {
 								'Debase',
 								'Flexible Supply Token',
 								'DEBASE is an elastic supply token whose features (price target, price oracle(s), rebase lag, etc.) are parameterized  to be controlled through governance and whose value is stabilized through "stabilizer pools"',
-								'1,000,000',
-								'100,000'
+								'1,000,00*',
+								'100,000',
+								'*Pre-rebase'
 							)}
 						</div>
 						<div className="column">
@@ -60,7 +64,8 @@ export default function TokensInfo({ isMobile }) {
 								'Governance Token',
 								'DEGOV is the governance token of Debaseonomics which is used to vote on the parameters of DEBASE, stabilizer pools as well as other parameters of governance (quorum threshold, execution delay, etc.)',
 								'25,000',
-								'25,000'
+								'25,000',
+								''
 							)}
 						</div>
 					</div>
