@@ -11,7 +11,6 @@ import { darkModeState } from '../state/index.js';
 import debase from '../assets/debase.png';
 import Valley from '../assets/Valley.svg';
 
-import { Dashboard } from '../dapp/Dashboard';
 
 export default function DappLayout({ children }) {
 	const injected = new InjectedConnector({ supportedChainIds: [1] });
@@ -90,7 +89,7 @@ export default function DappLayout({ children }) {
 					</div>
 					<div className={menuActive ? 'navbar-menu is-active' : 'navbar-menu'}>
 						<div className="navbar-start">
-							{menuLink('Dashboard', '/dapp/dashboard')}
+							{menuLink('Dashboard', '/info/dashboard')}
 							{menuLink('Staking', '/dapp/staking')}
 							{menuLink('Vote', 'https://snapshot.page/#/debaseonomics')}
 							{menuLink('Rebase', '/dapp/rebase')}

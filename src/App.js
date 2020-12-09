@@ -29,7 +29,7 @@ const DappLayout = React.lazy(() => import('./layout/Dapp'));
 const Staking = React.lazy(() => import('./dapp/Staking'));
 const Pool = React.lazy(() => import('./dapp/Pool'));
 const Rebaser = React.lazy(() => import('./dapp/Rebaser'));
-const Dashboard = React.lazy(() => import('./dapp/Dashboard'));
+const Dashboard = React.lazy(() => import('./info/Dashboard'));
 
 const Stabilizers = React.lazy(() => import('./dapp/stabilizers/index'));
 const ThresholdCounter = React.lazy(() => import('./dapp/stabilizers/ThresholdCounter'));
@@ -81,9 +81,6 @@ function App() {
 					<Route path="/dapp">
 						<Web3ReactProvider getLibrary={getLibrary}>
 							<DappLayout>
-								<Route path="/dapp/dashboard">
-									<Dashboard />
-								</Route>
 								<Route path="/dapp/staking">
 									<Route path="/dapp/staking/debase-dai">
 										<Pool
@@ -143,8 +140,15 @@ function App() {
 									<Rebaser />
 								</Route>
 							</DappLayout>
+
+
+							<InfoLayout>
+								<Dashboard />
+							</InfoLayout>
+
 						</Web3ReactProvider>
 					</Route>
+
 					<Route path="/">
 						<InfoLayout>
 							<Landing scrollToOverview={scrollToOverview} />
