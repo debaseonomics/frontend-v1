@@ -11,16 +11,19 @@ import { darkModeState } from '../state/index.js';
 import debase from '../assets/debase.png';
 import Valley from '../assets/Valley.svg';
 
-export default function DappLayout({ children }) {
-	const injected = new InjectedConnector({ supportedChainIds: [ 1 ] });
-	const { account, activate, active, error } = useWeb3React();
-	const [ isDarkMode, setIsDarkMode ] = useRecoilState(darkModeState);
+import { Dashboard } from '../dapp/Dashboard';
 
-	const [ menuActive, setMenuActive ] = useState(false);
+export default function DappLayout({ children }) {
+	const injected = new InjectedConnector({ supportedChainIds: [1] });
+	const { account, activate, active, error } = useWeb3React();
+	const [isDarkMode, setIsDarkMode] = useRecoilState(darkModeState);
+
+	const [menuActive, setMenuActive] = useState(false);
 
 	const isUserRejectedRequestError = error instanceof UserRejectedRequestError;
 	const isNoEthereumProviderError = error instanceof NoEthereumProviderError;
 	const isUnsupportedChainIdError = error instanceof UnsupportedChainIdError;
+
 
 	function toggleMode() {
 		const body = document.body;
@@ -38,7 +41,7 @@ export default function DappLayout({ children }) {
 				toaster('Cannot connect to metamask', 'is-danger', 3000);
 			}
 		},
-		[ isUnsupportedChainIdError, isNoEthereumProviderError, isUserRejectedRequestError ]
+		[isUnsupportedChainIdError, isNoEthereumProviderError, isUserRejectedRequestError]
 	);
 
 	const menuLink = (link, to) => (
@@ -48,8 +51,8 @@ export default function DappLayout({ children }) {
 					{link}
 				</a>
 			) : (
-				<Link to={to}>{link}</Link>
-			)}
+					<Link to={to}>{link}</Link>
+				)}
 		</div>
 	);
 
@@ -117,23 +120,23 @@ export default function DappLayout({ children }) {
 				{active ? (
 					<div className="container is-fluid">{children}</div>
 				) : (
-					<div className="container is-fluid">
-						<div className="columns is-centered has-text-centered">
-							<div className="column is-7">
-								<div className="box">
-									<h4 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">
-										Must connect with metamask to interact with dapp
+						<div className="container is-fluid">
+							<div className="columns is-centered has-text-centered">
+								<div className="column is-7">
+									<div className="box">
+										<h4 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">
+											Must connect with metamask to interact with dapp
 									</h4>
-									<button className="button is-primary is-edged" onClick={() => activate(injected)}>
-										Connect to metamask
+										<button className="button is-primary is-edged" onClick={() => activate(injected)}>
+											Connect to metamask
 									</button>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				)}
+					)}
 			</div>
 			<div />
-		</div>
+		</div >
 	);
 }
