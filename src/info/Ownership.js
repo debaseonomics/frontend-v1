@@ -4,7 +4,7 @@ import { ownerShipAddress, etherScanTX } from '../utils';
 
 const Ownership = React.forwardRef(
 	// eslint-disable-next-line
-	({}, ref) => {
+	({ }, ref) => {
 		let list = [
 			{
 				name: 'Degov',
@@ -39,17 +39,17 @@ const Ownership = React.forwardRef(
 		];
 		return (
 			<div className="section pl-0 pr-0" ref={ref}>
-				<div className=" block  ">
-					<h3 className="title is-size-3-tablet is-size-4-mobile is-family-secondary">Ownership</h3>
-					<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
-						Contract ownership transfer transactions
-					</h4>
-				</div>
 				<div className=" block ">
-					<div className="columns is-multiline is-vcentered">
-						{list.map((ele, index) => (
-							<InfoCard key={index + ele.name} name={ele.name} link={ele.link} info={ele.info} />
-						))}
+					<div className="box content box content is-medium">
+						<h3 className="title is-size-3-tablet is-size-4-mobile is-family-secondary">Ownership</h3>
+						<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
+							Contract ownership transfer transactions
+					</h4>
+						<div className="columns is-multiline is-vcentered">
+							{list.map((ele, index) => (
+								<InfoCard key={index + ele.name} name={ele.name} link={ele.link} info={ele.info} />
+							))}
+						</div>
 					</div>
 				</div>
 			</div>

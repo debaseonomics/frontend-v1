@@ -4,13 +4,11 @@ export default function Asymmetrical({ isMobile }) {
 	return (
 		<div className="section pl-0 pr-0">
 			<div className=" block  ">
-				<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">asymmetrical lag</h3>
-				<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
-					Additional flexibility
-				</h4>
-			</div>
-			<div className=" block  ">
 				<div className={isMobile ? 'box content' : 'box content is-medium'}>
+					<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">asymmetrical lag</h3>
+					<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
+						Additional flexibility
+				</h4>
 					<p>
 						Debaseonomics allows for the governance to adjust the smoothing parameter (Rebase Lag) over
 						configurable ranges that is applied in-order to dampen supply changes during a rebase. The

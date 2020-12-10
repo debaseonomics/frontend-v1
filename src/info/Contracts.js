@@ -68,16 +68,16 @@ export default function Contracts() {
 	return (
 		<div className="section pl-0 pr-0">
 			<div className=" block ">
-				<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">Contracts</h3>
-				<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
-					List of Contracts and their addresses
+				<div className="box content box content is-medium">
+					<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">Contracts</h3>
+					<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
+						List of Contracts and their addresses
 				</h4>
-			</div>
-			<div className=" block ">
-				<div className="columns is-multiline is-vcentered">
-					{list.map((ele, index) => (
-						<InfoCard key={index + ele.name} name={ele.name} link={ele.link} info={ele.info} />
-					))}
+					<div className="columns is-multiline is-vcentered">
+						{list.map((ele, index) => (
+							<InfoCard key={index + ele.name} name={ele.name} link={ele.link} info={ele.info} />
+						))}
+					</div>
 				</div>
 			</div>
 		</div>

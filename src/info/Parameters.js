@@ -3,7 +3,7 @@ import ParametersCard from '../components/ParametersCard';
 
 const Parameters = React.forwardRef(
 	// eslint-disable-next-line
-	({}, ref) => {
+	({ isMobile }, ref) => {
 		const editableList = [
 			{ heading: 'Price target', info: 'Debase target price' },
 			{ heading: 'rebase Interval', info: 'Minimum time before a rebase' },
@@ -25,20 +25,19 @@ const Parameters = React.forwardRef(
 			{ heading: 'Execution Delay', info: 'Delay before passed proposal can execute' },
 			{ heading: 'Grace Period', info: 'Period within which a passed proposal can execute' }
 		];
-
 		return (
 			<div className="section pl-0 pr-0" ref={ref}>
 				<div className=" block  ">
-					<h3 className="title is-size-3-tablet is-size-4-mobile is-family-secondary">Parameters</h3>
-					<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
-						Editable parameters
+					<div className={isMobile ? 'box content' : 'box content is-medium'}>
+						<h3 className="title is-size-3-tablet is-size-4-mobile is-family-secondary">Parameters</h3>
+						<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
+							Editable parameters
 					</h4>
-				</div>
-				<div className=" block  ">
-					<div className="columns is-multiline is-vcentered">
-						{editableList.map((ele, index) => (
-							<ParametersCard key={index + ele.heading} heading={ele.heading} value={ele.info} />
-						))}
+						<div className="columns is-multiline is-vcentered">
+							{editableList.map((ele, index) => (
+								<ParametersCard key={index + ele.heading} heading={ele.heading} value={ele.info} />
+							))}
+						</div>
 					</div>
 				</div>
 			</div>

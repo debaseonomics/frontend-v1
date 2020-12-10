@@ -108,9 +108,9 @@ export default function DappLayout({ children }) {
 									</Fragment>
 								) : null}
 							</div>
-							<div className="navbar-item">
+							{/*<div className="navbar-item">
 								<DarkModeToggle onChange={toggleMode} checked={isDarkMode} speed={3} size={40} />
-							</div>
+								</div>*/}
 						</div>
 					</div>
 				</nav>
