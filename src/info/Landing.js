@@ -72,9 +72,9 @@ export default function Landing({ scrollToOverview }) {
 							<i className="fab fa-medium fa-lg" />
 						</a>
 					</div>
-					<div>
+					{/*<div>
 						<DarkModeToggle onChange={toggleMode} checked={isDarkMode} speed={3} size={40} />
-					</div>
+					</div>*/}
 				</div>
 			</div>
 		</section>
