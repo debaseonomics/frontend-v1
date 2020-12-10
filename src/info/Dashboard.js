@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 
 /* import Nivo chart line */
 import { ResponsiveLine } from '@nivo/line'
@@ -7,8 +7,15 @@ import { ResponsiveLine } from '@nivo/line'
 import { formatEther } from 'ethers/lib/utils';
 import { request, gql } from 'graphql-request';
 
+/* import data */
+import useSWR from 'swr';
+import { contractAddress, orchestratorAbi, debasePolicyAbi, uniAbi, toaster, fetcher } from '../utils/index';
+import { useWeb3React } from '@web3-react/core';
+
+
 /* import styling */
 import './Dashboard.css';
+import dai from '../assets/dai.png';
 
 /* Chart theming */
 const chartTheme = {
@@ -26,18 +33,6 @@ const chartTheme = {
         }
     }
 };
-
-const query = gql`
-    {
-        rebases(orderBy: epoch, orderDirection: desc) {
-            epoch
-            exchangeRate
-            supplyAdjustment
-            rebaseLag
-            timestamp
-        }
-    }
-`;
 
 /* utils fn */
 const timestampToDate = timestamp => {
@@ -60,9 +55,31 @@ const calcRebasePercentage = (index, pastRebasesArr) => {
     return (formattedSupplyAdjustment / totalSupply) * 100;
 };
 
+
+
 export default function Dashboard() {
 
+    const { library } = useWeb3React();
+    const [loading, setLoading] = useState(false);
+
+    const { data: reserves } = useSWR([contractAddress.debaseDaiLp, 'getReserves'], {
+        fetcher: fetcher(library, uniAbi)
+    });
+
+    const liveData = [
+        {
+            label: 'Current Price',
+            value: reserves
+                ? parseFloat(parseFloat(formatEther(reserves[0])) / parseFloat(formatEther(reserves[1]))).toFixed(2)
+                : '...',
+            toolTip: 'Current market price of debase in relation to dai',
+            image: dai
+        }
+    ];
+
     const [pastRebases, setPastRebases] = useState([]);
+    const [circSupplyDeb, setCircSupplyDeb] = useState([]);
+
     const [totalSupplyData, setTotalSupplyData] = useState([
         {
             id: 'Totalsupply',
@@ -76,6 +93,18 @@ export default function Dashboard() {
         }
     ]);
 
+    const query = gql`
+    {
+        rebases(orderBy: epoch, orderDirection: desc) {
+            epoch
+            exchangeRate
+            supplyAdjustment
+            rebaseLag
+            timestamp
+        }
+    }
+`;
+
     useEffect(() => {
         async function fetchRebaseHistory() {
             let res = await request('https://api.thegraph.com/subgraphs/name/debaseonomics/subgraph', query)
@@ -85,6 +114,18 @@ export default function Dashboard() {
         }
         fetchRebaseHistory();
     }, []);
+
+    /*useEffect(() => {
+        async function fetchDebaseSupply() {
+            let res = await request('https://debaseonomics.io/.netlify/functions/circulatingSupply')
+            console.log(res);
+            if (res) {
+                setCircSupplyDeb([...res]);
+            }
+        }
+        fetchDebaseSupply();
+    }, []);*/
+
 
     useEffect(() => {
         const localPastRebases = [...pastRebases].reverse();
@@ -267,8 +308,87 @@ export default function Dashboard() {
 
     };
 
+
     return (
         <div className="columns is-centered">
+            {/* 
+            {liveData.map((ele, index) => (
+                <div className="columns is-centered">
+                    <div key={index} className="column is-12 has-text-centered">
+                        {ele.image ? (
+                            <Fragment>
+
+                                <div className="box column">
+                                    <h5
+                                        data-tooltip={ele.toolTip}
+                                        className="title is-size-4-tablet is-size-5-mobile is-family-secondary"
+                                    >
+                                        {ele.label}
+                                    </h5>
+                                    <div
+                                        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                                    >
+                                        <h5 className="subtitle m-0 is-size-5-tablet is-size-6-mobile">
+                                            {ele.value}
+                                        </h5>
+                                        <figure className="image is-24x24 ml-1 ">
+                                            <img src={ele.image} alt="Dai" />
+                                        </figure>
+                                    </div>
+                                </div>
+                            </Fragment>
+                        ) : (
+                                <Fragment>
+                                    <h5
+                                        data-tooltip={ele.toolTip}
+                                        style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
+                                        className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
+                                    >
+                                        {ele.label}
+                                    </h5>
+                                    <h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
+                                </Fragment>
+                            )}
+                    </div>
+                </div>
+            ))}
+            
+            */}
+
+            {/* <div className="columns is-centered">
+                <div className="column is-3">
+                    <div className="box column">
+                        <div className="has-text-centered">
+                            <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">circ. supply debase</h2>
+                            <h5 className="subtitle is-size-5-tablet is-size-6-mobile">100</h5>
+                        </div>
+                    </div>
+                </div>
+                <div className="column is-3">
+                    <div className="box column">
+                        <div className="has-text-centered">
+                            <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">circ. supply degov</h2>
+                        </div>
+                    </div>
+                </div>
+                <div className="column is-3">
+                    <div className="box column">
+                        <div className="has-text-centered">
+                            <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap debase</h2>
+                        </div>
+                    </div>
+                </div>
+                <div className="column is-3">
+                    <div className="box column">
+                        <div className="has-text-centered">
+                            <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap degov</h2>
+                        </div>
+                    </div>
+                </div>
+            </div >
+            */}
+
+
             <div className="column is-6">
                 <div className="box column">
                     <div className="has-text-centered">
@@ -279,6 +399,7 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
+
             <div className="column is-6">
                 <div className="box column">
                     <div className="has-text-centered">
@@ -290,5 +411,6 @@ export default function Dashboard() {
                 </div>
             </div>
         </div>
+
     )
 };

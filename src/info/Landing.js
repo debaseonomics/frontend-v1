@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import { darkModeState } from '../state/index.js';
 
 export default function Landing({ scrollToOverview }) {
-	const [ isDarkMode, setIsDarkMode ] = useRecoilState(darkModeState);
+	const [isDarkMode, setIsDarkMode] = useRecoilState(darkModeState);
 
 	function toggleMode() {
 		const body = document.body;
@@ -29,6 +29,11 @@ export default function Landing({ scrollToOverview }) {
 						<Link className="button is-edged is-medium is-link" to="/dapp/staking">
 							Application
 						</Link>
+						{/*
+						<Link className="button is-edged is-medium is-link" to="/info/dashboard">
+							Dashboard
+						</Link>
+						*/}
 					</div>
 
 					<a
