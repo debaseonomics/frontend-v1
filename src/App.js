@@ -74,7 +74,9 @@ function App() {
 	function scrollToUniswap() {
 		uniswapRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	}
-
+	function scrollToToken() {
+		overviewRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	}
 	return (
 		<Router>
 			<Suspense>

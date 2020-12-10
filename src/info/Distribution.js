@@ -7,14 +7,12 @@ const Distribution = React.forwardRef(
 	({ isMobile }, ref) => {
 		return (
 			<div className="section pl-0 pr-0" ref={ref}>
-				<div className=" block  ">
-					<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">Distribution Pools</h3>
-					<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
-						No pre-mine. No founder fees. 100% community distribution.
-					</h4>
-				</div>
 				<div className=" block ">
 					<div className={isMobile ? 'box content' : 'box content is-medium'}>
+						<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">Distribution Pools</h3>
+						<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
+							No pre-mine. No founder fees. 100% community distribution.
+					</h4>
 						<h4 className="title is-family-secondary">Debase</h4>
 						<p>
 							Debase token has two separate staking pools. The first pool yields the initial Debase token
@@ -53,8 +51,7 @@ const Distribution = React.forwardRef(
 							Orchestrator contract in case not enough tokens are distributed from the pool. So rebases
 							can be available as early as 1 week from the launch.
 						</p>
-					</div>
-					<div className={isMobile ? 'box content mt-4' : 'box content mt-4 is-medium'}>
+
 						<h4 className="title is-family-secondary">Degov</h4>
 						<p>
 							Degov token has one staking pool. This pool will only be available to stake into after the

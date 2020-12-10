@@ -6,13 +6,11 @@ const Uniswap = React.forwardRef(
 		return (
 			<div className="section pl-0 pr-0" ref={ref}>
 				<div className=" block  ">
-					<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">Uniswap</h3>
-					<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
-						The biggest issue with rebase tokens
-					</h4>
-				</div>
-				<div className=" block  ">
 					<div className={isMobile ? 'box content' : 'box content is-medium'}>
+						<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">Uniswap</h3>
+						<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
+							The biggest issue with rebase tokens
+					</h4>
 						<p>
 							Ironically, AMMs like Uniswap are one of the biggest issues faced by such flexible
 							coins. Even though such tokens wouldn't exist without Uniswap, the issue relates to how

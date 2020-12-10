@@ -14,7 +14,6 @@ import { useWeb3React } from '@web3-react/core';
 
 
 /* import styling */
-import './Dashboard.css';
 import dai from '../assets/dai.png';
 
 /* Chart theming */
@@ -28,7 +27,7 @@ const chartTheme = {
     },
     "grid": {
         "line": {
-            "stroke": "#2d3237",
+            "stroke": "#282F49",
             "strokeWidth": 1
         }
     }

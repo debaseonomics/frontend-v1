@@ -5,11 +5,9 @@ const Overview = React.forwardRef(({ scrollToParameters, scrollToStabilizer, scr
 	return (
 		<div className="section pl-0 pr-0" ref={ref}>
 			<div className=" block">
-				<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">Overview</h3>
-				<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">How it all works</h4>
-			</div>
-			<div className=" block">
 				<div className={isMobile ? 'box content' : 'box content is-medium'}>
+					<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">Overview</h3>
+					<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">How it all works</h4>
 					<p>
 						Debaseonomics is a combination of{' '}
 						<a target="_blank" rel="noopener noreferrer" href={etherScanAddress + contractAddress.debase}>
@@ -39,7 +37,7 @@ const Overview = React.forwardRef(({ scrollToParameters, scrollToStabilizer, scr
 					</p>
 					<p>
 						To control such pools and the protocol itself, a governance token has been paired token with
-						DEBASE. This allows the community to decide what types of stabilizers to include in addition to the rebasing parameters. 
+						DEBASE. This allows the community to decide what types of stabilizers to include in addition to the rebasing parameters.
 						DEGOV is forked by the governance model brought by{' '}
 						<a target="_blank" rel="noopener noreferrer" href="https://compound.finance/docs/governance">
 							Compound Finance

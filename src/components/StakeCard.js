@@ -22,11 +22,11 @@ export default function StakeCard({
 }) {
 	const { library } = useWeb3React();
 
-	const { data: currentReward } = useSWR([ contract, 'initReward' ], {
+	const { data: currentReward } = useSWR([contract, 'initReward'], {
 		fetcher: fetcher(library, poolAbi)
 	});
 
-	const { data: getRewardDistributed } = useSWR([ contract, 'rewardDistributed' ], {
+	const { data: getRewardDistributed } = useSWR([contract, 'rewardDistributed'], {
 		fetcher: fetcher(library, poolAbi)
 	});
 
@@ -36,7 +36,7 @@ export default function StakeCard({
 				<h3 className="title is-size-4-tablet is-size-5-mobile has-text-centered is-family-secondary">
 					{title}
 				</h3>
-				<div className="divider" style={{ color: '#923db3' }}>
+				<div className="divider" style={{ color: '#C0C2C9' }}>
 					{infoText}
 				</div>
 				<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
@@ -62,8 +62,8 @@ export default function StakeCard({
 						{getRewardDistributed ? (
 							parseFloat(formatEther(getRewardDistributed)).toFixed(2) + tokenTag
 						) : (
-							'...'
-						)}
+								'...'
+							)}
 					</h5>
 				) : null}
 
@@ -72,8 +72,8 @@ export default function StakeCard({
 						warningText == null ? (
 							'is-hidden'
 						) : (
-							'subtitle is-size-5-tablet is-size-6-mobile has-text-centered has-text-warning'
-						)
+								'subtitle is-size-5-tablet is-size-6-mobile has-text-centered has-text-warning'
+							)
 					}
 				>
 					{warningText}
@@ -83,8 +83,8 @@ export default function StakeCard({
 						warningText2 == null ? (
 							'is-hidden'
 						) : (
-							'subtitle is-size-5-tablet is-size-6-mobile has-text-centered has-text-warning'
-						)
+								'subtitle is-size-5-tablet is-size-6-mobile has-text-centered has-text-warning'
+							)
 					}
 				>
 					{warningText2}

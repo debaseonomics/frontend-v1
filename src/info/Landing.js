@@ -29,45 +29,49 @@ export default function Landing({ scrollToOverview }) {
 						<Link className="button is-edged is-medium is-link" to="/dapp/staking">
 							Application
 						</Link>
-						{/*
-						<Link className="button is-edged is-medium is-link" to="/info/dashboard">
-							Dashboard
-						</Link>
-						*/}
 					</div>
-
-					<a
-						href="https://github.com/debaseonomics/"
-						target="_blank"
-						rel="noopener noreferrer"
-						className="icon is-large has-text-grey-darker"
-					>
-						<i className="fab fa-github fa-lg" />
-					</a>
-					<a
-						href="https://discord.gg/kmt9ESWXKg"
-						target="_blank"
-						rel="noopener noreferrer"
-						className="icon is-large has-text-grey-darker"
-					>
-						<i className="fab fa-discord fa-lg" />
-					</a>
-					<a
-						href="https://t.me/debaseonomics"
-						target="_blank"
-						rel="noopener noreferrer"
-						className="icon is-large has-text-grey-darker"
-					>
-						<i className="fab fa-telegram fa-lg" />
-					</a>
-					<a
-						href="https://twitter.com/debaseonomics"
-						target="_blank"
-						rel="noopener noreferrer"
-						className="icon is-large has-text-grey-darker"
-					>
-						<i className="fab fa-twitter fa-lg" />
-					</a>
+					<div className="socials">
+						<a
+							href="https://github.com/debaseonomics/"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="icon is-large has-text-grey-darker"
+						>
+							<i className="fab fa-github fa-lg" />
+						</a>
+						<a
+							href="https://discord.gg/kmt9ESWXKg"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="icon is-large has-text-grey-darker"
+						>
+							<i className="fab fa-discord fa-lg" />
+						</a>
+						<a
+							href="https://t.me/debaseonomics"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="icon is-large has-text-grey-darker"
+						>
+							<i className="fab fa-telegram fa-lg" />
+						</a>
+						<a
+							href="https://twitter.com/debaseonomics"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="icon is-large has-text-grey-darker"
+						>
+							<i className="fab fa-twitter fa-lg" />
+						</a>
+						<a
+							href="https://debaseonomics.medium.com/"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="icon is-large has-text-grey-darker"
+						>
+							<i className="fab fa-medium fa-lg" />
+						</a>
+					</div>
 					<div>
 						<DarkModeToggle onChange={toggleMode} checked={isDarkMode} speed={3} size={40} />
 					</div>

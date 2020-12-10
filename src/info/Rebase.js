@@ -3,14 +3,12 @@ import React from 'react';
 export default function Rebase({ isMobile }) {
 	return (
 		<div className="section pl-0 pr-0">
-			<div className=" block">
-				<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">rebases</h3>
-				<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
-					Flexible supply management
-				</h4>
-			</div>
 			<div className=" block  ">
 				<div className={isMobile ? 'box content' : 'box content is-medium'}>
+					<h3 className="title is-size-3-tablet is-size-5-mobile is-family-secondary">rebases</h3>
+					<h4 className="subtitle is-size-4-tablet is-size-5-mobile has-text-grey-darker">
+						Flexible supply management
+				</h4>
 					<p>
 						As the demand for DEBASE tokens waxes and wanes, so does the supply. Assuming initial
 						parameters, Debaseonomics protocol’s rebase function queries a{' '}
