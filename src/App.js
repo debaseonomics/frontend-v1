@@ -23,13 +23,14 @@ const Rebase = React.lazy(() => import('./info/Rebase'));
 const Asymmetrical = React.lazy(() => import('./info/Asymmetrical'));
 const Ownership = React.lazy(() => import('./info/Ownership'));
 const Uniswap = React.lazy(() => import('./info/Uniswap'));
+const Dashboard = React.lazy(() => import('./info/Dashboard'));
 
 const InfoLayout = React.lazy(() => import('./layout/Info'));
 const DappLayout = React.lazy(() => import('./layout/Dapp'));
 const Staking = React.lazy(() => import('./dapp/Staking'));
 const Pool = React.lazy(() => import('./dapp/Pool'));
 const Rebaser = React.lazy(() => import('./dapp/Rebaser'));
-const Dashboard = React.lazy(() => import('./info/Dashboard'));
+
 
 const Stabilizers = React.lazy(() => import('./dapp/stabilizers/index'));
 const ThresholdCounter = React.lazy(() => import('./dapp/stabilizers/ThresholdCounter'));
@@ -78,6 +79,7 @@ function App() {
 		<Router>
 			<Suspense>
 				<Switch>
+
 					<Route path="/dapp">
 						<Web3ReactProvider getLibrary={getLibrary}>
 							<DappLayout>
@@ -142,11 +144,13 @@ function App() {
 							</DappLayout>
 
 
-							<InfoLayout>
-								<Dashboard />
-							</InfoLayout>
-
 						</Web3ReactProvider>
+					</Route>
+
+					<Route path="/info/dashboard">
+						<InfoLayout>
+							<Dashboard />
+						</InfoLayout>
 					</Route>
 
 					<Route path="/">

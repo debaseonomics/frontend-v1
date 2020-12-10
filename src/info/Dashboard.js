@@ -310,49 +310,57 @@ export default function Dashboard() {
 
 
     return (
-        <div className="columns-wrapper">
+        <div className="columns is-centered">
+            {/* 
             {liveData.map((ele, index) => (
-                <div key={index} className="column is-3 has-text-centered">
-                    {ele.image ? (
-                        <Fragment>
-                            <div className="box column">
-                                <h5
-                                    data-tooltip={ele.toolTip}
-                                    className="title is-size-4-tablet is-size-5-mobile is-family-secondary"
-                                >
-                                    {ele.label}
-                                </h5>
-                                <div
-                                    style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-                                >
-                                    <h5 className="subtitle m-0 is-size-5-tablet is-size-6-mobile">
-                                        {ele.value}
-                                    </h5>
-                                    <figure className="image is-24x24 ml-1 ">
-                                        <img src={ele.image} alt="Dai" />
-                                    </figure>
-                                </div>
-                            </div>
-                        </Fragment>
-                    ) : (
+                <div className="columns is-centered">
+                    <div key={index} className="column is-12 has-text-centered">
+                        {ele.image ? (
                             <Fragment>
-                                <h5
-                                    data-tooltip={ele.toolTip}
-                                    style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
-                                    className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
-                                >
-                                    {ele.label}
-                                </h5>
-                                <h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
+
+                                <div className="box column">
+                                    <h5
+                                        data-tooltip={ele.toolTip}
+                                        className="title is-size-4-tablet is-size-5-mobile is-family-secondary"
+                                    >
+                                        {ele.label}
+                                    </h5>
+                                    <div
+                                        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                                    >
+                                        <h5 className="subtitle m-0 is-size-5-tablet is-size-6-mobile">
+                                            {ele.value}
+                                        </h5>
+                                        <figure className="image is-24x24 ml-1 ">
+                                            <img src={ele.image} alt="Dai" />
+                                        </figure>
+                                    </div>
+                                </div>
                             </Fragment>
-                        )}
+                        ) : (
+                                <Fragment>
+                                    <h5
+                                        data-tooltip={ele.toolTip}
+                                        style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
+                                        className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
+                                    >
+                                        {ele.label}
+                                    </h5>
+                                    <h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
+                                </Fragment>
+                            )}
+                    </div>
                 </div>
             ))}
-            <div className="columns is-centered">
+            
+            */}
+
+            {/* <div className="columns is-centered">
                 <div className="column is-3">
                     <div className="box column">
                         <div className="has-text-centered">
                             <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">circ. supply debase</h2>
+                            <h5 className="subtitle is-size-5-tablet is-size-6-mobile">100</h5>
                         </div>
                     </div>
                 </div>
@@ -377,32 +385,32 @@ export default function Dashboard() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
+            */}
 
 
-            <div className="columns is-centered">
-                <div className="column is-6">
-                    <div className="box column">
-                        <div className="has-text-centered">
-                            <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">total supply</h2>
-                        </div>
-                        <div className="dashboard__chart">
-                            {renderTotalSupplyChart()}
-                        </div>
+            <div className="column is-6">
+                <div className="box column">
+                    <div className="has-text-centered">
+                        <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">total supply</h2>
+                    </div>
+                    <div className="dashboard__chart">
+                        {renderTotalSupplyChart()}
                     </div>
                 </div>
+            </div>
 
-                <div className="column is-6">
-                    <div className="box column">
-                        <div className="has-text-centered">
-                            <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">rebase History</h2>
-                        </div>
-                        <div className="dashboard__chart">
-                            {renderRebasePercentageChart()}
-                        </div>
+            <div className="column is-6">
+                <div className="box column">
+                    <div className="has-text-centered">
+                        <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">rebase History</h2>
+                    </div>
+                    <div className="dashboard__chart">
+                        {renderRebasePercentageChart()}
                     </div>
                 </div>
             </div>
         </div>
+
     )
 };

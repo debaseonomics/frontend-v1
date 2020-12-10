@@ -29,9 +29,11 @@ export default function Landing({ scrollToOverview }) {
 						<Link className="button is-edged is-medium is-link" to="/dapp/staking">
 							Application
 						</Link>
+						{/*
 						<Link className="button is-edged is-medium is-link" to="/info/dashboard">
 							Dashboard
 						</Link>
+						*/}
 					</div>
 
 					<a
