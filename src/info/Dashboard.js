@@ -48,18 +48,25 @@ const calcRebasePercentage = (index, pastRebasesArr) => {
 };
 
 export default function Dashboard() {
-	const [ pastRebases, setPastRebases ] = useState([]);
-	const [ pairData, setPairData ] = useState({});
+	const [pastRebases, setPastRebases] = useState([]);
+	const [pairData, setPairData] = useState({});
 
-	const [ totalSupplyData, setTotalSupplyData ] = useState([
+	const [totalSupplyData, setTotalSupplyData] = useState([
 		{
 			id: 'Totalsupply',
 			data: []
 		}
 	]);
-	const [ rebasePercentageData, setRebasePercentageData ] = useState([
+	const [rebasePercentageData, setRebasePercentageData] = useState([
 		{
 			id: 'Rebasepercentage',
+			data: []
+		}
+	]);
+
+	const [priceData, setPriceData] = useState([
+		{
+			id: 'Price',
 			data: []
 		}
 	]);
@@ -93,8 +100,9 @@ export default function Dashboard() {
 	async function fetchRebaseHistory() {
 		let res = await request('https://api.thegraph.com/subgraphs/name/debaseonomics/subgraph', rebaseQuery);
 		if (res.rebases) {
-			setPastRebases([ ...res.rebases ]);
+			setPastRebases([...res.rebases]);
 		}
+		console.log(res.rebases);
 	}
 
 	async function fetchPairData() {
@@ -102,6 +110,7 @@ export default function Dashboard() {
 		if (res.pair) {
 			setPairData({ ...res.pair });
 		}
+		console.log(res.pair);
 	}
 
 	async function fetchTokenData() {
@@ -125,7 +134,7 @@ export default function Dashboard() {
 
 	useEffect(
 		() => {
-			const localPastRebases = [ ...pastRebases ].reverse();
+			const localPastRebases = [...pastRebases].reverse();
 			if (localPastRebases.length === 0) {
 				return;
 			}
@@ -140,7 +149,7 @@ export default function Dashboard() {
 			});
 
 			/* calculate total supply data*/
-			const localTotalSupplyData = [ ...totalSupplyData ];
+			const localTotalSupplyData = [...totalSupplyData];
 			localPastRebases.forEach((rebase, i, arr) => {
 				const { timestamp } = rebase;
 				localTotalSupplyData[0].data.push({
@@ -150,7 +159,7 @@ export default function Dashboard() {
 			});
 
 			/* calculate rebase percentage data*/
-			const localRebasePercentageData = [ ...rebasePercentageData ];
+			const localRebasePercentageData = [...rebasePercentageData];
 			localPastRebases.forEach((rebase, i, arr) => {
 				const { timestamp } = rebase;
 				if (i !== 0) {
@@ -165,8 +174,80 @@ export default function Dashboard() {
 			setTotalSupplyData(localTotalSupplyData);
 			setRebasePercentageData(localRebasePercentageData);
 		},
-		[ pastRebases ]
+		[pastRebases]
 	);
+	const renderPriceChart = () => {
+		if (priceData[0].data.length === 0) {
+			return null;
+		}
+		return (
+			<ResponsiveLine
+				data={priceData}
+				theme={chartTheme}
+				margin={{ top: 20, right: 10, bottom: 100, left: 85 }}
+				xScale={{ type: 'point' }}
+				yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+				sliceTooltip={({ slice }) => {
+					return (
+						<div
+							style={{
+								background: '#212429',
+								padding: '9px 12px',
+								boxShadow:
+									'0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02)',
+								color: 'white'
+							}}
+						>
+							{slice.points.map((point) => (
+								<div
+									key={point.id}
+									style={{
+										color: point.serieColor,
+										padding: '3px 0'
+									}}
+								>
+									<span style={{ color: '#923db3' }}>{point.data.yFormatted}</span>
+								</div>
+							))}
+						</div>
+					);
+				}}
+				yFormat=" >-.2f"
+				axisTop={null}
+				axisRight={null}
+				axisBottom={{
+					orient: 'bottom',
+					tickSize: 0,
+					tickPadding: 20,
+					tickRotation: -45,
+					legend: 'Date',
+					legendOffset: 85,
+					legendPosition: 'middle',
+					legendRotation: 90
+				}}
+				axisLeft={{
+					orient: 'left',
+					tickSize: 5,
+					tickPadding: 5,
+					tickRotation: 0,
+					legend: 'DEBASE',
+					legendOffset: -80,
+					legendPosition: 'middle',
+					legendRotation: 90
+				}}
+				colors="#d741a7"
+				lineWidth={2}
+				pointSize={6}
+				pointColor="#d741a7"
+				pointBorderWidth={2}
+				pointBorderColor={{ from: 'serieColor' }}
+				pointLabelYOffset={-12}
+				enableSlices="x"
+				useMesh={true}
+			/>
+		);
+	};
+
 
 	const renderTotalSupplyChart = () => {
 		if (totalSupplyData[0].data.length === 0) {
@@ -313,8 +394,10 @@ export default function Dashboard() {
 		);
 	};
 
+
+
 	return (
-		<div className="columns is-centered">
+		<div className="columns is-multiline">
 			{/* 
             {liveData.map((ele, index) => (
                 <div className="columns is-centered">
@@ -359,38 +442,45 @@ export default function Dashboard() {
             
             */}
 
-			{/* <div className="columns is-centered">
-                <div className="column is-3">
-                    <div className="box column">
-                        <div className="has-text-centered">
-                            <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">circ. supply debase</h2>
-                            <h5 className="subtitle is-size-5-tablet is-size-6-mobile">100</h5>
-                        </div>
-                    </div>
-                </div>
-                <div className="column is-3">
-                    <div className="box column">
-                        <div className="has-text-centered">
-                            <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">circ. supply degov</h2>
-                        </div>
-                    </div>
-                </div>
-                <div className="column is-3">
-                    <div className="box column">
-                        <div className="has-text-centered">
-                            <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap debase</h2>
-                        </div>
-                    </div>
-                </div>
-                <div className="column is-3">
-                    <div className="box column">
-                        <div className="has-text-centered">
-                            <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap degov</h2>
-                        </div>
-                    </div>
-                </div>
-            </div >
-            */}
+			<div className="column is-3">
+				<div className="box column">
+					<div className="has-text-centered">
+						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">circ. supply debase</h2>
+						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ }</h5>
+					</div>
+				</div>
+			</div>
+			<div className="column is-3">
+				<div className="box column">
+					<div className="has-text-centered">
+						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">circ. supply degov</h2>
+					</div>
+				</div>
+			</div>
+			<div className="column is-3">
+				<div className="box column">
+					<div className="has-text-centered">
+						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap debase</h2>
+					</div>
+				</div>
+			</div>
+			<div className="column is-3">
+				<div className="box column">
+					<div className="has-text-centered">
+						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap degov</h2>
+					</div>
+				</div>
+			</div>
+
+
+			<div className="column is-6">
+				<div className="box column">
+					<div className="has-text-centered">
+						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">debase price</h2>
+					</div>
+					<div className="dashboard__chart">{renderPriceChart()}</div>
+				</div>
+			</div>
 
 			<div className="column is-6">
 				<div className="box column">
