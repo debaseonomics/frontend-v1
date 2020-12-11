@@ -20,7 +20,7 @@ const Overview = React.forwardRef(({ scrollToParameters, scrollToStabilizer, scr
 						promote fairness and decentralization.
 					</p>
 					<p>
-						Debaseonomics doesn't aim to be create another flexible supply token proposing a small set of
+						Debaseonomics doesn't aim to create another flexible supply token proposing a small set of
 						features that might, in theory, make them reach their pegged value. Instead, it encompasses an
 						infinite variety of elastic supply tokens by proposing {/* eslint-disable-next-line */}
 						<a onClick={() => scrollToStabilizer()}>stabilizer pools</a> which can be programmed in unique
