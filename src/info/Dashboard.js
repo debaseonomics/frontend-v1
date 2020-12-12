@@ -9,6 +9,11 @@ import { request, gql } from 'graphql-request';
 import { ethers } from 'ethers';
 import { contractAddress, lpAbi } from '../utils';
 
+/* import token logos */
+import dai from '../assets/dai.png';
+import degov from '../assets/degov.png';
+import debase from '../assets/debase.png';
+
 /* Chart theming */
 const chartTheme = {
 	textColor: '#fff',
@@ -27,6 +32,13 @@ const chartTheme = {
 };
 
 /* utils fn */
+const financial = (x) => Number.parseFloat(x).toFixed(2);
+
+const numberFormat = (value) =>
+	new Intl.NumberFormat('de-DE', {
+		style: 'decimal'
+	}).format(value);
+
 const timestampToDate = (timestamp) => {
 	const timestampMillisec = timestamp * 1000;
 	return new Date(timestampMillisec).toLocaleDateString();
@@ -47,17 +59,25 @@ const calcRebasePercentage = (index, pastRebasesArr) => {
 	return formattedSupplyAdjustment / totalSupply * 100;
 };
 
-export default function Dashboard() {
-	const [ pastRebases, setPastRebases ] = useState([]);
-	const [ pairData, setPairData ] = useState({});
 
-	const [ totalSupplyData, setTotalSupplyData ] = useState([
+const Dashboard = () => {
+	const [pastRebases, setPastRebases] = useState([]);
+	const [pairData, setPairData] = useState(null);
+
+	const [debaseData, setDebaseData] = useState(null);
+	const [degovData, setDegovData] = useState(null);
+	const [usdData, setUsdData] = useState(null);
+
+	const [debaseCircSupply, setDebaseCircSupply] = useState(null);
+	const [degovCircSupply, setDegovCircSupply] = useState(null);
+
+	const [totalSupplyData, setTotalSupplyData] = useState([
 		{
 			id: 'Totalsupply',
 			data: []
 		}
 	]);
-	const [ rebasePercentageData, setRebasePercentageData ] = useState([
+	const [rebasePercentageData, setRebasePercentageData] = useState([
 		{
 			id: 'Rebasepercentage',
 			data: []
@@ -76,7 +96,7 @@ export default function Dashboard() {
 		}
 	`;
 
-	const pairQuery = gql`
+	const debaseQuery = gql`
 		{
 			pair(id: "0xe98f89a2b3aecdbe2118202826478eb02434459a") {
 				id
@@ -89,43 +109,93 @@ export default function Dashboard() {
 			}
 		}
 	`;
-
-	async function fetchRebaseHistory() {
-		let res = await request('https://api.thegraph.com/subgraphs/name/debaseonomics/subgraph', rebaseQuery);
-		if (res.rebases) {
-			setPastRebases([ ...res.rebases ]);
+	const degovQuery = gql`
+		{
+			pair(id: "0xfc835d90ea6557b57b29361d95c4584d389e6ee8") {
+				id
+				reserve0
+				reserve1
+				token0Price
+				token1Price
+				volumeToken0
+				volumeToken1
+			}
 		}
-	}
+	`;
 
-	async function fetchPairData() {
-		let res = await request('https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2', pairQuery);
-		if (res.pair) {
-			setPairData({ ...res.pair });
+	const usdQuery = gql`
+		{
+			pair(id: "0xa478c2975ab1ea89e8196811f51a7b7ade33eb11") {
+				id
+				reserve0
+				reserve1
+				token0Price
+				token1Price
+				volumeToken0
+				volumeToken1
+			}
 		}
-	}
+	`
 
-	async function fetchTokenData() {
-		const provider = new ethers.providers.EtherscanProvider('homestead', 'WSEBKEYQAFZ8AUGMFAKJR7GPCNYZ9Q3AIE');
-		const contract = new ethers.Contract(contractAddress.debase, lpAbi, provider);
-		const totalSupply = await contract.totalSupply();
-		const stabilizerBalance = await contract.balanceOf(contractAddress.debasePolicy);
-		const pool1Balance = await contract.balanceOf(contractAddress.debaseDaiPool);
-		const pool2Balance = await contract.balanceOf(contractAddress.debaseDaiLpPool);
-		const circBalance = ethers.utils.formatEther(
-			totalSupply.sub(stabilizerBalance).sub(pool1Balance).sub(pool2Balance)
-		);
-		console.log(circBalance);
-	}
 
 	useEffect(() => {
+		async function fetchRebaseHistory() {
+			const res = await request('https://api.thegraph.com/subgraphs/name/debaseonomics/subgraph', rebaseQuery);
+			if (res.rebases) {
+				setPastRebases([...res.rebases]);
+			}
+		}
 		fetchRebaseHistory();
-		fetchPairData();
-		fetchTokenData();
-	}, []);
 
+		async function fetchTokenData() {
+			const provider = new ethers.providers.EtherscanProvider('homestead', 'WSEBKEYQAFZ8AUGMFAKJR7GPCNYZ9Q3AIE');
+
+			const contract = new ethers.Contract(contractAddress.debase, lpAbi, provider);
+			const totalSupply = await contract.totalSupply();
+			const stabilizerBalance = await contract.balanceOf(contractAddress.debasePolicy);
+			const pool1Balance = await contract.balanceOf(contractAddress.debaseDaiPool);
+			const pool2Balance = await contract.balanceOf(contractAddress.debaseDaiLpPool);
+			const circBalance = ethers.utils.formatEther(
+				totalSupply.sub(stabilizerBalance).sub(pool1Balance).sub(pool2Balance)
+			);
+			setDebaseCircSupply(circBalance);
+
+			const contractDegov = new ethers.Contract(contractAddress.degov, lpAbi, provider);
+			const totalSupplyDegov = await contractDegov.totalSupply();
+			//const stabilizerBalanceDegov = await contractDegov.balanceOf(contractAddress.degovPolicy);
+			//const pool1BalanceDegov = await contractDegov.balanceOf(contractAddress.degovDaiPool);
+			const pool2BalanceDegov = await contractDegov.balanceOf(contractAddress.degovDaiLpPool);
+			const circBalanceDegov = ethers.utils.formatEther(
+				totalSupplyDegov.sub(pool2BalanceDegov)
+			);
+			setDegovCircSupply(circBalanceDegov);
+
+		}
+		fetchTokenData();
+
+		async function fetchPairData() {
+			const usdRes = await request('https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2', usdQuery);
+			const debaseRes = await request('https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2', debaseQuery);
+			const degovRes = await request('https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2', degovQuery);
+
+			if (debaseRes.pair) {
+				const debasePrice = debaseRes.pair.token0Price;
+				setDebaseData(debasePrice);
+			}
+			if (degovRes.pair) {
+				const degovPrice = degovRes.pair.token1Price;
+				setDegovData(degovPrice);
+			}
+			if (usdRes.pair) {
+				const usdPrice = usdRes.pair.token0Price;
+				setUsdData(usdPrice);
+			}
+		}
+		fetchPairData();
+	}, []);
 	useEffect(
 		() => {
-			const localPastRebases = [ ...pastRebases ].reverse();
+			const localPastRebases = [...pastRebases].reverse();
 			if (localPastRebases.length === 0) {
 				return;
 			}
@@ -140,7 +210,7 @@ export default function Dashboard() {
 			});
 
 			/* calculate total supply data*/
-			const localTotalSupplyData = [ ...totalSupplyData ];
+			const localTotalSupplyData = [...totalSupplyData];
 			localPastRebases.forEach((rebase, i, arr) => {
 				const { timestamp } = rebase;
 				localTotalSupplyData[0].data.push({
@@ -150,7 +220,7 @@ export default function Dashboard() {
 			});
 
 			/* calculate rebase percentage data*/
-			const localRebasePercentageData = [ ...rebasePercentageData ];
+			const localRebasePercentageData = [...rebasePercentageData];
 			localPastRebases.forEach((rebase, i, arr) => {
 				const { timestamp } = rebase;
 				if (i !== 0) {
@@ -165,9 +235,8 @@ export default function Dashboard() {
 			setTotalSupplyData(localTotalSupplyData);
 			setRebasePercentageData(localRebasePercentageData);
 		},
-		[ pastRebases ]
+		[pastRebases]
 	);
-
 	const renderTotalSupplyChart = () => {
 		if (totalSupplyData[0].data.length === 0) {
 			return null;
@@ -239,7 +308,6 @@ export default function Dashboard() {
 			/>
 		);
 	};
-
 	const renderRebasePercentageChart = () => {
 		if (rebasePercentageData[0].data.length === 0) {
 			return null;
@@ -312,85 +380,84 @@ export default function Dashboard() {
 			/>
 		);
 	};
+	const renderDebasePrice = () => {
+		if (!debaseData) { return null }
+		return financial(debaseData);
+	};
+	const renderDegovPrice = () => {
+		if (!degovData) { return null }
+		return financial(degovData * usdData);
+	};
+	const renderDebaseCircSupply = () => {
+		if (!debaseCircSupply) { return null }
+		return numberFormat(debaseCircSupply);
+	};
+	const renderDegovCircSupply = () => {
+		if (!degovCircSupply) { return null }
+		return numberFormat(degovCircSupply);
+	};
+	const renderDebaseMarketcap = () => {
+		if (!debaseData && !debaseCircSupply) { return null }
+		return numberFormat(debaseData * debaseCircSupply);
+	};
+	const renderDegovMarketcap = () => {
+		if (!degovData && !degovCircSupply) { return null }
+
+		return numberFormat((degovData * usdData) * degovCircSupply);
+	};
 
 	return (
-		<div className="columns is-centered">
-			{/* 
-            {liveData.map((ele, index) => (
-                <div className="columns is-centered">
-                    <div key={index} className="column is-12 has-text-centered">
-                        {ele.image ? (
-                            <Fragment>
+		<div className="columns is-multiline">
+			<div className="column is-4">
+				<div className="box column">
+					<div className="has-text-centered">
+						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Debase</h2>
+						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDebasePrice()} <img src={dai} alt="Dai" /></h5>
+					</div>
+				</div>
+			</div>
+			<div className="column is-4">
+				<div className="box column">
+					<div className="has-text-centered">
+						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">debase Circ. Supply</h2>
+						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDebaseCircSupply()}<img src={debase} alt="Debase" /></h5>
+					</div>
+				</div>
+			</div>
+			<div className="column is-4">
+				<div className="box column">
+					<div className="has-text-centered">
+						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap debase</h2>
+						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDebaseMarketcap()}<img src={dai} alt="Dai" /></h5>
+					</div>
+				</div>
+			</div>
+			<div className="column is-4">
+				<div className="box column">
+					<div className="has-text-centered">
+						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">degov</h2>
+						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDegovPrice()} <img src={dai} alt="Dai" /></h5>
+					</div>
+				</div>
+			</div>
 
-                                <div className="box column">
-                                    <h5
-                                        data-tooltip={ele.toolTip}
-                                        className="title is-size-4-tablet is-size-5-mobile is-family-secondary"
-                                    >
-                                        {ele.label}
-                                    </h5>
-                                    <div
-                                        style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-                                    >
-                                        <h5 className="subtitle m-0 is-size-5-tablet is-size-6-mobile">
-                                            {ele.value}
-                                        </h5>
-                                        <figure className="image is-24x24 ml-1 ">
-                                            <img src={ele.image} alt="Dai" />
-                                        </figure>
-                                    </div>
-                                </div>
-                            </Fragment>
-                        ) : (
-                                <Fragment>
-                                    <h5
-                                        data-tooltip={ele.toolTip}
-                                        style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
-                                        className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
-                                    >
-                                        {ele.label}
-                                    </h5>
-                                    <h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
-                                </Fragment>
-                            )}
-                    </div>
-                </div>
-            ))}
-            
-            */}
+			<div className="column is-4">
+				<div className="box column">
+					<div className="has-text-centered">
+						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">degov Circ. Supply</h2>
+						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDegovCircSupply()}<img src={degov} alt="Degov" /></h5>
+					</div>
+				</div>
+			</div>
+			<div className="column is-4">
+				<div className="box column">
+					<div className="has-text-centered">
+						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap degov</h2>
+						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDegovMarketcap()}<img src={dai} alt="Dai" /></h5>
+					</div>
+				</div>
+			</div>
 
-			{/* <div className="columns is-centered">
-                <div className="column is-3">
-                    <div className="box column">
-                        <div className="has-text-centered">
-                            <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">circ. supply debase</h2>
-                            <h5 className="subtitle is-size-5-tablet is-size-6-mobile">100</h5>
-                        </div>
-                    </div>
-                </div>
-                <div className="column is-3">
-                    <div className="box column">
-                        <div className="has-text-centered">
-                            <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">circ. supply degov</h2>
-                        </div>
-                    </div>
-                </div>
-                <div className="column is-3">
-                    <div className="box column">
-                        <div className="has-text-centered">
-                            <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap debase</h2>
-                        </div>
-                    </div>
-                </div>
-                <div className="column is-3">
-                    <div className="box column">
-                        <div className="has-text-centered">
-                            <h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap degov</h2>
-                        </div>
-                    </div>
-                </div>
-            </div >
-            */}
 
 			<div className="column is-6">
 				<div className="box column">
@@ -412,3 +479,5 @@ export default function Dashboard() {
 		</div>
 	);
 }
+
+export default Dashboard

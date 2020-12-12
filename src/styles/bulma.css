@@ -137,7 +137,10 @@ body.dark-mode .input::placeholder {
 	clip-path: polygon(5% 0%, 100% 0, 100% 75%, 95% 100%, 0 100%, 0% 25%);
 	border: none !important;
 }
-
+.box h5 img{
+	width: 16px;
+    transform: translateY(1px) translateX(3px);
+}
 /*! bulma.io v0.9.1 | MIT License | github.com/jgthms/bulma */
 /* Bulma Utilities */
 @keyframes spinAround {
