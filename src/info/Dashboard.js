@@ -34,6 +34,11 @@ const chartTheme = {
 /* utils fn */
 const financial = (x) => Number.parseFloat(x).toFixed(2);
 
+const numberFormat = (value) =>
+	new Intl.NumberFormat('de-DE', {
+		style: 'decimal'
+	}).format(value);
+
 const timestampToDate = (timestamp) => {
 	const timestampMillisec = timestamp * 1000;
 	return new Date(timestampMillisec).toLocaleDateString();
@@ -163,7 +168,6 @@ const Dashboard = () => {
 			const circBalanceDegov = ethers.utils.formatEther(
 				totalSupplyDegov.sub(pool2BalanceDegov)
 			);
-
 			setDegovCircSupply(circBalanceDegov);
 
 		}
@@ -179,23 +183,16 @@ const Dashboard = () => {
 				setDebaseData(debasePrice);
 			}
 			if (degovRes.pair) {
-				console.log(degovRes.pair);
-
 				const degovPrice = degovRes.pair.token1Price;
 				setDegovData(degovPrice);
 			}
 			if (usdRes.pair) {
-				console.log(usdRes.pair);
 				const usdPrice = usdRes.pair.token0Price;
 				setUsdData(usdPrice);
 			}
 		}
 		fetchPairData();
-
 	}, []);
-
-
-
 	useEffect(
 		() => {
 			const localPastRebases = [...pastRebases].reverse();
@@ -240,8 +237,6 @@ const Dashboard = () => {
 		},
 		[pastRebases]
 	);
-
-
 	const renderTotalSupplyChart = () => {
 		if (totalSupplyData[0].data.length === 0) {
 			return null;
@@ -313,7 +308,6 @@ const Dashboard = () => {
 			/>
 		);
 	};
-
 	const renderRebasePercentageChart = () => {
 		if (rebasePercentageData[0].data.length === 0) {
 			return null;
@@ -386,42 +380,30 @@ const Dashboard = () => {
 			/>
 		);
 	};
-
-
 	const renderDebasePrice = () => {
 		if (!debaseData) { return null }
-
 		return financial(debaseData);
 	};
-
 	const renderDegovPrice = () => {
 		if (!degovData) { return null }
-
 		return financial(degovData * usdData);
 	};
-
 	const renderDebaseCircSupply = () => {
 		if (!debaseCircSupply) { return null }
-
-		return financial(debaseCircSupply);
+		return numberFormat(debaseCircSupply);
 	};
-
 	const renderDegovCircSupply = () => {
 		if (!degovCircSupply) { return null }
-
-		return financial(degovCircSupply);
+		return numberFormat(degovCircSupply);
 	};
-
 	const renderDebaseMarketcap = () => {
 		if (!debaseData && !debaseCircSupply) { return null }
-
-		return financial(debaseData * debaseCircSupply);
+		return numberFormat(debaseData * debaseCircSupply);
 	};
-
 	const renderDegovMarketcap = () => {
 		if (!degovData && !degovCircSupply) { return null }
 
-		return financial((degovData * usdData) * degovCircSupply);
+		return numberFormat((degovData * usdData) * degovCircSupply);
 	};
 
 	return (
