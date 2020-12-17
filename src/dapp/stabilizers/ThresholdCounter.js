@@ -48,7 +48,7 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'Threshold Condition',
-			value: 'Indicator (y ≥ X), X ~ N(5,2),)',
+			value: 'Indicator (y ≥ X), X ~ N(5,2)',
 			//value: countThreshold ? countThreshold.toNumber() : '...',
 			toolTip: 'Condition to check if Threshold is hit. y is number of positive rebases since last reward start'
 		},
