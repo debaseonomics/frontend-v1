@@ -76,13 +76,13 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'Total Pool Limit',
-			value: '30k LP',
+			value: '30K LP',
 			//value: duration ? (duration.toNumber() / (60 * 60)).toString() + ' Hours' : '...',
 			toolTip: 'Total LP limit per pool'
 		},
 		{
 			label: 'Pool Limit Wallet',
-			value: '1k LP',
+			value: '1K LP',
 			//value: poolEnabled !== undefined ? (poolEnabled ? 'True' : 'False') : '...',
 			toolTip: 'LP limit per wallet'
 		}
