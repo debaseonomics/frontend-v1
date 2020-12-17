@@ -44,7 +44,7 @@ export default function ThresholdCounter() {
 			label: 'Reward %',
 			//value: rewardAmount ? formatEther(rewardAmount) : '...',
 			value: '0.0055',
-			toolTip: 'Rewards requested by the the stabilizers'
+			toolTip: 'Percentage of stabilizer rewards contract requested as reward'
 		},
 		{
 			label: 'Threshold Condition',
@@ -91,7 +91,7 @@ export default function ThresholdCounter() {
 			label: 'Revoke Reward %',
 			value: '28',
 			//value: poolEnabled !== undefined ? (poolEnabled ? 'True' : 'False') : '...',
-			toolTip: 'Percentage of rewards that will be revoked'
+			toolTip: 'Percentage of rewards that will be revoked if positive rebases stop'
 		}
 	];
 
