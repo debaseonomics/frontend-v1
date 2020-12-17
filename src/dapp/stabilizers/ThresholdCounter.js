@@ -50,7 +50,7 @@ export default function ThresholdCounter() {
 			label: 'Threshold Condition',
 			value: 'Indicator (y ≥ X), X ~ N(5,2)',
 			//value: countThreshold ? countThreshold.toNumber() : '...',
-			toolTip: 'Condition to check if Threshold is hit. y is number of positive rebases since last reward start'
+			toolTip: 'Condition to check if threshold is hit for rewards period to start. y is number of positive rebases since last reward start'
 		},
 		{
 			label: 'Count In Sequence',
