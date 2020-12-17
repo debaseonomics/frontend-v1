@@ -11,29 +11,29 @@ import { formatEther } from 'ethers/lib/utils';
 export default function ThresholdCounter() {
 	let history = useHistory();
 	const { library } = useWeb3React();
-	const [ hideStake, setHideStake ] = useState(true);
+	const [hideStake, setHideStake] = useState(true);
 
-	const { data: rewardAmount } = useSWR([ contractAddress.stabilizerPool, 'rewardAmount' ], {
+	const { data: rewardAmount } = useSWR([contractAddress.stabilizerPool, 'rewardAmount'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
 
-	const { data: countInSequence } = useSWR([ contractAddress.stabilizerPool, 'countInSequence' ], {
+	const { data: countInSequence } = useSWR([contractAddress.stabilizerPool, 'countInSequence'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
 
-	const { data: countThreshold } = useSWR([ contractAddress.stabilizerPool, 'countThreshold' ], {
+	const { data: countThreshold } = useSWR([contractAddress.stabilizerPool, 'countThreshold'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
 
-	const { data: beforePeriodFinish } = useSWR([ contractAddress.stabilizerPool, 'beforePeriodFinish' ], {
+	const { data: beforePeriodFinish } = useSWR([contractAddress.stabilizerPool, 'beforePeriodFinish'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
 
-	const { data: duration } = useSWR([ contractAddress.stabilizerPool, 'duration' ], {
+	const { data: duration } = useSWR([contractAddress.stabilizerPool, 'duration'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
 
-	const { data: poolEnabled } = useSWR([ contractAddress.stabilizerPool, 'poolEnabled' ], {
+	const { data: poolEnabled } = useSWR([contractAddress.stabilizerPool, 'poolEnabled'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
 
@@ -41,34 +41,57 @@ export default function ThresholdCounter() {
 
 	const paramsData = [
 		{
-			label: 'Reward Amount',
-			value: rewardAmount ? formatEther(rewardAmount) : '...',
-			toolTip: 'Reward given to pool upon hitting count threshold'
+			label: 'Reward %',
+			//value: rewardAmount ? formatEther(rewardAmount) : '...',
+			value: '0.0055',
+			toolTip: 'Rewards requested by the the stabilizers'
 		},
 		{
 			label: 'Count Threshold',
-			value: countThreshold ? countThreshold.toNumber() : '...',
-			toolTip: 'Count threshold upon which reward is given to pool'
+			value: 'Y ≥ X, X ~ N(5,2)',
+			//value: countThreshold ? countThreshold.toNumber() : '...',
+			toolTip: 'Counts number of positive rebases since last reward period'
 		},
 		{
 			label: 'Count In Sequence',
 			value: countInSequence !== undefined ? (countInSequence ? 'True' : 'False') : '...',
-			toolTip: 'Count of the number of times a neutral rebase has happened'
+			toolTip: 'Count positive rebases in sequence'
 		},
 		{
 			label: 'Before Period Finish',
-			value: beforePeriodFinish !== undefined ? (beforePeriodFinish ? 'True' : 'False') : '...',
-			toolTip: 'Pool can be given reward before last reward has been given out'
+			value: 'True',
+			//value: beforePeriodFinish !== undefined ? (beforePeriodFinish ? 'True' : 'False') : '...',
+			toolTip: 'Award rewards before previous rewards have been distributed'
 		},
 		{
 			label: 'Reward Period',
-			value: duration ? (duration.toNumber() / (60 * 60)).toString() + ' Hours' : '...',
+			value: '168h',
+			//value: duration ? (duration.toNumber() / (60 * 60)).toString() + ' Hours' : '...',
 			toolTip: 'Period within which pool reward is distributed'
 		},
 		{
 			label: 'Pool Enabled',
 			value: poolEnabled !== undefined ? (poolEnabled ? 'True' : 'False') : '...',
 			toolTip: 'Pool staking/withdraw usage status'
+		},
+		{
+			label: 'Total Pool Limit',
+			value: '30k LP',
+			//value: duration ? (duration.toNumber() / (60 * 60)).toString() + ' Hours' : '...',
+			toolTip: 'Total LP limit per pool'
+		},
+		{
+			label: 'Pool Limit Wallet',
+			value: '1k LP',
+			//value: poolEnabled !== undefined ? (poolEnabled ? 'True' : 'False') : '...',
+			toolTip: 'LP limit per wallet'
+		}
+		,
+		{
+			label: 'Revoke Reward %',
+			value: '28',
+			//value: poolEnabled !== undefined ? (poolEnabled ? 'True' : 'False') : '...',
+			toolTip: 'Percentage of rewards that will be revoked'
 		}
 	];
 
@@ -119,22 +142,22 @@ export default function ThresholdCounter() {
 						Stake Into Pool
 					</button>
 				) : (
-					<Fragment>
-						<div className="divider">Staking</div>
-						<Pool
-							showName={false}
-							tokenText="Dai-lp"
-							rewardText="Debase"
-							poolName="Debase/Dai-lp"
-							unit={18}
-							rewardTokenImage={debase}
-							stakeTokenImage={empty}
-							tokenAddress={contractAddress.debaseDaiLp}
-							rewardTokenAddress={contractAddress.debase}
-							poolAddress={contractAddress.stabilizerPool}
-						/>
-					</Fragment>
-				)}
+						<Fragment>
+							<div className="divider">Staking</div>
+							<Pool
+								showName={false}
+								tokenText="Dai-lp"
+								rewardText="Debase"
+								poolName="Debase/Dai-lp"
+								unit={18}
+								rewardTokenImage={debase}
+								stakeTokenImage={empty}
+								tokenAddress={contractAddress.debaseDaiLp}
+								rewardTokenAddress={contractAddress.debase}
+								poolAddress={contractAddress.stabilizerPool}
+							/>
+						</Fragment>
+					)}
 			</div>
 		</div>
 	);

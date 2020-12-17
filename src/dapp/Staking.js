@@ -5,6 +5,24 @@ import { contractAddress, etherScanAddress, uniAddress } from '../utils';
 export default function Staking() {
 	return (
 		<div className="columns is-multiline is-vcentered">
+
+			<div className="column is-4">
+				<StakeCard
+					title="Debase/Dai-lp Pool"
+					link="degov-dai-lp"
+					tokenTag=" Degov"
+					rewardToken={contractAddress.degov}
+					contract={contractAddress.degovDaiLpPool}
+					contractLink={etherScanAddress + contractAddress.degovDaiLpPool}
+					website="Will launch after rebase"
+					websiteLink="#"
+					supply="25,000 Degov"
+					initial="12,500 Degov"
+					infoText="Seeds initial supply of degov"
+					duration="1 week"
+					enabled={true}
+				/>
+			</div>
 			<div className="column is-4">
 				<StakeCard
 					title="Dai Pool"
@@ -38,23 +56,6 @@ export default function Staking() {
 					initial="12,500 Debase"
 					infoText="Incentivizes debase liquidity"
 					duration="1 days"
-					enabled={true}
-				/>
-			</div>
-			<div className="column is-4">
-				<StakeCard
-					title="Debase/Dai-lp Pool"
-					link="degov-dai-lp"
-					tokenTag=" Degov"
-					rewardToken={contractAddress.degov}
-					contract={contractAddress.degovDaiLpPool}
-					contractLink={etherScanAddress + contractAddress.degovDaiLpPool}
-					website="Will launch after rebase"
-					websiteLink="#"
-					supply="25,000 Degov"
-					initial="12,500 Degov"
-					infoText="Seeds initial supply of degov"
-					duration="1 week"
 					enabled={true}
 				/>
 			</div>
