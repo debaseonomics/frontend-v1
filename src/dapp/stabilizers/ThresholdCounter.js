@@ -44,7 +44,7 @@ export default function ThresholdCounter() {
 			label: 'Reward %',
 			//value: rewardAmount ? formatEther(rewardAmount) : '...',
 			value: '0.0055',
-			toolTip: 'Percentage of stabilizer rewards contract requested as reward'
+			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
 		},
 		{
 			label: 'Threshold Condition',
