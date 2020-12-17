@@ -47,10 +47,10 @@ export default function ThresholdCounter() {
 			toolTip: 'Rewards requested by the the stabilizers'
 		},
 		{
-			label: 'Count Threshold',
-			value: 'Y ≥ X, X ~ N(5,2)',
+			label: 'Threshold Condition',
+			value: 'Indicator (y ≥ X), X ~ N(5,2),)',
 			//value: countThreshold ? countThreshold.toNumber() : '...',
-			toolTip: 'Counts number of positive rebases since last reward period'
+			toolTip: 'Condition to check if Threshold is hit. y is number of positive rebases since last reward start'
 		},
 		{
 			label: 'Count In Sequence',
