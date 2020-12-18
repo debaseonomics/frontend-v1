@@ -16,7 +16,7 @@ export default function Stabilizers() {
 			name: 'Threshold Counter',
 			type: 'Passive Pool',
 			description:
-				'This stabilizer counts the number of rebases that have happened in/not-in sequence without causing a supply change. If the threshold is hit then this pool rewarded debase which can be earned by staking into the pool.',
+				'This stabilizer counts the number of positive rebases until a random threshold, sampled from a normal distribution, is hit. Once the threshold is hit, counter is reset and the pool starts to reward DEBASE for staked DEBASE/DAI LPs, as per parameters decided by governance.',
 			status: 'Inactive',
 			link: 'thresholdCounter'
 		}

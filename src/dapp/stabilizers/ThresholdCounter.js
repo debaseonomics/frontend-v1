@@ -44,13 +44,13 @@ export default function ThresholdCounter() {
 			label: 'Reward %',
 			//value: rewardAmount ? formatEther(rewardAmount) : '...',
 			value: '0.0055',
-			toolTip: 'Rewards requested by the the stabilizers'
+			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
 		},
 		{
-			label: 'Count Threshold',
-			value: 'Y ≥ X, X ~ N(5,2)',
+			label: 'Threshold Condition',
+			value: 'Indicator (y ≥ X), X ~ N(5,2)',
 			//value: countThreshold ? countThreshold.toNumber() : '...',
-			toolTip: 'Counts number of positive rebases since last reward period'
+			toolTip: 'Condition to check if threshold is hit for rewards period to start. y is number of positive rebases since last reward period start'
 		},
 		{
 			label: 'Count In Sequence',
@@ -76,13 +76,13 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'Total Pool Limit',
-			value: '30k LP',
+			value: '30K LP',
 			//value: duration ? (duration.toNumber() / (60 * 60)).toString() + ' Hours' : '...',
 			toolTip: 'Total LP limit per pool'
 		},
 		{
 			label: 'Pool Limit Wallet',
-			value: '1k LP',
+			value: '1K LP',
 			//value: poolEnabled !== undefined ? (poolEnabled ? 'True' : 'False') : '...',
 			toolTip: 'LP limit per wallet'
 		}
@@ -91,7 +91,7 @@ export default function ThresholdCounter() {
 			label: 'Revoke Reward %',
 			value: '28',
 			//value: poolEnabled !== undefined ? (poolEnabled ? 'True' : 'False') : '...',
-			toolTip: 'Percentage of rewards that will be revoked'
+			toolTip: 'Percentage of rewards that will be revoked if positive rebases stop'
 		}
 	];
 
@@ -105,9 +105,7 @@ export default function ThresholdCounter() {
 					<span className="delete is-pulled-right" onClick={() => history.goBack()} />
 				</div>
 				<h5 className="pr-1 pl-1 pt-2 subtitle is-size-5-tablet is-size-6-mobile">
-					This stabilizer counts the number of rebases that have happened in/not-in sequence without causing a
-					supply change. If the threshold is hit then this pool rewarded debase which can be earned by staking
-					into the pool.
+					This stabilizer counts the number of positive rebases until a random threshold, sampled from a normal distribution, is hit. Once the threshold is hit, counter is reset and the pool starts to reward DEBASE for staked DEBASE/DAI LPs, as per the parameters mentioned below.
 				</h5>
 				<div className="is-block">
 					<span className="is-inline title is-size-5-tablet is-size-6-mobile mb-0">Contract:</span>
