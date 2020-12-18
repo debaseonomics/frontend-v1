@@ -21,6 +21,7 @@ export default function Staking() {
 					infoText="Seeds initial supply of degov"
 					duration="1 week"
 					enabled={true}
+					battery={<div className='part' style={{ animationName: 'highBattery' }}></div>}
 				/>
 			</div>
 			<div className="column is-4">
@@ -39,6 +40,7 @@ export default function Staking() {
 					infoText="Seeds initial supply of debase"
 					duration="1 day"
 					enabled={true}
+					battery={<div className='part' style={{ animationName: 'lowBattery' }}></div>}
 				/>
 			</div>
 			<div className="column is-4">
@@ -57,6 +59,7 @@ export default function Staking() {
 					infoText="Incentivizes debase liquidity"
 					duration="1 days"
 					enabled={true}
+					battery={<div className='part' style={{ animationName: 'lowBattery' }}></div>}
 				/>
 			</div>
 		</div>

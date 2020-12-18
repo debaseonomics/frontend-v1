@@ -11,6 +11,73 @@
 	font-weight: 400;
 	font-style: normal;
 }
+/* CUSTOM CSS */
+.title{
+	position: relative;
+}
+.battery {
+	position: absolute;
+	top: 15px;
+	left: 15px;
+	height: 25px;
+	width: 60px;
+	border: 2px solid #F1F1F1;
+	border-radius: 7px;
+	padding: 5px;
+  }
+  .battery::before {
+	content: '';
+	position: absolute;
+	height: 10px;
+	width: 4px;
+	background: #F1F1F1;
+	left: 60px;
+	top: 50%;
+	transform: translateY(-50%);
+	border-radius: 0 3px 3px 0;
+  }
+  .part {
+	position: absolute;
+	background: #0F0;
+	top: 5px;
+	left: 5px;
+	bottom: 5px;
+	animation-duration: 7s;
+	animation-delay: 1s;
+	border-radius: 3px;
+	animation-fill-mode: forwards;
+  }
+  @keyframes lowBattery {
+	0% {
+	  width: 0%;
+	  background: #F00;
+	}
+	100% {
+	  width: 15%;
+	  background: rgb(255, 102, 0);
+	}
+  }
+  @keyframes medBattery {
+	0% {
+	  width: 0%;
+	  background: #F00;
+	}
+	100% {
+	  width: 35%;
+	  background: orange;
+	}
+  }
+  @keyframes highBattery {
+	0% {
+	  width: 0%;
+	  background: #F00;
+	}
+	100% {
+	  width: 60%;
+	  background: #0F0;
+	}
+  }
+
 /* LIGHT MODE */
 body{
 	background: #FBF8FB;

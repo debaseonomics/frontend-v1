@@ -18,7 +18,8 @@ export default function StakeCard({
 	warningText,
 	warningText2,
 	duration,
-	enabled
+	enabled,
+	battery
 }) {
 	const { library } = useWeb3React();
 
@@ -34,6 +35,10 @@ export default function StakeCard({
 		<div className="box">
 			<div className="block">
 				<h3 className="title is-size-4-tablet is-size-5-mobile has-text-centered is-family-secondary">
+					<div className="battery">
+						{battery}
+
+					</div>
 					{title}
 				</h3>
 				<div className="divider" style={{ color: '#C0C2C9' }}>
