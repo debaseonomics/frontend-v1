@@ -6162,8 +6162,18 @@ a.navbar-item.is-active,
 	height: 2px;
 	margin: 0.5rem 0;
 }
-
+@media screen and (max-width: 1523px) {
+	body.dark-mode .infowrapper{
+		flex-direction: column;
+	}
+	body.dark-mode .params{
+		margin: 30px 0 0 0;
+	}
+}
 @media screen and (max-width: 1023px) {
+	body.dark-mode .boxs .desc{
+		margin: 0;
+	}
 	.navbar > .container {
 		display: block;
 	}
