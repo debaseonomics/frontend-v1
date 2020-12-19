@@ -25,7 +25,7 @@ const chartTheme = {
 	},
 	grid: {
 		line: {
-			stroke: '#282F49',
+			stroke: '#101423 ',
 			strokeWidth: 1
 		}
 	}
@@ -35,7 +35,7 @@ const chartTheme = {
 const financial = (x) => Number.parseFloat(x).toFixed(2);
 
 const numberFormat = (value) =>
-	new Intl.NumberFormat('de-DE', {
+	new Intl.NumberFormat('en-US', {
 		style: 'decimal'
 	}).format(value);
 
@@ -298,7 +298,7 @@ const Dashboard = () => {
 				}}
 				colors="#d741a7"
 				lineWidth={2}
-				pointSize={6}
+				pointSize={0}
 				pointColor="#d741a7"
 				pointBorderWidth={2}
 				pointBorderColor={{ from: 'serieColor' }}
@@ -370,7 +370,7 @@ const Dashboard = () => {
 				}}
 				colors="#d741a7"
 				lineWidth={2}
-				pointSize={6}
+				pointSize={0}
 				pointColor="#d741a7"
 				pointBorderWidth={2}
 				pointBorderColor={{ from: 'serieColor' }}
@@ -407,10 +407,10 @@ const Dashboard = () => {
 	};
 
 	return (
-		<div className="columns is-multiline">
+		<div className="dashboardwrap columns is-multiline">
 			<div className="column is-4">
 				<div className="box column">
-					<div className="has-text-centered">
+					<div>
 						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Debase</h2>
 						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDebasePrice()} <img src={dai} alt="Dai" /></h5>
 					</div>
@@ -418,7 +418,7 @@ const Dashboard = () => {
 			</div>
 			<div className="column is-4">
 				<div className="box column">
-					<div className="has-text-centered">
+					<div>
 						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">debase Circ. Supply</h2>
 						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDebaseCircSupply()}<img src={debase} alt="Debase" /></h5>
 					</div>
@@ -426,7 +426,7 @@ const Dashboard = () => {
 			</div>
 			<div className="column is-4">
 				<div className="box column">
-					<div className="has-text-centered">
+					<div>
 						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap debase</h2>
 						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDebaseMarketcap()}<img src={dai} alt="Dai" /></h5>
 					</div>
@@ -434,7 +434,7 @@ const Dashboard = () => {
 			</div>
 			<div className="column is-4">
 				<div className="box column">
-					<div className="has-text-centered">
+					<div>
 						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">degov</h2>
 						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDegovPrice()} <img src={dai} alt="Dai" /></h5>
 					</div>
@@ -443,7 +443,7 @@ const Dashboard = () => {
 
 			<div className="column is-4">
 				<div className="box column">
-					<div className="has-text-centered">
+					<div>
 						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">degov Circ. Supply</h2>
 						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDegovCircSupply()}<img src={degov} alt="Degov" /></h5>
 					</div>
@@ -451,7 +451,7 @@ const Dashboard = () => {
 			</div>
 			<div className="column is-4">
 				<div className="box column">
-					<div className="has-text-centered">
+					<div>
 						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap degov</h2>
 						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDegovMarketcap()}<img src={dai} alt="Dai" /></h5>
 					</div>

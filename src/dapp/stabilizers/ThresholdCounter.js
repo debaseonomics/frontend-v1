@@ -3,7 +3,7 @@ import Pool from '../Pool';
 import debase from '../../assets/debase.png';
 import empty from '../../assets/empty.png';
 import { useHistory } from 'react-router-dom';
-import { contractAddress, etherScanAddress, turncate, fetcher, thresholdCounterAbi } from '../../utils/index';
+import { contractAddress, etherScanAddress, turncate, fetcher, randomNumberAbi, thresholdCounterAbi } from '../../utils/index';
 import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
 import { formatEther } from 'ethers/lib/utils';
@@ -13,43 +13,89 @@ export default function ThresholdCounter() {
 	const { library } = useWeb3React();
 	const [hideStake, setHideStake] = useState(true);
 
-	const { data: rewardAmount } = useSWR([contractAddress.stabilizerPool, 'rewardAmount'], {
+	const { data: rewardPercentage } = useSWR([contractAddress.stabilizerPool, 'rewardPercentage'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
-
 	const { data: countInSequence } = useSWR([contractAddress.stabilizerPool, 'countInSequence'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
-
-	const { data: countThreshold } = useSWR([contractAddress.stabilizerPool, 'countThreshold'], {
-		fetcher: fetcher(library, thresholdCounterAbi)
-	});
-
 	const { data: beforePeriodFinish } = useSWR([contractAddress.stabilizerPool, 'beforePeriodFinish'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
-
 	const { data: duration } = useSWR([contractAddress.stabilizerPool, 'duration'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
-
 	const { data: poolEnabled } = useSWR([contractAddress.stabilizerPool, 'poolEnabled'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
+	const { data: poolLpLimit } = useSWR([contractAddress.stabilizerPool, 'poolLpLimit'], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
+	const { data: enablePoolLpLimit } = useSWR([contractAddress.stabilizerPool, 'enablePoolLpLimit'], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
+	const { data: userLpLimit } = useSWR([contractAddress.stabilizerPool, 'userLpLimit'], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
+	const { data: enableUserLpLimit } = useSWR([contractAddress.stabilizerPool, 'enableUserLpLimit'], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
+	const { data: revokeRewardPrecentage } = useSWR([contractAddress.stabilizerPool, 'revokeRewardPrecentage'], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
+	const { data: revokeReward } = useSWR([contractAddress.stabilizerPool, 'revokeReward'], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
+	const { data: count } = useSWR([contractAddress.stabilizerPool, 'count'], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
+	const { data: noramlDistributionMean } = useSWR([contractAddress.stabilizerPool, 'noramlDistributionMean'], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
+	const { data: normalDistributionDeviation } = useSWR([contractAddress.stabilizerPool, 'normalDistributionDeviation'], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
 
-	console.log(countThreshold, countInSequence);
+	const { data: totalSupply } = useSWR([contractAddress.stabilizerPool, 'totalSupply'], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
+	const { data: randomResult } = useSWR([contractAddress.randomNumber, 'randomResult'], {
+		fetcher: fetcher(library, randomNumberAbi)
+	});
+
+	const { data: normalDistribution } = useSWR([contractAddress.stabilizerPool, 'normalDistribution', randomResult == undefined ? 0 : parseInt(formatEther(randomResult)) % 100], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
+
+	/*console.log('rewardPercentage:' + rewardPercentage);
+	console.log('countInSequence:' + countInSequence);
+	console.log('beforePeriodFinish:' + beforePeriodFinish);
+	console.log('duration:' + duration);
+	console.log('poolEnabled:' + poolEnabled);
+	console.log('poolLpLimit:' + poolLpLimit);
+	console.log('enablePoolLpLimit:' + enablePoolLpLimit);
+
+	console.log('userLpLimit:' + userLpLimit);
+	console.log('enableUserLpLimit:' + enableUserLpLimit);
+	console.log('revokeRewardPrecentage:' + revokeRewardPrecentage);
+	console.log('revokeReward:' + revokeReward);
+	console.log('count:' + count);
+	console.log('noramlDistributionMean:' + noramlDistributionMean);
+	console.log('normalDistributionDeviation:' + normalDistributionDeviation);
+	console.log('totalSupply:' + totalSupply);*/
+	console.log('randomResult:' + randomResult);
+	console.log('normalDistribution:' + normalDistribution);
+
 
 	const paramsData = [
 		{
-			label: 'Reward %',
-			//value: rewardAmount ? formatEther(rewardAmount) : '...',
-			value: '0.0055',
+			label: 'Reward',
+			value: rewardPercentage ? formatEther(rewardPercentage) + '%' : '...',
 			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
 		},
 		{
 			label: 'Threshold Condition',
 			value: 'Indicator (y ≥ X), X ~ N(5,2)',
-			//value: countThreshold ? countThreshold.toNumber() : '...',
 			toolTip: 'Condition to check if threshold is hit for rewards period to start. y is number of positive rebases since last reward period start'
 		},
 		{
@@ -59,14 +105,12 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'Before Period Finish',
-			value: 'True',
-			//value: beforePeriodFinish !== undefined ? (beforePeriodFinish ? 'True' : 'False') : '...',
+			value: beforePeriodFinish !== undefined ? (beforePeriodFinish ? 'True' : 'False') : '...',
 			toolTip: 'Award rewards before previous rewards have been distributed'
 		},
 		{
 			label: 'Reward Period',
-			value: '168h',
-			//value: duration ? (duration.toNumber() / (60 * 60)).toString() + ' Hours' : '...',
+			value: duration ? (duration.toNumber() / (60 * 60)).toString() + ' Hours' : '...',
 			toolTip: 'Period within which pool reward is distributed'
 		},
 		{
@@ -76,64 +120,95 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'Total Pool Limit',
-			value: '30K LP',
-			//value: duration ? (duration.toNumber() / (60 * 60)).toString() + ' Hours' : '...',
+			value: poolLpLimit ? formatEther(poolLpLimit) + ' LP' : '...',
 			toolTip: 'Total LP limit per pool'
 		},
 		{
-			label: 'Pool Limit Wallet',
-			value: '1K LP',
-			//value: poolEnabled !== undefined ? (poolEnabled ? 'True' : 'False') : '...',
+			label: 'User Pool Limit',
+			value: userLpLimit ? formatEther(userLpLimit) + ' LP' : '...',
 			toolTip: 'LP limit per wallet'
-		}
-		,
+		},
 		{
-			label: 'Revoke Reward %',
-			value: '28',
-			//value: poolEnabled !== undefined ? (poolEnabled ? 'True' : 'False') : '...',
+			label: 'Revoke Reward',
+			value: revokeRewardPrecentage ? parseFloat((formatEther(revokeRewardPrecentage) * 100)).toFixed(2) + '%' : '...',
 			toolTip: 'Percentage of rewards that will be revoked if positive rebases stop'
+		},
+		{
+			label: 'Random Number',
+			//value: normalDistribution ? normalDistribution : '...',
+			toolTip: 'Percentage of rewards that will be revoked if positive rebases stop'
+		}
+	];
+
+	const sPoolData = [
+		{
+			label: 'Total Pool Limit',
+			value: poolLpLimit ? formatEther(poolLpLimit) + ' LP' : '...',
+			toolTip: 'Total LP limit per pool'
+		},
+		{
+			label: 'Pool LP',
+			value: totalSupply ? formatEther(totalSupply) + ' LP' : '...',
+			toolTip: 'LP in pool'
 		}
 	];
 
 	return (
 		<div className="columns is-centered">
-			<div className="box column is-6">
+			<div className="box boxs column is-6">
 				<div className=" has-text-centered">
-					<h3 className="title is-inline is-size-4-tablet is-size-5-mobile  is-family-secondary">
+					<h3 className="title is-size-4-tablet is-size-5-mobile  is-family-secondary">
 						Threshold Counter
 					</h3>
 					<span className="delete is-pulled-right" onClick={() => history.goBack()} />
 				</div>
-				<h5 className="pr-1 pl-1 pt-2 subtitle is-size-5-tablet is-size-6-mobile">
-					This stabilizer counts the number of positive rebases until a random threshold, sampled from a normal distribution, is hit. Once the threshold is hit, counter is reset and the pool starts to reward DEBASE for staked DEBASE/DAI LPs, as per the parameters mentioned below.
-				</h5>
-				<div className="is-block">
-					<span className="is-inline title is-size-5-tablet is-size-6-mobile mb-0">Contract:</span>
-					<span className="is-inline subtitle is-size-5-tablet is-size-6-mobile mb-0">
-						{' '}
-						<a
-							target="_blank"
-							rel="noopener noreferrer"
-							href={etherScanAddress + contractAddress.stabilizerPool}
-						>
-							{turncate(contractAddress.stabilizerPool, 18, '...')}
-						</a>
-					</span>
-				</div>
-				<div className="divider">Stabilizer Variables</div>
-				<div className="columns is-multiline is-mobile">
-					{paramsData.map((ele, index) => (
-						<div key={index} className="column is-4 has-text-centered ">
-							<h5
-								data-tooltip={ele.toolTip}
-								style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
-								className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
-							>
-								{ele.label}
+				<div className="infowrapper">
+					<div className="contractinfo">
+						<div className="desc">
+							<h5 className="pr-1 pl-1 pt-2 subtitle is-size-5-tablet is-size-6-mobile">
+								This stabilizer counts the number of positive rebases until a random thresholdis hit, sampled from a normal distribution. Once the threshold is hit, counter is reset and the pool starts to reward DEBASE for staked DEBASE/DAI LPs, as per the parameters mentioned.
 							</h5>
-							<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
+							<span className="is-inline subtitle is-size-5-tablet is-size-6-mobile mb-0">
+								<svg
+									width="16"
+									height="16"
+									viewBox="0 0 24 24"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path d="M7 18H17V16H7V18Z" fill="currentColor" />
+									<path d="M17 14H7V12H17V14Z" fill="currentColor" />
+									<path d="M7 10H11V8H7V10Z" fill="currentColor" />
+									<path
+										fill-rule="evenodd"
+										clip-rule="evenodd"
+										d="M6 2C4.34315 2 3 3.34315 3 5V19C3 20.6569 4.34315 22 6 22H18C19.6569 22 21 20.6569 21 19V9C21 5.13401 17.866 2 14 2H6ZM6 4H13V9H19V19C19 19.5523 18.5523 20 18 20H6C5.44772 20 5 19.5523 5 19V5C5 4.44772 5.44772 4 6 4ZM15 4.10002C16.6113 4.4271 17.9413 5.52906 18.584 7H15V4.10002Z"
+										fill="currentColor"
+									/>
+								</svg>
+								<a
+									target="_blank"
+									rel="noopener noreferrer"
+									href={etherScanAddress + contractAddress.stabilizerPool}
+								>
+									{turncate(contractAddress.stabilizerPool, 18, '...')}
+								</a>
+							</span>
 						</div>
-					))}
+					</div>
+					<div className="params columns is-mobile">
+						{paramsData.map((ele, index) => (
+							<div key={index} className="para">
+								<h5
+									data-tooltip={ele.toolTip}
+									className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
+								>
+									{ele.label}
+								</h5>
+								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
+							</div>
+						))}
+					</div>
 				</div>
 				{hideStake ? (
 					<button className="button is-edged is-fullwidth is-primary" onClick={() => setHideStake(false)}>

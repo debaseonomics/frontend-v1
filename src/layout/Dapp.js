@@ -59,7 +59,7 @@ export default function DappLayout({ children }) {
 		<div
 			className="hero is-fullheight"
 			style={{
-				backgroundImage: `url(${Valley})`,
+				//backgroundImage: `url(${Valley})`,
 				backgroundSize: 'cover',
 				backgroundRepeat: 'no-repeat'
 			}}
@@ -122,7 +122,7 @@ export default function DappLayout({ children }) {
 						<div className="container is-fluid">
 							<div className="columns is-centered has-text-centered">
 								<div className="column is-7">
-									<div className="box">
+									<div className="boxs foxie">
 										<h4 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">
 											Must connect with metamask to interact with dapp
 									</h4>

@@ -17,6 +17,7 @@
 		"graphql": "^15.4.0",
 		"graphql-request": "^3.3.0",
 		"luxon": "^1.25.0",
+		"mathjs": "^8.1.0",
 		"react": "^16.14.0",
 		"react-dark-mode-toggle": "0.0.10",
 		"react-dom": "^16.14.0",
