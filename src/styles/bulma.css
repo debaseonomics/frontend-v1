@@ -175,6 +175,9 @@ body.dark-mode .dashboardwrap .box{
 	padding: 0 25px 25px;
 	margin: 40px 0;
 }
+body.dark-mode .boxs .boxs{
+	background: transparent !important;
+}
 body.dark-mode .dashboardwrap .box > div{
 	display: flex;
 	flex-direction: column;
