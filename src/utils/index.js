@@ -43,12 +43,24 @@ export const poolAbi = [
 ];
 
 export const thresholdCounterAbi = [
-	'function rewardAmount() public view returns (uint256)',
+	'function rewardPercentage() public view returns (uint256)',
 	'function countInSequence() public view returns (bool)',
 	'function countThreshold() public view returns (uint256)',
 	'function beforePeriodFinish() public view returns (bool)',
 	'function duration() public view returns (uint256)',
-	'function poolEnabled() public view returns (bool)'
+	'function poolEnabled() public view returns (bool)',
+	'function poolLpLimit() public view returns (uint256)',
+	'function enablePoolLpLimit() public view returns (bool)',
+	'function userLpLimit() public view returns (uint256)',
+	'function enableUserLpLimit() public view returns (bool)',
+	'function revokeRewardPrecentage() public view returns (uint256)',
+	'function revokeReward() public view returns (bool)',
+	'function count() public view returns (uint256)',
+	'function noramlDistributionMean() public view returns (uint256)',
+	'function normalDistributionDeviation() public view returns (uint256)',
+	'function totalSupply() public view returns (uint256)',
+	'function balanceOf(address) public view returns (uint256)',
+	'function normalDistribution(uint256) external view returns(uint256)'
 ];
 
 export const orchestratorAbi = [
@@ -84,7 +96,11 @@ export const lpAbi = [
 	'event Transfer(address indexed from, address indexed to, uint amount)'
 ];
 
-export const uniAbi = [ 'function getReserves() view returns (uint112,uint112,uint32)' ];
+export const randomNumberAbi = [
+	'function randomResult() external view returns(uint256)'
+];
+
+export const uniAbi = ['function getReserves() view returns (uint112,uint112,uint32)'];
 
 export const contractAddress = {
 	degov: '0x469E66e06fEc34839E5eB1273ba85A119B8D702F',
@@ -99,7 +115,8 @@ export const contractAddress = {
 	dai: '0x6b175474e89094c44da98b954eedeac495271d0f',
 	debaseDaiLp: '0xE98f89a2B3AeCDBE2118202826478Eb02434459A',
 	oracle: '0xb1Df2F0C76074eD466510F4440772Cc7b3D5337C',
-	stabilizerPool: '0x800479a76dc74c3a9FAAE25320A0EE4E8740996b'
+	stabilizerPool: '0x800479a76dc74c3a9FAAE25320A0EE4E8740996b',
+	randomNumber: '0x633ED04e5702625268948867B96e26443F316b7f'
 };
 
 export const uniAddress = {
@@ -122,7 +139,7 @@ export const mobile = 768;
 export const tablet = 769;
 
 export const fetcher = (library, abi) => (...args) => {
-	const [ arg1, arg2, ...params ] = args;
+	const [arg1, arg2, ...params] = args;
 	if (isAddress(arg1)) {
 		const address = arg1;
 		const method = arg2;

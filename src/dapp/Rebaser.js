@@ -10,53 +10,53 @@ import dai from '../assets/dai.png';
 
 export default function Rebaser() {
 	const { library } = useWeb3React();
-	const [ loading, setLoading ] = useState(false);
+	const [loading, setLoading] = useState(false);
 
-	const { data: getMaximumRebaseTime } = useSWR([ contractAddress.orchestrator, 'maximumRebaseTime' ], {
+	const { data: getMaximumRebaseTime } = useSWR([contractAddress.orchestrator, 'maximumRebaseTime'], {
 		fetcher: fetcher(library, orchestratorAbi)
 	});
 
-	const { data: priceTargetRate } = useSWR([ contractAddress.debasePolicy, 'priceTargetRate' ], {
+	const { data: priceTargetRate } = useSWR([contractAddress.debasePolicy, 'priceTargetRate'], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: upperDeviationThreshold } = useSWR([ contractAddress.debasePolicy, 'upperDeviationThreshold' ], {
+	const { data: upperDeviationThreshold } = useSWR([contractAddress.debasePolicy, 'upperDeviationThreshold'], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: lowerDeviationThreshold } = useSWR([ contractAddress.debasePolicy, 'lowerDeviationThreshold' ], {
+	const { data: lowerDeviationThreshold } = useSWR([contractAddress.debasePolicy, 'lowerDeviationThreshold'], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: useDefaultRebaseLag } = useSWR([ contractAddress.debasePolicy, 'useDefaultRebaseLag' ], {
+	const { data: useDefaultRebaseLag } = useSWR([contractAddress.debasePolicy, 'useDefaultRebaseLag'], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: defaultPositiveRebaseLag } = useSWR([ contractAddress.debasePolicy, 'defaultPositiveRebaseLag' ], {
+	const { data: defaultPositiveRebaseLag } = useSWR([contractAddress.debasePolicy, 'defaultPositiveRebaseLag'], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: defaultNegativeRebaseLag } = useSWR([ contractAddress.debasePolicy, 'defaultNegativeRebaseLag' ], {
+	const { data: defaultNegativeRebaseLag } = useSWR([contractAddress.debasePolicy, 'defaultNegativeRebaseLag'], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: minRebaseTimeIntervalSec } = useSWR([ contractAddress.debasePolicy, 'minRebaseTimeIntervalSec' ], {
+	const { data: minRebaseTimeIntervalSec } = useSWR([contractAddress.debasePolicy, 'minRebaseTimeIntervalSec'], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: lastRebaseTimestampSec } = useSWR([ contractAddress.debasePolicy, 'lastRebaseTimestampSec' ], {
+	const { data: lastRebaseTimestampSec } = useSWR([contractAddress.debasePolicy, 'lastRebaseTimestampSec'], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: rebaseWindowOffsetSec } = useSWR([ contractAddress.debasePolicy, 'rebaseWindowOffsetSec' ], {
+	const { data: rebaseWindowOffsetSec } = useSWR([contractAddress.debasePolicy, 'rebaseWindowOffsetSec'], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: rebaseWindowLengthSec } = useSWR([ contractAddress.debasePolicy, 'rebaseWindowLengthSec' ], {
+	const { data: rebaseWindowLengthSec } = useSWR([contractAddress.debasePolicy, 'rebaseWindowLengthSec'], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: reserves } = useSWR([ contractAddress.debaseDaiLp, 'getReserves' ], {
+	const { data: reserves } = useSWR([contractAddress.debaseDaiLp, 'getReserves'], {
 		fetcher: fetcher(library, uniAbi)
 	});
 
@@ -153,7 +153,7 @@ export default function Rebaser() {
 	return (
 		<div className="columns is-centered">
 			<div className="column is-7">
-				<div className="box column">
+				<div className="boxs column">
 					<div className="has-text-centered">
 						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">rebase</h2>
 					</div>
@@ -165,7 +165,6 @@ export default function Rebaser() {
 									<Fragment>
 										<h5
 											data-tooltip={ele.toolTip}
-											style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
 											className="title mb-2 is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
 										>
 											{ele.label}
@@ -182,17 +181,16 @@ export default function Rebaser() {
 										</div>
 									</Fragment>
 								) : (
-									<Fragment>
-										<h5
-											data-tooltip={ele.toolTip}
-											style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
-											className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
-										>
-											{ele.label}
-										</h5>
-										<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
-									</Fragment>
-								)}
+										<Fragment>
+											<h5
+												data-tooltip={ele.toolTip}
+												className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
+											>
+												{ele.label}
+											</h5>
+											<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
+										</Fragment>
+									)}
 							</div>
 						))}
 					</div>
@@ -204,7 +202,6 @@ export default function Rebaser() {
 									<Fragment>
 										<h5
 											data-tooltip={ele.toolTip}
-											style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
 											className="title mb-2 is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
 										>
 											{ele.label}
@@ -221,17 +218,16 @@ export default function Rebaser() {
 										</div>
 									</Fragment>
 								) : (
-									<Fragment>
-										<h5
-											data-tooltip={ele.toolTip}
-											style={{ textDecoration: 'underline', textDecorationStyle: 'dashed' }}
-											className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
-										>
-											{ele.label}
-										</h5>
-										<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
-									</Fragment>
-								)}
+										<Fragment>
+											<h5
+												data-tooltip={ele.toolTip}
+												className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
+											>
+												{ele.label}
+											</h5>
+											<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
+										</Fragment>
+									)}
 							</div>
 						))}
 					</div>
@@ -242,8 +238,8 @@ export default function Rebaser() {
 								loading ? (
 									'button is-edged is-fullwidth is-primary is-loading'
 								) : (
-									'button is-edged is-fullwidth is-primary'
-								)
+										'button is-edged is-fullwidth is-primary'
+									)
 							}
 						>
 							Fire Rebase

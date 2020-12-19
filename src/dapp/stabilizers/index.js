@@ -7,7 +7,7 @@ import { debasePolicyAbi, fetcher, contractAddress } from '../../utils/index';
 export default function Stabilizers() {
 	const { library } = useWeb3React();
 
-	const { data: thresholdCounter } = useSWR([ contractAddress.debasePolicy, 'stabilizerPools', 0 ], {
+	const { data: thresholdCounter } = useSWR([contractAddress.debasePolicy, 'stabilizerPools', 0], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
@@ -26,7 +26,7 @@ export default function Stabilizers() {
 		<div className="columns is-multiline is-centered is-vcentered">
 			{data.map((ele, index) => (
 				<div key={index} className="column is-4">
-					<div className="block box">
+					<div className="block boxs">
 						<h3 className="title is-size-5-tablet is-size-6-mobile has-text-centered is-family-secondary">
 							{ele.name}
 						</h3>
