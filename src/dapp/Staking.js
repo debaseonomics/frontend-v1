@@ -22,9 +22,10 @@ export default function Staking() {
 					duration="1 week"
 					enabled={true}
 					battery={<div className='part' style={{ animationName: 'highBattery' }}></div>}
+					button="Stake"
 				/>
 			</div>
-			<div className="column is-4-desktop is-12-tablet ">
+			<div className="inactive column is-4-desktop is-12-tablet ">
 				<StakeCard
 					title="Dai Pool"
 					link="debase-dai"
@@ -41,9 +42,10 @@ export default function Staking() {
 					duration="1 day"
 					enabled={true}
 					battery={<div className='part' style={{ animationName: 'lowBattery' }}></div>}
+					button="Withdraw"
 				/>
 			</div>
-			<div className="column is-4-desktop is-12-tablet ">
+			<div className="inactive column is-4-desktop is-12-tablet ">
 				<StakeCard
 					title="Debase/Dai-lp Pool"
 					link="debase-dai-lp"
@@ -60,6 +62,7 @@ export default function Staking() {
 					duration="1 days"
 					enabled={true}
 					battery={<div className='part' style={{ animationName: 'lowBattery' }}></div>}
+					button="Withdraw"
 				/>
 			</div>
 		</div>

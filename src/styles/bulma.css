@@ -205,6 +205,12 @@ body.dark-mode .dashboardwrap .box:after{
 	transition: 0.2s ease all;
     z-index: -2;
 }
+body.dark-mode .inactive .boxs{
+	background: linear-gradient(-9deg, rgb(1 10 37) 0%, rgb(4 4 4) 100%);
+}
+body.dark-mode .inactive .boxs:after{
+	content: none;
+}
 body.dark-mode .dashboardwrap .box:after{
 	transform: skew(2deg, 2deg);
 }

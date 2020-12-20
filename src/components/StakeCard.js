@@ -19,7 +19,8 @@ export default function StakeCard({
 	warningText2,
 	duration,
 	enabled,
-	battery
+	battery,
+	button
 }) {
 	const { library } = useWeb3React();
 
@@ -39,9 +40,9 @@ export default function StakeCard({
 						{title}
 					</h3>
 				</div>
-				<div className="divider" style={{ color: '#C0C2C9' }}>
+				{/*<div className="divider" style={{ color: '#C0C2C9' }}>
 					{infoText}
-				</div>
+	</div>*/}
 				<div className="stakegrid">
 					<div className="buttons">
 						<a className="is-primary" target="_blank" rel="noopener noreferrer" href={contractLink}>
@@ -137,7 +138,7 @@ export default function StakeCard({
 			</div>
 			<div className="block">
 				<Link to={'/dapp/staking/' + link}>
-					<button className="button is-edged is-fullwidth is-primary">Stake</button>
+					<button className="button is-edged is-fullwidth is-primary">{button}</button>
 				</Link>
 			</div>
 		</div>
