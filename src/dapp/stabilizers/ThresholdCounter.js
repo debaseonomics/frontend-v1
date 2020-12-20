@@ -63,7 +63,7 @@ export default function ThresholdCounter() {
 		fetcher: fetcher(library, randomNumberAbi)
 	});
 
-	const { data: normalDistribution } = useSWR([contractAddress.stabilizerPool, 'normalDistribution', randomResult == undefined ? 0 : parseInt(formatEther(randomResult)) % 100], {
+	const { data: normalDistribution } = useSWR([contractAddress.stabilizerPool, 'normalDistribution', randomResult % 100], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
 
@@ -79,12 +79,17 @@ export default function ThresholdCounter() {
 	console.log('enableUserLpLimit:' + enableUserLpLimit);
 	console.log('revokeRewardPrecentage:' + revokeRewardPrecentage);
 	console.log('revokeReward:' + revokeReward);
-	console.log('count:' + count);
+
 	console.log('noramlDistributionMean:' + noramlDistributionMean);
 	console.log('normalDistributionDeviation:' + normalDistributionDeviation);
 	console.log('totalSupply:' + totalSupply);*/
-	console.log('randomResult:' + randomResult);
+
+	console.log('count:' + count);
+	console.log('count:' + count !== undefined ? count : '...');
+	console.log('randomResult:' + randomResult)
+	console.log('randomResult:' + randomResult % 100);
 	console.log('normalDistribution:' + normalDistribution);
+
 
 
 	const paramsData = [
@@ -119,11 +124,6 @@ export default function ThresholdCounter() {
 			toolTip: 'Pool staking/withdraw usage status'
 		},
 		{
-			label: 'Total Pool Limit',
-			value: poolLpLimit ? formatEther(poolLpLimit) + ' LP' : '...',
-			toolTip: 'Total LP limit per pool'
-		},
-		{
 			label: 'User Pool Limit',
 			value: userLpLimit ? formatEther(userLpLimit) + ' LP' : '...',
 			toolTip: 'LP limit per wallet'
@@ -134,10 +134,25 @@ export default function ThresholdCounter() {
 			toolTip: 'Percentage of rewards that will be revoked if positive rebases stop'
 		},
 		{
+			label: 'Current Pool LP',
+			value: totalSupply ? parseFloat(formatEther(totalSupply)).toFixed(2) + ' LP' : '...',
+			toolTip: 'Current LP in pool'
+		},
+		{
+			label: 'Total Pool Limit',
+			value: poolLpLimit ? formatEther(poolLpLimit) + ' LP' : '...',
+			toolTip: 'Total LP limit per pool'
+		},
+		/*{
+			label: 'Count',
+			value: count == undefined ? (count ? 'True' : count) : '...',
+			toolTip: 'Percentage of rewards that will be revoked if positive rebases stop'
+		},
+		{
 			label: 'Random Number',
 			//value: normalDistribution ? normalDistribution : '...',
 			toolTip: 'Percentage of rewards that will be revoked if positive rebases stop'
-		}
+		}*/
 	];
 
 	const sPoolData = [
@@ -145,11 +160,6 @@ export default function ThresholdCounter() {
 			label: 'Total Pool Limit',
 			value: poolLpLimit ? formatEther(poolLpLimit) + ' LP' : '...',
 			toolTip: 'Total LP limit per pool'
-		},
-		{
-			label: 'Pool LP',
-			value: totalSupply ? formatEther(totalSupply) + ' LP' : '...',
-			toolTip: 'LP in pool'
 		}
 	];
 

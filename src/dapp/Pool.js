@@ -162,7 +162,7 @@ export default function Pool({
 	const data = (
 		<div className="boxs has-text-centered">
 			{showName ? (
-				<div>
+				<div >
 					<h2 className=" title is-size-4-tablet is-size-5-mobile is-family-secondary">
 						{poolName}
 					</h2>
