@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { contractAddress, etherScanAddress, turncate, fetcher, randomNumberAbi, thresholdCounterAbi } from '../../utils/index';
 import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
-import { formatEther } from 'ethers/lib/utils';
+import { formatEther, formatUnits } from 'ethers/lib/utils';
 
 export default function ThresholdCounter() {
 	let history = useHistory();
@@ -59,38 +59,13 @@ export default function ThresholdCounter() {
 	const { data: totalSupply } = useSWR([contractAddress.stabilizerPool, 'totalSupply'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
-	const { data: randomResult } = useSWR([contractAddress.randomNumber, 'randomResult'], {
+	const { data: randomNumber } = useSWR([contractAddress.randomNumber, 'randomResult'], {
 		fetcher: fetcher(library, randomNumberAbi)
 	});
 
-	const { data: normalDistribution } = useSWR([contractAddress.stabilizerPool, 'normalDistribution', randomResult % 100], {
+	const { data: randomThreshold } = useSWR([contractAddress.stabilizerPool, 'normalDistribution', randomNumber ? parseInt(formatEther(randomNumber)) % 100 : 0 ], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
-
-	/*console.log('rewardPercentage:' + rewardPercentage);
-	console.log('countInSequence:' + countInSequence);
-	console.log('beforePeriodFinish:' + beforePeriodFinish);
-	console.log('duration:' + duration);
-	console.log('poolEnabled:' + poolEnabled);
-	console.log('poolLpLimit:' + poolLpLimit);
-	console.log('enablePoolLpLimit:' + enablePoolLpLimit);
-
-	console.log('userLpLimit:' + userLpLimit);
-	console.log('enableUserLpLimit:' + enableUserLpLimit);
-	console.log('revokeRewardPrecentage:' + revokeRewardPrecentage);
-	console.log('revokeReward:' + revokeReward);
-
-	console.log('noramlDistributionMean:' + noramlDistributionMean);
-	console.log('normalDistributionDeviation:' + normalDistributionDeviation);
-	console.log('totalSupply:' + totalSupply);*/
-
-	console.log('count:' + count);
-	console.log('count:' + count !== undefined ? count : '...');
-	console.log('randomResult:' + randomResult)
-	console.log('randomResult:' + randomResult % 100);
-	console.log('normalDistribution:' + normalDistribution);
-
-
 
 	const paramsData = [
 		{
@@ -143,16 +118,16 @@ export default function ThresholdCounter() {
 			value: poolLpLimit ? formatEther(poolLpLimit) + ' LP' : '...',
 			toolTip: 'Total LP limit per pool'
 		},
-		/*{
-			label: 'Count',
-			value: count == undefined ? (count ? 'True' : count) : '...',
+		{
+			label: 'Current Count',
+			value: count ? parseInt(formatUnits(count,0)) : '...',
 			toolTip: 'Percentage of rewards that will be revoked if positive rebases stop'
 		},
 		{
-			label: 'Random Number',
-			//value: normalDistribution ? normalDistribution : '...',
+			label: 'Last Random Threshold',
+			value: randomThreshold ? parseInt(formatUnits(randomThreshold,0))  : '...',
 			toolTip: 'Percentage of rewards that will be revoked if positive rebases stop'
-		}*/
+		}
 	];
 
 	const sPoolData = [
@@ -190,8 +165,8 @@ export default function ThresholdCounter() {
 									<path d="M17 14H7V12H17V14Z" fill="currentColor" />
 									<path d="M7 10H11V8H7V10Z" fill="currentColor" />
 									<path
-										fill-rule="evenodd"
-										clip-rule="evenodd"
+										fillRule="evenodd"
+										clipRule="evenodd"
 										d="M6 2C4.34315 2 3 3.34315 3 5V19C3 20.6569 4.34315 22 6 22H18C19.6569 22 21 20.6569 21 19V9C21 5.13401 17.866 2 14 2H6ZM6 4H13V9H19V19C19 19.5523 18.5523 20 18 20H6C5.44772 20 5 19.5523 5 19V5C5 4.44772 5.44772 4 6 4ZM15 4.10002C16.6113 4.4271 17.9413 5.52906 18.584 7H15V4.10002Z"
 										fill="currentColor"
 									/>
