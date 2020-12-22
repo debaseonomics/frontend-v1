@@ -127,16 +127,6 @@ export default function ThresholdCounter() {
 			toolTip: 'Percentage of rewards that will be revoked if positive rebases stop'
 		},
 		{
-			label: 'Current Pool LP',
-			value: totalSupply ? parseFloat(formatEther(totalSupply)).toFixed(2) + ' LP' : '...',
-			toolTip: 'Current LP in pool'
-		},
-		{
-			label: 'Total Pool Limit',
-			value: poolLpLimit ? formatEther(poolLpLimit) + ' LP' : '...',
-			toolTip: 'Total LP limit per pool'
-		},
-		{
 			label: 'Current Count',
 			value: count ? parseInt(formatUnits(count, 0)) : '...',
 			toolTip: 'The number of positive rebases since start of last rewards period'
@@ -147,16 +137,21 @@ export default function ThresholdCounter() {
 			toolTip: 'A number drawn every rebase from a normal distribution. If Count>= Random number, a reward period begins'
 		},
 		{
+			label: 'Total Pool Limit',
+			value: poolLpLimit && totalSupply ? parseFloat(formatEther(totalSupply)).toFixed(2) + ' / ' + formatEther(poolLpLimit) + ' LP' : '...',
+			toolTip: 'Total LP limit per pool'
+		}/*,
+		{
 			label: 'Current Pool Reward',
-			value: randomThreshold ? parseFloat(formatEther(balance)).toFixed(2) : '...',
+			value: randomThreshold ? parseFloat(formatEther(balance)) : '...',
 			toolTip: 'Current pool rewards available'
-		}
+		}*/
 	];
 
 	const sPoolData = [
 		{
 			label: 'Total Pool Limit',
-			value: poolLpLimit ? formatEther(poolLpLimit) + ' LP' : '...',
+			value: poolLpLimit && totalSupply ? parseFloat(formatEther(totalSupply)).toFixed(2) + ' / ' + formatEther(poolLpLimit) + ' LP' : '...',
 			toolTip: 'Total LP limit per pool'
 		}
 	];
