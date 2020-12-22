@@ -41,6 +41,9 @@ export default function ThresholdCounter() {
 	const { data: enablePoolLpLimit } = useSWR([ contractAddress.stabilizerPool, 'enablePoolLpLimit' ], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
+	const { data: balance } = useSWR([ contractAddress.stabilizerPool, 'balanceOf', contractAddress.stabilizerPool ], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
 	const { data: userLpLimit } = useSWR([ contractAddress.stabilizerPool, 'userLpLimit' ], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
@@ -89,7 +92,7 @@ export default function ThresholdCounter() {
 
 	const paramsData = [
 		{
-			label: 'Reward',
+			label: 'Reward Percentage',
 			value: rewardPercentage ? formatEther(rewardPercentage) + '%' : '...',
 			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
 		},
@@ -150,6 +153,11 @@ export default function ThresholdCounter() {
 			label: 'Last Random Threshold',
 			value: randomThreshold ? 3 : '...',
 			toolTip: 'Percentage of rewards that will be revoked if positive rebases stop'
+		},
+		{
+			label: 'Current Pool Reward',
+			value: randomThreshold ? balance : '...',
+			toolTip: 'Current pool rewards available'
 		}
 	];
 
