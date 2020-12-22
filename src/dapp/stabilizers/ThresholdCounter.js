@@ -3,7 +3,14 @@ import Pool from '../Pool';
 import debase from '../../assets/debase.png';
 import empty from '../../assets/empty.png';
 import { useHistory } from 'react-router-dom';
-import { contractAddress, etherScanAddress, turncate, fetcher, randomNumberAbi, thresholdCounterAbi } from '../../utils/index';
+import {
+	contractAddress,
+	etherScanAddress,
+	turncate,
+	fetcher,
+	randomNumberAbi,
+	thresholdCounterAbi
+} from '../../utils/index';
 import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
 import { formatEther, formatUnits } from 'ethers/lib/utils';
@@ -34,6 +41,9 @@ export default function ThresholdCounter() {
 	const { data: enablePoolLpLimit } = useSWR([contractAddress.stabilizerPool, 'enablePoolLpLimit'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
+	const { data: balance } = useSWR([contractAddress.stabilizerPool, 'balanceOf', contractAddress.stabilizerPool], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
 	const { data: userLpLimit } = useSWR([contractAddress.stabilizerPool, 'userLpLimit'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
@@ -52,9 +62,12 @@ export default function ThresholdCounter() {
 	const { data: noramlDistributionMean } = useSWR([contractAddress.stabilizerPool, 'noramlDistributionMean'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
-	const { data: normalDistributionDeviation } = useSWR([contractAddress.stabilizerPool, 'normalDistributionDeviation'], {
-		fetcher: fetcher(library, thresholdCounterAbi)
-	});
+	const { data: normalDistributionDeviation } = useSWR(
+		[contractAddress.stabilizerPool, 'normalDistributionDeviation'],
+		{
+			fetcher: fetcher(library, thresholdCounterAbi)
+		}
+	);
 
 	const { data: totalSupply } = useSWR([contractAddress.stabilizerPool, 'totalSupply'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
@@ -63,20 +76,29 @@ export default function ThresholdCounter() {
 		fetcher: fetcher(library, randomNumberAbi)
 	});
 
-	const { data: randomThreshold } = useSWR([contractAddress.stabilizerPool, 'normalDistribution', randomNumber ? parseInt(formatEther(randomNumber)) % 100 : 0], {
-		fetcher: fetcher(library, thresholdCounterAbi)
-	});
+
+	const { data: randomThreshold } = useSWR(
+		[
+			contractAddress.stabilizerPool,
+			'normalDistribution',
+			randomNumber ? parseInt(formatEther(randomNumber)) % 100 : 0
+		],
+		{
+			fetcher: fetcher(library, thresholdCounterAbi)
+		}
+	);
 
 	const paramsData = [
 		{
-			label: 'Reward',
+			label: 'Reward Percentage',
 			value: rewardPercentage ? formatEther(rewardPercentage) * 100 + '%' : '...',
 			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
 		},
 		{
 			label: 'Threshold Condition',
 			value: 'Indicator (y ≥ X), X ~ N(5,2)',
-			toolTip: 'Condition to check if threshold is hit for rewards period to start. y is number of positive rebases since last reward period start'
+			toolTip:
+				'Condition to check if threshold is hit for rewards period to start. y is number of positive rebases since last reward period start'
 		},
 		{
 			label: 'Count In Sequence',
@@ -105,7 +127,9 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'Revoke Reward',
-			value: revokeRewardPrecentage ? parseFloat((formatEther(revokeRewardPrecentage) * 100)).toFixed(2) + '%' : '...',
+			value: revokeRewardPrecentage
+				? parseFloat(formatEther(revokeRewardPrecentage) * 100).toFixed(2) + '%'
+				: '...',
 			toolTip: 'Percentage of rewards that will be revoked if positive rebases stop'
 		},
 		{
@@ -125,8 +149,13 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'Last Random Threshold',
-			value: randomThreshold ? parseInt(formatUnits(randomThreshold, 0)) : '...',
+			value: randomThreshold ? 3 : '...',
 			toolTip: 'Percentage of rewards that will be revoked if positive rebases stop'
+		},
+		{
+			label: 'Current Pool Reward',
+			value: randomThreshold ? parseFloat(formatEther(balance)).toFixed(2) : '...',
+			toolTip: 'Current pool rewards available'
 		}
 	];
 
@@ -142,16 +171,16 @@ export default function ThresholdCounter() {
 		<div className="columns is-centered">
 			<div className="box boxs column is-6">
 				<div className=" has-text-centered">
-					<h3 className="title is-size-4-tablet is-size-5-mobile  is-family-secondary">
-						Threshold Counter
-					</h3>
+					<h3 className="title is-size-4-tablet is-size-5-mobile  is-family-secondary">Threshold Counter</h3>
 					<span className="delete is-pulled-right" onClick={() => history.goBack()} />
 				</div>
 				<div className="infowrapper">
 					<div className="contractinfo">
 						<div className="desc">
 							<h5 className="pr-1 pl-1 pt-2 subtitle is-size-5-tablet is-size-6-mobile">
-								This stabilizer counts the number of positive rebases until a random thresholdis hit, sampled from a normal distribution. Once the threshold is hit, counter is reset and the pool starts to reward DEBASE for staked DEBASE/DAI LPs, as per the parameters mentioned.
+								This stabilizer counts the number of positive rebases until a random thresholdis hit,
+								sampled from a normal distribution. Once the threshold is hit, counter is reset and the
+								pool starts to reward DEBASE for staked DEBASE/DAI LPs, as per the parameters mentioned.
 							</h5>
 							<span className="is-inline subtitle is-size-5-tablet is-size-6-mobile mb-0">
 
