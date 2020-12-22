@@ -353,6 +353,15 @@ body.dark-mode .input::placeholder {
 	color: #C0C2C9;
 }
 
+.loading_chart {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 450px;
+    padding: 20px;
+    padding-top: 0;
+}
+
 .dashboard__chart {
     height: 450px;
     padding: 20px;
