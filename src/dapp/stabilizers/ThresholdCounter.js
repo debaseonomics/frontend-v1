@@ -77,20 +77,14 @@ export default function ThresholdCounter() {
 	});
 
 
-	const { data: randomThreshold } = useSWR(
-		[
-			contractAddress.stabilizerPool,
-			'normalDistribution',
-			randomNumber ? parseInt(formatEther(randomNumber)) % 100 : 0
-		],
-		{
-			fetcher: fetcher(library, thresholdCounterAbi)
-		}
-	);
+
+	const { data: randomThreshold } = useSWR([contractAddress.stabilizerPool, 'normalDistribution', randomNumber ? parseInt(formatEther(randomNumber)) % 100 : 0], {
+		fetcher: fetcher(library, thresholdCounterAbi)
+	});
 
 	const paramsData = [
 		{
-			label: 'Reward Percentage',
+			label: 'Reward',
 			value: rewardPercentage ? formatEther(rewardPercentage) * 100 + '%' : '...',
 			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
 		},
@@ -145,12 +139,12 @@ export default function ThresholdCounter() {
 		{
 			label: 'Current Count',
 			value: count ? parseInt(formatUnits(count, 0)) : '...',
-			toolTip: 'Percentage of rewards that will be revoked if positive rebases stop'
+			toolTip: 'The number of positive rebases since start of last rewards period'
 		},
 		{
 			label: 'Last Random Threshold',
 			value: randomThreshold ? 3 : '...',
-			toolTip: 'Percentage of rewards that will be revoked if positive rebases stop'
+			toolTip: 'A number drawn every rebase from a normal distribution. If Count>= Random number, a reward period begins'
 		},
 		{
 			label: 'Current Pool Reward',
