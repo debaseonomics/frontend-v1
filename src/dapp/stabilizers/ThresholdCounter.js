@@ -87,9 +87,6 @@ export default function ThresholdCounter() {
 		}
 	);
 
-	console.log(randomNumber ? parseInt(formatEther(randomNumber)) % 100 : 0);
-	console.log(randomNumber ? formatEther(randomNumber) : 0);
-
 	const paramsData = [
 		{
 			label: 'Reward Percentage',
@@ -156,7 +153,7 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'Current Pool Reward',
-			value: randomThreshold ? balance : '...',
+			value: randomThreshold ? formatEther(balance) : '...',
 			toolTip: 'Current pool rewards available'
 		}
 	];
