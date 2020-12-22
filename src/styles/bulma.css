@@ -105,8 +105,9 @@ body.dark-mode .account {
 body.dark-mode a.is-primary{
 	/*background: #AA076B;
 	background: -webkit-linear-gradient(9deg, #61045F, #AA076B);
-	background: linear-gradient(9deg, #61045F, #AA076B);
-	padding: 3px 10px 5px 10px;*/
+	background: linear-gradient(9deg, #61045F, #AA076B);*/
+	border: 1px solid #fff;
+	padding: 5px 10px 5px 10px;
 	color: white;
 	font-size: 14px;
 	margin-right: 15px;
@@ -114,6 +115,10 @@ body.dark-mode a.is-primary{
 body.dark-mode a.is-primary svg{
 	transform: translateY(3px);
 	margin-right: 6px;
+}
+body.dark-mode .boxs .desc svg{
+	transform: translateY(3px);
+	margin-right: 7px;
 }
 /*body.dark-mode .button.is-primary{
 	background: #AA076B;
@@ -170,6 +175,7 @@ body.dark-mode .contractinfo{
 body.dark-mode .boxs,
 body.dark-mode .dashboardwrap .box{
 	position: relative;
+	border-radius: 0;
 	background: rgb(22,28,47);
 	background: linear-gradient(-9deg, rgba(22,28,47,1) 0%, rgba(9,12,23,1) 100%);
 	padding: 0 25px 25px;
@@ -195,7 +201,6 @@ body.dark-mode .boxs:after,
 body.dark-mode .dashboardwrap .box:after{
 	background-image: linear-gradient(#00ffdd, magenta);
 	content: '';
-    border-radius: 5px;
     bottom: -5px;
     top: -5px;
     right: 0;
@@ -244,10 +249,7 @@ body.dark-mode .boxs .desc{
 	padding: 30px !important;
 	margin: 0 0 0 -100px;
 }
-body.dark-mode .boxs .desc svg{
-	transform: translateY(1px);
-	margin-right: 4px;
-}
+
 body.dark-mode .boxs h5{
 	line-height: 1.5;
 }
@@ -270,7 +272,7 @@ body.dark-mode .boxs .stake-header{
 	padding: 25px 0 0 0;
 }
 body.dark-mode .boxs .stake-header h3{
-	margin: 0;
+	margin: 0 0 25px 0;
 }
 body.dark-mode .boxs .para{
 	display: flex;
