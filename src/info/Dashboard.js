@@ -14,6 +14,9 @@ import dai from '../assets/dai.png';
 import degov from '../assets/degov.png';
 import debase from '../assets/debase.png';
 
+/* import components */
+import Loading from '../components/Loading';
+
 /* Chart theming */
 const chartTheme = {
 	textColor: '#fff',
@@ -59,10 +62,12 @@ const calcRebasePercentage = (index, pastRebasesArr) => {
 	return formattedSupplyAdjustment / totalSupply * 100;
 };
 
-
 const Dashboard = () => {
 	const [pastRebases, setPastRebases] = useState([]);
 	const [pairData, setPairData] = useState(null);
+
+	/* temp coingecko history data */
+	const [coingeckoDebaseHistory, setCoingeckoDebaseHistory] = useState(null);
 
 	const [debaseData, setDebaseData] = useState(null);
 	const [degovData, setDegovData] = useState(null);
@@ -83,6 +88,7 @@ const Dashboard = () => {
 			data: []
 		}
 	]);
+	const [marketCapData, setMarketCapData] = useState(null);
 
 	const rebaseQuery = gql`
 		{
@@ -135,9 +141,269 @@ const Dashboard = () => {
 				volumeToken1
 			}
 		}
-	`
+	`;
 
+	const renderTotalSupplyChart = () => {
+		if (totalSupplyData[0].data.length === 0) {
+			return (
+				<div className="loading_chart">
+					<Loading />
+				</div>
+			);
+		}
+		return (
+			<div className="dashboard__chart">
+				<ResponsiveLine
+					data={totalSupplyData}
+					theme={chartTheme}
+					margin={{ top: 20, right: 10, bottom: 100, left: 85 }}
+					xScale={{ type: 'point' }}
+					yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+					sliceTooltip={({ slice }) => {
+						return (
+							<div
+								style={{
+									background: '#212429',
+									padding: '9px 12px',
+									boxShadow:
+										'0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02)',
+									color: 'white'
+								}}
+							>
+								{slice.points.map((point) => (
+									<div
+										key={point.id}
+										style={{
+											color: point.serieColor,
+											padding: '3px 0'
+										}}
+									>
+										<span style={{ color: '#923db3' }}>{point.data.yFormatted}</span>
+									</div>
+								))}
+							</div>
+						);
+					}}
+					yFormat=" >-.2f"
+					axisTop={null}
+					axisRight={null}
+					axisBottom={{
+						orient: 'bottom',
+						tickSize: 0,
+						tickPadding: 20,
+						tickRotation: -45,
+						legend: 'Date',
+						legendOffset: 85,
+						legendPosition: 'middle',
+						legendRotation: 90
+					}}
+					axisLeft={{
+						orient: 'left',
+						tickSize: 5,
+						tickPadding: 5,
+						tickRotation: 0,
+						legend: 'DEBASE',
+						legendOffset: -80,
+						legendPosition: 'middle',
+						legendRotation: 90
+					}}
+					colors="#d741a7"
+					lineWidth={2}
+					pointSize={0}
+					pointColor="#d741a7"
+					pointBorderWidth={2}
+					pointBorderColor={{ from: 'serieColor' }}
+					pointLabelYOffset={-12}
+					enableSlices="x"
+					useMesh={true}
+				/>
+			</div>
+		);
+	};
+	const renderRebasePercentageChart = () => {
+		if (rebasePercentageData[0].data.length === 0) {
+			return (
+				<div className="loading_chart">
+					<Loading />
+				</div>
+			);
+		}
 
+		return (
+			<div className="dashboard__chart">
+				<ResponsiveLine
+					data={rebasePercentageData}
+					theme={chartTheme}
+					margin={{ top: 20, right: 10, bottom: 100, left: 80 }}
+					xScale={{ type: 'point' }}
+					yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+					sliceTooltip={({ slice }) => {
+						return (
+							<div
+								style={{
+									background: '#212429',
+									padding: '9px 12px',
+									boxShadow:
+										'0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02)',
+									color: 'white'
+								}}
+							>
+								{slice.points.map((point) => (
+									<div
+										key={point.id}
+										style={{
+											color: point.serieColor,
+											padding: '3px 0'
+										}}
+									>
+										<span style={{ color: '#923db3' }}>{point.data.yFormatted}%</span>
+									</div>
+								))}
+							</div>
+						);
+					}}
+					yFormat=" >-.2f"
+					axisTop={null}
+					axisRight={null}
+					axisBottom={{
+						orient: 'bottom',
+						tickSize: 0,
+						tickPadding: 20,
+						tickRotation: -45,
+						legend: 'Date',
+						legendOffset: 85,
+						legendPosition: 'middle',
+						legendRotation: 90
+					}}
+					axisLeft={{
+						orient: 'left',
+						tickSize: 0,
+						tickPadding: 20,
+						tickRotation: 0,
+						legend: 'Rebase %',
+						legendOffset: -60,
+						legendPosition: 'middle',
+						legendRotation: 90
+					}}
+					colors="#d741a7"
+					lineWidth={2}
+					pointSize={0}
+					pointColor="#d741a7"
+					pointBorderWidth={2}
+					pointBorderColor={{ from: 'serieColor' }}
+					pointLabelYOffset={-12}
+					enableSlices="x"
+					useMesh={true}
+				/>
+			</div>
+		);
+	};
+	const renderMarketcapChart = () => {
+		if (!marketCapData || marketCapData[0].data.length === 0) {
+			return (
+				<div className="loading_chart">
+					<Loading />
+				</div>
+			);
+		}
+
+		return (
+			<div className="dashboard__chart">
+				<ResponsiveLine
+					data={marketCapData}
+					theme={chartTheme}
+					margin={{ top: 20, right: 10, bottom: 100, left: 85 }}
+					xScale={{ type: 'point' }}
+					yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+					sliceTooltip={({ slice }) => {
+						return (
+							<div
+								style={{
+									background: '#212429',
+									padding: '9px 12px',
+									boxShadow:
+										'0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02)',
+									color: 'white'
+								}}
+							>
+								{slice.points.map((point) => (
+									<div
+										key={point.id}
+										style={{
+											color: point.serieColor,
+											padding: '3px 0'
+										}}
+									>
+										<span style={{ color: '#923db3' }}>{point.data.yFormatted}</span>
+									</div>
+								))}
+							</div>
+						);
+					}}
+					yFormat=" >-.2f"
+					axisTop={null}
+					axisRight={null}
+					axisBottom={{
+						orient: 'bottom',
+						tickSize: 0,
+						tickPadding: 20,
+						tickRotation: -45,
+						legend: 'Date',
+						legendOffset: 85,
+						legendPosition: 'middle',
+						legendRotation: 90
+					}}
+					axisLeft={{
+						orient: 'left',
+						tickSize: 5,
+						tickPadding: 5,
+						tickRotation: 0,
+						legend: 'DAI',
+						legendOffset: -80,
+						legendPosition: 'middle',
+						legendRotation: 90
+					}}
+					colors="#d741a7"
+					lineWidth={2}
+					pointSize={0}
+					pointColor="#d741a7"
+					pointBorderWidth={2}
+					pointBorderColor={{ from: 'serieColor' }}
+					pointLabelYOffset={-12}
+					enableSlices="x"
+					useMesh={true}
+				/>
+			</div>
+		);
+	};
+
+	const renderDebasePrice = () => {
+		if (!debaseData) { return null }
+		return financial(debaseData);
+	};
+	const renderDegovPrice = () => {
+		if (!degovData) { return null }
+		return financial(degovData * usdData);
+	};
+	const renderDebaseCircSupply = () => {
+		if (!debaseCircSupply) { return null }
+		return numberFormat(debaseCircSupply);
+	};
+	const renderDegovCircSupply = () => {
+		if (!degovCircSupply) { return null }
+		return numberFormat(degovCircSupply);
+	};
+	const renderDebaseMarketcap = () => {
+		if (!debaseData && !debaseCircSupply) { return null }
+		return numberFormat(debaseData * debaseCircSupply);
+	};
+	const renderDegovMarketcap = () => {
+		if (!degovData && !degovCircSupply) { return null }
+
+		return numberFormat((degovData * usdData) * degovCircSupply);
+	};
+
+	/* lifetime cycles functions */
 	useEffect(() => {
 		async function fetchRebaseHistory() {
 			const res = await request('https://api.thegraph.com/subgraphs/name/debaseonomics/subgraph', rebaseQuery);
@@ -146,6 +412,29 @@ const Dashboard = () => {
 			}
 		}
 		fetchRebaseHistory();
+
+		const fetchCGDebaseHistory = async () => {
+
+			/* start date constant */
+			const startDate = 1606906800000;
+			const currentDate = Date.now();
+			const daysRange = (currentDate - startDate) / (1000 * 3600 * 24);
+
+			/* try get to coingecko data */
+			try {
+
+				fetch(`https://api.coingecko.com/api/v3/coins/debase/market_chart?vs_currency=usd&days=${daysRange}&interval=daily`, {
+					method: 'GET'
+				})
+					.then(response => response.json())
+					.then(data => setCoingeckoDebaseHistory(data));
+
+				/* catch possible errors */
+			} catch {
+				/* write error */
+			}
+		};
+		fetchCGDebaseHistory();
 
 		async function fetchTokenData() {
 			const provider = new ethers.providers.EtherscanProvider('homestead', 'WSEBKEYQAFZ8AUGMFAKJR7GPCNYZ9Q3AIE');
@@ -237,234 +526,102 @@ const Dashboard = () => {
 		},
 		[pastRebases]
 	);
-	const renderTotalSupplyChart = () => {
-		if (totalSupplyData[0].data.length === 0) {
-			return null;
-		}
-		return (
-			<ResponsiveLine
-				data={totalSupplyData}
-				theme={chartTheme}
-				margin={{ top: 20, right: 10, bottom: 100, left: 85 }}
-				xScale={{ type: 'point' }}
-				yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
-				sliceTooltip={({ slice }) => {
-					return (
-						<div
-							style={{
-								background: '#212429',
-								padding: '9px 12px',
-								boxShadow:
-									'0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02)',
-								color: 'white'
-							}}
-						>
-							{slice.points.map((point) => (
-								<div
-									key={point.id}
-									style={{
-										color: point.serieColor,
-										padding: '3px 0'
-									}}
-								>
-									<span style={{ color: '#923db3' }}>{point.data.yFormatted}</span>
-								</div>
-							))}
-						</div>
-					);
-				}}
-				yFormat=" >-.2f"
-				axisTop={null}
-				axisRight={null}
-				axisBottom={{
-					orient: 'bottom',
-					tickSize: 0,
-					tickPadding: 20,
-					tickRotation: -45,
-					legend: 'Date',
-					legendOffset: 85,
-					legendPosition: 'middle',
-					legendRotation: 90
-				}}
-				axisLeft={{
-					orient: 'left',
-					tickSize: 5,
-					tickPadding: 5,
-					tickRotation: 0,
-					legend: 'DEBASE',
-					legendOffset: -80,
-					legendPosition: 'middle',
-					legendRotation: 90
-				}}
-				colors="#d741a7"
-				lineWidth={2}
-				pointSize={0}
-				pointColor="#d741a7"
-				pointBorderWidth={2}
-				pointBorderColor={{ from: 'serieColor' }}
-				pointLabelYOffset={-12}
-				enableSlices="x"
-				useMesh={true}
-			/>
-		);
-	};
-	const renderRebasePercentageChart = () => {
-		if (rebasePercentageData[0].data.length === 0) {
-			return null;
-		}
 
-		return (
-			<ResponsiveLine
-				data={rebasePercentageData}
-				theme={chartTheme}
-				margin={{ top: 20, right: 10, bottom: 100, left: 80 }}
-				xScale={{ type: 'point' }}
-				yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
-				sliceTooltip={({ slice }) => {
-					return (
-						<div
-							style={{
-								background: '#212429',
-								padding: '9px 12px',
-								boxShadow:
-									'0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02)',
-								color: 'white'
-							}}
-						>
-							{slice.points.map((point) => (
-								<div
-									key={point.id}
-									style={{
-										color: point.serieColor,
-										padding: '3px 0'
-									}}
-								>
-									<span style={{ color: '#923db3' }}>{point.data.yFormatted}%</span>
-								</div>
-							))}
-						</div>
-					);
-				}}
-				yFormat=" >-.2f"
-				axisTop={null}
-				axisRight={null}
-				axisBottom={{
-					orient: 'bottom',
-					tickSize: 0,
-					tickPadding: 20,
-					tickRotation: -45,
-					legend: 'Date',
-					legendOffset: 85,
-					legendPosition: 'middle',
-					legendRotation: 90
-				}}
-				axisLeft={{
-					orient: 'left',
-					tickSize: 0,
-					tickPadding: 20,
-					tickRotation: 0,
-					legend: 'Rebase %',
-					legendOffset: -60,
-					legendPosition: 'middle',
-					legendRotation: 90
-				}}
-				colors="#d741a7"
-				lineWidth={2}
-				pointSize={0}
-				pointColor="#d741a7"
-				pointBorderWidth={2}
-				pointBorderColor={{ from: 'serieColor' }}
-				pointLabelYOffset={-12}
-				enableSlices="x"
-				useMesh={true}
-			/>
-		);
-	};
-	const renderDebasePrice = () => {
-		if (!debaseData) { return null }
-		return financial(debaseData);
-	};
-	const renderDegovPrice = () => {
-		if (!degovData) { return null }
-		return financial(degovData * usdData);
-	};
-	const renderDebaseCircSupply = () => {
-		if (!debaseCircSupply) { return null }
-		return numberFormat(debaseCircSupply);
-	};
-	const renderDegovCircSupply = () => {
-		if (!degovCircSupply) { return null }
-		return numberFormat(degovCircSupply);
-	};
-	const renderDebaseMarketcap = () => {
-		if (!debaseData && !debaseCircSupply) { return null }
-		return numberFormat(debaseData * debaseCircSupply);
-	};
-	const renderDegovMarketcap = () => {
-		if (!degovData && !degovCircSupply) { return null }
+	useEffect(() => {
 
-		return numberFormat((degovData * usdData) * degovCircSupply);
-	};
+		if (!coingeckoDebaseHistory) { return }
+
+		const marketcapArray = coingeckoDebaseHistory.market_caps;
+		marketcapArray.pop();
+		const marketcapChartData = [
+			{
+				id: 'marketcap',
+				data: []
+			}
+		];
+		marketcapArray.forEach((marketcap, i) => {
+			let [timestamp, value] = marketcap;
+			marketcapChartData[0].data.push({
+				x: timestampToDate(timestamp / 1000),
+				y: value
+			});
+		});
+		setMarketCapData(marketcapChartData);
+
+	}, [coingeckoDebaseHistory])
 
 	return (
 		<div className="dashboardwrap columns is-multiline">
-			<div className="column is-4">
-				<div className="box column">
-					<div>
-						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Debase</h2>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDebasePrice()} <img src={dai} alt="Dai" /></h5>
+			<div className="column is-6">
+				<div className="columns is-multiline">
+					<div className="column is-6">
+						<div className="box column">
+							<div>
+								<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Debase</h2>
+								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDebasePrice()} <img src={dai} alt="Dai" /></h5>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-			<div className="column is-4">
-				<div className="box column">
-					<div>
-						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">debase Circ. Supply</h2>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDebaseCircSupply()}<img src={debase} alt="Debase" /></h5>
+					<div className="column is-6">
+						<div className="box column">
+							<div>
+								<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">degov</h2>
+								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDegovPrice()} <img src={dai} alt="Dai" /></h5>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-			<div className="column is-4">
-				<div className="box column">
-					<div>
-						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap debase</h2>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDebaseMarketcap()}<img src={dai} alt="Dai" /></h5>
+					<div className="column is-6">
+						<div className="box column">
+							<div>
+								<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">debase Circ. Supply</h2>
+								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDebaseCircSupply()}<img src={debase} alt="Debase" /></h5>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-			<div className="column is-4">
-				<div className="box column">
-					<div>
-						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">degov</h2>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDegovPrice()} <img src={dai} alt="Dai" /></h5>
+					<div className="column is-6">
+						<div className="box column">
+							<div>
+								<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">degov Circ. Supply</h2>
+								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDegovCircSupply()}<img src={degov} alt="Degov" /></h5>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
+					<div className="column is-6">
+						<div className="box column">
+							<div>
+								<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap debase</h2>
+								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDebaseMarketcap()}<img src={dai} alt="Dai" /></h5>
+							</div>
+						</div>
+					</div>
 
-			<div className="column is-4">
-				<div className="box column">
-					<div>
-						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">degov Circ. Supply</h2>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDegovCircSupply()}<img src={degov} alt="Degov" /></h5>
-					</div>
-				</div>
-			</div>
-			<div className="column is-4">
-				<div className="box column">
-					<div>
-						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap degov</h2>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDegovMarketcap()}<img src={dai} alt="Dai" /></h5>
-					</div>
-				</div>
-			</div>
 
+
+					<div className="column is-6">
+						<div className="box column">
+							<div>
+								<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap degov</h2>
+								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDegovMarketcap()}<img src={dai} alt="Dai" /></h5>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div className="column is-6">
+				<div className="box column">
+					<div className="has-text-centered">
+						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">debase marketcap</h2>
+					</div>
+					{renderMarketcapChart()}
+				</div>
+			</div>
 
 			<div className="column is-6">
 				<div className="box column">
 					<div className="has-text-centered">
 						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">total supply</h2>
 					</div>
-					<div className="dashboard__chart">{renderTotalSupplyChart()}</div>
+					{renderTotalSupplyChart()}
 				</div>
 			</div>
 
@@ -473,9 +630,12 @@ const Dashboard = () => {
 					<div className="has-text-centered">
 						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">rebase History</h2>
 					</div>
-					<div className="dashboard__chart">{renderRebasePercentageChart()}</div>
+					{renderRebasePercentageChart()}
 				</div>
 			</div>
+
+
+
 		</div>
 	);
 }

@@ -2,7 +2,7 @@ import { formatUnits } from 'ethers/lib/utils';
 import React, { Fragment, useState } from 'react';
 
 const PoolInput = React.forwardRef(({ placeholderText, balance, unit, loading, action, buttonText }, ref) => {
-	const [ value, setValue ] = useState('');
+	const [value, setValue] = useState('');
 
 	return (
 		<Fragment>
@@ -28,8 +28,8 @@ const PoolInput = React.forwardRef(({ placeholderText, balance, unit, loading, a
 					loading ? (
 						'button is-loading is-primary is-fullwidth is-edged'
 					) : (
-						'button is-primary is-fullwidth is-edged'
-					)
+							'button is-primary is-fullwidth is-edged'
+						)
 				}
 				onClick={action}
 			>
