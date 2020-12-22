@@ -153,7 +153,7 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'Current Pool Reward',
-			value: randomThreshold ? formatEther(balance) : '...',
+			value: randomThreshold ? parseFloat(formatEther(balance)).toFixed(2) : '...',
 			toolTip: 'Current pool rewards available'
 		}
 	];
