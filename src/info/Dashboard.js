@@ -423,11 +423,33 @@ const Dashboard = () => {
 			/* try get to coingecko data */
 			try {
 
-				fetch(`https://api.coingecko.com/api/v3/coins/debase/market_chart?vs_currency=usd&days=${daysRange}&interval=daily`, {
+				fetch(`https://api.coingecko.com/api/v3/coins/debase/market_chart?vs_currency=usd&days=${daysRange}&interval=hours`, {
 					method: 'GET'
 				})
 					.then(response => response.json())
-					.then(data => setCoingeckoDebaseHistory(data));
+					.then(data => {
+
+						const localData = {};
+						localData.prices = [];
+						localData.market_caps = [];
+						localData.total_volumes = [];
+
+						Object.entries(data).forEach(type => {
+							if (!['prices', 'market_caps', 'total_volumes'].includes(type[0])) { return }
+							const [financeType, typeHistory] = type;
+
+							typeHistory.forEach((hourlyTimeHistory, i) => {
+								const [timestamp, value] = hourlyTimeHistory;
+								if (new Date(timestamp).getHours() !== 11) { return }
+								localData[financeType].push([timestamp, value]);
+							});
+						});
+
+						console.log(localData);
+
+						setCoingeckoDebaseHistory(localData)
+
+					});
 
 				/* catch possible errors */
 			} catch {
@@ -532,7 +554,7 @@ const Dashboard = () => {
 		if (!coingeckoDebaseHistory) { return }
 
 		const marketcapArray = coingeckoDebaseHistory.market_caps;
-		marketcapArray.pop();
+		//marketcapArray.pop();
 		const marketcapChartData = [
 			{
 				id: 'marketcap',
@@ -547,6 +569,8 @@ const Dashboard = () => {
 			});
 		});
 		setMarketCapData(marketcapChartData);
+
+		console.log(marketcapChartData);
 
 	}, [coingeckoDebaseHistory])
 
