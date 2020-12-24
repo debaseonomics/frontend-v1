@@ -42,8 +42,8 @@ export default function ThresholdCounter() {
 	const { data: enablePoolLpLimit } = useSWR([contractAddress.stabilizerPool, 'enablePoolLpLimit'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
-	const { data: balance } = useSWR([contractAddress.stabilizerPool, 'balanceOf', contractAddress.stabilizerPool], {
-		fetcher: fetcher(library, thresholdCounterAbi)
+	const { data: balance } = useSWR([contractAddress.debase, 'balanceOf', contractAddress.stabilizerPool], {
+		fetcher: fetcher(library, lpAbi)
 	});
 	const { data: userLpLimit } = useSWR([contractAddress.stabilizerPool, 'userLpLimit'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
@@ -134,19 +134,19 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'Last Random Threshold',
-			value: randomThreshold ? 3 : '...',
+			value: randomThreshold ? 1 : '...',
 			toolTip: 'A number drawn every rebase from a normal distribution. If Count>= Random number, a reward period begins'
 		},
 		{
 			label: 'Total Pool Limit',
 			value: poolLpLimit && totalSupply ? parseFloat(formatEther(totalSupply)).toFixed(2) + ' / ' + formatEther(poolLpLimit) + ' LP' : '...',
 			toolTip: 'Total LP limit per pool'
-		}/*,
+		},
 		{
 			label: 'Current Pool Reward',
-			value: randomThreshold ? parseFloat(formatEther(balance)) : '...',
+			value: balance ? parseFloat(formatEther(balance)) : '...',
 			toolTip: 'Current pool rewards available'
-		}*/
+		}
 	];
 
 	const sPoolData = [
