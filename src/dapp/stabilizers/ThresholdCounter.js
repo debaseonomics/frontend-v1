@@ -9,7 +9,8 @@ import {
 	turncate,
 	fetcher,
 	randomNumberAbi,
-	thresholdCounterAbi
+	thresholdCounterAbi,
+	lpAbi
 } from '../../utils/index';
 import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
@@ -41,8 +42,8 @@ export default function ThresholdCounter() {
 	const { data: enablePoolLpLimit } = useSWR([ contractAddress.stabilizerPool, 'enablePoolLpLimit' ], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
-	const { data: balance } = useSWR([ contractAddress.stabilizerPool, 'balanceOf', contractAddress.stabilizerPool ], {
-		fetcher: fetcher(library, thresholdCounterAbi)
+	const { data: balance } = useSWR([ contractAddress.debase, 'balanceOf', contractAddress.stabilizerPool ], {
+		fetcher: fetcher(library, lpAbi)
 	});
 	const { data: userLpLimit } = useSWR([ contractAddress.stabilizerPool, 'userLpLimit' ], {
 		fetcher: fetcher(library, thresholdCounterAbi)
@@ -148,12 +149,12 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'Last Random Threshold',
-			value: randomThreshold ? 3 : '...',
+			value: randomThreshold ? 1 : '...',
 			toolTip: 'Percentage of rewards that will be revoked if positive rebases stop'
 		},
 		{
 			label: 'Current Pool Reward',
-			value: randomThreshold ? parseFloat(formatEther(balance)).toFixed(2) : '...',
+			value: balance ? parseFloat(formatEther(balance)).toFixed(2) : '...',
 			toolTip: 'Current pool rewards available'
 		}
 	];
@@ -170,18 +171,18 @@ export default function ThresholdCounter() {
 		<div className="columns is-centered">
 			<div className="box boxs column is-6">
 				<div className=" has-text-centered">
-					<h3 className="title is-size-4-tablet is-size-5-mobile  is-family-secondary">Threshold Counter</h3>
+					<h3 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Threshold Counter</h3>
 					<span className="delete is-pulled-right" onClick={() => history.goBack()} />
 				</div>
 				<div className="infowrapper">
 					<div className="contractinfo">
 						<div className="desc">
-							<h5 className="pr-1 pl-1 pt-2 subtitle is-size-5-tablet is-size-6-mobile">
+							<h5 className="pt-2 pl-1 pr-1 subtitle is-size-5-tablet is-size-6-mobile">
 								This stabilizer counts the number of positive rebases until a random thresholdis hit,
 								sampled from a normal distribution. Once the threshold is hit, counter is reset and the
 								pool starts to reward DEBASE for staked DEBASE/DAI LPs, as per the parameters mentioned.
 							</h5>
-							<span className="is-inline subtitle is-size-5-tablet is-size-6-mobile mb-0">
+							<span className="mb-0 is-inline subtitle is-size-5-tablet is-size-6-mobile">
 								<svg
 									width="16"
 									height="16"
