@@ -17,7 +17,7 @@ export default function Staking() {
 					infoText="Seeds initial supply of degov"
 					duration="Halving period"
 					enabled={true}
-					tvl="TVL"
+					tvlProp="TVL"
 					apy="APY"
 				/>
 			</div>
@@ -39,7 +39,7 @@ export default function Staking() {
 					enabled={true}
 					battery={<div className='part' style={{ animationName: 'highBattery' }}></div>}
 					button="Stake"
-					tvl="$992791.80"
+					tvl="992791.80"
 					apy="345%"
 				/>
 			</div>
@@ -62,7 +62,7 @@ export default function Staking() {
 					enabled={true}
 					battery={<div className='part' style={{ animationName: 'lowBattery' }}></div>}
 					button="Withdraw"
-					tvl="$0"
+					tvl="0"
 					apy="0%"
 				/>
 			</div>
@@ -85,7 +85,7 @@ export default function Staking() {
 					enabled={true}
 					battery={<div className='part' style={{ animationName: 'lowBattery' }}></div>}
 					button="Withdraw"
-					tvl="$0"
+					tvl="0"
 					apy="0%"
 				/>
 			</div>

@@ -5,6 +5,11 @@ import { useWeb3React } from '@web3-react/core';
 import useSWR from 'swr';
 import { formatEther } from 'ethers/lib/utils';
 
+const numberFormat = (value) =>
+	new Intl.NumberFormat('en-US', {
+		style: 'decimal'
+	}).format(value);
+
 export default function StakeCard({
 	title,
 	subtitle,
@@ -24,6 +29,7 @@ export default function StakeCard({
 	button,
 	halvingReward,
 	tvl,
+	tvlProp,
 	apy
 }) {
 	const { library } = useWeb3React();
@@ -66,7 +72,7 @@ export default function StakeCard({
 					</h5>
 				) : null}
 
-				<h5 className="column is-2 subtitle is-size-5-tablet is-size-6-mobile"><span>{tvl}</span></h5>
+				<h5 className="column is-2 subtitle is-size-5-tablet is-size-6-mobile"><span>{tvl ? '$' + numberFormat(tvl) : tvlProp}</span></h5>
 				<h5 className="column is-1 subtitle is-size-5-tablet is-size-6-mobile"><span>{apy}</span></h5>
 
 				<div className="column is-2 buttons">
