@@ -60,6 +60,14 @@ export default function Layout({ children }) {
 							{menuLink('Vote', 'https://snapshot.page/#/debaseonomics')}
 							{menuLink('Rebase', '/dapp/rebase')}
 							{menuLink('Stabilizers', '/dapp/stabilizers')}
+							<div className="navbar-item">
+								<a href="https://app.uniswap.org/#/swap?inputCurrency=0x6b175474e89094c44da98b954eedeac495271d0f&outputCurrency=0x9248c485b0b80f76da451f167a8db30f33c70907" target="_blank" className="button is-edged is-medium is-primary in-nav">
+									TRADE DEBASE
+							</a>
+								<a href="https://uniswap.exchange/swap?inputCurrency=ETH&outputCurrency=0x469e66e06fec34839e5eb1273ba85a119b8d702f" target="_blank" className="button is-edged is-medium is-primary in-nav">
+									TRADE DEGOV
+							</a>
+							</div>
 						</div>
 						<div className="navbar-end">
 							<div className="navbar-item">

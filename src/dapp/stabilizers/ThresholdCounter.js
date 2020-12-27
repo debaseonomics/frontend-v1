@@ -16,10 +16,16 @@ import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
 import { formatEther, formatUnits } from 'ethers/lib/utils';
 
+
 export default function ThresholdCounter() {
 	let history = useHistory();
 	const { library } = useWeb3React();
 	const [hideStake, setHideStake] = useState(true);
+
+	const numberFormat = (value) =>
+		new Intl.NumberFormat('en-US', {
+			style: 'decimal'
+		}).format(value);
 
 	const { data: rewardPercentage } = useSWR([contractAddress.stabilizerPool, 'rewardPercentage'], {
 		fetcher: fetcher(library, thresholdCounterAbi)
@@ -149,7 +155,7 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'TVL',
-			value: '$752037.01057',
+			value: '$' + numberFormat('752037.01057'),
 		},
 		{
 			label: 'APR',

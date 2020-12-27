@@ -146,6 +146,11 @@ body.dark-mode .navbar-link a{
 	transition: 0.2s ease;
 	color: #fff;
 }
+body.dark-mode .navbar-item a.in-nav{
+	transform: translateY(6px);
+	padding: 6px 30px 5px 30px;
+	font-size: 13px;
+}
 body.dark-mode .navbar-item a:hover,
 body.dark-mode .navbar-link a:hover{
 	color: #f5468e;
