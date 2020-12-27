@@ -24,15 +24,11 @@
 .batWrap{
 	position: relative;
 }
-.batWrap h4{
-	font-family: brandon, sans-serif;
-	color: #fff;
-	margin-right: 15px;
-}
+
 .battery {
 	position: absolute;
-	left: 125px;
 	top: 5px;
+	left: 0;
 	height: 16px;
 	width: 32px;
 	border: 1px solid #F1F1F1;
@@ -110,11 +106,11 @@ body.dark-mode a.is-primary{
 	padding: 5px 10px 5px 10px;
 	color: white;
 	font-size: 14px;
-	margin-right: 15px;
+	margin: 0 15px 15px 0;
+	display: inline-block;
 }
 body.dark-mode a.is-primary svg{
 	transform: translateY(3px);
-	margin-right: 6px;
 }
 body.dark-mode .boxs .desc svg{
 	transform: translateY(3px);
@@ -178,7 +174,7 @@ body.dark-mode .dashboardwrap .box{
 	border-radius: 0;
 	background: rgb(22,28,47);
 	background: linear-gradient(-9deg, rgba(22,28,47,1) 0%, rgba(9,12,23,1) 100%);
-	padding: 0 25px 25px;
+	padding: 0 15px 15px;
 	margin: 40px 0;
 }
 body.dark-mode .boxs .boxs{
@@ -193,7 +189,6 @@ body.dark-mode .dashboardwrap .box > div{
 body.dark-mode .dashboardwrap .box{
 	margin: 15px 0;
 }
-
 body.dark-mode .boxs.foxie{
 	padding: 75px;
 }
@@ -222,21 +217,70 @@ body.dark-mode .dashboardwrap .box:after{
 body.dark-mode .boxs:hover:after{
 	transform: skew(5deg, 4deg);
 }
-body.dark-mode .boxs.stakecard{
-	margin: 40px 30px;
-}
-body.dark-mode .boxs.stakecard .stakegrid .buttons{
-	grid-column: span 2 / auto;
-	margin-bottom: 25px;
 
+/* Stakecard */
+.stakecard .flex-wrapper{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
-body.dark-mode .boxs.stakecard .stakegrid .subtitle{
+body.dark-mode .stakecards{
+	overflow: auto;
+}
+body.dark-mode .stakecards .column.inactive .stakecard{
+	background: none;
+	margin: 40px 0 0 0;
+	padding: 0 10px;
+}
+body.dark-mode .stakecards .column.inactive .stakecard .battery,
+body.dark-mode .stakecards .column.inactive .stakecard .buttons,
+body.dark-mode .stakecards .column.inactive .stakecard .button{
+	display: none;
+}
+body.dark-mode .boxs.stakecard{
+	padding: 5px 15px;
+	margin: 5px 0;
+	min-width: 1200px;
+}
+body.dark-mode .boxs.stakecard:after{
+	content: none;
+}
+body.dark-mode .boxs.stakecard img{
+	height: 16px;
+	margin-right: 6px;
+	transform: translateY(2px);
+}
+body.dark-mode .boxs.stakecard h5{
+	margin: 0;
+	padding: 0;
+	display: flex;
+    justify-content: center;
+}
+body.dark-mode .boxs .stake-header{
 	display: flex;
 	flex-direction: column;
+	justify-content: flex-start;
+	padding: 0 0 0 0;
 }
-body.dark-mode .boxs .stakegrid{
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
+body.dark-mode .boxs .stake-header h3{
+	font-size: 15px;
+	margin:0;
+	padding: 0;
+}
+body.dark-mode .boxs .stake-header h6{
+	color: rgba(255, 255, 255, 0.4);
+}
+body.dark-mode .stakecards .column .stakecard .buttons{
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+body.dark-mode .stakecards .column .stakecard .buttons button{
+	width: 8.42em;
+}
+body.dark-mode .stakecards .column .stakecard a.is-primary{
+	border: none;
+	padding: 0;
 }
 body.dark-mode .boxs .subtitle,
 body.dark-mode .boxs h5{
@@ -266,14 +310,7 @@ body.dark-mode .params{
 	grid-template-columns: repeat(2, 1fr);
 	width: 100%;
 }
-body.dark-mode .boxs .stake-header{
-	display: flex;
-	justify-content: center;
-	padding: 25px 0 0 0;
-}
-body.dark-mode .boxs .stake-header h3{
-	margin: 0 0 25px 0;
-}
+
 body.dark-mode .boxs .para{
 	display: flex;
 	flex-direction: column;

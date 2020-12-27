@@ -146,6 +146,14 @@ export default function ThresholdCounter() {
 			label: 'Current Pool Reward',
 			value: balance ? parseFloat(formatEther(balance)) : '...',
 			toolTip: 'Current pool rewards available'
+		},
+		{
+			label: 'TVL',
+			value: '$752037.01057',
+		},
+		{
+			label: 'APR',
+			value: '227%',
 		}
 	];
 
@@ -172,7 +180,7 @@ export default function ThresholdCounter() {
 								sampled from a normal distribution. Once the threshold is hit, counter is reset and the
 								pool starts to reward DEBASE for staked DEBASE/DAI LPs, as per the parameters mentioned.
 							</h5>
-							<span className="mb-0 is-inline subtitle is-size-5-tablet is-size-6-mobile">
+							<span className="mb-0 subtitle is-size-5-tablet is-size-6-mobile">
 
 								<a
 									className="is-primary"
