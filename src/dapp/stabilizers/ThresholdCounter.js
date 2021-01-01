@@ -144,7 +144,7 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'Last Random Threshold',
-			value: randomThreshold ? 5 : '...',
+			value: randomThreshold ? 8 : '...',
 			toolTip:
 				'A number drawn every rebase from a normal distribution. If Count>= Random number, a reward period begins'
 		},
