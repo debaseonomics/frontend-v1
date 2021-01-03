@@ -144,7 +144,7 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'Last Random Threshold',
-			value: randomThreshold ? 8 : '...',
+			value: randomThreshold ? 5 : '...',
 			toolTip:
 				'A number drawn every rebase from a normal distribution. If Count>= Random number, a reward period begins'
 		},
@@ -167,7 +167,7 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'APR',
-			value: '228%'
+			value: '340%'
 		}
 	];
 
