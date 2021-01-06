@@ -186,7 +186,7 @@ export default function DegovEth() {
 							rewardText="Debase"
 							poolName="Degov/Eth-Lp"
 							unit={18}
-							percents={false}
+							percents={true}
 							rewardTokenImage={debase}
 							stakeTokenImage={empty}
 							tokenAddress={contractAddress.degovEthLp}

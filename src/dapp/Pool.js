@@ -39,7 +39,7 @@ export default function Pool({
 		fetcher: fetcher(library, lpAbi)
 	});
 
-	const { data: tokenSupply, mutate: getTokenSupply } = useSWR([ tokenAddress, 'totalSupply', account ], {
+	const { data: tokenSupply, mutate: getTokenSupply } = useSWR([ tokenAddress, 'totalSupply' ], {
 		fetcher: fetcher(library, lpAbi)
 	});
 
