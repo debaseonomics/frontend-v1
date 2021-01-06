@@ -3,7 +3,7 @@ import { useWeb3React } from '@web3-react/core';
 import { poolAbi, lpAbi, toaster, fetcher } from '../utils/index';
 import useSWR from 'swr';
 import { useHistory } from 'react-router-dom';
-import { formatEther, formatUnits, parseUnits } from 'ethers/lib/utils';
+import { formatEther, formatUnits, parseEther, parseUnits } from 'ethers/lib/utils';
 import { Contract } from 'ethers';
 import TextInfo from '../components/TextInfo.js';
 import PoolInput from '../components/PoolInput';
@@ -19,7 +19,8 @@ export default function Pool({
 	rewardTokenImage,
 	stakeTokenImage,
 	unit,
-	showName
+	showName,
+	percents
 }) {
 	let history = useHistory();
 	const stakeRef = useRef();
@@ -28,30 +29,34 @@ export default function Pool({
 	const { account, library } = useWeb3React();
 
 	const { data: rewardTokenBalance, mutate: getRewardTokenBalance } = useSWR(
-		[rewardTokenAddress, 'balanceOf', account],
+		[ rewardTokenAddress, 'balanceOf', account ],
 		{
 			fetcher: fetcher(library, lpAbi)
 		}
 	);
 
-	const { data: tokenBalance, mutate: getTokenBalance } = useSWR([tokenAddress, 'balanceOf', account], {
+	const { data: tokenBalance, mutate: getTokenBalance } = useSWR([ tokenAddress, 'balanceOf', account ], {
 		fetcher: fetcher(library, lpAbi)
 	});
 
-	const { data: stakeBalance, mutate: getStakeBalance } = useSWR([poolAddress, 'balanceOf', account], {
+	const { data: tokenSupply, mutate: getTokenSupply } = useSWR([ tokenAddress, 'totalSupply', account ], {
+		fetcher: fetcher(library, lpAbi)
+	});
+
+	const { data: stakeBalance, mutate: getStakeBalance } = useSWR([ poolAddress, 'balanceOf', account ], {
 		fetcher: fetcher(library, poolAbi)
 	});
 
-	const { data: rewardBalance, mutate: getRewardBalance } = useSWR([poolAddress, 'earned', account], {
+	const { data: rewardBalance, mutate: getRewardBalance } = useSWR([ poolAddress, 'earned', account ], {
 		fetcher: fetcher(library, poolAbi)
 	});
 
 	const isMobile = useMediaQuery({ query: `(max-width: 482px)` });
 
-	const [stakingLoading, setStakingLoading] = useState(false);
-	const [withdrawLoading, setWithdrawLoading] = useState(false);
-	const [claimLoading, setClaimLoading] = useState(false);
-	const [claimUnstakeLoading, setClaimUnstakeLoading] = useState(false);
+	const [ stakingLoading, setStakingLoading ] = useState(false);
+	const [ withdrawLoading, setWithdrawLoading ] = useState(false);
+	const [ claimLoading, setClaimLoading ] = useState(false);
+	const [ claimUnstakeLoading, setClaimUnstakeLoading ] = useState(false);
 
 	useEffect(
 		() => {
@@ -60,12 +65,13 @@ export default function Pool({
 				getTokenBalance(undefined, true);
 				getRewardBalance(undefined, true);
 				getStakeBalance(undefined, true);
+				getTokenSupply(undefined, true);
 			});
 			return () => {
 				library.removeAllListeners('block');
 			};
 		},
-		[library, getStakeBalance, getRewardBalance, getTokenBalance, getRewardTokenBalance]
+		[ library, getStakeBalance, getRewardBalance, getTokenBalance, getRewardTokenBalance, getTokenSupply ]
 	);
 
 	async function handleStake() {
@@ -162,10 +168,8 @@ export default function Pool({
 	const data = (
 		<div className="boxs has-text-centered">
 			{showName ? (
-				<div >
-					<h2 className=" title is-size-4-tablet is-size-5-mobile is-family-secondary">
-						{poolName}
-					</h2>
+				<div>
+					<h2 className=" title is-size-4-tablet is-size-5-mobile is-family-secondary">{poolName}</h2>
 					<button className="delete is-pulled-right" onClick={() => history.goBack()} />
 				</div>
 			) : null}
@@ -178,8 +182,8 @@ export default function Pool({
 							rewardBalance !== undefined ? (
 								parseFloat(formatEther(rewardTokenBalance)).toFixed(isMobile ? 4 : 8) * 1
 							) : (
-									'0'
-								)
+								'0'
+							)
 						}
 						token={rewardText}
 						img={rewardTokenImage}
@@ -188,11 +192,17 @@ export default function Pool({
 						isMobile={isMobile}
 						label="Claimable"
 						value={
-							rewardBalance !== undefined ? (
+							percents ? rewardBalance !== undefined && tokenSupply !== undefined ? (
+								parseFloat(formatEther(rewardBalance.mul(tokenSupply).div(parseEther('1')))).toFixed(
+									isMobile ? 4 : 8
+								) * 1
+							) : (
+								'0'
+							) : rewardBalance !== undefined ? (
 								parseFloat(formatEther(rewardBalance)).toFixed(isMobile ? 4 : 8) * 1
 							) : (
-									'0'
-								)
+								'0'
+							)
 						}
 						token={rewardText}
 						img={rewardTokenImage}
@@ -204,8 +214,8 @@ export default function Pool({
 							tokenBalance !== undefined ? (
 								parseFloat(formatUnits(tokenBalance, unit)).toFixed(isMobile ? 4 : 8) * 1
 							) : (
-									'0'
-								)
+								'0'
+							)
 						}
 						token={tokenText}
 						img={stakeTokenImage}
@@ -217,8 +227,8 @@ export default function Pool({
 							stakeBalance !== undefined ? (
 								parseFloat(formatUnits(stakeBalance, unit)).toFixed(isMobile ? 4 : 8) * 1
 							) : (
-									'0'
-								)
+								'0'
+							)
 						}
 						token={tokenText}
 						img={stakeTokenImage}
@@ -241,8 +251,8 @@ export default function Pool({
 							claimLoading ? (
 								'mt-2 button is-loading is-link is-fullwidth is-edged'
 							) : (
-									'mt-2 button is-link is-fullwidth is-edged'
-								)
+								'mt-2 button is-link is-fullwidth is-edged'
+							)
 						}
 						onClick={claimReward}
 					>
@@ -264,8 +274,8 @@ export default function Pool({
 							claimUnstakeLoading ? (
 								'mt-2 button is-loading is-link is-fullwidth is-edged'
 							) : (
-									'mt-2 button is-link is-fullwidth is-edged'
-								)
+								'mt-2 button is-link is-fullwidth is-edged'
+							)
 						}
 						onClick={claimRewardThenUnstake}
 					>

@@ -301,6 +301,7 @@ export default function ThresholdCounter() {
 							unit={18}
 							rewardTokenImage={debase}
 							stakeTokenImage={empty}
+							percents={false}
 							tokenAddress={contractAddress.debaseDaiLp}
 							rewardTokenAddress={contractAddress.debase}
 							poolAddress={contractAddress.stabilizerPool}

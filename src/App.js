@@ -31,12 +31,10 @@ const Staking = React.lazy(() => import('./dapp/Staking'));
 const Pool = React.lazy(() => import('./dapp/Pool'));
 const Rebaser = React.lazy(() => import('./dapp/Rebaser'));
 
-
 const Stabilizers = React.lazy(() => import('./dapp/stabilizers/index'));
 const ThresholdCounter = React.lazy(() => import('./dapp/stabilizers/ThresholdCounter'));
 const Incentivizers = React.lazy(() => import('./dapp/incentivizers/index'));
 const DegovEth = React.lazy(() => import('./dapp/incentivizers/DegovEth'));
-
 
 function getLibrary(provider) {
 	const library = new ethers.providers.Web3Provider(provider);
@@ -82,7 +80,6 @@ function App() {
 		<Router>
 			<Suspense>
 				<Switch>
-
 					<Route path="/dapp">
 						<Web3ReactProvider getLibrary={getLibrary}>
 							<DappLayout>
@@ -94,6 +91,7 @@ function App() {
 											rewardText="Debase"
 											poolName="Dai"
 											unit={18}
+											percents={false}
 											rewardTokenImage={debase}
 											stakeTokenImage={dai}
 											tokenAddress={contractAddress.dai}
@@ -108,6 +106,7 @@ function App() {
 											rewardText="Debase"
 											poolName="Debase/Dai-lp"
 											unit={18}
+											percents={false}
 											rewardTokenImage={debase}
 											stakeTokenImage={empty}
 											tokenAddress={contractAddress.debaseDaiLp}
@@ -122,6 +121,7 @@ function App() {
 											rewardText="Degov"
 											poolName="Debase/Dai-lp"
 											unit={18}
+											percents={false}
 											rewardTokenImage={degov}
 											stakeTokenImage={empty}
 											tokenAddress={contractAddress.debaseDaiLp}
@@ -153,8 +153,6 @@ function App() {
 									<Rebaser />
 								</Route>
 							</DappLayout>
-
-
 						</Web3ReactProvider>
 					</Route>
 
