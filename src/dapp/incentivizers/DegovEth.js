@@ -48,7 +48,7 @@ export default function DegovEth() {
 	const paramsData = [
 		{
 			label: 'Reward',
-			value: rewardPercentage ? formatEther(rewardPercentage) + '%' : '...',
+			value: rewardPercentage ? formatEther(rewardPercentage) * 100 + '%' : '...',
 			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
 		},
 		{
