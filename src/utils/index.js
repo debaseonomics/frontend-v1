@@ -63,6 +63,19 @@ export const thresholdCounterAbi = [
 	'function normalDistribution(uint256) external view returns(uint256)'
 ];
 
+export const incentivizerAbi = [
+	'function rewardPercentage() public view returns (uint256)',
+	'function blockDuration() public view returns (uint256)',
+	'function poolEnabled() public view returns (bool)',
+	'function poolLpLimit() public view returns (uint256)',
+	'function enablePoolLpLimit() public view returns (bool)',
+	'function userLpLimit() public view returns (uint256)',
+	'function enableUserLpLimit() public view returns (bool)',
+	'function revokeReward() public view returns (bool)',
+	'function totalSupply() public view returns (uint256)',
+	'function balanceOf(address) public view returns (uint256)',
+];
+
 export const orchestratorAbi = [
 	'function maximumRebaseTime() public view returns(uint256)',
 	'function rebaseRequiredSupply() public view returns(uint256)',
@@ -116,11 +129,14 @@ export const contractAddress = {
 	debaseDaiLp: '0xE98f89a2B3AeCDBE2118202826478Eb02434459A',
 	oracle: '0xb1Df2F0C76074eD466510F4440772Cc7b3D5337C',
 	stabilizerPool: '0x800479a76dc74c3a9FAAE25320A0EE4E8740996b',
-	randomNumber: '0x633ED04e5702625268948867B96e26443F316b7f'
+	randomNumber: '0x633ED04e5702625268948867B96e26443F316b7f',
+	degovEthPool:'0x4789519821ae0f49d95203b1a2ed805141bf0dae',
+	degovEthLp:"0xfc835d90ea6557b57b29361d95c4584d389e6ee8"
 };
 
 export const uniAddress = {
-	'debase-DAI-POOL': 'https://info.uniswap.org/pair/0xE98f89a2B3AeCDBE2118202826478Eb02434459A'
+	'debase-DAI-POOL': 'https://info.uniswap.org/pair/0xE98f89a2B3AeCDBE2118202826478Eb02434459A',
+	'degov-ETH-POOL:':'https://info.uniswap.org/pair/0xfc835d90ea6557b57b29361d95c4584d389e6ee8'
 };
 
 export const ownerShipAddress = {
