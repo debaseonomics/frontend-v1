@@ -3,14 +3,7 @@ import Pool from '../Pool';
 import debase from '../../assets/debase.png';
 import empty from '../../assets/empty.png';
 import { useHistory } from 'react-router-dom';
-import {
-	contractAddress,
-	etherScanAddress,
-	turncate,
-	fetcher,
-	incentivizerAbi,
-	lpAbi
-} from '../../utils/index';
+import { contractAddress, etherScanAddress, turncate, fetcher, incentivizerAbi, lpAbi } from '../../utils/index';
 import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
 import { formatEther } from 'ethers/lib/utils';
@@ -95,21 +88,23 @@ export default function DegovEth() {
 			label: 'Current Pool Reward',
 			value: balance ? parseFloat(formatEther(balance)) : '...',
 			toolTip: 'Current pool rewards available'
-		},
+		}
 	];
 
 	return (
 		<div className="columns is-centered">
 			<div className="box boxs column is-6">
 				<div className=" has-text-centered">
-					<h3 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Degov Eth Incentivizer</h3>
+					<h3 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">
+						Degov Eth Incentivizer
+					</h3>
 					<span className="delete is-pulled-right" onClick={() => history.goBack()} />
 				</div>
 				<div className="infowrapper">
 					<div className="contractinfo">
 						<div className="desc">
 							<h5 className="pt-2 pl-1 pr-1 subtitle is-size-5-tablet is-size-6-mobile">
-							Incentivizes holding Degov Eth LP by giving debase as a continuous reward
+								Incentivizes holding Degov Eth LP by giving debase as a continuous reward
 							</h5>
 							<span className="mb-0 subtitle is-size-5-tablet is-size-6-mobile">
 								<a
@@ -191,7 +186,7 @@ export default function DegovEth() {
 							rewardText="Debase"
 							poolName="Degov/Eth-Lp"
 							unit={18}
-							percents={true}
+							percents={false}
 							rewardTokenImage={debase}
 							stakeTokenImage={empty}
 							tokenAddress={contractAddress.degovEthLp}
