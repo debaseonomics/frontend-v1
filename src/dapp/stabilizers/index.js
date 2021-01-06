@@ -7,7 +7,7 @@ import { debasePolicyAbi, fetcher, contractAddress } from '../../utils/index';
 export default function Stabilizers() {
 	const { library } = useWeb3React();
 
-	const { data: thresholdCounter } = useSWR([contractAddress.debasePolicy, 'stabilizerPools', 0], {
+	const { data: thresholdCounter } = useSWR([contractAddress.debasePolicy, 'stabilizerPools', 1], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
@@ -36,7 +36,7 @@ export default function Stabilizers() {
 						</div>
 						<h5 className="title is-5 has-text-centered">
 							Status:{' '}
-							{thresholdCounter !== undefined ? thresholdCounter[0] ? 'Disabled' : 'Enabled' : '...'}
+							{thresholdCounter !== undefined ? thresholdCounter[0] ? 'Enabled' : 'Disabled' : '...'}
 						</h5>
 						<div className="block">
 							<Link to={'/dapp/stabilizers/' + ele.link}>

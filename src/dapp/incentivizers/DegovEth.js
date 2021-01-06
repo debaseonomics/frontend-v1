@@ -102,16 +102,14 @@ export default function DegovEth() {
 		<div className="columns is-centered">
 			<div className="box boxs column is-6">
 				<div className=" has-text-centered">
-					<h3 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Threshold Counter</h3>
+					<h3 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Degov Eth Incentivizer</h3>
 					<span className="delete is-pulled-right" onClick={() => history.goBack()} />
 				</div>
 				<div className="infowrapper">
 					<div className="contractinfo">
 						<div className="desc">
 							<h5 className="pt-2 pl-1 pr-1 subtitle is-size-5-tablet is-size-6-mobile">
-								This stabilizer counts the number of positive rebases until a random threshold is hit,
-								sampled from a normal distribution. Once the threshold is hit, counter is reset and the
-								pool starts to reward DEBASE for staked DEBASE/DAI LPs, as per the parameters mentioned.
+							Incentivizes holding Degov Eth LP by giving debase as a continuous reward
 							</h5>
 							<span className="mb-0 subtitle is-size-5-tablet is-size-6-mobile">
 								<a
@@ -143,7 +141,7 @@ export default function DegovEth() {
 									className="is-primary"
 									target="_blank"
 									rel="noopener noreferrer"
-									href="https://app.uniswap.org/#/add/0x9248c485b0B80f76DA451f167A8db30F33C70907/0x6B175474E89094C44Da98b954EedeAC495271d0F"
+									href="https://app.uniswap.org/#/add/ETH/0x469E66e06fEc34839E5eB1273ba85A119B8D702F"
 								>
 									<svg
 										width="16"
@@ -161,7 +159,7 @@ export default function DegovEth() {
 											fill="currentColor"
 										/>
 									</svg>
-									DEBASE / DAI LP
+									DEGOV / ETH LP
 								</a>
 							</span>
 						</div>

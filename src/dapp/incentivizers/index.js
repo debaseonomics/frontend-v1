@@ -7,7 +7,7 @@ import { debasePolicyAbi, fetcher, contractAddress } from '../../utils/index';
 export default function Incentivizers() {
 	const { library } = useWeb3React();
 
-	const { data: thresholdCounter } = useSWR([contractAddress.debasePolicy, 'stabilizerPools', 0], {
+	const { data: degovEthPoolStatus } = useSWR([contractAddress.debasePolicy, 'stabilizerPools', 2], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
@@ -15,11 +15,12 @@ export default function Incentivizers() {
 		{
 			name: 'Degov Eth',
 			description:
-				'Incentivizes degov eth lp with debase as a reward',
-			status: 'Inactive',
+				'Incentivizes holding Degov Eth LP by giving debase as a continuous reward',
 			link: 'degovEth'
 		}
 	];
+
+	console.log(degovEthPoolStatus)
 
 	return (
 		<div className="columns is-multiline is-centered is-vcentered">
@@ -29,13 +30,12 @@ export default function Incentivizers() {
 						<h3 className="title is-size-5-tablet is-size-6-mobile has-text-centered is-family-secondary">
 							{ele.name}
 						</h3>
-						<h5 className="subtitle is-size-5-tablet is-size-6-mobile has-text-centered">{ele.type}</h5>
 						<div className="content">
 							<p>{ele.description}</p>
 						</div>
 						<h5 className="title is-5 has-text-centered">
 							Status:{' '}
-							{thresholdCounter !== undefined ? thresholdCounter[0] ? 'Disabled' : 'Enabled' : '...'}
+							{degovEthPoolStatus !== undefined ? degovEthPoolStatus[0] ? 'Enabled' : 'Disabled' : '...'}
 						</h5>
 						<div className="block">
 							<Link to={'/dapp/incentivizers/' + ele.link}>
