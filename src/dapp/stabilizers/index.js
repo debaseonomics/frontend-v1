@@ -36,7 +36,7 @@ export default function Stabilizers() {
 						</div>
 						<h5 className="title is-5 has-text-centered">
 							Status:{' '}
-							{thresholdCounter !== undefined ? thresholdCounter[0] ? 'Enabled' : 'Disabled' : '...'}
+							{thresholdCounter !== undefined ? thresholdCounter[0] ? 'Disabled' : 'Enabled' : '...'}
 						</h5>
 						<div className="block">
 							<Link to={'/dapp/stabilizers/' + ele.link}>
