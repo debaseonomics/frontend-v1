@@ -40,7 +40,7 @@ export default function Staking() {
 					battery={<div className='part' style={{ animationName: 'highBattery' }}></div>}
 					button="Stake"
 					tvl="894241"
-					apy="318%"
+					apy="80%"
 				/>
 			</div>
 			<div className="column is-12">
