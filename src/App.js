@@ -35,6 +35,7 @@ const Stabilizers = React.lazy(() => import('./dapp/stabilizers/index'));
 const ThresholdCounter = React.lazy(() => import('./dapp/stabilizers/ThresholdCounter'));
 const Incentivizers = React.lazy(() => import('./dapp/incentivizers/index'));
 const DegovEth = React.lazy(() => import('./dapp/incentivizers/DegovEth'));
+const MPH88 = React.lazy(() => import('./dapp/incentivizers/MPH88'));
 
 function getLibrary(provider) {
 	const library = new ethers.providers.Web3Provider(provider);
@@ -142,7 +143,10 @@ function App() {
 									</Route>
 								</Route>
 								<Route path="/dapp/incentivizers">
-									<Route path="/dapp/incentivizers/degovEth">
+									<Route path="/dapp/incentivizers/mph88-debase-dai">
+										<MPH88 />
+									</Route>
+									<Route path="/dapp/incentivizers/degov-eth">
 										<DegovEth />
 									</Route>
 									<Route exact path="/dapp/incentivizers">

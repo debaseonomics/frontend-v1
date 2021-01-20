@@ -7,7 +7,7 @@ import { debasePolicyAbi, fetcher, contractAddress } from '../../utils/index';
 export default function Incentivizers() {
 	const { library } = useWeb3React();
 
-	const { data: degovEthPoolStatus } = useSWR([contractAddress.debasePolicy, 'stabilizerPools', 2], {
+	const { data: degovEthPoolStatus } = useSWR([ contractAddress.debasePolicy, 'stabilizerPools', 2 ], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
@@ -16,11 +16,11 @@ export default function Incentivizers() {
 			name: 'Degov Eth',
 			description:
 				'Incentivizes DEGOV/ETH LP with continous DEBASE rewards, calculated in percentage of total supply of Debase for robustness',
-			link: 'degovEth'
+			link: 'degov-eth'
 		}
 	];
 
-	console.log(degovEthPoolStatus)
+	console.log(degovEthPoolStatus);
 
 	return (
 		<div className="columns is-multiline is-centered is-vcentered">
