@@ -8,6 +8,7 @@ import { Contract } from 'ethers';
 import TextInfo from '../components/TextInfo.js';
 import PoolInput from '../components/PoolInput';
 import { useMediaQuery } from 'react-responsive';
+import { DaiLpPool } from '../../typechain/DaiLpPool';
 
 export default function Pool({
 	poolName,

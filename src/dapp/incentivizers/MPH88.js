@@ -57,10 +57,6 @@ export default function MPH88() {
 		fetcher: fetcher(library, mph88Abi)
 	});
 
-	const { data: lockPeriod } = useSWR([ contractAddress.mph88Pool, 'lockPeriod' ], {
-		fetcher: fetcher(library, mph88Abi)
-	});
-
 	const { data: totalLpLimitEnabled } = useSWR([ contractAddress.mph88Pool, 'totalLpLimitEnabled' ], {
 		fetcher: fetcher(library, mph88Abi)
 	});
@@ -91,8 +87,40 @@ export default function MPH88() {
 			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
 		},
 		{
-			label: 'Block Duration',
-			value: blockDuration ? blockDuration + ' Blocks' : '...',
+			label: 'Debase Reward Percentage',
+			value: debaseRewardPercentage
+				? parseFloat(formatEther(debaseRewardPercentage)).toFixed(4) * 100 + ' %'
+				: '...',
+			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
+		},
+		{
+			label: 'Deposit Length',
+			value: depositLength ? depositLength + ' Blocks' : '...',
+			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
+		},
+		{
+			label: 'Dai Fee',
+			value: daiFee ? formatEther(daiFee) + ' Blocks' : '...',
+			toolTip: 'Period within which pool reward is distributed'
+		},
+		{
+			label: 'Mph Fee',
+			value: mphFee ? formatEther(mphFee) + ' Blocks' : '...',
+			toolTip: 'Period within which pool reward is distributed'
+		},
+		{
+			label: 'Period Finish',
+			value: periodFinish ? formatEther(periodFinish) + ' Blocks' : '...',
+			toolTip: 'Period within which pool reward is distributed'
+		},
+		{
+			label: 'Debase Reward Distributed',
+			value: debaseRewardDistributed ? formatEther(debaseRewardDistributed) + ' Blocks' : '...',
+			toolTip: 'Period within which pool reward is distributed'
+		},
+		{
+			label: 'Allow Emergency Withdraw',
+			value: allowEmergencyWithdraw ? formatEther(allowEmergencyWithdraw) + ' Blocks' : '...',
 			toolTip: 'Period within which pool reward is distributed'
 		},
 		{
@@ -102,24 +130,24 @@ export default function MPH88() {
 		},
 		{
 			label: 'Pool Lp Limit Enabled',
-			value: enablePoolLpLimit !== undefined ? (enablePoolLpLimit ? 'True' : 'False') : '...',
+			value: maxDepositLimitEnabled !== undefined ? (maxDepositLimitEnabled ? 'True' : 'False') : '...',
 			toolTip: 'Pool staking/withdraw usage status'
 		},
 		{
 			label: 'User Lp Limit Enabled',
-			value: enableUserLpLimit !== undefined ? (enableUserLpLimit ? 'True' : 'False') : '...',
+			value: totalLpLimitEnabled !== undefined ? (totalLpLimitEnabled ? 'True' : 'False') : '...',
 			toolTip: 'Pool staking/withdraw usage status'
 		},
 		{
 			label: 'User Lp Limit',
-			value: userLpLimit ? formatEther(userLpLimit) + ' LP' : '...',
+			value: maxDepositLimit ? formatEther(maxDepositLimit) + ' LP' : '...',
 			toolTip: 'LP limit per wallet'
 		},
 		{
 			label: 'Total Pool Limit',
 			value:
-				poolLpLimit && totalSupply
-					? parseFloat(formatEther(totalSupply)).toFixed(2) + ' / ' + formatEther(poolLpLimit) + ' LP'
+				poolLpLimit && totalLpLimit
+					? parseFloat(formatEther(totalSupply)).toFixed(2) + ' / ' + formatEther(totalLpLimit) + ' LP'
 					: '...',
 			toolTip: 'Total LP limit per pool'
 		},
@@ -129,6 +157,8 @@ export default function MPH88() {
 			toolTip: 'Current pool rewards available'
 		}
 	];
+
+	function getDepositId() {}
 
 	return (
 		<div className="columns is-centered">
