@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { turncate, poolAbi, fetcher } from '../utils/index';
+import { poolAbi, fetcher } from '../utils/index';
 import { useWeb3React } from '@web3-react/core';
 import useSWR from 'swr';
 import { formatEther } from 'ethers/lib/utils';
@@ -34,56 +34,67 @@ export default function StakeCard({
 }) {
 	const { library } = useWeb3React();
 
-	const { data: currentReward } = useSWR([contract, 'initReward'], {
+	const { data: currentReward } = useSWR([ contract, 'initReward' ], {
 		fetcher: fetcher(library, poolAbi)
 	});
 
-	const { data: getRewardDistributed } = useSWR([contract, 'rewardDistributed'], {
+	const { data: getRewardDistributed } = useSWR([ contract, 'rewardDistributed' ], {
 		fetcher: fetcher(library, poolAbi)
 	});
 
 	return (
-
 		<div className="boxs stakecard">
 			<div className="block flex-wrapper">
 				<div className="column is-1 stake-header ">
-					<h3 className="title is-family-secondary">
-						{title}
-					</h3>
+					<h3 className="title is-family-secondary">{title}</h3>
 					<h6>{subtitle}</h6>
 				</div>
 				{/*<div className="divider" style={{ color: '#C0C2C9' }}>
 					{infoText}
 	</div>*/}
 
-				<h5 className="column is-1 subtitle is-size-5-tablet is-size-6-mobile"> <span><img src={tokenTag} /></span> {supply}</h5>
-				<h5 className="column is-2 subtitle is-size-5-tablet is-size-6-mobile"><span>{duration}</span></h5>
+				<h5 className="column is-1 subtitle is-size-5-tablet is-size-6-mobile">
+					{' '}
+					<span>
+						<img src={tokenTag} />
+					</span>{' '}
+					{supply}
+				</h5>
+				<h5 className="column is-2 subtitle is-size-5-tablet is-size-6-mobile">
+					<span>{duration}</span>
+				</h5>
 				<h5 className="column is-2 batWrap subtitle is-size-5-tablet is-size-6-mobile">
 					<span>
-						<div className="battery">
-							{battery}
-						</div>
+						<div className="battery">{battery}</div>
 					</span>
-					<span><img src={tokenTag} />{currentReward ? parseFloat(formatEther(currentReward)).toFixed(9) * 1 : 'Halving Reward'} </span>
+					<span>
+						<img src={tokenTag} />
+						{currentReward ? parseFloat(formatEther(currentReward)).toFixed(9) * 1 : 'Halving Reward'}{' '}
+					</span>
 				</h5>
 				{enabled ? (
 					<h5 className="column is-1 subtitle is-size-5-tablet is-size-6-mobile">
-						<span><img src={tokenTag} />{getRewardDistributed ? (parseFloat(formatEther(getRewardDistributed)).toFixed(2)) : 'Total Claimed'} </span>
+						<span>
+							<img src={tokenTag} />
+							{getRewardDistributed ? (
+								parseFloat(formatEther(getRewardDistributed)).toFixed(2)
+							) : (
+								'Total Claimed'
+							)}{' '}
+						</span>
 					</h5>
 				) : null}
 
-				<h5 className="column is-2 subtitle is-size-5-tablet is-size-6-mobile"><span>{tvl ? '$' + numberFormat(tvl) : tvlProp}</span></h5>
-				<h5 className="column is-1 subtitle is-size-5-tablet is-size-6-mobile"><span>{apy}</span></h5>
+				<h5 className="column is-2 subtitle is-size-5-tablet is-size-6-mobile">
+					<span>{tvl ? '$' + numberFormat(tvl) : tvlProp}</span>
+				</h5>
+				<h5 className="column is-1 subtitle is-size-5-tablet is-size-6-mobile">
+					<span>{apy}</span>
+				</h5>
 
 				<div className="column is-2 buttons">
 					<a className="is-primary" target="_blank" rel="noopener noreferrer" href={contractLink}>
-						<svg
-							width="16"
-							height="16"
-							viewBox="0 0 24 24"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M7 18H17V16H7V18Z" fill="currentColor" />
 							<path d="M17 14H7V12H17V14Z" fill="currentColor" />
 							<path d="M7 10H11V8H7V10Z" fill="currentColor" />
@@ -97,13 +108,7 @@ export default function StakeCard({
 						{/*turncate(contract, 16, '...')*/}
 					</a>
 					<a className="is-primary" target="_blank" rel="noopener noreferrer" href={websiteLink}>
-						<svg
-							width="16"
-							height="16"
-							viewBox="0 0 24 24"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path
 								d="M14.8284 12L16.2426 13.4142L19.071 10.5858C20.6331 9.02365 20.6331 6.49099 19.071 4.9289C17.509 3.3668 14.9763 3.3668 13.4142 4.9289L10.5858 7.75732L12 9.17154L14.8284 6.34311C15.6095 5.56206 16.8758 5.56206 17.6568 6.34311C18.4379 7.12416 18.4379 8.39049 17.6568 9.17154L14.8284 12Z"
 								fill="currentColor"
@@ -122,8 +127,6 @@ export default function StakeCard({
 						<button className="button is-edged is-primary">{button}</button>
 					</Link>
 				</div>
-
-
 			</div>
 		</div>
 	);

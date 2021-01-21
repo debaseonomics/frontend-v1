@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import Pool from '../Pool';
+import DepositPool from '../DepositPool';
 import debase from '../../assets/debase.png';
 import empty from '../../assets/empty.png';
 import { useHistory } from 'react-router-dom';
@@ -82,11 +82,6 @@ export default function MPH88() {
 
 	const paramsData = [
 		{
-			label: 'Reward',
-			value: rewardPercentage ? parseFloat(formatEther(rewardPercentage)).toFixed(4) * 100 + ' %' : '...',
-			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
-		},
-		{
 			label: 'Debase Reward Percentage',
 			value: debaseRewardPercentage
 				? parseFloat(formatEther(debaseRewardPercentage)).toFixed(4) * 100 + ' %'
@@ -143,14 +138,14 @@ export default function MPH88() {
 			value: maxDepositLimit ? formatEther(maxDepositLimit) + ' LP' : '...',
 			toolTip: 'LP limit per wallet'
 		},
-		{
-			label: 'Total Pool Limit',
-			value:
-				poolLpLimit && totalLpLimit
-					? parseFloat(formatEther(totalSupply)).toFixed(2) + ' / ' + formatEther(totalLpLimit) + ' LP'
-					: '...',
-			toolTip: 'Total LP limit per pool'
-		},
+		// {
+		// 	label: 'Total Pool Limit',
+		// 	value:
+		// 		poolLpLimit && totalLpLimit
+		// 			? parseFloat(formatEther(totalSupply)).toFixed(2) + ' / ' + formatEther(totalLpLimit) + ' LP'
+		// 			: '...',
+		// 	toolTip: 'Total LP limit per pool'
+		// },
 		{
 			label: 'Current Pool Reward',
 			value: balance ? parseFloat(formatEther(balance)) : '...',
@@ -180,7 +175,7 @@ export default function MPH88() {
 									className="is-primary"
 									target="_blank"
 									rel="noopener noreferrer"
-									href={etherScanAddress + contractAddress.mph88Pool}
+									href={etherScanAddress + contractAddress.degovEthPool}
 								>
 									<svg
 										width="16"
@@ -199,7 +194,7 @@ export default function MPH88() {
 											fill="currentColor"
 										/>
 									</svg>
-									{turncate(contractAddress.mph88Pool, 18, '...')}
+									{turncate(contractAddress.degovEthPool, 18, '...')}
 								</a>
 								<a
 									className="is-primary"
@@ -249,18 +244,17 @@ export default function MPH88() {
 				) : (
 					<Fragment>
 						<div className="divider">Staking</div>
-						<Pool
+						<DepositPool
 							showName={false}
 							tokenText="Debase/Dai-Lp"
 							rewardText="Debase"
 							poolName="MPH88 Debase/Dai-Lp"
 							unit={18}
-							percents={true}
 							rewardTokenImage={debase}
 							stakeTokenImage={empty}
 							tokenAddress={contractAddress.debaseDaiLp}
 							rewardTokenAddress={contractAddress.debase}
-							poolAddress={contractAddress.mph88Pool}
+							poolAddress={contractAddress.degovEthPool}
 						/>
 					</Fragment>
 				)}

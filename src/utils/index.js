@@ -115,6 +115,7 @@ export const mph88Abi = [
 	'function debaseRewardPercentage() view returns (uint256)',
 	'function blockDuration() view returns (uint256)',
 	'function deposits(uint256) view returns (address,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,bool)',
+	'function depositIds(address) view returns(uint256[])',
 	'function lpDeposits(address) view returns (uint256)',
 	'function depositLength() view returns (uint256)',
 	'function daiFee() view returns (uint256)',
@@ -152,8 +153,7 @@ export const contractAddress = {
 	stabilizerPool: '0x800479a76dc74c3a9FAAE25320A0EE4E8740996b',
 	randomNumber: '0x633ED04e5702625268948867B96e26443F316b7f',
 	degovEthPool: '0x4789519821ae0f49d95203b1a2ed805141bf0dae',
-	degovEthLp: '0xfc835d90ea6557b57b29361d95c4584d389e6ee8',
-	mph88Pool: '0xCeF9b7Df27F06b9A2d1deCC45b23930E3fC6a9A9'
+	degovEthLp: '0xfc835d90ea6557b57b29361d95c4584d389e6ee8'
 };
 
 export const uniAddress = {

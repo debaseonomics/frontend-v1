@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { poolAbi, lpAbi, toaster, fetcher } from '../utils/index';
 import useSWR from 'swr';
@@ -8,19 +8,20 @@ import { Contract } from 'ethers';
 import TextInfo from '../components/TextInfo.js';
 import PoolInput from '../components/PoolInput';
 import { useMediaQuery } from 'react-responsive';
+import { request, gql } from 'graphql-request';
 
-export default function Pool({
+export default function DepositPool({
 	poolName,
-	tokenAddress,
-	poolAddress,
+	stakeTokenAddress,
 	rewardTokenAddress,
+	poolAddress,
 	tokenText,
 	rewardText,
 	rewardTokenImage,
 	stakeTokenImage,
+	depositLength,
 	unit,
-	showName,
-	percents
+	showName
 }) {
 	let history = useHistory();
 	const stakeRef = useRef();
@@ -35,19 +36,23 @@ export default function Pool({
 		}
 	);
 
-	const { data: tokenBalance, mutate: getTokenBalance } = useSWR([ tokenAddress, 'balanceOf', account ], {
-		fetcher: fetcher(library, lpAbi)
-	});
-
 	const { data: tokenSupply, mutate: getTokenSupply } = useSWR([ rewardTokenAddress, 'totalSupply' ], {
 		fetcher: fetcher(library, lpAbi)
 	});
 
-	const { data: stakeBalance, mutate: getStakeBalance } = useSWR([ poolAddress, 'balanceOf', account ], {
-		fetcher: fetcher(library, poolAbi)
+	const { data: tokenBalance, mutate: getTokenBalance } = useSWR([ stakeTokenAddress, 'balanceOf', account ], {
+		fetcher: fetcher(library, lpAbi)
 	});
 
 	const { data: rewardBalance, mutate: getRewardBalance } = useSWR([ poolAddress, 'earned', account ], {
+		fetcher: fetcher(library, poolAbi)
+	});
+
+	const { data: stakedBalance, mutate: getStakedBalance } = useSWR([ poolAddress, 'lpDeposits', account ], {
+		fetcher: fetcher(library, poolAbi)
+	});
+
+	const { data: depositIds, mutate: getDepositIds } = useSWR([ poolAddress, 'depositIds', account ], {
 		fetcher: fetcher(library, poolAbi)
 	});
 
@@ -57,6 +62,8 @@ export default function Pool({
 	const [ withdrawLoading, setWithdrawLoading ] = useState(false);
 	const [ claimLoading, setClaimLoading ] = useState(false);
 	const [ claimUnstakeLoading, setClaimUnstakeLoading ] = useState(false);
+	const [ selectedDepositID, setSelectedDepositID ] = useState(0);
+	const [ depositsAndFundingData, setDepositsAndFundingData ] = useState([]);
 
 	useEffect(
 		() => {
@@ -64,19 +71,45 @@ export default function Pool({
 				getRewardTokenBalance(undefined, true);
 				getTokenBalance(undefined, true);
 				getRewardBalance(undefined, true);
-				getStakeBalance(undefined, true);
 				getTokenSupply(undefined, true);
 			});
 			return () => {
 				library.removeAllListeners('block');
 			};
 		},
-		[ library, getStakeBalance, getRewardBalance, getTokenBalance, getRewardTokenBalance, getTokenSupply ]
+		[ library, getRewardBalance, getTokenBalance, getRewardTokenBalance, getTokenSupply ]
 	);
+
+	const depositsQuery = gql`
+		query getDeposit($id: ID!) {
+			deposit(id: $id) {
+				fundingID
+			}
+		}
+	`;
+
+	async function findDepositID() {
+		if (depositLength != 0) {
+			const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
+			for (let index = 0; index < depositIds.length; index++) {
+				let depositInfo = await poolContract.deposits(index);
+				let fundingInfo = await request('https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph', {
+					id: depositInfo[6]
+				});
+				setDepositsAndFundingData((arr) => [
+					...arr,
+					{
+						depositInfo: [ ...depositInfo ],
+						fundingInfo: [ ...fundingInfo ]
+					}
+				]);
+			}
+		}
+	}
 
 	async function handleStake() {
 		setStakingLoading(true);
-		const tokenContract = new Contract(tokenAddress, lpAbi, library.getSigner());
+		const tokenContract = new Contract(stakeTokenAddress, lpAbi, library.getSigner());
 		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
 		try {
 			const toStake = parseUnits(stakeRef.current.value, unit);
@@ -86,14 +119,9 @@ export default function Pool({
 				transaction = await tokenContract.approve(poolAddress, toStake);
 				await transaction.wait(1);
 			}
-			transaction = await poolContract.stake(toStake);
+			transaction = await poolContract.deposit(toStake);
 			await transaction.wait(1);
-
-			let newTokenBal = await tokenContract.balanceOf(account);
-			let newStakeBal = await poolContract.balanceOf(account);
-
-			await getStakeBalance(newStakeBal);
-			await getTokenBalance(newTokenBal);
+			await getStakedBalance();
 
 			toaster('Staking successfully executed', 'is-success');
 		} catch (error) {
@@ -104,17 +132,10 @@ export default function Pool({
 
 	async function handleWithdraw() {
 		setWithdrawLoading(true);
-		const tokenContract = new Contract(tokenAddress, lpAbi, library.getSigner());
 		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
 		try {
-			const toWithdraw = parseUnits(withdrawRef.current.value, unit);
-			let transaction = await poolContract.withdraw(toWithdraw);
+			let transaction = await poolContract.withdraw(selectedDepositID);
 			await transaction.wait(1);
-
-			let newTokenBal = await tokenContract.balanceOf(account);
-			let newStakeBal = await poolContract.balanceOf(account);
-			await getTokenBalance(newTokenBal);
-			await getStakeBalance(newStakeBal);
 
 			toaster('Withdraw successfully executed', 'is-success');
 		} catch (error) {
@@ -124,39 +145,13 @@ export default function Pool({
 		setWithdrawLoading(false);
 	}
 
-	async function claimReward() {
-		setClaimLoading(true);
-		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
-		try {
-			const transaction = await poolContract.getReward();
-			await transaction.wait(1);
-
-			let newRewardBal = await poolContract.earned(account);
-			await getRewardBalance(newRewardBal);
-
-			toaster('Claim reward successful', 'is-success');
-		} catch (error) {
-			toaster('Claim reward failed, please try again', 'is-danger');
-		}
-		setClaimLoading(false);
-	}
-
-	async function claimRewardThenUnstake() {
+	async function handleWithdrawAll() {
 		setClaimUnstakeLoading(true);
 		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
-		const tokenContract = new Contract(tokenAddress, lpAbi, library.getSigner());
 
 		try {
-			const transaction = await poolContract.exit();
+			const transaction = await poolContract.multiWithdraw();
 			await transaction.wait(1);
-
-			let newTokenBal = await tokenContract.balanceOf(account);
-			let newStakeBal = await poolContract.balanceOf(account);
-			let newRewardBal = await poolContract.earned(account);
-
-			await getStakeBalance(newStakeBal);
-			await getTokenBalance(newTokenBal);
-			await getRewardBalance(newRewardBal);
 
 			toaster('Claim and unstake successfully executed', 'is-success');
 		} catch (error) {
@@ -190,25 +185,6 @@ export default function Pool({
 					/>
 					<TextInfo
 						isMobile={isMobile}
-						label="Claimable"
-						value={
-							percents ? rewardBalance !== undefined && tokenSupply !== undefined ? (
-								parseFloat(formatEther(rewardBalance.mul(tokenSupply).div(parseEther('1')))).toFixed(
-									isMobile ? 4 : 8
-								) * 1
-							) : (
-								'0'
-							) : rewardBalance !== undefined ? (
-								parseFloat(formatEther(rewardBalance)).toFixed(isMobile ? 4 : 8) * 1
-							) : (
-								'0'
-							)
-						}
-						token={rewardText}
-						img={rewardTokenImage}
-					/>
-					<TextInfo
-						isMobile={isMobile}
 						label="To Stake"
 						value={
 							tokenBalance !== undefined ? (
@@ -224,8 +200,8 @@ export default function Pool({
 						isMobile={isMobile}
 						label="Staked"
 						value={
-							stakeBalance !== undefined ? (
-								parseFloat(formatUnits(stakeBalance, unit)).toFixed(isMobile ? 4 : 8) * 1
+							stakedBalance !== undefined ? (
+								parseFloat(formatEther(stakedBalance)).toFixed(isMobile ? 4 : 8) * 1
 							) : (
 								'0'
 							)
@@ -233,6 +209,28 @@ export default function Pool({
 						token={tokenText}
 						img={stakeTokenImage}
 					/>
+
+					{depositIds !== undefined && depositIds.length !== 0 ? (
+						<Fragment>
+							<TextInfo isMobile={isMobile} label="Deposit Id" value={1} isDropDown={true} />
+
+							<TextInfo
+								isMobile={isMobile}
+								label="Claimable"
+								value={
+									rewardBalance !== undefined && tokenSupply !== undefined ? (
+										parseFloat(
+											formatEther(rewardBalance.mul(tokenSupply).div(parseEther('1')))
+										).toFixed(isMobile ? 4 : 8) * 1
+									) : (
+										'0'
+									)
+								}
+								token={rewardText}
+								img={rewardTokenImage}
+							/>
+						</Fragment>
+					) : null}
 				</tbody>
 			</table>
 			<div className="columns">
@@ -254,7 +252,6 @@ export default function Pool({
 								'mt-2 button is-link is-fullwidth is-edged'
 							)
 						}
-						onClick={claimReward}
 					>
 						Claim Reward
 					</button>
@@ -263,10 +260,10 @@ export default function Pool({
 					<PoolInput
 						action={handleWithdraw}
 						loading={withdrawLoading}
-						buttonText="Withdraw Amount"
+						buttonText="Withdraw Deposit"
 						ref={withdrawRef}
-						balance={stakeBalance}
-						placeholderText="Withdraw Amount"
+						balance={0}
+						placeholderText="Withdraw Deposit"
 						unit={unit}
 					/>
 					<button
@@ -277,9 +274,9 @@ export default function Pool({
 								'mt-2 button is-link is-fullwidth is-edged'
 							)
 						}
-						onClick={claimRewardThenUnstake}
+						onClick={handleWithdrawAll}
 					>
-						Claim Reward & Unstake
+						Withdraw All Deposits
 					</button>
 				</div>
 			</div>

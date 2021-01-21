@@ -3,7 +3,6 @@ import StakeCard from '../components/StakeCard';
 import { contractAddress, etherScanAddress, uniAddress } from '../utils';
 
 /* import token logos */
-import dai from '../assets/dai.png';
 import degov from '../assets/degov.png';
 import debase from '../assets/debase.png';
 
@@ -37,7 +36,7 @@ export default function Staking() {
 					infoText="Seeds initial supply of degov"
 					duration="1 week"
 					enabled={true}
-					battery={<div className='part' style={{ animationName: 'highBattery' }}></div>}
+					battery={<div className="part" style={{ animationName: 'highBattery' }} />}
 					button="Stake"
 					tvl="894241"
 					apy="80%"
@@ -60,7 +59,7 @@ export default function Staking() {
 					infoText="Seeds initial supply of debase"
 					duration="1 day"
 					enabled={true}
-					battery={<div className='part' style={{ animationName: 'lowBattery' }}></div>}
+					battery={<div className="part" style={{ animationName: 'lowBattery' }} />}
 					button="Withdraw"
 					tvl="0"
 					apy="0%"
@@ -83,7 +82,7 @@ export default function Staking() {
 					infoText="Incentivizes debase liquidity"
 					duration="1 days"
 					enabled={true}
-					battery={<div className='part' style={{ animationName: 'lowBattery' }}></div>}
+					battery={<div className="part" style={{ animationName: 'lowBattery' }} />}
 					button="Withdraw"
 					tvl="0"
 					apy="0%"

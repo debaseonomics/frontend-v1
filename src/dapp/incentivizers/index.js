@@ -17,10 +17,14 @@ export default function Incentivizers() {
 			description:
 				'Incentivizes DEGOV/ETH LP with continous DEBASE rewards, calculated in percentage of total supply of Debase for robustness',
 			link: 'degov-eth'
+		},
+		{
+			name: 'MPH88',
+			description:
+				'Incentivizes DEGOV/ETH LP with continous DEBASE rewards, calculated in percentage of total supply of Debase for robustness',
+			link: 'mph88-debase-dai'
 		}
 	];
-
-	console.log(degovEthPoolStatus);
 
 	return (
 		<div className="columns is-multiline is-centered is-vcentered">

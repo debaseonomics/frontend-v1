@@ -44,36 +44,20 @@ export default function ThresholdCounter() {
 	const { data: poolLpLimit } = useSWR([ contractAddress.stabilizerPool, 'poolLpLimit' ], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
-	const { data: enablePoolLpLimit } = useSWR([ contractAddress.stabilizerPool, 'enablePoolLpLimit' ], {
-		fetcher: fetcher(library, thresholdCounterAbi)
-	});
+
 	const { data: balance } = useSWR([ contractAddress.debase, 'balanceOf', contractAddress.stabilizerPool ], {
 		fetcher: fetcher(library, lpAbi)
 	});
 	const { data: userLpLimit } = useSWR([ contractAddress.stabilizerPool, 'userLpLimit' ], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
-	const { data: enableUserLpLimit } = useSWR([ contractAddress.stabilizerPool, 'enableUserLpLimit' ], {
-		fetcher: fetcher(library, thresholdCounterAbi)
-	});
 	const { data: revokeRewardPrecentage } = useSWR([ contractAddress.stabilizerPool, 'revokeRewardPrecentage' ], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
-	const { data: revokeReward } = useSWR([ contractAddress.stabilizerPool, 'revokeReward' ], {
-		fetcher: fetcher(library, thresholdCounterAbi)
-	});
+
 	const { data: count } = useSWR([ contractAddress.stabilizerPool, 'count' ], {
 		fetcher: fetcher(library, thresholdCounterAbi)
 	});
-	const { data: noramlDistributionMean } = useSWR([ contractAddress.stabilizerPool, 'noramlDistributionMean' ], {
-		fetcher: fetcher(library, thresholdCounterAbi)
-	});
-	const { data: normalDistributionDeviation } = useSWR(
-		[ contractAddress.stabilizerPool, 'normalDistributionDeviation' ],
-		{
-			fetcher: fetcher(library, thresholdCounterAbi)
-		}
-	);
 
 	const { data: totalSupply } = useSWR([ contractAddress.stabilizerPool, 'totalSupply' ], {
 		fetcher: fetcher(library, thresholdCounterAbi)
@@ -168,17 +152,6 @@ export default function ThresholdCounter() {
 		{
 			label: 'APR',
 			value: 'N/A (contraction)'
-		}
-	];
-
-	const sPoolData = [
-		{
-			label: 'Total Pool Limit',
-			value:
-				poolLpLimit && totalSupply
-					? parseFloat(formatEther(totalSupply)).toFixed(2) + ' / ' + formatEther(poolLpLimit) + ' LP'
-					: '...',
-			toolTip: 'Total LP limit per pool'
 		}
 	];
 
@@ -302,7 +275,7 @@ export default function ThresholdCounter() {
 							rewardTokenImage={debase}
 							stakeTokenImage={empty}
 							percents={false}
-							tokenAddress={contractAddress.debaseDaiLp}
+							stakeTokenAddress={contractAddress.debaseDaiLp}
 							rewardTokenAddress={contractAddress.debase}
 							poolAddress={contractAddress.stabilizerPool}
 						/>

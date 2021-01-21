@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 
 import { contractAddress, orchestratorAbi, debasePolicyAbi, uniAbi, toaster, fetcher } from '../utils/index';
 import { useWeb3React } from '@web3-react/core';
@@ -10,53 +10,49 @@ import dai from '../assets/dai.png';
 
 export default function Rebaser() {
 	const { library } = useWeb3React();
-	const [loading, setLoading] = useState(false);
+	const [ loading, setLoading ] = useState(false);
 
-	const { data: getMaximumRebaseTime } = useSWR([contractAddress.orchestrator, 'maximumRebaseTime'], {
-		fetcher: fetcher(library, orchestratorAbi)
-	});
-
-	const { data: priceTargetRate } = useSWR([contractAddress.debasePolicy, 'priceTargetRate'], {
+	const { data: priceTargetRate } = useSWR([ contractAddress.debasePolicy, 'priceTargetRate' ], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: upperDeviationThreshold } = useSWR([contractAddress.debasePolicy, 'upperDeviationThreshold'], {
+	const { data: upperDeviationThreshold } = useSWR([ contractAddress.debasePolicy, 'upperDeviationThreshold' ], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: lowerDeviationThreshold } = useSWR([contractAddress.debasePolicy, 'lowerDeviationThreshold'], {
+	const { data: lowerDeviationThreshold } = useSWR([ contractAddress.debasePolicy, 'lowerDeviationThreshold' ], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: useDefaultRebaseLag } = useSWR([contractAddress.debasePolicy, 'useDefaultRebaseLag'], {
+	const { data: useDefaultRebaseLag } = useSWR([ contractAddress.debasePolicy, 'useDefaultRebaseLag' ], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: defaultPositiveRebaseLag } = useSWR([contractAddress.debasePolicy, 'defaultPositiveRebaseLag'], {
+	const { data: defaultPositiveRebaseLag } = useSWR([ contractAddress.debasePolicy, 'defaultPositiveRebaseLag' ], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: defaultNegativeRebaseLag } = useSWR([contractAddress.debasePolicy, 'defaultNegativeRebaseLag'], {
+	const { data: defaultNegativeRebaseLag } = useSWR([ contractAddress.debasePolicy, 'defaultNegativeRebaseLag' ], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: minRebaseTimeIntervalSec } = useSWR([contractAddress.debasePolicy, 'minRebaseTimeIntervalSec'], {
+	const { data: minRebaseTimeIntervalSec } = useSWR([ contractAddress.debasePolicy, 'minRebaseTimeIntervalSec' ], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: lastRebaseTimestampSec } = useSWR([contractAddress.debasePolicy, 'lastRebaseTimestampSec'], {
+	const { data: lastRebaseTimestampSec } = useSWR([ contractAddress.debasePolicy, 'lastRebaseTimestampSec' ], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: rebaseWindowOffsetSec } = useSWR([contractAddress.debasePolicy, 'rebaseWindowOffsetSec'], {
+	const { data: rebaseWindowOffsetSec } = useSWR([ contractAddress.debasePolicy, 'rebaseWindowOffsetSec' ], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: rebaseWindowLengthSec } = useSWR([contractAddress.debasePolicy, 'rebaseWindowLengthSec'], {
+	const { data: rebaseWindowLengthSec } = useSWR([ contractAddress.debasePolicy, 'rebaseWindowLengthSec' ], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
-	const { data: reserves } = useSWR([contractAddress.debaseDaiLp, 'getReserves'], {
+	const { data: reserves } = useSWR([ contractAddress.debaseDaiLp, 'getReserves' ], {
 		fetcher: fetcher(library, uniAbi)
 	});
 
@@ -99,7 +95,7 @@ export default function Rebaser() {
 		{
 			label: 'Rebase Time Period',
 			value: minRebaseTimeIntervalSec
-				? ((minRebaseTimeIntervalSec.toNumber()) / (60 * 60)).toString() + ' Hours'
+				? (minRebaseTimeIntervalSec.toNumber() / (60 * 60)).toString() + ' Hours'
 				: '...',
 			toolTip: 'Time period after which a rebase can occur'
 		},
@@ -165,32 +161,32 @@ export default function Rebaser() {
 									<Fragment>
 										<h5
 											data-tooltip={ele.toolTip}
-											className="title mb-2 is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
+											className="mb-2 title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
 										>
 											{ele.label}
 										</h5>
 										<div
 											style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
 										>
-											<h5 className="subtitle m-0 is-size-5-tablet is-size-6-mobile">
+											<h5 className="m-0 subtitle is-size-5-tablet is-size-6-mobile">
 												{ele.value}
 											</h5>
-											<figure className="image is-24x24 ml-1 ">
+											<figure className="ml-1 image is-24x24 ">
 												<img src={ele.image} alt="Dai" />
 											</figure>
 										</div>
 									</Fragment>
 								) : (
-										<Fragment>
-											<h5
-												data-tooltip={ele.toolTip}
-												className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
-											>
-												{ele.label}
-											</h5>
-											<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
-										</Fragment>
-									)}
+									<Fragment>
+										<h5
+											data-tooltip={ele.toolTip}
+											className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
+										>
+											{ele.label}
+										</h5>
+										<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
+									</Fragment>
+								)}
 							</div>
 						))}
 					</div>
@@ -202,32 +198,32 @@ export default function Rebaser() {
 									<Fragment>
 										<h5
 											data-tooltip={ele.toolTip}
-											className="title mb-2 is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
+											className="mb-2 title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
 										>
 											{ele.label}
 										</h5>
 										<div
 											style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
 										>
-											<h5 className="subtitle m-0 is-size-5-tablet is-size-6-mobile">
+											<h5 className="m-0 subtitle is-size-5-tablet is-size-6-mobile">
 												{ele.value}
 											</h5>
-											<figure className="image is-24x24 ml-1 ">
+											<figure className="ml-1 image is-24x24 ">
 												<img src={ele.image} alt="Dai" />
 											</figure>
 										</div>
 									</Fragment>
 								) : (
-										<Fragment>
-											<h5
-												data-tooltip={ele.toolTip}
-												className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
-											>
-												{ele.label}
-											</h5>
-											<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
-										</Fragment>
-									)}
+									<Fragment>
+										<h5
+											data-tooltip={ele.toolTip}
+											className="title is-size-5-tablet is-size-6-mobile has-tooltip-arrow"
+										>
+											{ele.label}
+										</h5>
+										<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{ele.value}</h5>
+									</Fragment>
+								)}
 							</div>
 						))}
 					</div>
@@ -238,8 +234,8 @@ export default function Rebaser() {
 								loading ? (
 									'button is-edged is-fullwidth is-primary is-loading'
 								) : (
-										'button is-edged is-fullwidth is-primary'
-									)
+									'button is-edged is-fullwidth is-primary'
+								)
 							}
 						>
 							Fire Rebase

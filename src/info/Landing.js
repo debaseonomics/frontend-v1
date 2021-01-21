@@ -1,18 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import DarkModeToggle from 'react-dark-mode-toggle';
-import { useRecoilState } from 'recoil';
-import { darkModeState } from '../state/index.js';
 
 export default function Landing({ scrollToOverview }) {
-	const [isDarkMode, setIsDarkMode] = useRecoilState(darkModeState);
-
-	function toggleMode() {
-		const body = document.body;
-		body.classList.toggle('dark-mode');
-		setIsDarkMode(!isDarkMode);
-	}
-
 	return (
 		<section className="hero is-fullheight">
 			<div className="hero-body">
