@@ -2,17 +2,33 @@ import React, { Fragment, useState, useRef } from 'react';
 import DepositPool from '../../components/DepositInfo';
 import debase from '../../assets/debase.png';
 import empty from '../../assets/empty.png';
+import { Contract } from 'ethers';
 import { useHistory } from 'react-router-dom';
-import { contractAddress, etherScanAddress, turncate, fetcher, mph88Abi, lpAbi } from '../../utils/index';
+import {
+	contractAddress,
+	etherScanAddress,
+	turncate,
+	fetcher,
+	mph88Abi,
+	lpAbi,
+	toaster,
+	poolAbi
+} from '../../utils/index';
 import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
-import { formatEther } from 'ethers/lib/utils';
+import { useMediaQuery } from 'react-responsive';
+import { formatEther, formatUnits, parseUnits } from 'ethers/lib/utils';
+import PoolInput from '../../components/PoolInput';
+import TextInfo from '../../components/TextInfo';
 
 export default function MPH88() {
 	let history = useHistory();
-	const { library } = useWeb3React();
+	const { library, account } = useWeb3React();
 	const [ hideStake, setHideStake ] = useState(true);
 	const [ selectedDepositIndex, setSelectedDepositIndex ] = useState(0);
+	const [ stakingLoading, setStakingLoading ] = useState(false);
+	const [ withdrawLoading, setWithdrawLoading ] = useState(false);
+	const [ claimUnstakeLoading, setClaimUnstakeLoading ] = useState(false);
 
 	const stakeRef = useRef();
 	const withdrawRef = useRef();
@@ -81,17 +97,36 @@ export default function MPH88() {
 		fetcher: fetcher(library, mph88Abi)
 	});
 
+	const { data: rewardTokenBalance, mutate: getRewardTokenBalance } = useSWR(
+		[ contractAddress.debase, 'balanceOf', account ],
+		{
+			fetcher: fetcher(library, lpAbi)
+		}
+	);
+
+	const { data: tokenBalance, mutate: getTokenBalance } = useSWR(
+		[ contractAddress.debaseDaiLp, 'balanceOf', account ],
+		{
+			fetcher: fetcher(library, lpAbi)
+		}
+	);
+
 	const { data: depositIds } = useSWR([ contractAddress.mph88Pool, 'depositIds', account ], {
 		fetcher: fetcher(library, mph88Abi)
 	});
 
-	const { data: stakedBalance, mutate: getStakedBalance } = useSWR([ poolAddress, 'lpDeposits', account ], {
-		fetcher: fetcher(library, poolAbi)
-	});
+	const { data: stakedBalance, mutate: getStakedBalance } = useSWR(
+		[ contractAddress.mph88Pool, 'lpDeposits', account ],
+		{
+			fetcher: fetcher(library, mph88Abi)
+		}
+	);
 
 	const { data: balance } = useSWR([ contractAddress.debase, 'balanceOf', contractAddress.mph88Pool ], {
 		fetcher: fetcher(library, lpAbi)
 	});
+
+	const isMobile = useMediaQuery({ query: `(max-width: 482px)` });
 
 	const paramsData = [
 		{
@@ -160,14 +195,14 @@ export default function MPH88() {
 
 	async function handleStake() {
 		setStakingLoading(true);
-		const tokenContract = new Contract(stakeTokenAddress, lpAbi, library.getSigner());
-		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
+		const tokenContract = new Contract(contractAddress.debaseDaiLp, lpAbi, library.getSigner());
+		const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
 		try {
-			const toStake = parseUnits(stakeRef.current.value, unit);
-			let allowance = await tokenContract.allowance(account, poolAddress);
+			const toStake = parseUnits(stakeRef.current.value, 18);
+			let allowance = await tokenContract.allowance(account, contractAddress.mph88Pool);
 			let transaction;
 			if (allowance.lt(toStake)) {
-				transaction = await tokenContract.approve(poolAddress, toStake);
+				transaction = await tokenContract.approve(contractAddress.mph88Pool, toStake);
 				await transaction.wait(1);
 			}
 			transaction = await poolContract.deposit(toStake);
@@ -181,58 +216,58 @@ export default function MPH88() {
 		setStakingLoading(false);
 	}
 
-	async function handleWithdraw() {
-		setWithdrawLoading(true);
-		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
+	// async function handleWithdraw() {
+	// 	setWithdrawLoading(true);
+	// 	const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
 
-		const data = depositsAndFundingData[selectedDepositIndex];
-		if (data.withdrawed == false) {
-			try {
-				let transaction = await poolContract.withdraw(data.daiDepositId, data.fundingID);
-				await transaction.wait(1);
+	// 	const data = depositsAndFundingData[selectedDepositIndex];
+	// 	if (data.withdrawed == false) {
+	// 		try {
+	// 			let transaction = await poolContract.withdraw(data.daiDepositId, data.fundingID);
+	// 			await transaction.wait(1);
 
-				toaster('Deposit withdraw successfully', 'is-success');
-			} catch (error) {
-				console.log(error);
-				toaster('Deposit withdraw failed, please try again', 'is-danger');
-			}
-		} else {
-			toaster('Deposit already withdrawn', 'is-danger');
-		}
-		setWithdrawLoading(false);
-	}
+	// 			toaster('Deposit withdraw successfully', 'is-success');
+	// 		} catch (error) {
+	// 			console.log(error);
+	// 			toaster('Deposit withdraw failed, please try again', 'is-danger');
+	// 		}
+	// 	} else {
+	// 		toaster('Deposit already withdrawn', 'is-danger');
+	// 	}
+	// 	setWithdrawLoading(false);
+	// }
 
-	async function handleWithdrawAll() {
-		setClaimUnstakeLoading(true);
-		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
+	// async function handleWithdrawAll() {
+	// 	setClaimUnstakeLoading(true);
+	// 	const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
 
-		const activeDaiIds = depositsAndFundingData.map((ele, index) => {
-			if (ele.withdrawed == false) {
-				return ele.daiDepositId;
-			}
-		});
+	// 	const activeDaiIds = depositsAndFundingData.map((ele, index) => {
+	// 		if (ele.withdrawed == false) {
+	// 			return ele.daiDepositId;
+	// 		}
+	// 	});
 
-		const activeFundingIds = depositsAndFundingData.map((ele, index) => {
-			if (ele.withdrawed == false) {
-				return ele.fundingID;
-			}
-		});
+	// 	const activeFundingIds = depositsAndFundingData.map((ele, index) => {
+	// 		if (ele.withdrawed == false) {
+	// 			return ele.fundingID;
+	// 		}
+	// 	});
 
-		if (activeDaiIds.length) {
-			try {
-				const transaction = await poolContract.multiWithdraw(activeDaiIds, activeFundingIds);
-				await transaction.wait(1);
+	// 	if (activeDaiIds.length) {
+	// 		try {
+	// 			const transaction = await poolContract.multiWithdraw(activeDaiIds, activeFundingIds);
+	// 			await transaction.wait(1);
 
-				toaster('Claim and unstake successfully executed', 'is-success');
-			} catch (error) {
-				toaster('Claim and unstake failed, please try again', 'is-danger');
-			}
-		} else {
-			toaster('No deposits remaining to withdraw', 'is-danger');
-		}
+	// 			toaster('Claim and unstake successfully executed', 'is-success');
+	// 		} catch (error) {
+	// 			toaster('Claim and unstake failed, please try again', 'is-danger');
+	// 		}
+	// 	} else {
+	// 		toaster('No deposits remaining to withdraw', 'is-danger');
+	// 	}
 
-		setClaimUnstakeLoading(false);
-	}
+	// 	setClaimUnstakeLoading(false);
+	// }
 
 	return (
 		<div className="columns is-centered">
@@ -329,29 +364,28 @@ export default function MPH88() {
 										isMobile={isMobile}
 										label="Balance"
 										value={
-											rewardBalance !== undefined ? (
+											rewardTokenBalance !== undefined ? (
 												parseFloat(formatEther(rewardTokenBalance)).toFixed(isMobile ? 4 : 8) *
 												1
 											) : (
 												'0'
 											)
 										}
-										token={rewardText}
-										img={rewardTokenImage}
+										token="Debase"
+										img={debase}
 									/>
 									<TextInfo
 										isMobile={isMobile}
 										label="To Stake"
 										value={
 											tokenBalance !== undefined ? (
-												parseFloat(formatUnits(tokenBalance, unit)).toFixed(isMobile ? 4 : 8) *
-												1
+												parseFloat(formatUnits(tokenBalance, 18)).toFixed(isMobile ? 4 : 8) * 1
 											) : (
 												'0'
 											)
 										}
-										token={tokenText}
-										img={stakeTokenImage}
+										token="Debase/Dai Lp"
+										img={empty}
 									/>
 									<TextInfo
 										isMobile={isMobile}
@@ -363,8 +397,8 @@ export default function MPH88() {
 												'0'
 											)
 										}
-										token={tokenText}
-										img={stakeTokenImage}
+										token="Debase/Dai Lp"
+										img={empty}
 									/>
 									{depositIds !== undefined && depositIds.length ? (
 										<Fragment>
@@ -391,42 +425,54 @@ export default function MPH88() {
 								</tbody>
 							</table>
 						</div>
-						<div className="columns">
-							<div className="column">
-								<PoolInput
-									action={handleStake}
-									loading={stakingLoading}
-									buttonText="Stake Amount"
-									ref={stakeRef}
-									balance={tokenBalance}
-									placeholderText="Enter stake amount"
-									unit={unit}
-								/>
-							</div>
-							<div className="column">
-								<PoolInput
-									action={handleWithdraw}
-									loading={withdrawLoading}
-									buttonText="Withdraw Deposit"
-									ref={withdrawRef}
-									balance={stakeBalance}
-									placeholderText="Enter deposit Id"
-									unit={unit}
-								/>
-							</div>
-						</div>
-						<button
-							className={
-								claimUnstakeLoading ? (
-									'mt-2 button is-loading is-link is-fullwidth is-edged'
-								) : (
-									'mt-2 button is-link is-fullwidth is-edged'
-								)
-							}
-							onClick={handleWithdrawAll}
-						>
-							Withdraw All Deposit
-						</button>
+						{depositIds !== undefined && depositIds.length ? (
+							<Fragment>
+								<div className="columns">
+									<div className="column">
+										<PoolInput
+											action={handleStake}
+											loading={stakingLoading}
+											buttonText="Stake Amount"
+											ref={stakeRef}
+											balance={tokenBalance}
+											placeholderText="Enter stake amount"
+											unit={18}
+										/>
+									</div>
+									<div className="column">
+										<PoolInput
+											loading={withdrawLoading}
+											buttonText="Withdraw Deposit"
+											ref={withdrawRef}
+											balance={stakedBalance}
+											placeholderText="Enter deposit Id"
+											unit={18}
+										/>
+									</div>
+								</div>
+								<button
+									className={
+										claimUnstakeLoading ? (
+											'mt-2 button is-loading is-link is-fullwidth is-edged'
+										) : (
+											'mt-2 button is-link is-fullwidth is-edged'
+										)
+									}
+								>
+									Withdraw All Deposit
+								</button>
+							</Fragment>
+						) : (
+							<PoolInput
+								action={handleStake}
+								loading={stakingLoading}
+								buttonText="Stake Amount"
+								ref={stakeRef}
+								balance={tokenBalance}
+								placeholderText="Enter stake amount"
+								unit={18}
+							/>
+						)}
 					</Fragment>
 				)}
 			</div>

@@ -8,31 +8,10 @@ import TextInfo from './TextInfo.js';
 import { useMediaQuery } from 'react-responsive';
 import { request, gql } from 'graphql-request';
 
-export default function DepositInfo({
-	stakeTokenAddress,
-	rewardTokenAddress,
-	poolAddress,
-	tokenText,
-	rewardText,
-	rewardTokenImage,
-	depositID,
-	stakeTokenImage,
-	unit
-}) {
+export default function DepositInfo({ rewardTokenAddress, poolAddress, rewardText, rewardTokenImage, depositID }) {
 	const { account, library } = useWeb3React();
 
-	const { data: rewardTokenBalance, mutate: getRewardTokenBalance } = useSWR(
-		[ rewardTokenAddress, 'balanceOf', account ],
-		{
-			fetcher: fetcher(library, lpAbi)
-		}
-	);
-
 	const { data: tokenSupply, mutate: getTokenSupply } = useSWR([ rewardTokenAddress, 'totalSupply' ], {
-		fetcher: fetcher(library, lpAbi)
-	});
-
-	const { data: tokenBalance, mutate: getTokenBalance } = useSWR([ stakeTokenAddress, 'balanceOf', account ], {
 		fetcher: fetcher(library, lpAbi)
 	});
 
@@ -48,8 +27,6 @@ export default function DepositInfo({
 	useEffect(
 		() => {
 			library.on('block', () => {
-				getRewardTokenBalance(undefined, true);
-				getTokenBalance(undefined, true);
 				getRewardBalance(undefined, true);
 				getTokenSupply(undefined, true);
 			});
@@ -57,7 +34,7 @@ export default function DepositInfo({
 				library.removeAllListeners('block');
 			};
 		},
-		[ library, getRewardBalance, getTokenBalance, getRewardTokenBalance, getTokenSupply ]
+		[ library, getRewardBalance, getTokenSupply ]
 	);
 
 	const depositsQuery = gql`
@@ -103,7 +80,7 @@ export default function DepositInfo({
 			<TextInfo
 				isMobile={isMobile}
 				label="Deposit Lp Staked"
-				value={formatEther(depositsAndFundingData[selectedDepositIndex].amount)}
+				value={formatEther(depositsAndFundingData.amount)}
 				token={rewardText}
 				img={rewardTokenImage}
 			/>
@@ -111,7 +88,7 @@ export default function DepositInfo({
 			<TextInfo
 				isMobile={isMobile}
 				label="Dai Unlocked From Lp"
-				value={formatEther(depositsAndFundingData[selectedDepositIndex].daiAmount)}
+				value={formatEther(depositsAndFundingData.daiAmount)}
 				token={rewardText}
 				img={rewardTokenImage}
 			/>
@@ -119,16 +96,15 @@ export default function DepositInfo({
 			<TextInfo
 				isMobile={isMobile}
 				label="Debase Unlocked From Lp"
-				value={formatEther(depositsAndFundingData[selectedDepositIndex].debaseReward)}
+				value={formatEther(depositsAndFundingData.debaseReward)}
 				token={rewardText}
 				img={rewardTokenImage}
 			/>
 
 			<TextInfo
 				isMobile={isMobile}
-				rewardBalance
 				label="Deposit Maturation Time"
-				value={formatEther(depositsAndFundingData[selectedDepositIndex].maturationTimestamp)}
+				value={formatEther(depositsAndFundingData.maturationTimestamp)}
 				token={rewardText}
 				img={rewardTokenImage}
 			/>
@@ -136,7 +112,7 @@ export default function DepositInfo({
 			<TextInfo
 				isMobile={isMobile}
 				label="Mph88 Reward Earned"
-				value={formatEther(depositsAndFundingData[selectedDepositIndex].mphReward)}
+				value={formatEther(depositsAndFundingData.mphReward)}
 				token={rewardText}
 				img={rewardTokenImage}
 			/>
