@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function TextInfo({ isMobile, label, value, token, img, isDropDown }) {
+export default function TextInfo({ isMobile, label, value, token, img, isDropDown, setSelectedDepositIndex }) {
 	return (
 		<tr>
 			<th className="has-text-left">
@@ -10,9 +10,8 @@ export default function TextInfo({ isMobile, label, value, token, img, isDropDow
 				<td>
 					<div className="level-right">
 						<div className="select">
-							<select>
-								<option>Select dropdown</option>
-								<option>With options</option>
+							<select onChange={(event) => setSelectedDepositIndex(event.target.value)}>
+								{value.map((ele, index) => <option key={ele + index}>{index}</option>)}
 							</select>
 						</div>
 					</div>

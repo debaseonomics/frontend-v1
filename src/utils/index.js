@@ -153,7 +153,9 @@ export const contractAddress = {
 	stabilizerPool: '0x800479a76dc74c3a9FAAE25320A0EE4E8740996b',
 	randomNumber: '0x633ED04e5702625268948867B96e26443F316b7f',
 	degovEthPool: '0x4789519821ae0f49d95203b1a2ed805141bf0dae',
-	degovEthLp: '0xfc835d90ea6557b57b29361d95c4584d389e6ee8'
+	degovEthLp: '0xfc835d90ea6557b57b29361d95c4584d389e6ee8',
+	mph88Pool: '',
+	mph88: ''
 };
 
 export const uniAddress = {

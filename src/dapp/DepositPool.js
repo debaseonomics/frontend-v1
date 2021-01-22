@@ -1,32 +1,24 @@
-import React, { useState, useEffect, useRef, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { poolAbi, lpAbi, toaster, fetcher } from '../utils/index';
+import { poolAbi, lpAbi, toaster, fetcher, contractAddress } from '../utils/index';
 import useSWR from 'swr';
-import { useHistory } from 'react-router-dom';
 import { formatEther, formatUnits, parseEther, parseUnits } from 'ethers/lib/utils';
 import { Contract } from 'ethers';
 import TextInfo from '../components/TextInfo.js';
-import PoolInput from '../components/PoolInput';
 import { useMediaQuery } from 'react-responsive';
 import { request, gql } from 'graphql-request';
 
 export default function DepositPool({
-	poolName,
 	stakeTokenAddress,
 	rewardTokenAddress,
 	poolAddress,
 	tokenText,
 	rewardText,
 	rewardTokenImage,
+	depositID,
 	stakeTokenImage,
-	depositLength,
-	unit,
-	showName
+	unit
 }) {
-	let history = useHistory();
-	const stakeRef = useRef();
-	const withdrawRef = useRef();
-
 	const { account, library } = useWeb3React();
 
 	const { data: rewardTokenBalance, mutate: getRewardTokenBalance } = useSWR(
@@ -44,26 +36,14 @@ export default function DepositPool({
 		fetcher: fetcher(library, lpAbi)
 	});
 
-	const { data: rewardBalance, mutate: getRewardBalance } = useSWR([ poolAddress, 'earned', account ], {
-		fetcher: fetcher(library, poolAbi)
-	});
-
-	const { data: stakedBalance, mutate: getStakedBalance } = useSWR([ poolAddress, 'lpDeposits', account ], {
-		fetcher: fetcher(library, poolAbi)
-	});
-
-	const { data: depositIds, mutate: getDepositIds } = useSWR([ poolAddress, 'depositIds', account ], {
+	const { data: rewardBalance, mutate: getRewardBalance } = useSWR([ poolAddress, 'earned', depositID ], {
 		fetcher: fetcher(library, poolAbi)
 	});
 
 	const isMobile = useMediaQuery({ query: `(max-width: 482px)` });
 
-	const [ stakingLoading, setStakingLoading ] = useState(false);
 	const [ withdrawLoading, setWithdrawLoading ] = useState(false);
-	const [ claimLoading, setClaimLoading ] = useState(false);
-	const [ claimUnstakeLoading, setClaimUnstakeLoading ] = useState(false);
-	const [ selectedDepositID, setSelectedDepositID ] = useState(0);
-	const [ depositsAndFundingData, setDepositsAndFundingData ] = useState([]);
+	const [ depositsAndFundingData, setDepositsAndFundingData ] = useState('');
 
 	useEffect(
 		() => {
@@ -81,93 +61,66 @@ export default function DepositPool({
 	);
 
 	const depositsQuery = gql`
-		query getDeposit($id: ID!) {
-			deposit(id: $id) {
+		query getDeposit($nftID: Int!, $user: String!) {
+			deposit(nftID: $nftID, user: $user) {
+				active
 				fundingID
 			}
 		}
 	`;
 
 	async function findDepositID() {
-		if (depositLength != 0) {
-			const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
-			for (let index = 0; index < depositIds.length; index++) {
-				let depositInfo = await poolContract.deposits(index);
-				let fundingInfo = await request('https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph', {
-					id: depositInfo[6]
-				});
-				setDepositsAndFundingData((arr) => [
-					...arr,
-					{
-						depositInfo: [ ...depositInfo ],
-						fundingInfo: [ ...fundingInfo ]
-					}
-				]);
-			}
-		}
-	}
-
-	async function handleStake() {
-		setStakingLoading(true);
-		const tokenContract = new Contract(stakeTokenAddress, lpAbi, library.getSigner());
 		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
-		try {
-			const toStake = parseUnits(stakeRef.current.value, unit);
-			let allowance = await tokenContract.allowance(account, poolAddress);
-			let transaction;
-			if (allowance.lt(toStake)) {
-				transaction = await tokenContract.approve(poolAddress, toStake);
-				await transaction.wait(1);
-			}
-			transaction = await poolContract.deposit(toStake);
-			await transaction.wait(1);
-			await getStakedBalance();
+		let depositInfo = await poolContract.deposits(depositID);
 
-			toaster('Staking successfully executed', 'is-success');
-		} catch (error) {
-			toaster('Staking failed, please try again', 'is-danger');
-		}
-		setStakingLoading(false);
+		let fundingInfo = await request(
+			'https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph',
+			depositsQuery,
+			{
+				nftID: depositInfo[6],
+				user: contractAddress.mph88Pool
+			}
+		);
+
+		let depositData = {
+			owner: depositInfo[0],
+			amount: depositInfo[1],
+			daiAmount: depositInfo[2],
+			debaseReward: depositInfo[4],
+			daiDepositId: depositInfo[6],
+			mphReward: depositInfo[7],
+			maturationTimestamp: depositInfo[9],
+			withdrawed: depositInfo[10],
+			active: fundingInfo.deposit.active,
+			fundingID: fundingInfo.deposit.fundingID
+		};
+
+		setDepositsAndFundingData(depositData);
 	}
 
 	async function handleWithdraw() {
 		setWithdrawLoading(true);
 		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
-		try {
-			let transaction = await poolContract.withdraw(selectedDepositID);
-			await transaction.wait(1);
 
-			toaster('Withdraw successfully executed', 'is-success');
-		} catch (error) {
-			console.log(error);
-			toaster('Withdraw failed, please try again', 'is-danger');
+		const data = depositsAndFundingData[selectedDepositIndex];
+		if (data.withdrawed == false) {
+			try {
+				let transaction = await poolContract.withdraw(data.daiDepositId, data.fundingID);
+				await transaction.wait(1);
+
+				toaster('Deposit withdraw successfully', 'is-success');
+			} catch (error) {
+				console.log(error);
+				toaster('Deposit withdraw failed, please try again', 'is-danger');
+			}
+		} else {
+			toaster('Deposit already withdrawn', 'is-danger');
 		}
 		setWithdrawLoading(false);
 	}
 
-	async function handleWithdrawAll() {
-		setClaimUnstakeLoading(true);
-		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
-
-		try {
-			const transaction = await poolContract.multiWithdraw();
-			await transaction.wait(1);
-
-			toaster('Claim and unstake successfully executed', 'is-success');
-		} catch (error) {
-			toaster('Claim and unstake failed, please try again', 'is-danger');
-		}
-		setClaimUnstakeLoading(false);
-	}
-
-	const data = (
+	return (
 		<div className="boxs has-text-centered">
-			{showName ? (
-				<div>
-					<h2 className=" title is-size-4-tablet is-size-5-mobile is-family-secondary">{poolName}</h2>
-					<button className="delete is-pulled-right" onClick={() => history.goBack()} />
-				</div>
-			) : null}
 			<table className="table is-fullwidth">
 				<tbody>
 					<TextInfo
@@ -198,7 +151,7 @@ export default function DepositPool({
 					/>
 					<TextInfo
 						isMobile={isMobile}
-						label="Staked"
+						label="Total Lp Deposited"
 						value={
 							stakedBalance !== undefined ? (
 								parseFloat(formatEther(stakedBalance)).toFixed(isMobile ? 4 : 8) * 1
@@ -210,62 +163,74 @@ export default function DepositPool({
 						img={stakeTokenImage}
 					/>
 
-					{depositIds !== undefined && depositIds.length !== 0 ? (
-						<Fragment>
-							<TextInfo isMobile={isMobile} label="Deposit Id" value={1} isDropDown={true} />
+					<TextInfo
+						isMobile={isMobile}
+						label="Deposit Id"
+						value={depositIds}
+						isDropDown={true}
+						setSelectedDepositIndex={setSelectedDepositIndex}
+					/>
 
-							<TextInfo
-								isMobile={isMobile}
-								label="Claimable"
-								value={
-									rewardBalance !== undefined && tokenSupply !== undefined ? (
-										parseFloat(
-											formatEther(rewardBalance.mul(tokenSupply).div(parseEther('1')))
-										).toFixed(isMobile ? 4 : 8) * 1
-									) : (
-										'0'
-									)
-								}
-								token={rewardText}
-								img={rewardTokenImage}
-							/>
-						</Fragment>
-					) : null}
+					<TextInfo
+						isMobile={isMobile}
+						label="Deposit Lp Staked"
+						value={formatEther(depositsAndFundingData[selectedDepositIndex].amount)}
+						token={rewardText}
+						img={rewardTokenImage}
+					/>
+
+					<TextInfo
+						isMobile={isMobile}
+						label="Dai Unlocked From Lp"
+						value={formatEther(depositsAndFundingData[selectedDepositIndex].daiAmount)}
+						token={rewardText}
+						img={rewardTokenImage}
+					/>
+
+					<TextInfo
+						isMobile={isMobile}
+						label="Debase Unlocked From Lp"
+						value={formatEther(depositsAndFundingData[selectedDepositIndex].debaseReward)}
+						token={rewardText}
+						img={rewardTokenImage}
+					/>
+
+					<TextInfo
+						isMobile={isMobile}
+						rewardBalance
+						label="Deposit Maturation Time"
+						value={formatEther(depositsAndFundingData[selectedDepositIndex].maturationTimestamp)}
+						token={rewardText}
+						img={rewardTokenImage}
+					/>
+
+					<TextInfo
+						isMobile={isMobile}
+						label="Mph88 Reward Earned"
+						value={formatEther(depositsAndFundingData[selectedDepositIndex].mphReward)}
+						token={rewardText}
+						img={rewardTokenImage}
+					/>
+
+					<TextInfo
+						isMobile={isMobile}
+						label="Debase Accured"
+						value={
+							rewardBalance !== undefined && tokenSupply !== undefined ? (
+								parseFloat(formatEther(rewardBalance.mul(tokenSupply).div(parseEther('1')))).toFixed(
+									isMobile ? 4 : 8
+								) * 1
+							) : (
+								'0'
+							)
+						}
+						token={rewardText}
+						img={rewardTokenImage}
+					/>
 				</tbody>
 			</table>
 			<div className="columns">
 				<div className="column">
-					<PoolInput
-						action={handleStake}
-						loading={stakingLoading}
-						buttonText="Stake Amount"
-						ref={stakeRef}
-						balance={tokenBalance}
-						placeholderText="Stake Amount"
-						unit={unit}
-					/>
-					<button
-						className={
-							claimLoading ? (
-								'mt-2 button is-loading is-link is-fullwidth is-edged'
-							) : (
-								'mt-2 button is-link is-fullwidth is-edged'
-							)
-						}
-					>
-						Claim Reward
-					</button>
-				</div>
-				<div className="column">
-					<PoolInput
-						action={handleWithdraw}
-						loading={withdrawLoading}
-						buttonText="Withdraw Deposit"
-						ref={withdrawRef}
-						balance={0}
-						placeholderText="Withdraw Deposit"
-						unit={unit}
-					/>
 					<button
 						className={
 							claimUnstakeLoading ? (
@@ -276,20 +241,10 @@ export default function DepositPool({
 						}
 						onClick={handleWithdrawAll}
 					>
-						Withdraw All Deposits
+						Withdraw Deposit
 					</button>
 				</div>
 			</div>
 		</div>
 	);
-
-	if (showName) {
-		return (
-			<div className="columns is-centered">
-				<div className="column is-6">{data}</div>
-			</div>
-		);
-	} else {
-		return data;
-	}
 }

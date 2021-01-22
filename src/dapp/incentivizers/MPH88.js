@@ -12,6 +12,7 @@ export default function MPH88() {
 	let history = useHistory();
 	const { library } = useWeb3React();
 	const [ hideStake, setHideStake ] = useState(true);
+	const [ ClaimUnstakeLoading, setClaimUnstakeLoading ] = useState(initialState);
 
 	const { data: lockPeriod } = useSWR([ contractAddress.mph88Pool, 'lockPeriod' ], {
 		fetcher: fetcher(library, mph88Abi)
@@ -72,8 +73,17 @@ export default function MPH88() {
 	const { data: blockDuration } = useSWR([ contractAddress.mph88Pool, 'blockDuration' ], {
 		fetcher: fetcher(library, mph88Abi)
 	});
+
 	const { data: poolEnabled } = useSWR([ contractAddress.mph88Pool, 'poolEnabled' ], {
 		fetcher: fetcher(library, mph88Abi)
+	});
+
+	const { data: depositIds } = useSWR([ contractAddress.mph88Pool, 'depositIds', account ], {
+		fetcher: fetcher(library, mph88Abi)
+	});
+
+	const { data: stakedBalance, mutate: getStakedBalance } = useSWR([ poolAddress, 'lpDeposits', account ], {
+		fetcher: fetcher(library, poolAbi)
 	});
 
 	const { data: balance } = useSWR([ contractAddress.debase, 'balanceOf', contractAddress.mph88Pool ], {
@@ -138,14 +148,6 @@ export default function MPH88() {
 			value: maxDepositLimit ? formatEther(maxDepositLimit) + ' LP' : '...',
 			toolTip: 'LP limit per wallet'
 		},
-		// {
-		// 	label: 'Total Pool Limit',
-		// 	value:
-		// 		poolLpLimit && totalLpLimit
-		// 			? parseFloat(formatEther(totalSupply)).toFixed(2) + ' / ' + formatEther(totalLpLimit) + ' LP'
-		// 			: '...',
-		// 	toolTip: 'Total LP limit per pool'
-		// },
 		{
 			label: 'Current Pool Reward',
 			value: balance ? parseFloat(formatEther(balance)) : '...',
@@ -153,7 +155,37 @@ export default function MPH88() {
 		}
 	];
 
-	function getDepositId() {}
+	async function handleWithdrawAll() {
+		setClaimUnstakeLoading(true);
+		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
+
+		const activeDaiIds = depositsAndFundingData.map((ele, index) => {
+			if (ele.withdrawed == false) {
+				return ele.daiDepositId;
+			}
+		});
+
+		const activeFundingIds = depositsAndFundingData.map((ele, index) => {
+			if (ele.withdrawed == false) {
+				return ele.fundingID;
+			}
+		});
+
+		if (activeDaiIds.length) {
+			try {
+				const transaction = await poolContract.multiWithdraw(activeDaiIds, activeFundingIds);
+				await transaction.wait(1);
+
+				toaster('Claim and unstake successfully executed', 'is-success');
+			} catch (error) {
+				toaster('Claim and unstake failed, please try again', 'is-danger');
+			}
+		} else {
+			toaster('No deposits remaining to withdraw', 'is-danger');
+		}
+
+		setClaimUnstakeLoading(false);
+	}
 
 	return (
 		<div className="columns is-centered">
@@ -262,3 +294,38 @@ export default function MPH88() {
 		</div>
 	);
 }
+
+/* <div className="column">
+					<PoolInput
+						action={handleStake}
+						loading={stakingLoading}
+						buttonText="Stake Amount"
+						ref={stakeRef}
+						balance={tokenBalance}
+						placeholderText="Stake Amount"
+						unit={unit}
+					/>
+				</div> */
+
+// async function handleStake() {
+// 	setStakingLoading(true);
+// 	const tokenContract = new Contract(stakeTokenAddress, lpAbi, library.getSigner());
+// 	const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
+// 	try {
+// 		const toStake = parseUnits(stakeRef.current.value, unit);
+// 		let allowance = await tokenContract.allowance(account, poolAddress);
+// 		let transaction;
+// 		if (allowance.lt(toStake)) {
+// 			transaction = await tokenContract.approve(poolAddress, toStake);
+// 			await transaction.wait(1);
+// 		}
+// 		transaction = await poolContract.deposit(toStake);
+// 		await transaction.wait(1);
+// 		await getStakedBalance();
+
+// 		toaster('Staking successfully executed', 'is-success');
+// 	} catch (error) {
+// 		toaster('Staking failed, please try again', 'is-danger');
+// 	}
+// 	setStakingLoading(false);
+// }
