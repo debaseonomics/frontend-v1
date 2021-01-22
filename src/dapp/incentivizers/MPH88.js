@@ -1,5 +1,5 @@
-import React, { Fragment, useState } from 'react';
-import DepositPool from '../DepositPool';
+import React, { Fragment, useState, useRef } from 'react';
+import DepositPool from '../../components/DepositInfo';
 import debase from '../../assets/debase.png';
 import empty from '../../assets/empty.png';
 import { useHistory } from 'react-router-dom';
@@ -12,7 +12,10 @@ export default function MPH88() {
 	let history = useHistory();
 	const { library } = useWeb3React();
 	const [ hideStake, setHideStake ] = useState(true);
-	const [ ClaimUnstakeLoading, setClaimUnstakeLoading ] = useState(initialState);
+	const [ selectedDepositIndex, setSelectedDepositIndex ] = useState(0);
+
+	const stakeRef = useRef();
+	const withdrawRef = useRef();
 
 	const { data: lockPeriod } = useSWR([ contractAddress.mph88Pool, 'lockPeriod' ], {
 		fetcher: fetcher(library, mph88Abi)
@@ -155,6 +158,50 @@ export default function MPH88() {
 		}
 	];
 
+	async function handleStake() {
+		setStakingLoading(true);
+		const tokenContract = new Contract(stakeTokenAddress, lpAbi, library.getSigner());
+		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
+		try {
+			const toStake = parseUnits(stakeRef.current.value, unit);
+			let allowance = await tokenContract.allowance(account, poolAddress);
+			let transaction;
+			if (allowance.lt(toStake)) {
+				transaction = await tokenContract.approve(poolAddress, toStake);
+				await transaction.wait(1);
+			}
+			transaction = await poolContract.deposit(toStake);
+			await transaction.wait(1);
+			await getStakedBalance();
+
+			toaster('Staking successfully executed', 'is-success');
+		} catch (error) {
+			toaster('Staking failed, please try again', 'is-danger');
+		}
+		setStakingLoading(false);
+	}
+
+	async function handleWithdraw() {
+		setWithdrawLoading(true);
+		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
+
+		const data = depositsAndFundingData[selectedDepositIndex];
+		if (data.withdrawed == false) {
+			try {
+				let transaction = await poolContract.withdraw(data.daiDepositId, data.fundingID);
+				await transaction.wait(1);
+
+				toaster('Deposit withdraw successfully', 'is-success');
+			} catch (error) {
+				console.log(error);
+				toaster('Deposit withdraw failed, please try again', 'is-danger');
+			}
+		} else {
+			toaster('Deposit already withdrawn', 'is-danger');
+		}
+		setWithdrawLoading(false);
+	}
+
 	async function handleWithdrawAll() {
 		setClaimUnstakeLoading(true);
 		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
@@ -275,57 +322,114 @@ export default function MPH88() {
 					</button>
 				) : (
 					<Fragment>
-						<div className="divider">Staking</div>
-						<DepositPool
-							showName={false}
-							tokenText="Debase/Dai-Lp"
-							rewardText="Debase"
-							poolName="MPH88 Debase/Dai-Lp"
-							unit={18}
-							rewardTokenImage={debase}
-							stakeTokenImage={empty}
-							tokenAddress={contractAddress.debaseDaiLp}
-							rewardTokenAddress={contractAddress.debase}
-							poolAddress={contractAddress.degovEthPool}
-						/>
+						<div className="boxs has-text-centered">
+							<table className="table is-fullwidth">
+								<tbody>
+									<TextInfo
+										isMobile={isMobile}
+										label="Balance"
+										value={
+											rewardBalance !== undefined ? (
+												parseFloat(formatEther(rewardTokenBalance)).toFixed(isMobile ? 4 : 8) *
+												1
+											) : (
+												'0'
+											)
+										}
+										token={rewardText}
+										img={rewardTokenImage}
+									/>
+									<TextInfo
+										isMobile={isMobile}
+										label="To Stake"
+										value={
+											tokenBalance !== undefined ? (
+												parseFloat(formatUnits(tokenBalance, unit)).toFixed(isMobile ? 4 : 8) *
+												1
+											) : (
+												'0'
+											)
+										}
+										token={tokenText}
+										img={stakeTokenImage}
+									/>
+									<TextInfo
+										isMobile={isMobile}
+										label="Total Lp Deposited"
+										value={
+											stakedBalance !== undefined ? (
+												parseFloat(formatEther(stakedBalance)).toFixed(isMobile ? 4 : 8) * 1
+											) : (
+												'0'
+											)
+										}
+										token={tokenText}
+										img={stakeTokenImage}
+									/>
+									{depositIds !== undefined && depositIds.length ? (
+										<Fragment>
+											<TextInfo
+												isMobile={isMobile}
+												label="Deposit Id"
+												value={depositIds}
+												isDropDown={true}
+												setSelectedDepositIndex={setSelectedDepositIndex}
+											/>
+											<DepositPool
+												tokenText="Debase/Dai-Lp"
+												rewardText="Debase"
+												unit={18}
+												depositID={depositIds[selectedDepositIndex]}
+												rewardTokenImage={debase}
+												stakeTokenImage={empty}
+												tokenAddress={contractAddress.debaseDaiLp}
+												rewardTokenAddress={contractAddress.debase}
+												poolAddress={contractAddress.degovEthPool}
+											/>
+										</Fragment>
+									) : null}
+								</tbody>
+							</table>
+						</div>
+						<div className="columns">
+							<div className="column">
+								<PoolInput
+									action={handleStake}
+									loading={stakingLoading}
+									buttonText="Stake Amount"
+									ref={stakeRef}
+									balance={tokenBalance}
+									placeholderText="Enter stake amount"
+									unit={unit}
+								/>
+							</div>
+							<div className="column">
+								<PoolInput
+									action={handleWithdraw}
+									loading={withdrawLoading}
+									buttonText="Withdraw Deposit"
+									ref={withdrawRef}
+									balance={stakeBalance}
+									placeholderText="Enter deposit Id"
+									unit={unit}
+								/>
+							</div>
+						</div>
+						<button
+							className={
+								claimUnstakeLoading ? (
+									'mt-2 button is-loading is-link is-fullwidth is-edged'
+								) : (
+									'mt-2 button is-link is-fullwidth is-edged'
+								)
+							}
+							onClick={handleWithdrawAll}
+						>
+							Withdraw All Deposit
+						</button>
 					</Fragment>
 				)}
 			</div>
 		</div>
 	);
 }
-
-/* <div className="column">
-					<PoolInput
-						action={handleStake}
-						loading={stakingLoading}
-						buttonText="Stake Amount"
-						ref={stakeRef}
-						balance={tokenBalance}
-						placeholderText="Stake Amount"
-						unit={unit}
-					/>
-				</div> */
-
-// async function handleStake() {
-// 	setStakingLoading(true);
-// 	const tokenContract = new Contract(stakeTokenAddress, lpAbi, library.getSigner());
-// 	const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
-// 	try {
-// 		const toStake = parseUnits(stakeRef.current.value, unit);
-// 		let allowance = await tokenContract.allowance(account, poolAddress);
-// 		let transaction;
-// 		if (allowance.lt(toStake)) {
-// 			transaction = await tokenContract.approve(poolAddress, toStake);
-// 			await transaction.wait(1);
-// 		}
-// 		transaction = await poolContract.deposit(toStake);
-// 		await transaction.wait(1);
-// 		await getStakedBalance();
-
-// 		toaster('Staking successfully executed', 'is-success');
-// 	} catch (error) {
-// 		toaster('Staking failed, please try again', 'is-danger');
-// 	}
-// 	setStakingLoading(false);
-// }
