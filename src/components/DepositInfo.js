@@ -1,8 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { poolAbi, lpAbi, toaster, fetcher, contractAddress } from '../utils/index';
+import { poolAbi, lpAbi, fetcher, contractAddress } from '../utils/index';
 import useSWR from 'swr';
-import { formatEther, formatUnits, parseEther, parseUnits } from 'ethers/lib/utils';
+import { formatEther, parseEther } from 'ethers/lib/utils';
 import { Contract } from 'ethers';
 import TextInfo from './TextInfo.js';
 import { useMediaQuery } from 'react-responsive';
@@ -11,30 +11,29 @@ import { request, gql } from 'graphql-request';
 export default function DepositInfo({ rewardTokenAddress, poolAddress, rewardText, rewardTokenImage, depositID }) {
 	const { account, library } = useWeb3React();
 
-	const { data: tokenSupply, mutate: getTokenSupply } = useSWR([ rewardTokenAddress, 'totalSupply' ], {
+	const { data: debaseSupply, mutate: getDebaseSupply } = useSWR([ rewardTokenAddress, 'totalSupply' ], {
 		fetcher: fetcher(library, lpAbi)
 	});
 
-	const { data: rewardBalance, mutate: getRewardBalance } = useSWR([ poolAddress, 'earned', depositID ], {
+	const { data: debaseAccrued, mutate: getDebaseAccrued } = useSWR([ poolAddress, 'earned', depositID ], {
 		fetcher: fetcher(library, poolAbi)
 	});
 
 	const isMobile = useMediaQuery({ query: `(max-width: 482px)` });
 
-	const [ withdrawLoading, setWithdrawLoading ] = useState(false);
 	const [ depositsAndFundingData, setDepositsAndFundingData ] = useState('');
 
 	useEffect(
 		() => {
 			library.on('block', () => {
-				getRewardBalance(undefined, true);
-				getTokenSupply(undefined, true);
+				getDebaseSupply(undefined, true);
+				getDebaseAccrued(undefined, true);
 			});
 			return () => {
 				library.removeAllListeners('block');
 			};
 		},
-		[ library, getRewardBalance, getTokenSupply ]
+		[ library, getDebaseSupply, getDebaseAccrued ]
 	);
 
 	const depositsQuery = gql`
@@ -121,8 +120,8 @@ export default function DepositInfo({ rewardTokenAddress, poolAddress, rewardTex
 				isMobile={isMobile}
 				label="Debase Accrued"
 				value={
-					rewardBalance !== undefined && tokenSupply !== undefined ? (
-						parseFloat(formatEther(rewardBalance.mul(tokenSupply).div(parseEther('1')))).toFixed(
+					debaseAccrued !== undefined && debaseSupply !== undefined ? (
+						parseFloat(formatEther(debaseAccrued.mul(tokenSupply).div(parseEther('1')))).toFixed(
 							isMobile ? 4 : 8
 						) * 1
 					) : (

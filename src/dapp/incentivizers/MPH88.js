@@ -97,20 +97,6 @@ export default function MPH88() {
 		fetcher: fetcher(library, mph88Abi)
 	});
 
-	const { data: rewardTokenBalance, mutate: getRewardTokenBalance } = useSWR(
-		[ contractAddress.debase, 'balanceOf', account ],
-		{
-			fetcher: fetcher(library, lpAbi)
-		}
-	);
-
-	const { data: tokenBalance, mutate: getTokenBalance } = useSWR(
-		[ contractAddress.debaseDaiLp, 'balanceOf', account ],
-		{
-			fetcher: fetcher(library, lpAbi)
-		}
-	);
-
 	const { data: depositIds } = useSWR([ contractAddress.mph88Pool, 'depositIds', account ], {
 		fetcher: fetcher(library, mph88Abi)
 	});
@@ -122,7 +108,11 @@ export default function MPH88() {
 		}
 	);
 
-	const { data: balance } = useSWR([ contractAddress.debase, 'balanceOf', contractAddress.mph88Pool ], {
+	const { data: debaseBalance, mutate: getDebaseBalance } = useSWR([ contractAddress.debase, 'balanceOf', account ], {
+		fetcher: fetcher(library, lpAbi)
+	});
+
+	const { data: lpBalance, mutate: getLpBalance } = useSWR([ contractAddress.debaseDaiLp, 'balanceOf', account ], {
 		fetcher: fetcher(library, lpAbi)
 	});
 
@@ -185,11 +175,6 @@ export default function MPH88() {
 			label: 'User Lp Limit',
 			value: maxDepositLimit ? formatEther(maxDepositLimit) + ' LP' : '...',
 			toolTip: 'LP limit per wallet'
-		},
-		{
-			label: 'Current Pool Reward',
-			value: balance ? parseFloat(formatEther(balance)) : '...',
-			toolTip: 'Current pool rewards available'
 		}
 	];
 
@@ -364,9 +349,8 @@ export default function MPH88() {
 										isMobile={isMobile}
 										label="Balance"
 										value={
-											rewardTokenBalance !== undefined ? (
-												parseFloat(formatEther(rewardTokenBalance)).toFixed(isMobile ? 4 : 8) *
-												1
+											debaseBalance !== undefined ? (
+												parseFloat(formatEther(debaseBalance)).toFixed(isMobile ? 4 : 8) * 1
 											) : (
 												'0'
 											)
@@ -378,8 +362,8 @@ export default function MPH88() {
 										isMobile={isMobile}
 										label="To Stake"
 										value={
-											tokenBalance !== undefined ? (
-												parseFloat(formatUnits(tokenBalance, 18)).toFixed(isMobile ? 4 : 8) * 1
+											lpBalance !== undefined ? (
+												parseFloat(formatEther(lpBalance)).toFixed(isMobile ? 4 : 8) * 1
 											) : (
 												'0'
 											)
@@ -434,7 +418,7 @@ export default function MPH88() {
 											loading={stakingLoading}
 											buttonText="Stake Amount"
 											ref={stakeRef}
-											balance={tokenBalance}
+											balance={lpBalance}
 											placeholderText="Enter stake amount"
 											unit={18}
 										/>
@@ -444,7 +428,8 @@ export default function MPH88() {
 											loading={withdrawLoading}
 											buttonText="Withdraw Deposit"
 											ref={withdrawRef}
-											balance={stakedBalance}
+											noMax={true}
+											setSelectedDepositIndex={setSelectedDepositIndex}
 											placeholderText="Enter deposit Id"
 											unit={18}
 										/>
