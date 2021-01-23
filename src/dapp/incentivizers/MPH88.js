@@ -20,6 +20,7 @@ import { useMediaQuery } from 'react-responsive';
 import { formatEther, formatUnits, parseUnits } from 'ethers/lib/utils';
 import PoolInput from '../../components/PoolInput';
 import TextInfo from '../../components/TextInfo';
+import { request, gql } from 'graphql-request';
 
 export default function MPH88() {
 	let history = useHistory();
@@ -108,13 +109,51 @@ export default function MPH88() {
 		}
 	);
 
-	const { data: debaseBalance, mutate: getDebaseBalance } = useSWR([ contractAddress.debase, 'balanceOf', account ], {
+	const { data: debaseBalance } = useSWR([ contractAddress.debase, 'balanceOf', account ], {
 		fetcher: fetcher(library, lpAbi)
 	});
 
-	const { data: lpBalance, mutate: getLpBalance } = useSWR([ contractAddress.debaseDaiLp, 'balanceOf', account ], {
+	const { data: lpBalance } = useSWR([ contractAddress.debaseDaiLp, 'balanceOf', account ], {
 		fetcher: fetcher(library, lpAbi)
 	});
+
+	const depositsQuery = gql`
+		query getDeposit($nftID: Int!, $user: String!) {
+			deposit(nftID: $nftID, user: $user) {
+				active
+				fundingID
+			}
+		}
+	`;
+
+	async function findDepositID() {
+		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
+		let depositInfo = await poolContract.deposits(depositID);
+
+		let fundingInfo = await request(
+			'https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph',
+			depositsQuery,
+			{
+				nftID: depositInfo[6],
+				user: contractAddress.mph88Pool
+			}
+		);
+
+		let depositData = {
+			owner: depositInfo[0],
+			amount: depositInfo[1],
+			daiAmount: depositInfo[2],
+			debaseReward: depositInfo[4],
+			daiDepositId: depositInfo[6],
+			mphReward: depositInfo[7],
+			maturationTimestamp: depositInfo[9],
+			withdrawed: depositInfo[10],
+			active: fundingInfo.deposit.active,
+			fundingID: fundingInfo.deposit.fundingID
+		};
+
+		setDepositsAndFundingData(depositData);
+	}
 
 	const isMobile = useMediaQuery({ query: `(max-width: 482px)` });
 
@@ -201,26 +240,26 @@ export default function MPH88() {
 		setStakingLoading(false);
 	}
 
-	// async function handleWithdraw() {
-	// 	setWithdrawLoading(true);
-	// 	const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
+	async function handleWithdraw() {
+		setWithdrawLoading(true);
+		const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
 
-	// 	const data = depositsAndFundingData[selectedDepositIndex];
-	// 	if (data.withdrawed == false) {
-	// 		try {
-	// 			let transaction = await poolContract.withdraw(data.daiDepositId, data.fundingID);
-	// 			await transaction.wait(1);
+		const data = depositsAndFundingData[selectedDepositIndex];
+		if (data.withdrawed == false) {
+			try {
+				let transaction = await poolContract.withdraw(data.daiDepositId, data.fundingID);
+				await transaction.wait(1);
 
-	// 			toaster('Deposit withdraw successfully', 'is-success');
-	// 		} catch (error) {
-	// 			console.log(error);
-	// 			toaster('Deposit withdraw failed, please try again', 'is-danger');
-	// 		}
-	// 	} else {
-	// 		toaster('Deposit already withdrawn', 'is-danger');
-	// 	}
-	// 	setWithdrawLoading(false);
-	// }
+				toaster('Deposit withdraw successfully', 'is-success');
+			} catch (error) {
+				console.log(error);
+				toaster('Deposit withdraw failed, please try again', 'is-danger');
+			}
+		} else {
+			toaster('Deposit already withdrawn', 'is-danger');
+		}
+		setWithdrawLoading(false);
+	}
 
 	// async function handleWithdrawAll() {
 	// 	setClaimUnstakeLoading(true);
