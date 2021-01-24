@@ -13,7 +13,9 @@ export default function DepositInfo({
 	rewardText,
 	rewardTokenImage,
 	depositID,
-	isMobile
+	isMobile,
+	dai,
+	mph88
 }) {
 	const { library } = useWeb3React();
 
@@ -94,7 +96,7 @@ export default function DepositInfo({
 				label="Dai Unlocked From Lp"
 				value={formatEther(depositsAndFundingData.daiAmount)}
 				token={rewardText}
-				img={rewardTokenImage}
+				img={dai}
 			/>
 
 			<TextInfo
@@ -118,7 +120,7 @@ export default function DepositInfo({
 				label="Mph88 Reward Earned"
 				value={formatEther(depositsAndFundingData.mphReward)}
 				token={rewardText}
-				img={rewardTokenImage}
+				img={mph88}
 			/>
 
 			<TextInfo

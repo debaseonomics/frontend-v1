@@ -2,6 +2,8 @@ import React, { Fragment, useState, useRef } from 'react';
 import DepositPool from '../../components/DepositInfo';
 import debase from '../../assets/debase.png';
 import empty from '../../assets/empty.png';
+import dai from '../../assets/dai.png';
+import mph88 from '../../assets/88mph.png';
 import { Contract } from 'ethers';
 import { useHistory } from 'react-router-dom';
 import {
@@ -455,6 +457,8 @@ export default function MPH88() {
 												tokenAddress={contractAddress.debaseDaiLp}
 												rewardTokenAddress={contractAddress.debase}
 												poolAddress={contractAddress.degovEthPool}
+												dai={dai}
+												mph88={mph88}
 											/>
 										</Fragment>
 									) : null}
