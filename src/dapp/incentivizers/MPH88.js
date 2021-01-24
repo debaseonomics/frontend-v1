@@ -303,7 +303,10 @@ export default function MPH88() {
 		},
 		{
 			label: 'Total Pool Limit',
-			value: '25k LP/25K LP',
+			value:
+				totalLpLimit && totalLpLocked
+					? parseFloat(formatEther(totalLpLocked)).toFixed(2) + ' / ' + formatEther(totalLpLimit) + ' LP'
+					: '...',
 			toolTip: 'Total LP limit per pool'
 		},
 		{
