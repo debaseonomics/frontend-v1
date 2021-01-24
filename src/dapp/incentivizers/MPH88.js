@@ -339,6 +339,7 @@ export default function MPH88() {
 								out at the end of 30 days.<br />
 								<br /> 2. You get your principle back not in LP, but in Dai + Debase in your LP at time
 								of deposit.
+								<br /> 3. There should be a mininum of 100 DAI in your LP to be able to stake.
 							</h5>
 							<span className="mb-0 subtitle is-size-5-tablet is-size-6-mobile">
 								<a
