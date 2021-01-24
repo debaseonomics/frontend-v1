@@ -11,18 +11,24 @@ export default function Incentivizers() {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
+	const { data: mph88PoolStatus } = useSWR([ contractAddress.debasePolicy, 'stabilizerPools', 3 ], {
+		fetcher: fetcher(library, debasePolicyAbi)
+	});
+
 	const data = [
 		{
 			name: 'Degov Eth',
 			description:
 				'Incentivizes DEGOV/ETH LP with continous DEBASE rewards, calculated in percentage of total supply of Debase for robustness',
-			link: 'degov-eth'
+			link: 'degov-eth',
+			status: degovEthPoolStatus
 		},
 		{
 			name: 'MPH88',
 			description:
 				'Incentivizes DEGOV/ETH LP with continous DEBASE rewards, calculated in percentage of total supply of Debase for robustness',
-			link: 'mph88-debase-dai'
+			link: 'mph88-debase-dai',
+			status: mph88PoolStatus
 		}
 	];
 
@@ -38,8 +44,7 @@ export default function Incentivizers() {
 							<p>{ele.description}</p>
 						</div>
 						<h5 className="title is-5 has-text-centered">
-							Status:{' '}
-							{degovEthPoolStatus !== undefined ? degovEthPoolStatus[0] ? 'Enabled' : 'Disabled' : '...'}
+							Status: {ele.status !== undefined ? ele.status[0] ? 'Enabled' : 'Disabled' : '...'}
 						</h5>
 						<div className="block">
 							<Link to={'/dapp/incentivizers/' + ele.link}>

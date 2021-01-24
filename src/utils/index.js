@@ -122,12 +122,10 @@ export const mph88Abi = [
 	'function mphFee() view returns (uint256)',
 	'function periodFinish() view returns (uint256)',
 	'function debaseRewardDistributed() view returns (uint256)',
-	'function blockDuration() view returns (uint256)',
 	'function poolEnabled() view returns (bool)',
 	'function allowEmergencyWithdraw() view returns (bool)',
 	'function maxDepositLimit() view returns (uint256)',
 	'function totalLpLimit() view returns (uint256)',
-	'function lockPeriod() view returns (uint256)',
 	'function totalLpLimitEnabled() view returns (bool)',
 	'function maxDepositLimitEnabled() view returns (bool)',
 	'function totalLpLocked() view returns (uint256)'
@@ -154,8 +152,8 @@ export const contractAddress = {
 	randomNumber: '0x633ED04e5702625268948867B96e26443F316b7f',
 	degovEthPool: '0x4789519821ae0f49d95203b1a2ed805141bf0dae',
 	degovEthLp: '0xfc835d90ea6557b57b29361d95c4584d389e6ee8',
-	mph88Pool: '',
-	mph88: ''
+	mph88Pool: '0x36f1F4125B4066cA4b768F9F5f9a737Bd4FA8f62',
+	mph88: '0x8888801aF4d980682e47f1A9036e589479e835C5'
 };
 
 export const uniAddress = {

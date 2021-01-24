@@ -17,7 +17,7 @@ import {
 import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
 import { useMediaQuery } from 'react-responsive';
-import { formatEther, parseUnits } from 'ethers/lib/utils';
+import { formatEther, formatUnits, parseUnits } from 'ethers/lib/utils';
 import PoolInput from '../../components/PoolInput';
 import TextInfo from '../../components/TextInfo';
 import { request, gql } from 'graphql-request';
@@ -233,32 +233,32 @@ export default function MPH88() {
 		},
 		{
 			label: 'Deposit Length',
-			value: depositLength ? depositLength + ' Blocks' : '...',
+			value: lockPeriod ? lockPeriod + ' Blocks (30 Days)' : '...',
 			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
 		},
 		{
 			label: 'Dai Fee',
-			value: daiFee ? formatEther(daiFee) + ' Blocks' : '...',
+			value: daiFee ? formatUnits(daiFee, 1) + ' %' : '...',
 			toolTip: 'Period within which pool reward is distributed'
 		},
 		{
 			label: 'Mph Fee',
-			value: mphFee ? formatEther(mphFee) + ' Blocks' : '...',
+			value: mphFee ? formatUnits(mphFee, 1) + ' %' : '...',
 			toolTip: 'Period within which pool reward is distributed'
 		},
 		{
-			label: 'Period Finish',
-			value: periodFinish ? formatEther(periodFinish) + ' Blocks' : '...',
+			label: 'Reward Duration',
+			value: blockDuration ? blockDuration + ' Blocks' : '...',
 			toolTip: 'Period within which pool reward is distributed'
 		},
 		{
 			label: 'Debase Reward Distributed',
-			value: debaseRewardDistributed ? formatEther(debaseRewardDistributed) + ' Blocks' : '...',
+			value: debaseRewardDistributed ? formatEther(debaseRewardDistributed) : '...',
 			toolTip: 'Period within which pool reward is distributed'
 		},
 		{
 			label: 'Allow Emergency Withdraw',
-			value: allowEmergencyWithdraw ? formatEther(allowEmergencyWithdraw) + ' Blocks' : '...',
+			value: allowEmergencyWithdraw !== undefined ? (allowEmergencyWithdraw ? 'True' : 'False') : '...',
 			toolTip: 'Period within which pool reward is distributed'
 		},
 		{
@@ -280,6 +280,19 @@ export default function MPH88() {
 			label: 'User Lp Limit',
 			value: maxDepositLimit ? formatEther(maxDepositLimit) + ' LP' : '...',
 			toolTip: 'LP limit per wallet'
+		},
+		{
+			label: 'Total Pool Limit',
+			value:
+				totalLpLimit && totalLpLocked
+					? parseFloat(formatEther(totalLpLocked)).toFixed(2) + ' / ' + formatEther(totalLpLimit) + ' LP'
+					: '...',
+			toolTip: 'Total LP limit per pool'
+		},
+		{
+			label: 'APY',
+			value: '440%',
+			toolTip: 'POOL APY'
 		}
 	];
 
@@ -298,7 +311,14 @@ export default function MPH88() {
 					<div className="contractinfo">
 						<div className="desc">
 							<h5 className="pt-2 pl-1 pr-1 subtitle is-size-5-tablet is-size-6-mobile">
-								Incentivizes Debase DAI LP by giving debase,dai and MPH88 as reward
+								This contract is audited, but DeFi vault strategies are subject to various risks. The
+								Debaseonomics protocol bears no responsibility if your assets are lost. Invest only what
+								you can afford to lose. Please read all the parameters in the staking page and keep in
+								mind the following:<br />
+								<br /> 1. Your assets are locked for 30 days from time of deposit, with all rewards paid
+								out at the end of 30 days.<br />
+								<br /> 2. You get your principle back not in LP, but in Dai + Debase in your LP at time
+								of deposit.
 							</h5>
 							<span className="mb-0 subtitle is-size-5-tablet is-size-6-mobile">
 								<a
@@ -391,7 +411,7 @@ export default function MPH88() {
 									/>
 									<TextInfo
 										isMobile={isMobile}
-										label="To Stake"
+										label="To Deposit"
 										value={
 											lpBalance !== undefined ? (
 												parseFloat(formatEther(lpBalance)).toFixed(isMobile ? 4 : 8) * 1
@@ -404,7 +424,7 @@ export default function MPH88() {
 									/>
 									<TextInfo
 										isMobile={isMobile}
-										label="Total Lp Deposited"
+										label="Deposited"
 										value={
 											stakedBalance !== undefined ? (
 												parseFloat(formatEther(stakedBalance)).toFixed(isMobile ? 4 : 8) * 1
@@ -415,7 +435,7 @@ export default function MPH88() {
 										token="Debase/Dai Lp"
 										img={empty}
 									/>
-									{depositIds !== undefined && depositIds.length ? (
+									{true ? (
 										<Fragment>
 											<TextInfo
 												isMobile={isMobile}
@@ -429,7 +449,7 @@ export default function MPH88() {
 												tokenText="Debase/Dai-Lp"
 												rewardText="Debase"
 												unit={18}
-												depositID={depositIds[selectedDepositIndex]}
+												depositID={0}
 												rewardTokenImage={debase}
 												stakeTokenImage={empty}
 												tokenAddress={contractAddress.debaseDaiLp}
@@ -478,7 +498,7 @@ export default function MPH88() {
 									}
 									onClick={handleWithdrawAll}
 								>
-									Withdraw All Deposit
+									Withdraw All Deposits
 								</button>
 							</Fragment>
 						) : (
