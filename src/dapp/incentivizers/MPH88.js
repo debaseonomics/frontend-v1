@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import DepositPool from '../../components/DepositInfo';
 import debase from '../../assets/debase.png';
 import empty from '../../assets/empty.png';
@@ -23,7 +23,6 @@ import { formatEther, formatUnits, parseEther, parseUnits } from 'ethers/lib/uti
 import PoolInput from '../../components/PoolInput';
 import TextInfo from '../../components/TextInfo';
 import { request, gql } from 'graphql-request';
-import { useEffect } from 'react/cjs/react.development';
 
 export default function MPH88() {
 	let history = useHistory();
