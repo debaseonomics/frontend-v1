@@ -116,7 +116,7 @@ export const mph88Abi = [
 	'function debaseRewardPercentage() view returns (uint256)',
 	'function blockDuration() view returns (uint256)',
 	'function deposits(uint256) view returns (address,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,bool)',
-	'function depositIds(address) view returns(uint256[])',
+	'function depositIds(address,uint256) view returns(uint256)',
 	'function lpDeposits(address) view returns (uint256)',
 	'function depositLength() view returns (uint256)',
 	'function daiFee() view returns (uint256)',
@@ -129,7 +129,8 @@ export const mph88Abi = [
 	'function totalLpLimit() view returns (uint256)',
 	'function totalLpLimitEnabled() view returns (bool)',
 	'function maxDepositLimitEnabled() view returns (bool)',
-	'function totalLpLocked() view returns (uint256)'
+	'function totalLpLocked() view returns (uint256)',
+	'function earned(uint256) view returns (uint256)'
 ];
 
 export const randomNumberAbi = [ 'function randomResult() external view returns(uint256)' ];

@@ -29,10 +29,11 @@ export default function MPH88() {
 	let history = useHistory();
 	const { library, account } = useWeb3React();
 	const [ hideStake, setHideStake ] = useState(true);
-	const [ selectedDepositIndex, setSelectedDepositIndex ] = useState(0);
 	const [ stakingLoading, setStakingLoading ] = useState(false);
 	const [ withdrawLoading, setWithdrawLoading ] = useState(false);
 	const [ claimUnstakeLoading, setClaimUnstakeLoading ] = useState(false);
+	const [ selectedDepositIndex, setSelectedDepositIndex ] = useState(0);
+	const [ depositIds, setDepositIds ] = useState([]);
 
 	const stakeRef = useRef();
 	const withdrawRef = useRef();
@@ -101,10 +102,6 @@ export default function MPH88() {
 		fetcher: fetcher(library, mph88Abi)
 	});
 
-	const { data: depositIds, mutate: getDepositIds } = useSWR([ contractAddress.mph88Pool, 'depositIds', account ], {
-		fetcher: fetcher(library, mph88Abi)
-	});
-
 	const { data: stakedBalance, mutate: getStakedBalance } = useSWR(
 		[ contractAddress.mph88Pool, 'lpDeposits', account ],
 		{
@@ -122,8 +119,8 @@ export default function MPH88() {
 
 	useEffect(
 		() => {
+			findDepositID();
 			library.on('block', () => {
-				getDepositIds(undefined, true);
 				getDebaseBalance(undefined, true);
 				getStakedBalance(undefined, true);
 				getLPBalance(undefined, true);
@@ -132,7 +129,7 @@ export default function MPH88() {
 				library.removeAllListeners('block');
 			};
 		},
-		[ library, getDepositIds, getDebaseBalance, getLPBalance, getStakedBalance ]
+		[ library, getDebaseBalance, getLPBalance, getStakedBalance ]
 	);
 
 	const depositsQuery = gql`
@@ -156,7 +153,7 @@ export default function MPH88() {
 				transaction = await tokenContract.approve(contractAddress.mph88Pool, toStake);
 				await transaction.wait(1);
 			}
-			transaction = await poolContract.deposit(parseEther('1'));
+			transaction = await poolContract.deposit(toStake);
 			await transaction.wait(1);
 			await getStakedBalance();
 
@@ -198,25 +195,32 @@ export default function MPH88() {
 	}
 
 	async function findDepositID() {
-		const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
-		let fundingId = [];
-		let depositId = [];
-		for (let index = 0; index < depositIds.length; index++) {
-			let depositInfo = await poolContract.deposits(depositIds[index]);
-			if (depositInfo[10] == false) {
-				let fundingInfo = await request(
-					'https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph',
-					depositsQuery,
-					{
-						nftID: depositInfo[6],
-						user: contractAddress.mph88Pool
-					}
-				);
-				depositId.push(depositIds[index]);
-				fundingId.push(fundingInfo.nftID);
+		const poolContract = new Contract(contractAddress.mph88Pool, mph88Abi, library.getSigner());
+
+		let arr = [];
+
+		let x = 0;
+		while (true) {
+			try {
+				let depositId = await poolContract.depositIds(account, x);
+				let depositInfo = await poolContract.deposits(depositId);
+
+				let data = {
+					id: depositId,
+					amount: depositInfo[1],
+					daiAmount: depositInfo[2],
+					debaseReward: depositInfo[3],
+					mphReward: depositInfo[7],
+					maturationTimestamp: depositInfo[9]
+				};
+
+				arr.push(data);
+			} catch (error) {
+				break;
 			}
+			x++;
 		}
-		return { depositId, fundingId };
+		setDepositIds(arr);
 	}
 
 	async function handleWithdrawAll() {
@@ -450,7 +454,7 @@ export default function MPH88() {
 										token="Debase/Dai Lp"
 										img={empty}
 									/>
-									{depositIds !== undefined && depositIds.length ? (
+									{depositIds.length ? (
 										<Fragment>
 											<TextInfo
 												isMobile={isMobile}
@@ -464,12 +468,12 @@ export default function MPH88() {
 												tokenText="Debase/Dai-Lp"
 												rewardText="Debase"
 												unit={18}
-												depositID={0}
+												deposit={depositIds[0]}
 												rewardTokenImage={debase}
 												stakeTokenImage={empty}
 												tokenAddress={contractAddress.debaseDaiLp}
 												rewardTokenAddress={contractAddress.debase}
-												poolAddress={contractAddress.degovEthPool}
+												poolAddress={contractAddress.mph88Pool}
 												dai={dai}
 												mph88={mph88}
 											/>
@@ -478,7 +482,7 @@ export default function MPH88() {
 								</tbody>
 							</table>
 						</div>
-						{depositIds !== undefined && depositIds.length ? (
+						{depositIds.length ? (
 							<Fragment>
 								<div className="columns">
 									<div className="column">

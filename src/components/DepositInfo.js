@@ -1,18 +1,16 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { poolAbi, lpAbi, fetcher, contractAddress } from '../utils/index';
+import { poolAbi, lpAbi, fetcher, mph88Abi } from '../utils/index';
 import useSWR from 'swr';
 import { formatEther, parseEther } from 'ethers/lib/utils';
-import { Contract } from 'ethers';
 import TextInfo from './TextInfo.js';
-import { request, gql } from 'graphql-request';
 
 export default function DepositInfo({
 	rewardTokenAddress,
 	poolAddress,
 	rewardText,
 	rewardTokenImage,
-	depositID,
+	deposit,
 	isMobile,
 	dai,
 	mph88
@@ -23,15 +21,12 @@ export default function DepositInfo({
 		fetcher: fetcher(library, lpAbi)
 	});
 
-	const { data: debaseAccrued, mutate: getDebaseAccrued } = useSWR([ poolAddress, 'earned', depositID ], {
-		fetcher: fetcher(library, poolAbi)
+	const { data: debaseAccrued, mutate: getDebaseAccrued } = useSWR([ poolAddress, 'earned', 9 ], {
+		fetcher: fetcher(library, mph88Abi)
 	});
-
-	const [ depositsAndFundingData, setDepositsAndFundingData ] = useState('');
 
 	useEffect(
 		() => {
-			findDepositID();
 			library.on('block', () => {
 				getDebaseSupply(undefined, true);
 				getDebaseAccrued(undefined, true);
@@ -43,50 +38,12 @@ export default function DepositInfo({
 		[ library, getDebaseSupply, getDebaseAccrued ]
 	);
 
-	const depositsQuery = gql`
-		query getDeposit($nftID: Int!, $user: String!) {
-			deposit(nftID: $nftID, user: $user) {
-				active
-				fundingID
-			}
-		}
-	`;
-
-	async function findDepositID() {
-		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
-		let depositInfo = await poolContract.deposits(depositID);
-
-		let fundingInfo = await request(
-			'https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph',
-			depositsQuery,
-			{
-				nftID: depositInfo[6],
-				user: contractAddress.mph88Pool
-			}
-		);
-
-		let depositData = {
-			owner: depositInfo[0],
-			amount: depositInfo[1],
-			daiAmount: depositInfo[2],
-			debaseReward: depositInfo[4],
-			daiDepositId: depositInfo[6],
-			mphReward: depositInfo[7],
-			maturationTimestamp: depositInfo[9],
-			withdrawed: depositInfo[10],
-			active: fundingInfo.deposit.active,
-			fundingID: fundingInfo.deposit.fundingID
-		};
-
-		setDepositsAndFundingData(depositData);
-	}
-
 	return (
 		<Fragment>
 			<TextInfo
 				isMobile={isMobile}
 				label="Deposit Lp Staked"
-				value={formatEther(depositsAndFundingData.amount)}
+				value={formatEther(deposit.amount)}
 				token={rewardText}
 				img={rewardTokenImage}
 			/>
@@ -94,31 +51,31 @@ export default function DepositInfo({
 			<TextInfo
 				isMobile={isMobile}
 				label="Dai Unlocked From Lp"
-				value={formatEther(depositsAndFundingData.daiAmount)}
+				value={parseFloat(formatEther(deposit.daiAmount)).toFixed(4)}
 				token={rewardText}
 				img={dai}
 			/>
 
-			<TextInfo
+			{/* <TextInfo
 				isMobile={isMobile}
 				label="Debase Unlocked From Lp"
-				value={formatEther(depositsAndFundingData.debaseReward)}
+				value={formatEther(deposit.debaseReward)}
 				token={rewardText}
 				img={rewardTokenImage}
-			/>
+			/> */}
 
-			<TextInfo
+			{/* <TextInfo
 				isMobile={isMobile}
 				label="Deposit Maturation Time"
-				value={formatEther(depositsAndFundingData.maturationTimestamp)}
+				value={formatEther(deposit.maturationTimestamp)}
 				token={rewardText}
 				img={rewardTokenImage}
-			/>
+			/> */}
 
 			<TextInfo
 				isMobile={isMobile}
 				label="Mph88 Reward Earned"
-				value={formatEther(depositsAndFundingData.mphReward)}
+				value={formatEther(deposit.mphReward)}
 				token={rewardText}
 				img={mph88}
 			/>
