@@ -110,6 +110,7 @@ export const lpAbi = [
 ];
 
 export const mph88Abi = [
+	'function deposit(uint256) public returns(uint256)',
 	'function lockPeriod() view returns (uint256)',
 	'function treasury() view returns (address)',
 	'function debaseRewardPercentage() view returns (uint256)',

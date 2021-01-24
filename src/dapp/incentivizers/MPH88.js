@@ -19,10 +19,11 @@ import {
 import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
 import { useMediaQuery } from 'react-responsive';
-import { formatEther, formatUnits, parseUnits } from 'ethers/lib/utils';
+import { formatEther, formatUnits, parseEther, parseUnits } from 'ethers/lib/utils';
 import PoolInput from '../../components/PoolInput';
 import TextInfo from '../../components/TextInfo';
 import { request, gql } from 'graphql-request';
+import { useEffect } from 'react/cjs/react.development';
 
 export default function MPH88() {
 	let history = useHistory();
@@ -100,7 +101,7 @@ export default function MPH88() {
 		fetcher: fetcher(library, mph88Abi)
 	});
 
-	const { data: depositIds } = useSWR([ contractAddress.mph88Pool, 'depositIds', account ], {
+	const { data: depositIds, mutate: getDepositIds } = useSWR([ contractAddress.mph88Pool, 'depositIds', account ], {
 		fetcher: fetcher(library, mph88Abi)
 	});
 
@@ -111,13 +112,28 @@ export default function MPH88() {
 		}
 	);
 
-	const { data: debaseBalance } = useSWR([ contractAddress.debase, 'balanceOf', account ], {
+	const { data: debaseBalance, mutate: getDebaseBalance } = useSWR([ contractAddress.debase, 'balanceOf', account ], {
 		fetcher: fetcher(library, lpAbi)
 	});
 
-	const { data: lpBalance } = useSWR([ contractAddress.debaseDaiLp, 'balanceOf', account ], {
+	const { data: lpBalance, mutate: getLPBalance } = useSWR([ contractAddress.debaseDaiLp, 'balanceOf', account ], {
 		fetcher: fetcher(library, lpAbi)
 	});
+
+	useEffect(
+		() => {
+			library.on('block', () => {
+				getDepositIds(undefined, true);
+				getDebaseBalance(undefined, true);
+				getStakedBalance(undefined, true);
+				getLPBalance(undefined, true);
+			});
+			return () => {
+				library.removeAllListeners('block');
+			};
+		},
+		[ library, getDepositIds, getDebaseBalance, getLPBalance, getStakedBalance ]
+	);
 
 	const depositsQuery = gql`
 		query getDeposit($nftID: Int!, $user: String!) {
@@ -131,7 +147,7 @@ export default function MPH88() {
 	async function handleStake() {
 		setStakingLoading(true);
 		const tokenContract = new Contract(contractAddress.debaseDaiLp, lpAbi, library.getSigner());
-		const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
+		const poolContract = new Contract(contractAddress.mph88Pool, mph88Abi, library.getSigner());
 		try {
 			const toStake = parseUnits(stakeRef.current.value, 18);
 			let allowance = await tokenContract.allowance(account, contractAddress.mph88Pool);
@@ -140,7 +156,7 @@ export default function MPH88() {
 				transaction = await tokenContract.approve(contractAddress.mph88Pool, toStake);
 				await transaction.wait(1);
 			}
-			transaction = await poolContract.deposit(toStake);
+			transaction = await poolContract.deposit(parseEther('1'));
 			await transaction.wait(1);
 			await getStakedBalance();
 
