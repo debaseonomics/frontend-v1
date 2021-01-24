@@ -119,7 +119,6 @@ export default function MPH88() {
 
 	useEffect(
 		() => {
-			findDepositID();
 			library.on('block', () => {
 				getDebaseBalance(undefined, true);
 				getStakedBalance(undefined, true);
@@ -407,7 +406,13 @@ export default function MPH88() {
 					</div>
 				</div>
 				{hideStake ? (
-					<button className="button is-edged is-fullwidth is-primary" onClick={() => setHideStake(false)}>
+					<button
+						className="button is-edged is-fullwidth is-primary"
+						onClick={() => {
+							findDepositID();
+							setHideStake(false);
+						}}
+					>
 						Stake Into Pool
 					</button>
 				) : (
@@ -443,7 +448,7 @@ export default function MPH88() {
 									/>
 									<TextInfo
 										isMobile={isMobile}
-										label="Deposited"
+										label="Total Lp Deposited"
 										value={
 											stakedBalance !== undefined ? (
 												parseFloat(formatEther(stakedBalance)).toFixed(isMobile ? 4 : 8) * 1
