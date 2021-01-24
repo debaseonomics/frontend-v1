@@ -337,7 +337,7 @@ export default function MPH88() {
 								mind the following:<br />
 								<br /> 1. Your assets are locked for 30 days from time of deposit, with all rewards paid
 								out at the end of 30 days.<br />
-								<br /> 2. You get your principle back not in LP, but in Dai + Debase in your LP at time
+								<br /> 2. You get your principal back not in LP, but in Dai + Debase in your LP at time
 								of deposit.
 								<br /> 3. There should be a mininum of 100 DAI in your LP to be able to stake.
 							</h5>
