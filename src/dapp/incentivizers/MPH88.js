@@ -35,7 +35,6 @@ export default function MPH88() {
 	const [ depositIds, setDepositIds ] = useState([]);
 
 	const stakeRef = useRef();
-	const withdrawRef = useRef();
 
 	const { data: lockPeriod } = useSWR([ contractAddress.mph88Pool, 'lockPeriod' ], {
 		fetcher: fetcher(library, mph88Abi)
@@ -131,9 +130,14 @@ export default function MPH88() {
 	);
 
 	const depositsQuery = gql`
-		query getDeposit($nftID: Int!, $user: String!) {
-			deposit(nftID: $nftID, user: $user) {
-				active
+		query getDeposit($nftID: Int!) {
+			deposits(
+				where: {
+					pool: "0xdc86ac6140026267e0873b27c8629efe748e7146"
+					user: "0x36f1f4125b4066ca4b768f9f5f9a737bd4fa8f62"
+					nftID: $nftID
+				}
+			) {
 				fundingID
 			}
 		}
@@ -164,21 +168,16 @@ export default function MPH88() {
 
 	async function handleWithdraw() {
 		setWithdrawLoading(true);
-		const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
+		const poolContract = new Contract(contractAddress.mph88Pool, mph88Abi, library.getSigner());
 
-		let depositInfo = await poolContract.deposits(depositIds[selectedDepositIndex]);
-		if (depositInfo[10] == false) {
-			let fundingInfo = await request(
-				'https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph',
-				depositsQuery,
-				{
-					nftID: depositInfo[6],
-					user: contractAddress.mph88Pool
-				}
-			);
+		if (depositIds[selectedDepositIndex].withdrawed == false) {
 			try {
-				let transaction = await poolContract.withdraw(depositIds[selectedDepositIndex], fundingInfo.nftID);
-				await transaction.wait(1);
+				console.log('Wti');
+				// let transaction = await poolContract.withdraw(
+				// 	depositIds[selectedDepositIndex].id.toNumber(),
+				// 	parseInt(depositIds[selectedDepositIndex].fundingID)
+				// );
+				// await transaction.wait(1);
 
 				toaster('Deposit withdraw successfully', 'is-success');
 			} catch (error) {
@@ -196,20 +195,27 @@ export default function MPH88() {
 		const poolContract = new Contract(contractAddress.mph88Pool, mph88Abi, library.getSigner());
 
 		let arr = [];
-
 		let x = 0;
 		while (true) {
 			try {
 				let depositId = await poolContract.depositIds(account, x);
 				let depositInfo = await poolContract.deposits(depositId);
-
+				let fundingInfo = await request(
+					'https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph',
+					depositsQuery,
+					{
+						nftID: depositInfo[6].toNumber()
+					}
+				);
 				let data = {
 					id: depositId,
+					fundingId: fundingInfo.deposits[0].fundingID,
 					amount: depositInfo[1],
 					daiAmount: depositInfo[2],
 					debaseReward: depositInfo[3],
 					mphReward: depositInfo[7],
-					maturationTimestamp: depositInfo[9]
+					maturationTimestamp: depositInfo[9],
+					withdrawed: depositInfo[10]
 				};
 
 				arr.push(data);
@@ -223,13 +229,23 @@ export default function MPH88() {
 
 	async function handleWithdrawAll() {
 		setClaimUnstakeLoading(true);
-		const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
+		const poolContract = new Contract(contractAddress.mph88Pool, mph88Abi, library.getSigner());
 
-		let { depositId, fundingID } = findDepositID();
+		if (depositIds.length) {
+			let allDepositIds = depositIds.map((ele) => {
+				if (ele.withdrawed == false) {
+					return ele.id.toNumber();
+				}
+			});
 
-		if (depositId.length) {
+			let allFundingIds = depositIds.map((ele) => {
+				if (ele.withdrawed == false) {
+					return parseInt(ele.fundingId);
+				}
+			});
+
 			try {
-				const transaction = await poolContract.multiWithdraw(depositId, fundingID);
+				const transaction = await poolContract.multiWithdraw(allDepositIds, allFundingIds);
 				await transaction.wait(1);
 
 				toaster('Withdraw all deposits successfully executed', 'is-success');
@@ -246,9 +262,7 @@ export default function MPH88() {
 	const paramsData = [
 		{
 			label: 'Debase Reward Percentage',
-			value: debaseRewardPercentage
-				? parseFloat(formatEther(debaseRewardPercentage)).toFixed(4) * 100 + ' %'
-				: '...',
+			value: debaseRewardPercentage ? formatEther(debaseRewardPercentage) + ' %' : '...',
 			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
 		},
 		{
@@ -339,6 +353,7 @@ export default function MPH88() {
 								out at the end of 30 days.<br />
 								<br /> 2. You get your principal back not in LP, but in Dai + Debase in your LP at time
 								of deposit.
+								<br />
 								<br /> 3. There should be a mininum of 100 DAI in your LP to be able to stake.
 							</h5>
 							<span className="mb-0 subtitle is-size-5-tablet is-size-6-mobile">
@@ -492,37 +507,34 @@ export default function MPH88() {
 						</div>
 						{depositIds.length ? (
 							<Fragment>
-								<div className="columns">
-									<div className="column">
-										<PoolInput
-											action={handleStake}
-											loading={stakingLoading}
-											buttonText="Deposit Amount"
-											ref={stakeRef}
-											balance={lpBalance}
-											placeholderText="Enter deposit amount"
-											unit={18}
-										/>
-									</div>
-									<div className="column">
-										<PoolInput
-											action={handleWithdraw}
-											loading={withdrawLoading}
-											buttonText="Withdraw Deposit"
-											ref={withdrawRef}
-											noMax={true}
-											setSelectedDepositIndex={setSelectedDepositIndex}
-											placeholderText="Enter deposit Id"
-											unit={18}
-										/>
-									</div>
-								</div>
+								<PoolInput
+									action={handleStake}
+									loading={stakingLoading}
+									buttonText="Deposit Amount"
+									ref={stakeRef}
+									balance={lpBalance}
+									placeholderText="Enter deposit amount"
+									unit={18}
+								/>
+
 								<button
 									className={
-										claimUnstakeLoading ? (
+										withdrawLoading ? (
 											'mt-2 button is-loading is-link is-fullwidth is-edged'
 										) : (
 											'mt-2 button is-link is-fullwidth is-edged'
+										)
+									}
+									onClick={handleWithdraw}
+								>
+									Withdraw Selected Deposit
+								</button>
+								<button
+									className={
+										claimUnstakeLoading ? (
+											'mt-2 button is-loading is-info is-fullwidth is-edged'
+										) : (
+											'mt-2 button is-info is-fullwidth is-edged'
 										)
 									}
 									onClick={handleWithdrawAll}
