@@ -28,8 +28,6 @@ const PoolInput = React.forwardRef(
 								onChange={(event) => setValue(event.target.value)}
 							/>
 						)}
-						onChange={(event) => setValue(event.target.value)}
-						/>
 					</div>
 					{noMax ? null : (
 						<div className="control">

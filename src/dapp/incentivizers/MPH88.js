@@ -126,97 +126,6 @@ export default function MPH88() {
 		}
 	`;
 
-	async function findDepositID() {
-		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
-		let depositInfo = await poolContract.deposits(depositID);
-
-		let fundingInfo = await request(
-			'https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph',
-			depositsQuery,
-			{
-				nftID: depositInfo[6],
-				user: contractAddress.mph88Pool
-			}
-		);
-
-		let depositData = {
-			owner: depositInfo[0],
-			amount: depositInfo[1],
-			daiAmount: depositInfo[2],
-			debaseReward: depositInfo[4],
-			daiDepositId: depositInfo[6],
-			mphReward: depositInfo[7],
-			maturationTimestamp: depositInfo[9],
-			withdrawed: depositInfo[10],
-			active: fundingInfo.deposit.active,
-			fundingID: fundingInfo.deposit.fundingID
-		};
-
-		setDepositsAndFundingData(depositData);
-	}
-
-	const isMobile = useMediaQuery({ query: `(max-width: 482px)` });
-
-	const paramsData = [
-		{
-			label: 'Debase Reward Percentage',
-			value: debaseRewardPercentage
-				? parseFloat(formatEther(debaseRewardPercentage)).toFixed(4) * 100 + ' %'
-				: '...',
-			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
-		},
-		{
-			label: 'Deposit Length',
-			value: depositLength ? depositLength + ' Blocks' : '...',
-			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
-		},
-		{
-			label: 'Dai Fee',
-			value: daiFee ? formatEther(daiFee) + ' Blocks' : '...',
-			toolTip: 'Period within which pool reward is distributed'
-		},
-		{
-			label: 'Mph Fee',
-			value: mphFee ? formatEther(mphFee) + ' Blocks' : '...',
-			toolTip: 'Period within which pool reward is distributed'
-		},
-		{
-			label: 'Period Finish',
-			value: periodFinish ? formatEther(periodFinish) + ' Blocks' : '...',
-			toolTip: 'Period within which pool reward is distributed'
-		},
-		{
-			label: 'Debase Reward Distributed',
-			value: debaseRewardDistributed ? formatEther(debaseRewardDistributed) + ' Blocks' : '...',
-			toolTip: 'Period within which pool reward is distributed'
-		},
-		{
-			label: 'Allow Emergency Withdraw',
-			value: allowEmergencyWithdraw ? formatEther(allowEmergencyWithdraw) + ' Blocks' : '...',
-			toolTip: 'Period within which pool reward is distributed'
-		},
-		{
-			label: 'Pool Enabled',
-			value: poolEnabled !== undefined ? (poolEnabled ? 'True' : 'False') : '...',
-			toolTip: 'Pool staking/withdraw usage status'
-		},
-		{
-			label: 'Pool Lp Limit Enabled',
-			value: maxDepositLimitEnabled !== undefined ? (maxDepositLimitEnabled ? 'True' : 'False') : '...',
-			toolTip: 'Pool staking/withdraw usage status'
-		},
-		{
-			label: 'User Lp Limit Enabled',
-			value: totalLpLimitEnabled !== undefined ? (totalLpLimitEnabled ? 'True' : 'False') : '...',
-			toolTip: 'Pool staking/withdraw usage status'
-		},
-		{
-			label: 'User Lp Limit',
-			value: maxDepositLimit ? formatEther(maxDepositLimit) + ' LP' : '...',
-			toolTip: 'LP limit per wallet'
-		}
-	];
-
 	async function handleStake() {
 		setStakingLoading(true);
 		const tokenContract = new Contract(contractAddress.debaseDaiLp, lpAbi, library.getSigner());
@@ -244,10 +153,18 @@ export default function MPH88() {
 		setWithdrawLoading(true);
 		const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
 
-		const data = depositsAndFundingData[selectedDepositIndex];
-		if (data.withdrawed == false) {
+		let depositInfo = await poolContract.deposits(depositIds[selectedDepositIndex]);
+		if (depositInfo[10] == false) {
+			let fundingInfo = await request(
+				'https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph',
+				depositsQuery,
+				{
+					nftID: depositInfo[6],
+					user: contractAddress.mph88Pool
+				}
+			);
 			try {
-				let transaction = await poolContract.withdraw(data.daiDepositId, data.fundingID);
+				let transaction = await poolContract.withdraw(depositIds[selectedDepositIndex], fundingInfo.nftID);
 				await transaction.wait(1);
 
 				toaster('Deposit withdraw successfully', 'is-success');
@@ -258,40 +175,128 @@ export default function MPH88() {
 		} else {
 			toaster('Deposit already withdrawn', 'is-danger');
 		}
+
 		setWithdrawLoading(false);
 	}
 
-	// async function handleWithdrawAll() {
-	// 	setClaimUnstakeLoading(true);
-	// 	const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
+	async function findDepositID() {
+		const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
+		let fundingId = [];
+		let depositId = [];
+		for (let index = 0; index < depositIds.length; index++) {
+			let depositInfo = await poolContract.deposits(depositIds[index]);
+			if (depositInfo[10] == false) {
+				let fundingInfo = await request(
+					'https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph',
+					depositsQuery,
+					{
+						nftID: depositInfo[6],
+						user: contractAddress.mph88Pool
+					}
+				);
+				depositId.push(depositIds[index]);
+				fundingId.push(fundingInfo.nftID);
+			}
+		}
+		return { depositId, fundingId };
+	}
 
-	// 	const activeDaiIds = depositsAndFundingData.map((ele, index) => {
-	// 		if (ele.withdrawed == false) {
-	// 			return ele.daiDepositId;
-	// 		}
-	// 	});
+	async function handleWithdrawAll() {
+		setClaimUnstakeLoading(true);
+		const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
 
-	// 	const activeFundingIds = depositsAndFundingData.map((ele, index) => {
-	// 		if (ele.withdrawed == false) {
-	// 			return ele.fundingID;
-	// 		}
-	// 	});
+		let { depositId, fundingID } = findDepositID();
 
-	// 	if (activeDaiIds.length) {
-	// 		try {
-	// 			const transaction = await poolContract.multiWithdraw(activeDaiIds, activeFundingIds);
-	// 			await transaction.wait(1);
+		if (depositId.length) {
+			try {
+				const transaction = await poolContract.multiWithdraw(depositId, fundingID);
+				await transaction.wait(1);
 
-	// 			toaster('Claim and unstake successfully executed', 'is-success');
-	// 		} catch (error) {
-	// 			toaster('Claim and unstake failed, please try again', 'is-danger');
-	// 		}
-	// 	} else {
-	// 		toaster('No deposits remaining to withdraw', 'is-danger');
-	// 	}
+				toaster('Withdraw all deposits successfully executed', 'is-success');
+			} catch (error) {
+				toaster('Withdraw all deposits failed, please try again', 'is-danger');
+			}
+		} else {
+			toaster('No deposits remaining to withdraw', 'is-danger');
+		}
 
-	// 	setClaimUnstakeLoading(false);
-	// }
+		setClaimUnstakeLoading(false);
+	}
+
+	const paramsData = [
+		{
+			label: 'Debase Reward Percentage',
+			value: debaseRewardPercentage
+				? parseFloat(formatEther(debaseRewardPercentage)).toFixed(4) * 100 + ' %'
+				: '...',
+			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
+		},
+		{
+			label: 'Deposit Length',
+			value: lockPeriod ? lockPeriod + ' Blocks (30 Days)' : '...',
+			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
+		},
+		{
+			label: 'Dai Fee',
+			value: daiFee ? formatUnits(daiFee, 1) + ' %' : '...',
+			toolTip: 'Period within which pool reward is distributed'
+		},
+		{
+			label: 'Mph Fee',
+			value: mphFee ? formatUnits(mphFee, 1) + ' %' : '...',
+			toolTip: 'Period within which pool reward is distributed'
+		},
+		{
+			label: 'Reward Duration',
+			value: blockDuration ? blockDuration + ' Blocks' : '...',
+			toolTip: 'Period within which pool reward is distributed'
+		},
+		{
+			label: 'Debase Reward Distributed',
+			value: debaseRewardDistributed ? formatEther(debaseRewardDistributed) : '...',
+			toolTip: 'Period within which pool reward is distributed'
+		},
+		{
+			label: 'Allow Emergency Withdraw',
+			value: allowEmergencyWithdraw !== undefined ? (allowEmergencyWithdraw ? 'True' : 'False') : '...',
+			toolTip: 'Period within which pool reward is distributed'
+		},
+		{
+			label: 'Pool Enabled',
+			value: poolEnabled !== undefined ? (poolEnabled ? 'True' : 'False') : '...',
+			toolTip: 'Pool staking/withdraw usage status'
+		},
+		{
+			label: 'Pool Lp Limit Enabled',
+			value: maxDepositLimitEnabled !== undefined ? (maxDepositLimitEnabled ? 'True' : 'False') : '...',
+			toolTip: 'Pool staking/withdraw usage status'
+		},
+		{
+			label: 'User Lp Limit Enabled',
+			value: totalLpLimitEnabled !== undefined ? (totalLpLimitEnabled ? 'True' : 'False') : '...',
+			toolTip: 'Pool staking/withdraw usage status'
+		},
+		{
+			label: 'User Lp Limit',
+			value: maxDepositLimit ? formatEther(maxDepositLimit) + ' LP' : '...',
+			toolTip: 'LP limit per wallet'
+		},
+		{
+			label: 'Total Pool Limit',
+			value:
+				totalLpLimit && totalLpLocked
+					? parseFloat(formatEther(totalLpLocked)).toFixed(2) + ' / ' + formatEther(totalLpLimit) + ' LP'
+					: '...',
+			toolTip: 'Total LP limit per pool'
+		},
+		{
+			label: 'APY',
+			value: '440%',
+			toolTip: 'POOL APY'
+		}
+	];
+
+	const isMobile = useMediaQuery({ query: `(max-width: 482px)` });
 
 	return (
 		<div className="columns is-centered">
@@ -306,7 +311,14 @@ export default function MPH88() {
 					<div className="contractinfo">
 						<div className="desc">
 							<h5 className="pt-2 pl-1 pr-1 subtitle is-size-5-tablet is-size-6-mobile">
-								Incentivizes Debase DAI LP by giving debase,dai and MPH88 as reward
+								This contract is audited, but DeFi vault strategies are subject to various risks. The
+								Debaseonomics protocol bears no responsibility if your assets are lost. Invest only what
+								you can afford to lose. Please read all the parameters in the staking page and keep in
+								mind the following:<br />
+								<br /> 1. Your assets are locked for 30 days from time of deposit, with all rewards paid
+								out at the end of 30 days.<br />
+								<br /> 2. You get your principle back not in LP, but in Dai + Debase in your LP at time
+								of deposit.
 							</h5>
 							<span className="mb-0 subtitle is-size-5-tablet is-size-6-mobile">
 								<a
@@ -399,7 +411,7 @@ export default function MPH88() {
 									/>
 									<TextInfo
 										isMobile={isMobile}
-										label="To Stake"
+										label="To Deposit"
 										value={
 											lpBalance !== undefined ? (
 												parseFloat(formatEther(lpBalance)).toFixed(isMobile ? 4 : 8) * 1
@@ -412,7 +424,7 @@ export default function MPH88() {
 									/>
 									<TextInfo
 										isMobile={isMobile}
-										label="Total Lp Deposited"
+										label="Deposited"
 										value={
 											stakedBalance !== undefined ? (
 												parseFloat(formatEther(stakedBalance)).toFixed(isMobile ? 4 : 8) * 1
@@ -423,7 +435,7 @@ export default function MPH88() {
 										token="Debase/Dai Lp"
 										img={empty}
 									/>
-									{depositIds !== undefined && depositIds.length ? (
+									{true ? (
 										<Fragment>
 											<TextInfo
 												isMobile={isMobile}
@@ -433,10 +445,11 @@ export default function MPH88() {
 												setSelectedDepositIndex={setSelectedDepositIndex}
 											/>
 											<DepositPool
+												isMobile={isMobile}
 												tokenText="Debase/Dai-Lp"
 												rewardText="Debase"
 												unit={18}
-												depositID={depositIds[selectedDepositIndex]}
+												depositID={0}
 												rewardTokenImage={debase}
 												stakeTokenImage={empty}
 												tokenAddress={contractAddress.debaseDaiLp}
@@ -455,15 +468,16 @@ export default function MPH88() {
 										<PoolInput
 											action={handleStake}
 											loading={stakingLoading}
-											buttonText="Stake Amount"
+											buttonText="Deposit Amount"
 											ref={stakeRef}
 											balance={lpBalance}
-											placeholderText="Enter stake amount"
+											placeholderText="Enter deposit amount"
 											unit={18}
 										/>
 									</div>
 									<div className="column">
 										<PoolInput
+											action={handleWithdraw}
 											loading={withdrawLoading}
 											buttonText="Withdraw Deposit"
 											ref={withdrawRef}
@@ -482,18 +496,19 @@ export default function MPH88() {
 											'mt-2 button is-link is-fullwidth is-edged'
 										)
 									}
+									onClick={handleWithdrawAll}
 								>
-									Withdraw All Deposit
+									Withdraw All Deposits
 								</button>
 							</Fragment>
 						) : (
 							<PoolInput
 								action={handleStake}
 								loading={stakingLoading}
-								buttonText="Stake Amount"
+								buttonText="Deposit Amount"
 								ref={stakeRef}
-								balance={tokenBalance}
-								placeholderText="Enter stake amount"
+								balance={lpBalance}
+								placeholderText="Enter deposit amount"
 								unit={18}
 							/>
 						)}
