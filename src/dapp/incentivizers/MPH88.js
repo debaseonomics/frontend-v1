@@ -257,14 +257,14 @@ export default function MPH88() {
 			toolTip: 'Percentage of stabilizer rewards contract requested as reward per reward duration'
 		},
 		{
-			label: 'Dai Fee',
+			label: 'Dai Yield Fee',
 			value: daiFee ? formatUnits(daiFee, 1) + ' %' : '...',
-			toolTip: 'Period within which pool reward is distributed'
+			toolTip: 'Percentage of DAI yield sent to treasury'
 		},
 		{
-			label: 'Mph Fee',
+			label: 'Mph Yield Fee',
 			value: mphFee ? formatUnits(mphFee, 1) + ' %' : '...',
-			toolTip: 'Period within which pool reward is distributed'
+			toolTip: 'Percentage of MPH yield sent to treaury'
 		},
 		{
 			label: 'Reward Duration',
