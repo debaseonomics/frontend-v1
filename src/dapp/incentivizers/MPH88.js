@@ -292,8 +292,8 @@ export default function MPH88() {
 			toolTip: 'Total LP limit per pool'
 		},
 		{
-			label: 'APY',
-			value: '440%',
+			label: 'APR',
+			value: '440% DEBASE, 40% MPH, 4.8% DAI',
 			toolTip: 'POOL APY'
 		}
 	];
