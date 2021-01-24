@@ -17,7 +17,7 @@ import {
 import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
 import { useMediaQuery } from 'react-responsive';
-import { formatEther, formatUnits, parseUnits } from 'ethers/lib/utils';
+import { formatEther, parseUnits } from 'ethers/lib/utils';
 import PoolInput from '../../components/PoolInput';
 import TextInfo from '../../components/TextInfo';
 import { request, gql } from 'graphql-request';
@@ -126,36 +126,102 @@ export default function MPH88() {
 		}
 	`;
 
-	async function findDepositID() {
-		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
-		let depositInfo = await poolContract.deposits(depositID);
-
-		let fundingInfo = await request(
-			'https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph',
-			depositsQuery,
-			{
-				nftID: depositInfo[6],
-				user: contractAddress.mph88Pool
+	async function handleStake() {
+		setStakingLoading(true);
+		const tokenContract = new Contract(contractAddress.debaseDaiLp, lpAbi, library.getSigner());
+		const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
+		try {
+			const toStake = parseUnits(stakeRef.current.value, 18);
+			let allowance = await tokenContract.allowance(account, contractAddress.mph88Pool);
+			let transaction;
+			if (allowance.lt(toStake)) {
+				transaction = await tokenContract.approve(contractAddress.mph88Pool, toStake);
+				await transaction.wait(1);
 			}
-		);
+			transaction = await poolContract.deposit(toStake);
+			await transaction.wait(1);
+			await getStakedBalance();
 
-		let depositData = {
-			owner: depositInfo[0],
-			amount: depositInfo[1],
-			daiAmount: depositInfo[2],
-			debaseReward: depositInfo[4],
-			daiDepositId: depositInfo[6],
-			mphReward: depositInfo[7],
-			maturationTimestamp: depositInfo[9],
-			withdrawed: depositInfo[10],
-			active: fundingInfo.deposit.active,
-			fundingID: fundingInfo.deposit.fundingID
-		};
-
-		setDepositsAndFundingData(depositData);
+			toaster('Staking successfully executed', 'is-success');
+		} catch (error) {
+			toaster('Staking failed, please try again', 'is-danger');
+		}
+		setStakingLoading(false);
 	}
 
-	const isMobile = useMediaQuery({ query: `(max-width: 482px)` });
+	async function handleWithdraw() {
+		setWithdrawLoading(true);
+		const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
+
+		let depositInfo = await poolContract.deposits(depositIds[selectedDepositIndex]);
+		if (depositInfo[10] == false) {
+			let fundingInfo = await request(
+				'https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph',
+				depositsQuery,
+				{
+					nftID: depositInfo[6],
+					user: contractAddress.mph88Pool
+				}
+			);
+			try {
+				let transaction = await poolContract.withdraw(depositIds[selectedDepositIndex], fundingInfo.nftID);
+				await transaction.wait(1);
+
+				toaster('Deposit withdraw successfully', 'is-success');
+			} catch (error) {
+				console.log(error);
+				toaster('Deposit withdraw failed, please try again', 'is-danger');
+			}
+		} else {
+			toaster('Deposit already withdrawn', 'is-danger');
+		}
+
+		setWithdrawLoading(false);
+	}
+
+	async function findDepositID() {
+		const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
+		let fundingId = [];
+		let depositId = [];
+		for (let index = 0; index < depositIds.length; index++) {
+			let depositInfo = await poolContract.deposits(depositIds[index]);
+			if (depositInfo[10] == false) {
+				let fundingInfo = await request(
+					'https://api.thegraph.com/subgraphs/name/bacon-labs/eighty-eight-mph',
+					depositsQuery,
+					{
+						nftID: depositInfo[6],
+						user: contractAddress.mph88Pool
+					}
+				);
+				depositId.push(depositIds[index]);
+				fundingId.push(fundingInfo.nftID);
+			}
+		}
+		return { depositId, fundingId };
+	}
+
+	async function handleWithdrawAll() {
+		setClaimUnstakeLoading(true);
+		const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
+
+		let { depositId, fundingID } = findDepositID();
+
+		if (depositId.length) {
+			try {
+				const transaction = await poolContract.multiWithdraw(depositId, fundingID);
+				await transaction.wait(1);
+
+				toaster('Withdraw all deposits successfully executed', 'is-success');
+			} catch (error) {
+				toaster('Withdraw all deposits failed, please try again', 'is-danger');
+			}
+		} else {
+			toaster('No deposits remaining to withdraw', 'is-danger');
+		}
+
+		setClaimUnstakeLoading(false);
+	}
 
 	const paramsData = [
 		{
@@ -217,81 +283,7 @@ export default function MPH88() {
 		}
 	];
 
-	async function handleStake() {
-		setStakingLoading(true);
-		const tokenContract = new Contract(contractAddress.debaseDaiLp, lpAbi, library.getSigner());
-		const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
-		try {
-			const toStake = parseUnits(stakeRef.current.value, 18);
-			let allowance = await tokenContract.allowance(account, contractAddress.mph88Pool);
-			let transaction;
-			if (allowance.lt(toStake)) {
-				transaction = await tokenContract.approve(contractAddress.mph88Pool, toStake);
-				await transaction.wait(1);
-			}
-			transaction = await poolContract.deposit(toStake);
-			await transaction.wait(1);
-			await getStakedBalance();
-
-			toaster('Staking successfully executed', 'is-success');
-		} catch (error) {
-			toaster('Staking failed, please try again', 'is-danger');
-		}
-		setStakingLoading(false);
-	}
-
-	async function handleWithdraw() {
-		setWithdrawLoading(true);
-		const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
-
-		const data = depositsAndFundingData[selectedDepositIndex];
-		if (data.withdrawed == false) {
-			try {
-				let transaction = await poolContract.withdraw(data.daiDepositId, data.fundingID);
-				await transaction.wait(1);
-
-				toaster('Deposit withdraw successfully', 'is-success');
-			} catch (error) {
-				console.log(error);
-				toaster('Deposit withdraw failed, please try again', 'is-danger');
-			}
-		} else {
-			toaster('Deposit already withdrawn', 'is-danger');
-		}
-		setWithdrawLoading(false);
-	}
-
-	// async function handleWithdrawAll() {
-	// 	setClaimUnstakeLoading(true);
-	// 	const poolContract = new Contract(contractAddress.mph88Pool, poolAbi, library.getSigner());
-
-	// 	const activeDaiIds = depositsAndFundingData.map((ele, index) => {
-	// 		if (ele.withdrawed == false) {
-	// 			return ele.daiDepositId;
-	// 		}
-	// 	});
-
-	// 	const activeFundingIds = depositsAndFundingData.map((ele, index) => {
-	// 		if (ele.withdrawed == false) {
-	// 			return ele.fundingID;
-	// 		}
-	// 	});
-
-	// 	if (activeDaiIds.length) {
-	// 		try {
-	// 			const transaction = await poolContract.multiWithdraw(activeDaiIds, activeFundingIds);
-	// 			await transaction.wait(1);
-
-	// 			toaster('Claim and unstake successfully executed', 'is-success');
-	// 		} catch (error) {
-	// 			toaster('Claim and unstake failed, please try again', 'is-danger');
-	// 		}
-	// 	} else {
-	// 		toaster('No deposits remaining to withdraw', 'is-danger');
-	// 	}
-
-	// 	setClaimUnstakeLoading(false);
-	// }
+	const isMobile = useMediaQuery({ query: `(max-width: 482px)` });
 
 	return (
 		<div className="columns is-centered">
@@ -433,6 +425,7 @@ export default function MPH88() {
 												setSelectedDepositIndex={setSelectedDepositIndex}
 											/>
 											<DepositPool
+												isMobile={isMobile}
 												tokenText="Debase/Dai-Lp"
 												rewardText="Debase"
 												unit={18}
@@ -455,15 +448,16 @@ export default function MPH88() {
 										<PoolInput
 											action={handleStake}
 											loading={stakingLoading}
-											buttonText="Stake Amount"
+											buttonText="Deposit Amount"
 											ref={stakeRef}
 											balance={lpBalance}
-											placeholderText="Enter stake amount"
+											placeholderText="Enter deposit amount"
 											unit={18}
 										/>
 									</div>
 									<div className="column">
 										<PoolInput
+											action={handleWithdraw}
 											loading={withdrawLoading}
 											buttonText="Withdraw Deposit"
 											ref={withdrawRef}
@@ -482,6 +476,7 @@ export default function MPH88() {
 											'mt-2 button is-link is-fullwidth is-edged'
 										)
 									}
+									onClick={handleWithdrawAll}
 								>
 									Withdraw All Deposit
 								</button>
@@ -490,10 +485,10 @@ export default function MPH88() {
 							<PoolInput
 								action={handleStake}
 								loading={stakingLoading}
-								buttonText="Stake Amount"
+								buttonText="Deposit Amount"
 								ref={stakeRef}
-								balance={tokenBalance}
-								placeholderText="Enter stake amount"
+								balance={lpBalance}
+								placeholderText="Enter deposit amount"
 								unit={18}
 							/>
 						)}

@@ -5,11 +5,17 @@ import useSWR from 'swr';
 import { formatEther, parseEther } from 'ethers/lib/utils';
 import { Contract } from 'ethers';
 import TextInfo from './TextInfo.js';
-import { useMediaQuery } from 'react-responsive';
 import { request, gql } from 'graphql-request';
 
-export default function DepositInfo({ rewardTokenAddress, poolAddress, rewardText, rewardTokenImage, depositID }) {
-	const { account, library } = useWeb3React();
+export default function DepositInfo({
+	rewardTokenAddress,
+	poolAddress,
+	rewardText,
+	rewardTokenImage,
+	depositID,
+	isMobile
+}) {
+	const { library } = useWeb3React();
 
 	const { data: debaseSupply, mutate: getDebaseSupply } = useSWR([ rewardTokenAddress, 'totalSupply' ], {
 		fetcher: fetcher(library, lpAbi)
@@ -19,12 +25,11 @@ export default function DepositInfo({ rewardTokenAddress, poolAddress, rewardTex
 		fetcher: fetcher(library, poolAbi)
 	});
 
-	const isMobile = useMediaQuery({ query: `(max-width: 482px)` });
-
 	const [ depositsAndFundingData, setDepositsAndFundingData ] = useState('');
 
 	useEffect(
 		() => {
+			findDepositID();
 			library.on('block', () => {
 				getDebaseSupply(undefined, true);
 				getDebaseAccrued(undefined, true);
@@ -121,7 +126,7 @@ export default function DepositInfo({ rewardTokenAddress, poolAddress, rewardTex
 				label="Debase Accrued"
 				value={
 					debaseAccrued !== undefined && debaseSupply !== undefined ? (
-						parseFloat(formatEther(debaseAccrued.mul(tokenSupply).div(parseEther('1')))).toFixed(
+						parseFloat(formatEther(debaseAccrued.mul(debaseSupply).div(parseEther('1')))).toFixed(
 							isMobile ? 4 : 8
 						) * 1
 					) : (
