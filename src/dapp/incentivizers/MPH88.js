@@ -364,13 +364,13 @@ export default function MPH88() {
 											fill="currentColor"
 										/>
 									</svg>
-									{turncate(contractAddress.degovEthPool, 18, '...')}
+									{turncate(contractAddress.mph88Pool, 18, '...')}
 								</a>
 								<a
 									className="is-primary"
 									target="_blank"
 									rel="noopener noreferrer"
-									href="https://app.uniswap.org/#/add/ETH/0x469E66e06fEc34839E5eB1273ba85A119B8D702F"
+									href="https://app.uniswap.org/#/add/ETH/0xE98f89a2B3AeCDBE2118202826478Eb02434459A"
 								>
 									<svg
 										width="16"
