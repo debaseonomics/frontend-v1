@@ -437,7 +437,7 @@ export default function MPH88() {
 										token="Debase/Dai Lp"
 										img={empty}
 									/>
-									{true ? (
+									{depositIds !== undefined && depositIds.length ? (
 										<Fragment>
 											<TextInfo
 												isMobile={isMobile}
