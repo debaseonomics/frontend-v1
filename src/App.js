@@ -95,7 +95,7 @@ function App() {
 											percents={false}
 											rewardTokenImage={debase}
 											stakeTokenImage={dai}
-											tokenAddress={contractAddress.dai}
+											stakeTokenAddress={contractAddress.dai}
 											rewardTokenAddress={contractAddress.debase}
 											poolAddress={contractAddress.debaseDaiPool}
 										/>
@@ -110,7 +110,7 @@ function App() {
 											percents={false}
 											rewardTokenImage={debase}
 											stakeTokenImage={empty}
-											tokenAddress={contractAddress.debaseDaiLp}
+											stakeTokenAddress={contractAddress.debaseDaiLp}
 											rewardTokenAddress={contractAddress.debase}
 											poolAddress={contractAddress.debaseDaiLpPool}
 										/>
@@ -125,7 +125,7 @@ function App() {
 											percents={false}
 											rewardTokenImage={degov}
 											stakeTokenImage={empty}
-											tokenAddress={contractAddress.debaseDaiLp}
+											stakeTokenAddress={contractAddress.debaseDaiLp}
 											rewardTokenAddress={contractAddress.degov}
 											poolAddress={contractAddress.degovDaiLpPool}
 										/>
