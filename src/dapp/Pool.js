@@ -11,7 +11,7 @@ import { useMediaQuery } from 'react-responsive';
 
 export default function Pool({
 	poolName,
-	tokenAddress,
+	stakeTokenAddress,
 	poolAddress,
 	rewardTokenAddress,
 	tokenText,
@@ -35,7 +35,7 @@ export default function Pool({
 		}
 	);
 
-	const { data: tokenBalance, mutate: getTokenBalance } = useSWR([ tokenAddress, 'balanceOf', account ], {
+	const { data: tokenBalance, mutate: getTokenBalance } = useSWR([ stakeTokenAddress, 'balanceOf', account ], {
 		fetcher: fetcher(library, lpAbi)
 	});
 
@@ -76,7 +76,7 @@ export default function Pool({
 
 	async function handleStake() {
 		setStakingLoading(true);
-		const tokenContract = new Contract(tokenAddress, lpAbi, library.getSigner());
+		const tokenContract = new Contract(stakeTokenAddress, lpAbi, library.getSigner());
 		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
 		try {
 			const toStake = parseUnits(stakeRef.current.value, unit);
@@ -104,7 +104,7 @@ export default function Pool({
 
 	async function handleWithdraw() {
 		setWithdrawLoading(true);
-		const tokenContract = new Contract(tokenAddress, lpAbi, library.getSigner());
+		const tokenContract = new Contract(stakeTokenAddress, lpAbi, library.getSigner());
 		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
 		try {
 			const toWithdraw = parseUnits(withdrawRef.current.value, unit);
@@ -144,7 +144,7 @@ export default function Pool({
 	async function claimRewardThenUnstake() {
 		setClaimUnstakeLoading(true);
 		const poolContract = new Contract(poolAddress, poolAbi, library.getSigner());
-		const tokenContract = new Contract(tokenAddress, lpAbi, library.getSigner());
+		const tokenContract = new Contract(stakeTokenAddress, lpAbi, library.getSigner());
 
 		try {
 			const transaction = await poolContract.exit();
