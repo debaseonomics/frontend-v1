@@ -53,7 +53,7 @@ export default function DepositInfo({
 				isMobile={isMobile}
 				label="Deposit Lp Staked"
 				value={formatEther(deposit.amount)}
-				token={rewardText}
+				token="Debase/Dai Lp"
 				img={rewardTokenImage}
 			/>
 
@@ -61,7 +61,7 @@ export default function DepositInfo({
 				isMobile={isMobile}
 				label="Dai Unlocked From Lp"
 				value={parseFloat(formatEther(deposit.daiAmount)).toFixed(4)}
-				token={rewardText}
+				token="Dai"
 				img={dai}
 			/>
 
@@ -75,9 +75,9 @@ export default function DepositInfo({
 
 			<TextInfo
 				isMobile={isMobile}
-				label="Mph88 Reward"
+				label="88Mph Reward"
 				value={parseFloat(formatEther(deposit.mphReward)).toFixed(isMobile ? 4 : 8) * 1}
-				token={rewardText}
+				token="88MPH"
 				img={mph88}
 			/>
 
