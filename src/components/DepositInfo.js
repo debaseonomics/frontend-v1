@@ -21,7 +21,7 @@ export default function DepositInfo({
 		fetcher: fetcher(library, lpAbi)
 	});
 
-	const { data: debaseAccrued, mutate: getDebaseAccrued } = useSWR([ poolAddress, 'earned', 9 ], {
+	const { data: debaseAccrued, mutate: getDebaseAccrued } = useSWR([ poolAddress, 'earned', deposit.id ], {
 		fetcher: fetcher(library, mph88Abi)
 	});
 
