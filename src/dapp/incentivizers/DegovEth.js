@@ -189,7 +189,7 @@ export default function DegovEth() {
 							percents={true}
 							rewardTokenImage={debase}
 							stakeTokenImage={empty}
-							tokenAddress={contractAddress.degovEthLp}
+							stakeTokenAddress={contractAddress.degovEthLp}
 							rewardTokenAddress={contractAddress.debase}
 							poolAddress={contractAddress.degovEthPool}
 						/>
