@@ -133,6 +133,8 @@ export const mph88Abi = [
 	'function earned(uint256) view returns (uint256)'
 ];
 
+export const vestingAbi = [ 'function accountVestList(address,uint256) view returns(uint256,uint256,uint256,uint256)' ];
+
 export const randomNumberAbi = [ 'function randomResult() external view returns(uint256)' ];
 
 export const uniAbi = [ 'function getReserves() view returns (uint112,uint112,uint32)' ];
@@ -155,7 +157,8 @@ export const contractAddress = {
 	degovEthPool: '0x4789519821ae0f49d95203b1a2ed805141bf0dae',
 	degovEthLp: '0xfc835d90ea6557b57b29361d95c4584d389e6ee8',
 	mph88Pool: '0x36f1F4125B4066cA4b768F9F5f9a737Bd4FA8f62',
-	mph88: '0x8888801aF4d980682e47f1A9036e589479e835C5'
+	mph88: '0x8888801aF4d980682e47f1A9036e589479e835C5',
+	vesting: '0x8943eb8F104bCf826910e7d2f4D59edfe018e0e7'
 };
 
 export const uniAddress = {

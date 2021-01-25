@@ -74,8 +74,8 @@ export default function DepositInfo({
 
 			<TextInfo
 				isMobile={isMobile}
-				label="Mph88 Reward Earned"
-				value={formatEther(deposit.mphReward)}
+				label="Mph88 Reward"
+				value={parseFloat(formatEther(deposit.mphReward)).toFixed(isMobile ? 4 : 8) * 1}
 				token={rewardText}
 				img={mph88}
 			/>

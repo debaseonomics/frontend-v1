@@ -14,7 +14,7 @@ import {
 	mph88Abi,
 	lpAbi,
 	toaster,
-	poolAbi
+	vestingAbi
 } from '../../utils/index';
 import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
@@ -172,12 +172,11 @@ export default function MPH88() {
 
 		if (depositIds[selectedDepositIndex].withdrawed == false) {
 			try {
-				console.log('Wti');
-				// let transaction = await poolContract.withdraw(
-				// 	depositIds[selectedDepositIndex].id.toNumber(),
-				// 	parseInt(depositIds[selectedDepositIndex].fundingID)
-				// );
-				// await transaction.wait(1);
+				let transaction = await poolContract.withdraw(
+					depositIds[selectedDepositIndex].id.toNumber(),
+					parseInt(depositIds[selectedDepositIndex].fundingID)
+				);
+				await transaction.wait(1);
 
 				toaster('Deposit withdraw successfully', 'is-success');
 			} catch (error) {
@@ -193,6 +192,7 @@ export default function MPH88() {
 
 	async function findDepositID() {
 		const poolContract = new Contract(contractAddress.mph88Pool, mph88Abi, library.getSigner());
+		const vestingContract = new Contract(contractAddress.vesting, vestingAbi, library.getSigner());
 
 		let arr = [];
 		let x = 0;
@@ -207,19 +207,23 @@ export default function MPH88() {
 						nftID: depositInfo[6].toNumber()
 					}
 				);
+
+				let mphTotal = await vestingContract.accountVestList(contractAddress.mph88Pool, depositInfo[8]);
+
 				let data = {
 					id: depositId,
 					fundingId: fundingInfo.deposits[0].fundingID,
 					amount: depositInfo[1],
 					daiAmount: depositInfo[2],
 					debaseReward: depositInfo[3],
-					mphReward: depositInfo[7],
+					mphReward: mphTotal[0],
 					maturationTimestamp: depositInfo[9],
 					withdrawed: depositInfo[10]
 				};
 
 				arr.push(data);
 			} catch (error) {
+				console.log(error);
 				break;
 			}
 			x++;
