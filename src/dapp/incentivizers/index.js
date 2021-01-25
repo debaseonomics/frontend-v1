@@ -19,7 +19,7 @@ export default function Incentivizers() {
 		{
 			name: 'Degov Eth',
 			description:
-				'Incentivizes DEGOV/ETH LP with continous DEBASE rewards, calculated in percentage of total supply of Debase for robustness',
+				'Incentivizes DEGOV/ETH LP with continuous DEBASE rewards, calculated in percentage of total supply of Debase for robustness',
 			link: 'degov-eth',
 			status: degovEthPoolStatus
 		},

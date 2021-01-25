@@ -365,7 +365,7 @@ export default function MPH88() {
 									className="is-primary"
 									target="_blank"
 									rel="noopener noreferrer"
-									href={etherScanAddress + contractAddress.degovEthPool}
+									href={etherScanAddress + contractAddress.mph88Pool}
 								>
 									<svg
 										width="16"
