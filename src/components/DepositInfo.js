@@ -1,7 +1,8 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { poolAbi, lpAbi, fetcher, mph88Abi } from '../utils/index';
+import { lpAbi, fetcher, mph88Abi } from '../utils/index';
 import useSWR from 'swr';
+import { DateTime } from 'luxon';
 import { formatEther, parseEther } from 'ethers/lib/utils';
 import TextInfo from './TextInfo.js';
 
@@ -42,6 +43,14 @@ export default function DepositInfo({
 		<Fragment>
 			<TextInfo
 				isMobile={isMobile}
+				label="Deposit unlocks in"
+				value={DateTime.fromSeconds(deposit.maturationTimestamp.toNumber()).toRelative({ round: false })}
+				token={rewardText}
+				isTime={true}
+				img={rewardTokenImage}
+			/>
+			<TextInfo
+				isMobile={isMobile}
 				label="Deposit Lp Staked"
 				value={formatEther(deposit.amount)}
 				token={rewardText}
@@ -60,14 +69,6 @@ export default function DepositInfo({
 				isMobile={isMobile}
 				label="Debase Unlocked From Lp"
 				value={formatEther(deposit.debaseReward)}
-				token={rewardText}
-				img={rewardTokenImage}
-			/> */}
-
-			{/* <TextInfo
-				isMobile={isMobile}
-				label="Deposit Maturation Time"
-				value={formatEther(deposit.maturationTimestamp)}
 				token={rewardText}
 				img={rewardTokenImage}
 			/> */}
