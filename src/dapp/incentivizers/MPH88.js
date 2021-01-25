@@ -341,7 +341,7 @@ export default function MPH88() {
 			<div className="box boxs column is-6">
 				<div className=" has-text-centered">
 					<h3 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">
-						MPH88 Debase/Dai-Lp Incentivizer
+						DM88 Debase/Dai-Lp Incentivizer
 					</h3>
 					<span className="delete is-pulled-right" onClick={() => history.goBack()} />
 				</div>

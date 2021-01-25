@@ -26,7 +26,7 @@ export default function Incentivizers() {
 		{
 			name: 'DM88',
 			description:
-				'Uses 88mph as yield layer to back DEBASE with reserves.',
+				'Uses 88MPH as yield layer to back DEBASE with reserves. Deposit DEBASE + DAI for 30 days to earn rewards in Debase, Dai and 88MPH.',
 			link: 'mph88-debase-dai',
 			status: mph88PoolStatus
 		}
