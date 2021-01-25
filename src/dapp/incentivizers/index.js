@@ -24,9 +24,9 @@ export default function Incentivizers() {
 			status: degovEthPoolStatus
 		},
 		{
-			name: 'MPH88',
+			name: 'DM88',
 			description:
-				'Incentivizes DEGOV/ETH LP with continous DEBASE rewards, calculated in percentage of total supply of Debase for robustness',
+				'Uses 88mph as yield layer to back DEBASE with reserves.',
 			link: 'mph88-debase-dai',
 			status: mph88PoolStatus
 		}
