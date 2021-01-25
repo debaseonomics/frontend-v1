@@ -151,7 +151,7 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'APR',
-			value: 'N/A (contraction)'
+			value: '573% (Approx.)'
 		}
 	];
 
