@@ -33,6 +33,8 @@ const Rebaser = React.lazy(() => import('./dapp/Rebaser'));
 
 const Stabilizers = React.lazy(() => import('./dapp/stabilizers/index'));
 const ThresholdCounter = React.lazy(() => import('./dapp/stabilizers/ThresholdCounter'));
+const EthDebaseCounter = React.lazy(() => import('./dapp/stabilizers/RandomThresholdCounters/EthDebase'));
+
 const Incentivizers = React.lazy(() => import('./dapp/incentivizers/index'));
 const DegovEth = React.lazy(() => import('./dapp/incentivizers/DegovEth'));
 const MPH88 = React.lazy(() => import('./dapp/incentivizers/MPH88'));
@@ -135,6 +137,9 @@ function App() {
 									</Route>
 								</Route>
 								<Route path="/dapp/stabilizers">
+									<Route path="/dapp/stabilizers/thresholdCounter-v2-eth-debase">
+										<EthDebaseCounter />
+									</Route>
 									<Route path="/dapp/stabilizers/thresholdCounter">
 										<ThresholdCounter />
 									</Route>

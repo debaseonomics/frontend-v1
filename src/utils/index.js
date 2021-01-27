@@ -54,9 +54,31 @@ export const thresholdCounterAbi = [
 	'function userLpLimit() public view returns (uint256)',
 	'function enableUserLpLimit() public view returns (bool)',
 	'function revokeRewardPrecentage() public view returns (uint256)',
+	'function revokeRewardDuration() public view returns (uint256)',
 	'function revokeReward() public view returns (bool)',
 	'function count() public view returns (uint256)',
-	'function noramlDistributionMean() public view returns (uint256)',
+	'function normalDistributionMean() public view returns (uint256)',
+	'function normalDistributionDeviation() public view returns (uint256)',
+	'function totalSupply() public view returns (uint256)',
+	'function balanceOf(address) public view returns (uint256)',
+	'function normalDistribution(uint256) external view returns(uint256)'
+];
+
+export const thresholdCounterV2Abi = [
+	'function rewardPercentage() public view returns (uint256)',
+	'function countInSequence() public view returns (bool)',
+	'function countThreshold() public view returns (uint256)',
+	'function beforePeriodFinish() public view returns (bool)',
+	'function blockDuration() public view returns (uint256)',
+	'function poolEnabled() public view returns (bool)',
+	'function poolLpLimit() public view returns (uint256)',
+	'function enablePoolLpLimit() public view returns (bool)',
+	'function userLpLimit() public view returns (uint256)',
+	'function enableUserLpLimit() public view returns (bool)',
+	'function revokeRewardDuration() public view returns (uint256)',
+	'function revokeReward() public view returns (bool)',
+	'function count() public view returns (uint256)',
+	'function normalDistributionMean() public view returns (uint256)',
 	'function normalDistributionDeviation() public view returns (uint256)',
 	'function totalSupply() public view returns (uint256)',
 	'function balanceOf(address) public view returns (uint256)',
@@ -158,7 +180,11 @@ export const contractAddress = {
 	degovEthLp: '0xfc835d90ea6557b57b29361d95c4584d389e6ee8',
 	mph88Pool: '0x36f1F4125B4066cA4b768F9F5f9a737Bd4FA8f62',
 	mph88: '0x8888801aF4d980682e47f1A9036e589479e835C5',
-	vesting: '0x8943eb8F104bCf826910e7d2f4D59edfe018e0e7'
+	vesting: '0x8943eb8F104bCf826910e7d2f4D59edfe018e0e7',
+	disbursement: '0xac838d80ae37f32c6853e31f85a4b00208c46b95',
+	thresholdCounterV2Eth: '0xA36206621e6F14E6D4fCD9B3426209530c9c5f30',
+	randomNumberConsumer: '0x68bf7a502515270c7ef849df7b26ca308ac5b0a2',
+	debaseEthLp: '0xa8e5533d1e22be2df5e9ad9f67dd22a4e7d5b371'
 };
 
 export const uniAddress = {

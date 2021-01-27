@@ -7,7 +7,11 @@ import { debasePolicyAbi, fetcher, contractAddress } from '../../utils/index';
 export default function Stabilizers() {
 	const { library } = useWeb3React();
 
-	const { data: thresholdCounter } = useSWR([contractAddress.debasePolicy, 'stabilizerPools', 1], {
+	const { data: thresholdCounter } = useSWR([ contractAddress.debasePolicy, 'stabilizerPools', 1 ], {
+		fetcher: fetcher(library, debasePolicyAbi)
+	});
+
+	const { data: thresholdCounterV2Eth } = useSWR([ contractAddress.debasePolicy, 'stabilizerPools', 5 ], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
@@ -17,8 +21,16 @@ export default function Stabilizers() {
 			type: 'Passive Pool',
 			description:
 				'This stabilizer counts the number of positive rebases until a random threshold, sampled from a normal distribution, is hit. Once the threshold is hit, counter is reset and the pool starts to reward DEBASE for staked DEBASE/DAI LPs, as per parameters decided by governance.',
-			status: 'Inactive',
+			status: thresholdCounter,
 			link: 'thresholdCounter'
+		},
+		{
+			name: 'Threshold Counter V2 Eth/Debase',
+			type: 'Passive Pool',
+			description:
+				'This stabilizer counts the number of positive rebases until a random threshold, sampled from a normal distribution, is hit. Once the threshold is hit, counter is reset and the pool starts to reward DEBASE for staked DEBASE/DAI LPs, as per parameters decided by governance.',
+			status: thresholdCounterV2Eth,
+			link: 'thresholdCounter-v2-eth-debase'
 		}
 	];
 
@@ -35,8 +47,7 @@ export default function Stabilizers() {
 							<p>{ele.description}</p>
 						</div>
 						<h5 className="title is-5 has-text-centered">
-							Status:{' '}
-							{thresholdCounter !== undefined ? thresholdCounter[0] ? 'Enabled' : 'Disabled' : '...'}
+							Status: {ele.status !== undefined ? ele.status[0] ? 'Enabled' : 'Disabled' : '...'}
 						</h5>
 						<div className="block">
 							<Link to={'/dapp/stabilizers/' + ele.link}>
