@@ -329,7 +329,7 @@ export default function MPH88() {
 		},
 		{
 			label: 'APR',
-			value: '440% DEBASE, 40% MPH, 4.8% DAI',
+			value: '330% DEBASE, 40% MPH, 4.8% DAI',
 			toolTip: 'POOL APY'
 		}
 	];
