@@ -142,7 +142,7 @@ export default function ThresholdCounter() {
 			label: 'Total Pool Limit',
 			value:
 				poolLpLimit && totalSupply
-					? parseFloat(formatEther(totalSupply)).toFixed(2) + ' / ' + formatEther(poolLpLimit) + ' LP'
+					? parseFloat(formatEther(totalSupply)).toFixed(6) + ' / ' + formatEther(poolLpLimit) + ' LP'
 					: '...',
 			toolTip: 'Total LP limit per pool'
 		},

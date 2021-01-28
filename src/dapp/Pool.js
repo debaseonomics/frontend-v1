@@ -212,7 +212,7 @@ export default function Pool({
 						label="To Stake"
 						value={
 							tokenBalance !== undefined ? (
-								parseFloat(formatUnits(tokenBalance, unit)).toFixed(isMobile ? 4 : 8) * 1
+								parseFloat(formatUnits(tokenBalance, unit)).toFixed(isMobile ? 6 : 10) * 1
 							) : (
 								'0'
 							)
@@ -225,7 +225,7 @@ export default function Pool({
 						label="Staked"
 						value={
 							stakeBalance !== undefined ? (
-								parseFloat(formatUnits(stakeBalance, unit)).toFixed(isMobile ? 4 : 8) * 1
+								parseFloat(formatUnits(stakeBalance, unit)).toFixed(isMobile ? 6 : 10) * 1
 							) : (
 								'0'
 							)
