@@ -153,11 +153,11 @@ export default function ThresholdCounter() {
 		},
 		{
 			label: 'TVL',
-			value: '$' + numberFormat('752037.01057')
+			value: '$' + numberFormat('125000')
 		},
 		{
 			label: 'APR',
-			value: '573% (Approx.)'
+			value: '270% (Approx.); 540% Temp (Approx.)'
 		}
 	];
 
