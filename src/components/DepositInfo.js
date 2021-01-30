@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { lpAbi, fetcher, mph88Abi } from '../utils/index';
 import useSWR from 'swr';
@@ -18,6 +18,7 @@ export default function DepositInfo({
 	mph88
 }) {
 	const { library } = useWeb3React();
+
 	const TOTAL_GONS = BigNumber.from('115792089237316195423570985008687907853269984665640564000000000000000000000000');
 
 	const { data: debaseSupply, mutate: getDebaseSupply } = useSWR([ rewardTokenAddress, 'totalSupply' ], {
@@ -63,6 +64,14 @@ export default function DepositInfo({
 				isMobile={isMobile}
 				label="Dai Unlocked From Lp"
 				value={parseFloat(formatEther(deposit.daiAmount)).toFixed(4)}
+				token="Dai"
+				img={dai}
+			/>
+
+			<TextInfo
+				isMobile={isMobile}
+				label="Dai earned from deposit"
+				value={parseFloat(deposit.interestEarnedOnDai).toFixed(4)}
 				token="Dai"
 				img={dai}
 			/>

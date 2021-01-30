@@ -139,6 +139,7 @@ export default function MPH88() {
 				}
 			) {
 				fundingID
+				interestEarned
 			}
 		}
 	`;
@@ -196,6 +197,8 @@ export default function MPH88() {
 
 		let arr = [];
 		let x = 0;
+
+		const lockPeriod = await poolContract.lockPeriod();
 		while (true) {
 			try {
 				let depositId = await poolContract.depositIds(account, x);
@@ -215,8 +218,10 @@ export default function MPH88() {
 					fundingId: fundingInfo.deposits[0].fundingID,
 					amount: depositInfo[1],
 					daiAmount: depositInfo[2],
+					interestEarnedOnDai: fundingInfo.deposits[0].interestEarned,
 					debaseReward: depositInfo[3],
 					mphReward: mphTotal[0],
+					depositTime: depositInfo[9].sub(lockPeriod),
 					maturationTimestamp: depositInfo[9],
 					withdrawed: depositInfo[10]
 				};
