@@ -5,6 +5,7 @@ import useSWR from 'swr';
 import { DateTime } from 'luxon';
 import { formatEther, parseEther } from 'ethers/lib/utils';
 import TextInfo from './TextInfo.js';
+import { BigNumber } from 'ethers';
 
 export default function DepositInfo({
 	rewardTokenAddress,
@@ -17,6 +18,7 @@ export default function DepositInfo({
 	mph88
 }) {
 	const { library } = useWeb3React();
+	const TOTAL_GONS = BigNumber.from('115792089237316195423570985008687907853269984665640564000000000000000000000000');
 
 	const { data: debaseSupply, mutate: getDebaseSupply } = useSWR([ rewardTokenAddress, 'totalSupply' ], {
 		fetcher: fetcher(library, lpAbi)
@@ -65,13 +67,19 @@ export default function DepositInfo({
 				img={dai}
 			/>
 
-			{/* <TextInfo
+			<TextInfo
 				isMobile={isMobile}
 				label="Debase Unlocked From Lp"
-				value={formatEther(deposit.debaseReward)}
+				value={
+					debaseSupply !== undefined ? (
+						parseFloat(formatEther(deposit.debaseReward.div(TOTAL_GONS.div(debaseSupply)))).toFixed(4)
+					) : (
+						'...'
+					)
+				}
 				token={rewardText}
 				img={rewardTokenImage}
-			/> */}
+			/>
 
 			<TextInfo
 				isMobile={isMobile}
