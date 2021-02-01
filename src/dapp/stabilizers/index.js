@@ -31,6 +31,14 @@ export default function Stabilizers() {
 				'This stabilizer counts the number of positive rebases until a random threshold, sampled from a normal distribution, is hit. Once the threshold is hit, counter is reset and the pool starts to reward DEBASE for staked DEBASE/DAI LPs, as per parameters decided by governance.',
 			status: thresholdCounterV2Eth,
 			link: 'thresholdCounter-v2-eth-debase'
+		},
+		{
+			name: 'burn Pool',
+			type: 'Passive Pool',
+			description:
+				'This stabilizer counts the number of positive rebases until a random threshold, sampled from a normal distribution, is hit. Once the threshold is hit, counter is reset and the pool starts to reward DEBASE for staked DEBASE/DAI LPs, as per parameters decided by governance.',
+			status: thresholdCounterV2Eth,
+			link: 'burnPool'
 		}
 	];
 

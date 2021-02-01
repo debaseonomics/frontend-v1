@@ -7,7 +7,7 @@ import { InjectedConnector, NoEthereumProviderError, UserRejectedRequestError } 
 import debase from '../assets/debase.png';
 
 export default function DappLayout({ children }) {
-	const injected = new InjectedConnector({ supportedChainIds: [ 1 ] });
+	const injected = new InjectedConnector({ supportedChainIds: [ 1, 1337 ] });
 	const { account, activate, active, error } = useWeb3React();
 
 	const [ menuActive, setMenuActive ] = useState(false);

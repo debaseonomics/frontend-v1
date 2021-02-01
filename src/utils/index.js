@@ -155,6 +155,30 @@ export const mph88Abi = [
 	'function earned(uint256) view returns (uint256)'
 ];
 
+export const burnPoolAbi = [
+	'function epochs() view returns(uint256)',
+	'function totalRewardsDistributed() view returns(uint256)',
+	'function oraclePeriod() view returns(uint256)',
+	'function oracleNextUpdate() view returns(uint256)',
+	'function rewardsAccrued() view returns(uint256)',
+	'function curveShifter() view returns(uint256)',
+	'function blockDuration() view returns(uint256)',
+	'function initialRewardShare() view returns(uint256)',
+	'function multiSigRewardShare() view returns(uint256)',
+	'function rewardCyclesLength() view returns(uint256)',
+	'function rewardCycles(uint256) view returns(uint256)',
+	'function getUserCouponBalance(uint256) view returns(uint256)',
+	'function circBalance() view returns(uint256)',
+	'function lastRebase() view returns(uint256)',
+	'function mean() view returns(bytes16)',
+	'function deviation() view returns(bytes16)',
+	'function peakScaler() view returns(bytes16)',
+	'function oneDivDeviationSqrtTwoPi() view returns(bytes16)',
+	'function twoDeviationSquare() view returns(bytes16)',
+	'function bytes16ToUnit256(bytes16,uint256) view returns(uint256)',
+	'function getCurveValue(uint256,bytes16,bytes16,bytes16) view returns(bytes16)'
+];
+
 export const vestingAbi = [ 'function accountVestList(address,uint256) view returns(uint256,uint256,uint256,uint256)' ];
 
 export const randomNumberAbi = [ 'function randomResult() external view returns(uint256)' ];
@@ -184,7 +208,9 @@ export const contractAddress = {
 	disbursement: '0xac838d80ae37f32c6853e31f85a4b00208c46b95',
 	thresholdCounterV2Eth: '0xA36206621e6F14E6D4fCD9B3426209530c9c5f30',
 	randomNumberConsumer: '0x68bf7a502515270c7ef849df7b26ca308ac5b0a2',
-	debaseEthLp: '0xa8e5533d1e22be2df5e9ad9f67dd22a4e7d5b371'
+	debaseEthLp: '0xa8e5533d1e22be2df5e9ad9f67dd22a4e7d5b371',
+	burnPool: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+	burnPoolOracle: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
 };
 
 export const uniAddress = {
