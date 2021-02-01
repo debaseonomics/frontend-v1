@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import debase from '../../assets/debase.png';
 import { useHistory } from 'react-router-dom';
 import { contractAddress, etherScanAddress, turncate, fetcher, lpAbi, burnPoolAbi } from '../../utils/index';
@@ -15,6 +15,7 @@ export default function BurnPool() {
 	const [ selectedRewardCycleIndex, setSelectedRewardCycleIndex ] = useState(0);
 	const [ logNormalDistribution, setLogNormalDistribution ] = useState([]);
 
+	const couponRef = useRef();
 	const [ hideStake, setHideStake ] = useState(true);
 
 	const numberFormat = (value) =>
@@ -22,7 +23,7 @@ export default function BurnPool() {
 			style: 'decimal'
 		}).format(value);
 
-	const lastRebaseArr = [ 'POSITIVE', 'NEUTRAL', 'NEGATIVE', 'NONE' ];
+	const lastRebaseArr = [ 'Positive', 'Neutral', 'Negative', 'None' ];
 
 	const { data: epochs } = useSWR([ contractAddress.burnPool, 'epochs' ], {
 		fetcher: fetcher(library, burnPoolAbi)
@@ -71,39 +72,6 @@ export default function BurnPool() {
 	const { data: balance } = useSWR([ contractAddress.debase, 'balanceOf', contractAddress.thresholdCounterV2Eth ], {
 		fetcher: fetcher(library, lpAbi)
 	});
-
-	async function generateLogNormalDistribution() {
-		const burnPoolContract = new Contract(contractAddress.burnPool, burnPoolAbi, library.getSigner());
-
-		const mean = await burnPoolContract.mean();
-		const meanScaled = (await burnPoolContract.bytes16ToUnit256(mean, 1000000)).toNumber() / 1000000;
-
-		const deviation = await burnPoolContract.deviation();
-		const deviationScaled = (await burnPoolContract.bytes16ToUnit256(deviation, 1000000)).toNumber() / 1000000;
-
-		const peakScaler = await burnPoolContract.peakScaler();
-		const peakScalerScaled = (await burnPoolContract.bytes16ToUnit256(peakScaler, 1000000)).toNumber() / 1000000;
-
-		let disArr = [];
-		//Make distribution up till 5$ with an precision of 0.01$
-		for (let offset = 1; offset <= 500; offset++) {
-			const offsetScaled = offset / 100;
-			const res =
-				peakScalerScaled *
-				(1 / (offsetScaled * deviationScaled * Math.sqrt(2 * Math.PI))) *
-				Math.exp(-1 * ((Math.log(offsetScaled) - meanScaled) ** 2 / (2 * deviationScaled ** 2)));
-
-			disArr.push({
-				x: offsetScaled,
-				y: res
-			});
-		}
-		setLogNormalDistribution({
-			mean: meanScaled,
-			deviation: deviationScaled,
-			distribution: disArr
-		});
-	}
 
 	useEffect(() => {
 		generateLogNormalDistribution();
@@ -157,9 +125,70 @@ export default function BurnPool() {
 		}
 	];
 
-	function buyCoupons(params) {}
+	async function generateLogNormalDistribution() {
+		const burnPoolContract = new Contract(contractAddress.burnPool, burnPoolAbi, library.getSigner());
 
-	function claimDebase(params) {}
+		const mean = await burnPoolContract.mean();
+		const meanScaled = (await burnPoolContract.bytes16ToUnit256(mean, 1000000)).toNumber() / 1000000;
+
+		const deviation = await burnPoolContract.deviation();
+		const deviationScaled = (await burnPoolContract.bytes16ToUnit256(deviation, 1000000)).toNumber() / 1000000;
+
+		const peakScaler = await burnPoolContract.peakScaler();
+		const peakScalerScaled = (await burnPoolContract.bytes16ToUnit256(peakScaler, 1000000)).toNumber() / 1000000;
+
+		let disArr = [];
+		//Make distribution up till 5$ with an precision of 0.01$
+		for (let offset = 1; offset <= 500; offset++) {
+			const offsetScaled = offset / 100;
+			const res =
+				peakScalerScaled *
+				(1 / (offsetScaled * deviationScaled * Math.sqrt(2 * Math.PI))) *
+				Math.exp(-1 * ((Math.log(offsetScaled) - meanScaled) ** 2 / (2 * deviationScaled ** 2)));
+
+			disArr.push({
+				x: offsetScaled,
+				y: res
+			});
+		}
+		setLogNormalDistribution({
+			mean: meanScaled,
+			deviation: deviationScaled,
+			distribution: disArr
+		});
+	}
+
+	async function buyCoupons() {
+		const tokenContract = new Contract(contractAddress.debase, lpAbi, library.getSigner());
+		const burnPoolContract = new Contract(contractAddress.burnPool, burnPoolAbi, library.getSigner());
+		try {
+			const toStake = parseUnits(couponRef.current.value, 18);
+			let allowance = await tokenContract.allowance(account, contractAddress.burnPool);
+			let transaction;
+			if (allowance.lt(toStake)) {
+				transaction = await tokenContract.approve(contractAddress.burnPool, toStake);
+				await transaction.wait(1);
+			}
+			transaction = await burnPoolContract.buyCoupons(toStake);
+			await transaction.wait(1);
+
+			toaster('Coupon successfully bought', 'is-success');
+		} catch (error) {
+			toaster('Coupon buying failing, please try again', 'is-danger');
+		}
+	}
+
+	async function claimReward() {
+		const burnPoolContract = new Contract(contractAddress.burnPool, burnPoolAbi, library.getSigner());
+		try {
+			const transaction = await burnPoolContract.getReward();
+			await transaction.wait(1);
+
+			toaster('Claim reward successful', 'is-success');
+		} catch (error) {
+			toaster('Claim reward failed, please try again', 'is-danger');
+		}
+	}
 
 	return (
 		<div className="columns is-centered">
