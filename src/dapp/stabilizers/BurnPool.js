@@ -6,6 +6,7 @@ import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
 import { formatEther, parseEther } from 'ethers/lib/utils';
 import CouponInfo from '../../components/CouponInfo';
+import { useMediaQuery } from 'react-responsive';
 import { Contract } from 'ethers';
 
 export default function BurnPool() {
@@ -72,6 +73,8 @@ export default function BurnPool() {
 	const { data: balance } = useSWR([ contractAddress.debase, 'balanceOf', contractAddress.thresholdCounterV2Eth ], {
 		fetcher: fetcher(library, lpAbi)
 	});
+
+	const isMobile = useMediaQuery({ query: `(max-width: 482px)` });
 
 	useEffect(() => {
 		generateLogNormalDistribution();
@@ -301,19 +304,11 @@ export default function BurnPool() {
 				) : (
 					<Fragment>
 						<div className="divider">Staking</div>
-						{/* <CouponInfo
-							showName={false}
-							tokenText="Debase"
-							rewardText="Debase"
-							poolName="Debase burn Pool"
-							unit={18}
-							rewardTokenImage={debase}
-							stakeTokenImage={debase}
-							percents={true}
-							stakeTokenAddress={contractAddress.debase}
-							rewardTokenAddress={contractAddress.debase}
-							poolAddress={contractAddress.thresholdCounterV2Eth}
-						/> */}
+						<CouponInfo
+							isMobile={isMobile}
+							tokenAddress={contractAddress.debase}
+							poolAddress={contractAddress.burnPool}
+						/>
 					</Fragment>
 				)}
 			</div>

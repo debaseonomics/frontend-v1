@@ -19,7 +19,7 @@ import {
 import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
 import { useMediaQuery } from 'react-responsive';
-import { formatEther, formatUnits, parseEther, parseUnits } from 'ethers/lib/utils';
+import { formatEther, formatUnits, parseUnits } from 'ethers/lib/utils';
 import PoolInput from '../../components/PoolInput';
 import TextInfo from '../../components/TextInfo';
 import { request, gql } from 'graphql-request';

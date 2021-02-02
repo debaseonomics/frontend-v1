@@ -1,26 +1,25 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { lpAbi, fetcher, mph88Abi } from '../utils/index';
+import { lpAbi, fetcher, burnPoolAbi } from '../utils/index';
 import useSWR from 'swr';
-import { DateTime } from 'luxon';
+import debase from '../../assets/debase.png';
+import empty from '../../assets/empty.png';
 import { formatEther, parseEther } from 'ethers/lib/utils';
 import TextInfo from './TextInfo.js';
-import { BigNumber } from 'ethers';
 
-export default function CouponInfo({
-	rewardTokenAddress,
-	poolAddress,
-	rewardText,
-	rewardTokenImage,
-	deposit,
-	isMobile,
-	dai,
-	mph88
-}) {
+export default function CouponInfo({ tokenAddress, poolAddress, index, isMobile }) {
 	const { library } = useWeb3React();
 
-	const { data: debaseAccrued, mutate: getDebaseAccrued } = useSWR([ poolAddress, 'earned', deposit.id ], {
-		fetcher: fetcher(library, mph88Abi)
+	const { data: debaseAccrued, mutate: getDebaseAccrued } = useSWR([ poolAddress, 'earned', index ], {
+		fetcher: fetcher(library, burnPoolAbi)
+	});
+
+	const { data: couponBalance, mutate: getCouponBalance } = useSWR([ poolAddress, 'getUserCouponBalance', index ], {
+		fetcher: fetcher(library, burnPoolAbi)
+	});
+
+	const { data: debaseSupply, mutate: getDebaseSupply } = useSWR([ tokenAddress, 'totalSupply' ], {
+		fetcher: fetcher(library, lpAbi)
 	});
 
 	useEffect(
@@ -28,13 +27,39 @@ export default function CouponInfo({
 			library.on('block', () => {
 				getDebaseSupply(undefined, true);
 				getDebaseAccrued(undefined, true);
+				getCouponBalance(undefined, true);
 			});
 			return () => {
 				library.removeAllListeners('block');
 			};
 		},
-		[ library, getDebaseSupply, getDebaseAccrued ]
+		[ library, getDebaseAccrued, getDebaseSupply, getCouponBalance ]
 	);
 
-	return <Fragment />;
+	return (
+		<Fragment>
+			<TextInfo
+				isMobile={isMobile}
+				label="Coupon Balance"
+				value={couponBalance ? parseFloat(formatEther(couponBalance)).Fixed(isMobile ? 4 : 8) * 1 : '...'}
+				token="Debase"
+				img={empty}
+			/>
+			<TextInfo
+				isMobile={isMobile}
+				label="Debase Earned"
+				value={
+					debaseAccrued !== undefined && debaseSupply !== undefined ? (
+						parseFloat(formatEther(debaseAccrued.mul(debaseSupply).div(parseEther('1')))).toFixed(
+							isMobile ? 4 : 8
+						) * 1
+					) : (
+						'0'
+					)
+				}
+				token="Debase"
+				img={debase}
+			/>
+		</Fragment>
+	);
 }
