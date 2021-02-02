@@ -6,16 +6,7 @@ import dai from '../../assets/dai.png';
 import mph88 from '../../assets/88mph.png';
 import { Contract } from 'ethers';
 import { useHistory } from 'react-router-dom';
-import {
-	contractAddress,
-	etherScanAddress,
-	turncate,
-	fetcher,
-	mph88Abi,
-	lpAbi,
-	toaster,
-	vestingAbi
-} from '../../utils/index';
+import { contractAddress, etherScanAddress, turncate, fetcher, mph88Abi, lpAbi, toaster } from '../../utils/index';
 import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
 import { useMediaQuery } from 'react-responsive';
@@ -40,15 +31,7 @@ export default function MPH88() {
 		fetcher: fetcher(library, mph88Abi)
 	});
 
-	const { data: treasury } = useSWR([ contractAddress.mph88Pool, 'treasury' ], {
-		fetcher: fetcher(library, mph88Abi)
-	});
-
 	const { data: debaseRewardPercentage } = useSWR([ contractAddress.mph88Pool, 'debaseRewardPercentage' ], {
-		fetcher: fetcher(library, mph88Abi)
-	});
-
-	const { data: depositLength } = useSWR([ contractAddress.mph88Pool, 'depositLength' ], {
 		fetcher: fetcher(library, mph88Abi)
 	});
 
@@ -57,10 +40,6 @@ export default function MPH88() {
 	});
 
 	const { data: mphFee } = useSWR([ contractAddress.mph88Pool, 'mphFee' ], {
-		fetcher: fetcher(library, mph88Abi)
-	});
-
-	const { data: periodFinish } = useSWR([ contractAddress.mph88Pool, 'periodFinish' ], {
 		fetcher: fetcher(library, mph88Abi)
 	});
 
@@ -172,7 +151,7 @@ export default function MPH88() {
 		setWithdrawLoading(true);
 		const poolContract = new Contract(contractAddress.mph88Pool, mph88Abi, library.getSigner());
 
-		if (depositIds[selectedDepositIndex].withdrawed == false) {
+		if (depositIds[selectedDepositIndex].withdrawed === false) {
 			try {
 				let transaction = await poolContract.withdraw(
 					depositIds[selectedDepositIndex].id.toNumber(),
@@ -194,7 +173,6 @@ export default function MPH88() {
 
 	async function findDepositID() {
 		const poolContract = new Contract(contractAddress.mph88Pool, mph88Abi, library.getSigner());
-		const vestingContract = new Contract(contractAddress.vesting, vestingAbi, library.getSigner());
 
 		let arr = [];
 		let x = 0;
@@ -239,15 +217,17 @@ export default function MPH88() {
 
 		if (depositIds.length) {
 			let allDepositIds = depositIds.map((ele) => {
-				if (ele.withdrawed == false) {
+				if (ele.withdrawed === false) {
 					return ele.id.toNumber();
 				}
+				return null;
 			});
 
 			let allFundingIds = depositIds.map((ele) => {
-				if (ele.withdrawed == false) {
+				if (ele.withdrawed === false) {
 					return parseInt(ele.fundingId);
 				}
+				return null;
 			});
 
 			try {

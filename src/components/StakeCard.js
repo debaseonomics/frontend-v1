@@ -56,7 +56,7 @@ export default function StakeCard({
 				<h5 className="column is-1 subtitle is-size-5-tablet is-size-6-mobile">
 					{' '}
 					<span>
-						<img src={tokenTag} />
+						<img src={tokenTag} alt="" />
 					</span>{' '}
 					{supply}
 				</h5>
@@ -68,14 +68,14 @@ export default function StakeCard({
 						<div className="battery">{battery}</div>
 					</span>
 					<span>
-						<img src={tokenTag} />
+						<img src={tokenTag} alt="" />
 						{currentReward ? parseFloat(formatEther(currentReward)).toFixed(9) * 1 : 'Halving Reward'}{' '}
 					</span>
 				</h5>
 				{enabled ? (
 					<h5 className="column is-1 subtitle is-size-5-tablet is-size-6-mobile">
 						<span>
-							<img src={tokenTag} />
+							<img src={tokenTag} alt="" />
 							{getRewardDistributed ? (
 								parseFloat(formatEther(getRewardDistributed)).toFixed(2)
 							) : (

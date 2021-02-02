@@ -45,7 +45,7 @@ export default function CouponInfo({ tokenAddress, poolAddress, index, isMobile 
 			<TextInfo
 				isMobile={isMobile}
 				label="Epochs"
-				value={rewardCycle ? parseFloat(formatEther(rewardCycle[0])).Fixed(isMobile ? 4 : 8) * 1 : '...'}
+				value={rewardCycle ? rewardCycle[0].toNumber() : '...'}
 				token="Debase"
 				noImage={true}
 				img={empty}
@@ -53,7 +53,7 @@ export default function CouponInfo({ tokenAddress, poolAddress, index, isMobile 
 			<TextInfo
 				isMobile={isMobile}
 				label="Epochs Rewarded"
-				value={rewardCycle ? parseFloat(formatEther(rewardCycle[2])).Fixed(isMobile ? 4 : 8) * 1 : '...'}
+				value={rewardCycle ? rewardCycle[2].toNumber() : '...'}
 				token="Debase"
 				noImage={true}
 				img={empty}

@@ -34,10 +34,15 @@ export default function TokensInfo({ isMobile }) {
 							<p className="title is-4">{distribution}</p>
 						</div>
 					</div>
-					<a href={coingecko} target="_blank" className="button is-edged is-medium is-primary" style={{ position: "absolute", top: "40px", right: "50px" }}>
+					<a
+						href={coingecko}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="button is-edged is-medium is-primary"
+						style={{ position: 'absolute', top: '40px', right: '50px' }}
+					>
 						Trade
 					</a>
-
 				</nav>
 				<div className={isMobile ? 'content' : 'content is-medium'}>
 					<p>{extra}</p>

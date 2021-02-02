@@ -64,7 +64,6 @@ const calcRebasePercentage = (index, pastRebasesArr) => {
 
 const Dashboard = () => {
 	const [ pastRebases, setPastRebases ] = useState([]);
-	const [ pairData, setPairData ] = useState(null);
 
 	/* temp coingecko history data */
 	const [ coingeckoDebaseHistory, setCoingeckoDebaseHistory ] = useState(null);
