@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { lpAbi, fetcher, mph88Abi } from '../utils/index';
 import useSWR from 'swr';
@@ -49,7 +49,7 @@ export default function DepositInfo({
 				label="Deposit unlocks in"
 				value={DateTime.fromSeconds(deposit.maturationTimestamp.toNumber()).toRelative({ round: false })}
 				token={rewardText}
-				isTime={true}
+				noImage={true}
 				img={rewardTokenImage}
 			/>
 			<TextInfo

@@ -2,8 +2,8 @@ import React, { useEffect, Fragment } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { lpAbi, fetcher, burnPoolAbi } from '../utils/index';
 import useSWR from 'swr';
-import debase from '../../assets/debase.png';
-import empty from '../../assets/empty.png';
+import debase from '../assets/debase.png';
+import empty from '../assets/empty.png';
 import { formatEther, parseEther } from 'ethers/lib/utils';
 import TextInfo from './TextInfo.js';
 
@@ -15,6 +15,10 @@ export default function CouponInfo({ tokenAddress, poolAddress, index, isMobile 
 	});
 
 	const { data: couponBalance, mutate: getCouponBalance } = useSWR([ poolAddress, 'getUserCouponBalance', index ], {
+		fetcher: fetcher(library, burnPoolAbi)
+	});
+
+	const { data: rewardCycle } = useSWR([ poolAddress, 'rewardCycles', index ], {
 		fetcher: fetcher(library, burnPoolAbi)
 	});
 
@@ -38,6 +42,44 @@ export default function CouponInfo({ tokenAddress, poolAddress, index, isMobile 
 
 	return (
 		<Fragment>
+			<TextInfo
+				isMobile={isMobile}
+				label="Epochs"
+				value={rewardCycle ? parseFloat(formatEther(rewardCycle[0])).Fixed(isMobile ? 4 : 8) * 1 : '...'}
+				token="Debase"
+				noImage={true}
+				img={empty}
+			/>
+			<TextInfo
+				isMobile={isMobile}
+				label="Epochs Rewarded"
+				value={rewardCycle ? parseFloat(formatEther(rewardCycle[2])).Fixed(isMobile ? 4 : 8) * 1 : '...'}
+				token="Debase"
+				noImage={true}
+				img={empty}
+			/>
+			<TextInfo
+				isMobile={isMobile}
+				label="Reward Share"
+				value={rewardCycle ? parseFloat(formatEther(rewardCycle[1])).Fixed(isMobile ? 4 : 8) * 1 : '...'}
+				token="Debase"
+				img={empty}
+			/>
+
+			<TextInfo
+				isMobile={isMobile}
+				label="Coupons Issued"
+				value={rewardCycle ? parseFloat(formatEther(rewardCycle[3])).Fixed(isMobile ? 4 : 8) * 1 : '...'}
+				token="Debase"
+				img={empty}
+			/>
+			<TextInfo
+				isMobile={isMobile}
+				label="Reward Distributed"
+				value={rewardCycle ? parseFloat(formatEther(rewardCycle[9])).Fixed(isMobile ? 4 : 8) * 1 : '...'}
+				token="Debase"
+				img={empty}
+			/>
 			<TextInfo
 				isMobile={isMobile}
 				label="Coupon Balance"

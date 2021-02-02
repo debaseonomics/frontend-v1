@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 /* import Nivo chart line */
 import { ResponsiveLine } from '@nivo/line';
@@ -63,32 +63,32 @@ const calcRebasePercentage = (index, pastRebasesArr) => {
 };
 
 const Dashboard = () => {
-	const [pastRebases, setPastRebases] = useState([]);
-	const [pairData, setPairData] = useState(null);
+	const [ pastRebases, setPastRebases ] = useState([]);
+	const [ pairData, setPairData ] = useState(null);
 
 	/* temp coingecko history data */
-	const [coingeckoDebaseHistory, setCoingeckoDebaseHistory] = useState(null);
+	const [ coingeckoDebaseHistory, setCoingeckoDebaseHistory ] = useState(null);
 
-	const [debaseData, setDebaseData] = useState(null);
-	const [degovData, setDegovData] = useState(null);
-	const [usdData, setUsdData] = useState(null);
+	const [ debaseData, setDebaseData ] = useState(null);
+	const [ degovData, setDegovData ] = useState(null);
+	const [ usdData, setUsdData ] = useState(null);
 
-	const [debaseCircSupply, setDebaseCircSupply] = useState(null);
-	const [degovCircSupply, setDegovCircSupply] = useState(null);
+	const [ debaseCircSupply, setDebaseCircSupply ] = useState(null);
+	const [ degovCircSupply, setDegovCircSupply ] = useState(null);
 
-	const [totalSupplyData, setTotalSupplyData] = useState([
+	const [ totalSupplyData, setTotalSupplyData ] = useState([
 		{
 			id: 'Totalsupply',
 			data: []
 		}
 	]);
-	const [rebasePercentageData, setRebasePercentageData] = useState([
+	const [ rebasePercentageData, setRebasePercentageData ] = useState([
 		{
 			id: 'Rebasepercentage',
 			data: []
 		}
 	]);
-	const [marketCapData, setMarketCapData] = useState(null);
+	const [ marketCapData, setMarketCapData ] = useState(null);
 
 	const rebaseQuery = gql`
 		{
@@ -378,29 +378,41 @@ const Dashboard = () => {
 	};
 
 	const renderDebasePrice = () => {
-		if (!debaseData) { return null }
+		if (!debaseData) {
+			return null;
+		}
 		return financial(debaseData);
 	};
 	const renderDegovPrice = () => {
-		if (!degovData) { return null }
+		if (!degovData) {
+			return null;
+		}
 		return financial(degovData * usdData);
 	};
 	const renderDebaseCircSupply = () => {
-		if (!debaseCircSupply) { return null }
+		if (!debaseCircSupply) {
+			return null;
+		}
 		return numberFormat(debaseCircSupply);
 	};
 	const renderDegovCircSupply = () => {
-		if (!degovCircSupply) { return null }
+		if (!degovCircSupply) {
+			return null;
+		}
 		return numberFormat(degovCircSupply);
 	};
 	const renderDebaseMarketcap = () => {
-		if (!debaseData && !debaseCircSupply) { return null }
+		if (!debaseData && !debaseCircSupply) {
+			return null;
+		}
 		return numberFormat(debaseData * debaseCircSupply);
 	};
 	const renderDegovMarketcap = () => {
-		if (!degovData && !degovCircSupply) { return null }
+		if (!degovData && !degovCircSupply) {
+			return null;
+		}
 
-		return numberFormat((degovData * usdData) * degovCircSupply);
+		return numberFormat(degovData * usdData * degovCircSupply);
 	};
 
 	/* lifetime cycles functions */
@@ -408,13 +420,12 @@ const Dashboard = () => {
 		async function fetchRebaseHistory() {
 			const res = await request('https://api.thegraph.com/subgraphs/name/debaseonomics/subgraph', rebaseQuery);
 			if (res.rebases) {
-				setPastRebases([...res.rebases]);
+				setPastRebases([ ...res.rebases ]);
 			}
 		}
 		fetchRebaseHistory();
 
 		const fetchCGDebaseHistory = async () => {
-
 			/* start date constant */
 			const startDate = 1606906800000;
 			const currentDate = Date.now();
@@ -422,37 +433,42 @@ const Dashboard = () => {
 
 			/* try get to coingecko data */
 			try {
-
-				fetch(`https://api.coingecko.com/api/v3/coins/debase/market_chart?vs_currency=usd&days=${daysRange}&interval=hours`, {
-					method: 'GET'
-				})
-					.then(response => response.json())
-					.then(data => {
-
+				fetch(
+					`https://api.coingecko.com/api/v3/coins/debase/market_chart?vs_currency=usd&days=${daysRange}&interval=hours`,
+					{
+						method: 'GET'
+					}
+				)
+					.then((response) => response.json())
+					.then((data) => {
 						const localData = {};
 						localData.prices = [];
 						localData.market_caps = [];
 						localData.total_volumes = [];
 
-						Object.entries(data).forEach(type => {
-							if (!['prices', 'market_caps', 'total_volumes'].includes(type[0])) { return }
-							const [financeType, typeHistory] = type;
+						Object.entries(data).forEach((type) => {
+							if (![ 'prices', 'market_caps', 'total_volumes' ].includes(type[0])) {
+								return;
+							}
+							const [ financeType, typeHistory ] = type;
 
 							typeHistory.forEach((hourlyTimeHistory, i) => {
-								const [timestamp, value] = hourlyTimeHistory;
-								if (new Date(timestamp).getHours() !== 11) { return }
-								localData[financeType].push([timestamp, value]);
+								const [ timestamp, value ] = hourlyTimeHistory;
+								if (new Date(timestamp).getHours() !== 11) {
+									return;
+								}
+								localData[financeType].push([ timestamp, value ]);
 							});
 						});
 
 						console.log(localData);
 
-						setCoingeckoDebaseHistory(localData)
-
+						setCoingeckoDebaseHistory(localData);
 					});
 
 				/* catch possible errors */
-			} catch {
+			} catch (error) {
+				console.log(error);
 				/* write error */
 			}
 		};
@@ -476,11 +492,8 @@ const Dashboard = () => {
 			//const stabilizerBalanceDegov = await contractDegov.balanceOf(contractAddress.degovPolicy);
 			//const pool1BalanceDegov = await contractDegov.balanceOf(contractAddress.degovDaiPool);
 			const pool2BalanceDegov = await contractDegov.balanceOf(contractAddress.degovDaiLpPool);
-			const circBalanceDegov = ethers.utils.formatEther(
-				totalSupplyDegov.sub(pool2BalanceDegov)
-			);
+			const circBalanceDegov = ethers.utils.formatEther(totalSupplyDegov.sub(pool2BalanceDegov));
 			setDegovCircSupply(circBalanceDegov);
-
 		}
 		fetchTokenData();
 
@@ -506,7 +519,7 @@ const Dashboard = () => {
 	}, []);
 	useEffect(
 		() => {
-			const localPastRebases = [...pastRebases].reverse();
+			const localPastRebases = [ ...pastRebases ].reverse();
 			if (localPastRebases.length === 0) {
 				return;
 			}
@@ -521,7 +534,7 @@ const Dashboard = () => {
 			});
 
 			/* calculate total supply data*/
-			const localTotalSupplyData = [...totalSupplyData];
+			const localTotalSupplyData = [ ...totalSupplyData ];
 			localPastRebases.forEach((rebase, i, arr) => {
 				const { timestamp } = rebase;
 				localTotalSupplyData[0].data.push({
@@ -531,7 +544,7 @@ const Dashboard = () => {
 			});
 
 			/* calculate rebase percentage data*/
-			const localRebasePercentageData = [...rebasePercentageData];
+			const localRebasePercentageData = [ ...rebasePercentageData ];
 			localPastRebases.forEach((rebase, i, arr) => {
 				const { timestamp } = rebase;
 				if (i !== 0) {
@@ -546,33 +559,36 @@ const Dashboard = () => {
 			setTotalSupplyData(localTotalSupplyData);
 			setRebasePercentageData(localRebasePercentageData);
 		},
-		[pastRebases]
+		[ pastRebases ]
 	);
 
-	useEffect(() => {
-
-		if (!coingeckoDebaseHistory) { return }
-
-		const marketcapArray = coingeckoDebaseHistory.market_caps;
-		//marketcapArray.pop();
-		const marketcapChartData = [
-			{
-				id: 'marketcap',
-				data: []
+	useEffect(
+		() => {
+			if (!coingeckoDebaseHistory) {
+				return;
 			}
-		];
-		marketcapArray.forEach((marketcap, i) => {
-			let [timestamp, value] = marketcap;
-			marketcapChartData[0].data.push({
-				x: timestampToDate(timestamp / 1000),
-				y: value
+
+			const marketcapArray = coingeckoDebaseHistory.market_caps;
+			//marketcapArray.pop();
+			const marketcapChartData = [
+				{
+					id: 'marketcap',
+					data: []
+				}
+			];
+			marketcapArray.forEach((marketcap, i) => {
+				let [ timestamp, value ] = marketcap;
+				marketcapChartData[0].data.push({
+					x: timestampToDate(timestamp / 1000),
+					y: value
+				});
 			});
-		});
-		setMarketCapData(marketcapChartData);
+			setMarketCapData(marketcapChartData);
 
-		console.log(marketcapChartData);
-
-	}, [coingeckoDebaseHistory])
+			console.log(marketcapChartData);
+		},
+		[ coingeckoDebaseHistory ]
+	);
 
 	return (
 		<div className="dashboardwrap columns is-multiline">
@@ -582,7 +598,9 @@ const Dashboard = () => {
 						<div className="box column">
 							<div>
 								<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Debase</h2>
-								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDebasePrice()} <img src={dai} alt="Dai" /></h5>
+								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
+									{renderDebasePrice()} <img src={dai} alt="Dai" />
+								</h5>
 							</div>
 						</div>
 					</div>
@@ -590,42 +608,62 @@ const Dashboard = () => {
 						<div className="box column">
 							<div>
 								<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">degov</h2>
-								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDegovPrice()} <img src={dai} alt="Dai" /></h5>
+								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
+									{renderDegovPrice()} <img src={dai} alt="Dai" />
+								</h5>
 							</div>
 						</div>
 					</div>
 					<div className="column is-6">
 						<div className="box column">
 							<div>
-								<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">debase Circ. Supply</h2>
-								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDebaseCircSupply()}<img src={debase} alt="Debase" /></h5>
+								<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">
+									debase Circ. Supply
+								</h2>
+								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
+									{renderDebaseCircSupply()}
+									<img src={debase} alt="Debase" />
+								</h5>
 							</div>
 						</div>
 					</div>
 					<div className="column is-6">
 						<div className="box column">
 							<div>
-								<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">degov Circ. Supply</h2>
-								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDegovCircSupply()}<img src={degov} alt="Degov" /></h5>
+								<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">
+									degov Circ. Supply
+								</h2>
+								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
+									{renderDegovCircSupply()}
+									<img src={degov} alt="Degov" />
+								</h5>
 							</div>
 						</div>
 					</div>
 					<div className="column is-6">
 						<div className="box column">
 							<div>
-								<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap debase</h2>
-								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDebaseMarketcap()}<img src={dai} alt="Dai" /></h5>
+								<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">
+									Marketcap debase
+								</h2>
+								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
+									{renderDebaseMarketcap()}
+									<img src={dai} alt="Dai" />
+								</h5>
 							</div>
 						</div>
 					</div>
 
-
-
 					<div className="column is-6">
 						<div className="box column">
 							<div>
-								<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Marketcap degov</h2>
-								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">{renderDegovMarketcap()}<img src={dai} alt="Dai" /></h5>
+								<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">
+									Marketcap degov
+								</h2>
+								<h5 className="subtitle is-size-5-tablet is-size-6-mobile">
+									{renderDegovMarketcap()}
+									<img src={dai} alt="Dai" />
+								</h5>
 							</div>
 						</div>
 					</div>
@@ -634,7 +672,9 @@ const Dashboard = () => {
 			<div className="column is-6">
 				<div className="box column">
 					<div className="has-text-centered">
-						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">debase marketcap</h2>
+						<h2 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">
+							debase marketcap
+						</h2>
 					</div>
 					{renderMarketcapChart()}
 				</div>
@@ -657,11 +697,8 @@ const Dashboard = () => {
 					{renderRebasePercentageChart()}
 				</div>
 			</div>
-
-
-
 		</div>
 	);
-}
+};
 
-export default Dashboard
+export default Dashboard;

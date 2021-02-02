@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-export default function TextInfo({ isMobile, label, value, token, img, isDropDown, setSelectedDepositIndex, isTime }) {
+export default function TextInfo({ isMobile, label, value, token, img, isDropDown, setSelectedDepositIndex, noImage }) {
 	return (
 		<tr>
 			<th className="has-text-left">
@@ -27,7 +27,7 @@ export default function TextInfo({ isMobile, label, value, token, img, isDropDow
 								<h5 className={isMobile ? 'subtitle is-6' : 'subtitle is-5'}>{value}</h5>
 							</div>
 
-							{isTime ? null : (
+							{noImage ? null : (
 								<Fragment>
 									<div className="level-item">
 										<figure className="image is-24x24 is-inline-block">

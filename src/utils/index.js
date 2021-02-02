@@ -177,8 +177,11 @@ export const burnPoolAbi = [
 	'function twoDeviationSquare() view returns(bytes16)',
 	'function bytes16ToUnit256(bytes16,uint256) view returns(uint256)',
 	'function getCurveValue(uint256,bytes16,bytes16,bytes16) view returns(bytes16)',
-	'function buyCoupons(uint256) external'
+	'function buyCoupons(uint256) external',
+	'function rewardCycles(uint256) view returns(uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)'
 ];
+
+export const burnPoolOracleAbi = [ 'function lastPrice() view returns(uint256)' ];
 
 export const vestingAbi = [ 'function accountVestList(address,uint256) view returns(uint256,uint256,uint256,uint256)' ];
 

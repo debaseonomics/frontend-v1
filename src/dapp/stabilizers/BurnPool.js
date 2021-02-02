@@ -1,19 +1,31 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
 import debase from '../../assets/debase.png';
 import { useHistory } from 'react-router-dom';
-import { contractAddress, etherScanAddress, turncate, fetcher, lpAbi, burnPoolAbi } from '../../utils/index';
+import {
+	contractAddress,
+	etherScanAddress,
+	turncate,
+	fetcher,
+	lpAbi,
+	burnPoolAbi,
+	toaster,
+	burnPoolOracleAbi
+} from '../../utils/index';
 import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
-import { formatEther, parseEther } from 'ethers/lib/utils';
+import { formatEther, parseEther, parseUnits } from 'ethers/lib/utils';
 import CouponInfo from '../../components/CouponInfo';
+import PoolInput from '../../components/PoolInput';
 import { useMediaQuery } from 'react-responsive';
 import { Contract } from 'ethers';
+import TextInfo from '../../components/TextInfo';
 
 export default function BurnPool() {
 	let history = useHistory();
-	const { library } = useWeb3React();
+	const { library, account } = useWeb3React();
 
 	const [ selectedRewardCycleIndex, setSelectedRewardCycleIndex ] = useState(0);
+	const [ stakingLoading, setStakingLoading ] = useState(false);
 	const [ logNormalDistribution, setLogNormalDistribution ] = useState([]);
 
 	const couponRef = useRef();
@@ -66,12 +78,20 @@ export default function BurnPool() {
 		fetcher: fetcher(library, burnPoolAbi)
 	});
 
+	const { data: debaseSupply } = useSWR([ contractAddress.debase, 'totalSupply' ], {
+		fetcher: fetcher(library, lpAbi)
+	});
+
+	const { data: debaseBalance, mutate: getDebaseBalance } = useSWR([ contractAddress.debase, 'balanceOf', account ], {
+		fetcher: fetcher(library, lpAbi)
+	});
+
 	const { data: lastRebaseIndex } = useSWR([ contractAddress.burnPool, 'lastRebase' ], {
 		fetcher: fetcher(library, burnPoolAbi)
 	});
 
-	const { data: balance } = useSWR([ contractAddress.debase, 'balanceOf', contractAddress.thresholdCounterV2Eth ], {
-		fetcher: fetcher(library, lpAbi)
+	const { data: lastPrice } = useSWR([ contractAddress.burnPoolOracle, 'lastPrice' ], {
+		fetcher: fetcher(library, burnPoolOracleAbi)
 	});
 
 	const isMobile = useMediaQuery({ query: `(max-width: 482px)` });
@@ -98,7 +118,10 @@ export default function BurnPool() {
 		},
 		{
 			label: 'Rewards Accrued',
-			value: rewardsAccrued !== undefined ? parseFloat(formatEther(rewardsAccrued)).toFixed(4) : '...',
+			value:
+				rewardsAccrued !== undefined && debaseSupply !== undefined
+					? parseFloat(formatEther(rewardsAccrued.mul(debaseSupply).div(parseEther('1')))).toFixed(4)
+					: '...',
 			toolTip: 'Current pool rewards available'
 		},
 		{
@@ -124,6 +147,11 @@ export default function BurnPool() {
 		{
 			label: 'Last Rebase',
 			value: lastRebaseIndex ? lastRebaseArr[lastRebaseIndex] : '...',
+			toolTip: 'Current pool rewards available'
+		},
+		{
+			label: 'Coupon Oracle Price',
+			value: lastPrice ? parseFloat(formatEther(lastPrice)).toFixed(4) : '...',
 			toolTip: 'Current pool rewards available'
 		}
 	];
@@ -162,6 +190,7 @@ export default function BurnPool() {
 	}
 
 	async function buyCoupons() {
+		setStakingLoading(false);
 		const tokenContract = new Contract(contractAddress.debase, lpAbi, library.getSigner());
 		const burnPoolContract = new Contract(contractAddress.burnPool, burnPoolAbi, library.getSigner());
 		try {
@@ -179,6 +208,7 @@ export default function BurnPool() {
 		} catch (error) {
 			toaster('Coupon buying failing, please try again', 'is-danger');
 		}
+		setStakingLoading(true);
 	}
 
 	async function claimReward() {
@@ -303,11 +333,51 @@ export default function BurnPool() {
 					</button>
 				) : (
 					<Fragment>
-						<div className="divider">Staking</div>
-						<CouponInfo
-							isMobile={isMobile}
-							tokenAddress={contractAddress.debase}
-							poolAddress={contractAddress.burnPool}
+						<div className="boxs has-text-centered">
+							<table className="table is-fullwidth">
+								<tbody>
+									<TextInfo
+										isMobile={isMobile}
+										label="Balance"
+										value={
+											debaseBalance !== undefined ? (
+												parseFloat(formatEther(debaseBalance)).toFixed(isMobile ? 4 : 8) * 1
+											) : (
+												'0'
+											)
+										}
+										token="Debase"
+										img={debase}
+									/>
+									{rewardCyclesLength ? rewardCyclesLength !== 0 ? (
+										<Fragment>
+											<TextInfo
+												isMobile={isMobile}
+												label="Reward Cycle Id"
+												value={selectedRewardCycleIndex}
+												isDropDown={true}
+												setSelectedDepositIndex={setSelectedRewardCycleIndex}
+											/>
+											<CouponInfo
+												isMobile={isMobile}
+												index={selectedRewardCycleIndex}
+												tokenAddress={contractAddress.debase}
+												poolAddress={contractAddress.burnPool}
+											/>
+										</Fragment>
+									) : null : null}
+								</tbody>
+							</table>
+						</div>
+
+						<PoolInput
+							action={buyCoupons}
+							loading={stakingLoading}
+							buttonText="Deposit Amount"
+							ref={couponRef}
+							balance={debaseBalance}
+							placeholderText="Enter deposit amount"
+							unit={18}
 						/>
 					</Fragment>
 				)}
