@@ -166,7 +166,6 @@ export const burnPoolAbi = [
 	'function initialRewardShare() view returns(uint256)',
 	'function multiSigRewardShare() view returns(uint256)',
 	'function rewardCyclesLength() view returns(uint256)',
-	'function rewardCycles(uint256) view returns(uint256)',
 	'function getUserCouponBalance(uint256) view returns(uint256)',
 	'function circBalance() view returns(uint256)',
 	'function lastRebase() view returns(uint256)',
@@ -178,6 +177,7 @@ export const burnPoolAbi = [
 	'function bytes16ToUnit256(bytes16,uint256) view returns(uint256)',
 	'function getCurveValue(uint256,bytes16,bytes16,bytes16) view returns(bytes16)',
 	'function buyCoupons(uint256) external',
+	'function getReward(uint256) external',
 	'function rewardCycles(uint256) view returns(uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)'
 ];
 
@@ -191,7 +191,7 @@ export const uniAbi = [ 'function getReserves() view returns (uint112,uint112,ui
 
 export const contractAddress = {
 	degov: '0x469E66e06fEc34839E5eB1273ba85A119B8D702F',
-	debase: '0x9248c485b0B80f76DA451f167A8db30F33C70907',
+	debase: '0xcef9b7df27f06b9a2d1decc45b23930e3fc6a9a9',
 	debasePolicy: '0x989Edd2e87B1706AB25b2E8d9D9480DE3Cc383eD',
 	governorAlpha: '0x291BC8eDFE98155224502282444cC2E98d80d2d5',
 	timelock: '0x969e1d56682305963c6b7f8920D0200189B22482',
@@ -213,8 +213,8 @@ export const contractAddress = {
 	thresholdCounterV2Eth: '0xA36206621e6F14E6D4fCD9B3426209530c9c5f30',
 	randomNumberConsumer: '0x68bf7a502515270c7ef849df7b26ca308ac5b0a2',
 	debaseEthLp: '0xa8e5533d1e22be2df5e9ad9f67dd22a4e7d5b371',
-	burnPool: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-	burnPoolOracle: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
+	burnPool: '0x15A6AAeeD75F2B41999e39D57bB364344C8c94AD',
+	burnPoolOracle: '0x940742846134aBaE727915a9C56a7bafb44Ec446'
 };
 
 export const uniAddress = {

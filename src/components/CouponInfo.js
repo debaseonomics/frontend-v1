@@ -7,7 +7,7 @@ import empty from '../assets/empty.png';
 import { formatEther, parseEther } from 'ethers/lib/utils';
 import TextInfo from './TextInfo.js';
 
-export default function CouponInfo({ tokenAddress, poolAddress, index, isMobile }) {
+export default function CouponInfo({ tokenAddress, data, poolAddress, index, isMobile }) {
 	const { library } = useWeb3React();
 
 	const { data: debaseAccrued, mutate: getDebaseAccrued } = useSWR([ poolAddress, 'earned', index ], {
@@ -15,10 +15,6 @@ export default function CouponInfo({ tokenAddress, poolAddress, index, isMobile 
 	});
 
 	const { data: couponBalance, mutate: getCouponBalance } = useSWR([ poolAddress, 'getUserCouponBalance', index ], {
-		fetcher: fetcher(library, burnPoolAbi)
-	});
-
-	const { data: rewardCycle } = useSWR([ poolAddress, 'rewardCycles', index ], {
 		fetcher: fetcher(library, burnPoolAbi)
 	});
 
@@ -45,7 +41,7 @@ export default function CouponInfo({ tokenAddress, poolAddress, index, isMobile 
 			<TextInfo
 				isMobile={isMobile}
 				label="Epochs"
-				value={rewardCycle ? rewardCycle[0].toNumber() : '...'}
+				value={data[0].toNumber()}
 				token="Debase"
 				noImage={true}
 				img={empty}
@@ -53,7 +49,7 @@ export default function CouponInfo({ tokenAddress, poolAddress, index, isMobile 
 			<TextInfo
 				isMobile={isMobile}
 				label="Epochs Rewarded"
-				value={rewardCycle ? rewardCycle[2].toNumber() : '...'}
+				value={data[2].toNumber()}
 				token="Debase"
 				noImage={true}
 				img={empty}
@@ -61,7 +57,7 @@ export default function CouponInfo({ tokenAddress, poolAddress, index, isMobile 
 			<TextInfo
 				isMobile={isMobile}
 				label="Reward Share"
-				value={rewardCycle ? parseFloat(formatEther(rewardCycle[1])).Fixed(isMobile ? 4 : 8) * 1 : '...'}
+				value={parseFloat(formatEther(data[1])).Fixed(isMobile ? 4 : 8) * 1}
 				token="Debase"
 				img={empty}
 			/>
@@ -69,21 +65,21 @@ export default function CouponInfo({ tokenAddress, poolAddress, index, isMobile 
 			<TextInfo
 				isMobile={isMobile}
 				label="Coupons Issued"
-				value={rewardCycle ? parseFloat(formatEther(rewardCycle[3])).Fixed(isMobile ? 4 : 8) * 1 : '...'}
+				value={parseFloat(formatEther(data[3])).Fixed(isMobile ? 4 : 8) * 1}
 				token="Debase"
 				img={empty}
 			/>
 			<TextInfo
 				isMobile={isMobile}
 				label="Reward Distributed"
-				value={rewardCycle ? parseFloat(formatEther(rewardCycle[9])).Fixed(isMobile ? 4 : 8) * 1 : '...'}
+				value={parseFloat(formatEther(data[9])).Fixed(isMobile ? 4 : 8) * 1}
 				token="Debase"
 				img={empty}
 			/>
 			<TextInfo
 				isMobile={isMobile}
 				label="Coupon Balance"
-				value={couponBalance ? parseFloat(formatEther(couponBalance)).Fixed(isMobile ? 4 : 8) * 1 : '...'}
+				value={parseFloat(formatEther(couponBalance)).Fixed(isMobile ? 4 : 8) * 1}
 				token="Debase"
 				img={empty}
 			/>

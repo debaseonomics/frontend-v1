@@ -25,7 +25,9 @@
 		"react-router-dom": "^5.2.0",
 		"react-scripts": "3.4.3",
 		"recoil": "^0.1.2",
-		"swr": "^0.3.11"
+		"subscriptions-transport-ws": "^0.9.18",
+		"swr": "^0.3.11",
+		"urql": "^1.11.6"
 	},
 	"scripts": {
 		"start": "react-scripts start",
@@ -34,15 +36,29 @@
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
-		"extends": [ "eslint:recommended", "react-app" ],
+		"extends": [
+			"eslint:recommended",
+			"react-app"
+		],
 		"rules": {
 			"no-console": "off",
-			"strict": [ "error", "global" ]
+			"strict": [
+				"error",
+				"global"
+			]
 		}
 	},
 	"browserslist": {
-		"production": [ ">0.2%", "not dead", "not op_mini all" ],
-		"development": [ "last 1 chrome version", "last 1 firefox version", "last 1 safari version" ]
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
 	},
 	"devDependencies": {
 		"@creativebulma/bulma-tooltip": "^1.2.0"
