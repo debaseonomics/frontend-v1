@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 
-export default function Curve({ peakScaler, mean, deviation }) {
+export default function RewardCurve({ circBalance, couponIssued, couponBalance, rewardPercentage, debaseSupply }) {
 	const [ curve, setCurve ] = useState([
 		{
 			id: 'Price',
@@ -9,33 +9,36 @@ export default function Curve({ peakScaler, mean, deviation }) {
 		}
 	]);
 
-	function generateLogNormalDistribution() {
-		let disArr = [];
-		//Make distribution up till 5$ with an precision of 0.05$
+	function calculateValue() {
+		let biggestReward = debaseSupply * rewardPercentage / 100;
 
-		for (let offset = 1; offset <= 500; offset += 2) {
-			const offsetScaled = offset / 100;
-			const result =
-				parseFloat(peakScaler) *
-				(1 / (offsetScaled * parseFloat(deviation) * Math.sqrt(2 * Math.PI))) *
-				Math.exp(-1 * ((Math.log(offsetScaled) - parseFloat(mean)) ** 2 / (2 * parseFloat(deviation) ** 2)));
+		let currentReward = debaseSupply * rewardPercentage / 100 * (couponBalance / couponIssued);
 
-			disArr.push({
-				x: offsetScaled,
-				y: result
-			});
-		}
+		let leastReward = debaseSupply * rewardPercentage / 100 * (couponBalance / circBalance);
 
 		setCurve([
 			{
 				id: 'Price',
-				data: disArr
+				data: [
+					{
+						x: 1,
+						y: biggestReward
+					},
+					{
+						x: couponIssued,
+						y: currentReward
+					},
+					{
+						x: circBalance,
+						y: leastReward
+					}
+				]
 			}
 		]);
 	}
 
 	useEffect(() => {
-		generateLogNormalDistribution();
+		calculateValue();
 	}, []);
 
 	const chartTheme = {

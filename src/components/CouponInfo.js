@@ -35,10 +35,8 @@ export default function CouponInfo({ debaseSupply, isMobile, id }) {
 			isMobile={isMobile}
 			label="Debase Earned"
 			value={
-				debaseAccrued !== undefined && debaseSupply !== undefined ? (
-					parseFloat(formatEther(debaseAccrued.mul(debaseSupply).div(parseEther('1')))).toFixed(
-						isMobile ? 4 : 8
-					) * 1
+				debaseAccrued !== undefined ? (
+					parseFloat(formatEther(debaseAccrued.mul(debaseSupply).div(parseEther('1')))).toFixed(4) * 1
 				) : (
 					'0'
 				)
