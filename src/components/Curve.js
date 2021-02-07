@@ -4,7 +4,7 @@ import { ResponsiveLine } from '@nivo/line';
 export default function Curve({ peakScaler, mean, deviation }) {
 	const [ curve, setCurve ] = useState([
 		{
-			id: 'Res',
+			id: 'Price',
 			data: []
 		}
 	]);
@@ -12,8 +12,9 @@ export default function Curve({ peakScaler, mean, deviation }) {
 	function generateLogNormalDistribution() {
 		let disArr = [];
 		//Make distribution up till 5$ with an precision of 0.05$
+		console.log(peakScaler, mean, deviation);
 
-		for (let offset = 1; offset <= 500; offset += 5) {
+		for (let offset = 1; offset <= 500; offset += 2) {
 			const offsetScaled = offset / 100;
 			const result =
 				parseFloat(peakScaler) *

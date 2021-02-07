@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
 import debase from '../../assets/debase.png';
 import empty from '../../assets/empty.png';
+import dai from '../../assets/dai.png';
 
 import { useHistory } from 'react-router-dom';
 import {
@@ -118,9 +119,11 @@ export default function BurnPool() {
 	const [ stakingLoading, setStakingLoading ] = useState(false);
 	const [ claimLoading, setClaimLoading ] = useState(false);
 	const [ hideStake, setHideStake ] = useState(true);
+	const [ hideDistribution, setHideDistribution ] = useState(true);
 
 	const [ selectedRewardCycle, setSelectedRewardCycle ] = useState(0);
 	const [ selectedDistributionCycle, setSelectedDistributionCycle ] = useState(0);
+	const [ selectedExpansionCycle, setSelectedExpansionCycle ] = useState(0);
 
 	const couponRef = useRef();
 
@@ -368,7 +371,6 @@ export default function BurnPool() {
 				) : (
 					<Fragment>
 						<div className="boxs has-text-centered">
-							<Curve mean={0} deviation={1} peakScaler={1} />
 							<table className="table is-fullwidth">
 								<tbody>
 									{rewardCycles.data && rewardCycles.data.length !== 0 ? (
@@ -416,7 +418,7 @@ export default function BurnPool() {
 											/>
 											<TextInfo
 												isMobile={isMobile}
-												label="Reward Accrued"
+												label="Reward Accrued Before Scaling"
 												value={
 													parseFloat(formatEther(debaseSupply)) *
 													rewardCycles.data[selectedRewardCycle].rewardShare
@@ -424,16 +426,7 @@ export default function BurnPool() {
 												token="Debase"
 												img={debase}
 											/>
-											<TextInfo
-												isMobile={isMobile}
-												label="Max Reward Per Epoch"
-												value={
-													parseFloat(formatEther(debaseSupply)) *
-													rewardCycles.data[selectedRewardCycle].debasePerEpoch
-												}
-												token="Debase"
-												img={debase}
-											/>
+
 											<TextInfo
 												isMobile={isMobile}
 												label="Epochs Rewarded"
@@ -447,30 +440,8 @@ export default function BurnPool() {
 												token="Coupons"
 												img={empty}
 											/>
-											{rewardCycles.data[selectedRewardCycle].distributions.length !== 0 ? (
-												<Fragment>
-													<TextInfo
-														isMobile={isMobile}
-														label="Distribution Cycle Id"
-														value={rewardCycles.data[selectedRewardCycle].distributions}
-														isDropDown={true}
-														setSelectedDepositIndex={setSelectedDistributionCycle}
-													/>
-
-													<TextInfo
-														isMobile={isMobile}
-														label="Reward to Distribute"
-														value={
-															parseFloat(formatEther(debaseSupply)) *
-															rewardCycles.data[selectedRewardCycle].distributions[
-																selectedDistributionCycle
-															].poolTotalShare
-														}
-														noImage={true}
-													/>
-												</Fragment>
-											) : null}
-											{rewardCycles.data[selectedRewardCycle].users.length !== 0 ? (
+											{rewardCycles.data[selectedRewardCycle].users.length !== 0 &&
+											debaseSupply ? (
 												<Fragment>
 													<TextInfo
 														isMobile={isMobile}
@@ -479,38 +450,129 @@ export default function BurnPool() {
 															rewardCycles.data[selectedRewardCycle].users[0]
 																.couponBalance
 														}
-														noImage={true}
+														token="Coupons"
+														img={empty}
 													/>
-													{debaseSupply ? (
-														<CouponInfo
-															id={rewardCycles.data[selectedRewardCycle].id}
-															debaseSupply={debaseSupply}
-														/>
-													) : null}
+													<CouponInfo
+														id={rewardCycles.data[selectedRewardCycle].id}
+														debaseSupply={debaseSupply}
+													/>
 												</Fragment>
 											) : null}
 										</Fragment>
 									) : null}
 								</tbody>
 							</table>
-						</div>
-						<div className="columns">
-							<div className="column is-offset-one-fifth is-three-fifths">
-								{rewardCycles.data && rewardCycles.data[selectedRewardCycle].distributions.length ? (
-									<button
-										className={
-											claimLoading ? (
-												'mt-2 mb-2 button is-loading is-link is-fullwidth  is-edged'
-											) : (
-												'mt-2 mb-2 button is-link is-fullwidth is-edged'
-											)
-										}
-										onClick={handleClaim}
-									>
-										Claim Selected Cycle Reward
-									</button>
-								) : null}
+							<div className="columns">
+								<div className="column">
+									{rewardCycles.data &&
+									rewardCycles.data[selectedRewardCycle].users.length &&
+									rewardCycles.data[selectedRewardCycle].users[0].couponBalance != 0 ? (
+										<button
+											className={
+												claimLoading ? (
+													'mt-2 mb-2 button is-loading is-link is-fullwidth  is-edged'
+												) : (
+													'mt-2 mb-2 button is-link is-fullwidth is-edged'
+												)
+											}
+											onClick={handleClaim}
+										>
+											Claim Selected Cycle Reward
+										</button>
+									) : null}
+								</div>
+
+								<div className="column">
+									{rewardCycles.data &&
+									rewardCycles.data[selectedRewardCycle].distributions.length ? (
+										<button
+											className="mt-2 mb-2 button is-link is-fullwidth is-edged"
+											onClick={() => setHideDistribution(!hideDistribution)}
+										>
+											Show Distribution Cycles
+										</button>
+									) : null}
+								</div>
 							</div>
+
+							{!hideDistribution ? (
+								<Fragment>
+									<Curve
+										mean={
+											rewardCycles.data[selectedRewardCycle].distributions[
+												selectedDistributionCycle
+											].mean
+										}
+										deviation={
+											rewardCycles.data[selectedRewardCycle].distributions[
+												selectedDistributionCycle
+											].deviation
+										}
+										peakScaler={
+											rewardCycles.data[selectedRewardCycle].distributions[
+												selectedDistributionCycle
+											].peakScaler
+										}
+									/>
+									<table className="table is-fullwidth">
+										<tbody>
+											<TextInfo
+												isMobile={isMobile}
+												label="Distribution Cycle Id"
+												value={rewardCycles.data[selectedRewardCycle].distributions}
+												isDropDown={true}
+												setSelectedDepositIndex={setSelectedDistributionCycle}
+											/>
+											<TextInfo
+												isMobile={isMobile}
+												label="Reward Per Cycle"
+												value={
+													parseFloat(formatEther(debaseSupply)) *
+													rewardCycles.data[selectedRewardCycle].debasePerEpoch
+												}
+												token="Debase"
+												img={debase}
+											/>
+											<TextInfo
+												isMobile={isMobile}
+												label="Price"
+												value={parseFloat(
+													rewardCycles.data[selectedRewardCycle].distributions[
+														selectedDistributionCycle
+													].exchangeRate
+												)}
+												token="Dai"
+												img={dai}
+											/>
+											<TextInfo
+												isMobile={isMobile}
+												label="Curve Multiplier"
+												value={
+													rewardCycles.data[selectedRewardCycle].distributions[
+														selectedDistributionCycle
+													].curveValue
+												}
+												token="Debase"
+												img={debase}
+											/>
+
+											<TextInfo
+												isMobile={isMobile}
+												label="Max Reward to Distribute"
+												value={
+													parseFloat(formatEther(debaseSupply)) *
+													rewardCycles.data[selectedRewardCycle].distributions[
+														selectedDistributionCycle
+													].poolTotalShare
+												}
+												token="Debase"
+												img={debase}
+											/>
+										</tbody>
+									</table>
+								</Fragment>
+							) : null}
 						</div>
 
 						{rewardCycles.data && setting.data && setting.data.lastRebase === 'NEGATIVE' ? (
