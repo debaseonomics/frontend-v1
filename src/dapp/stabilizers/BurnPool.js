@@ -124,6 +124,7 @@ export default function BurnPool() {
 	const [ selectedRewardCycle, setSelectedRewardCycle ] = useState(0);
 	const [ selectedDistributionCycle, setSelectedDistributionCycle ] = useState(0);
 	const [ selectedExpansionCycle, setSelectedExpansionCycle ] = useState(0);
+	const [ selectedExpansionData, setSelectedExpansionData ] = useState(0);
 
 	const couponRef = useRef();
 
@@ -371,6 +372,84 @@ export default function BurnPool() {
 				) : (
 					<Fragment>
 						<div className="boxs has-text-centered">
+							{expansionCycles.data && expansionCycles.data.length !== 0 ? (
+								<table className="table is-fullwidth">
+									<tbody>
+										<Fragment>
+											<TextInfo
+												isMobile={isMobile}
+												label="Expansion Cycle Id"
+												value={expansionCycles.data}
+												isDropDown={true}
+												setSelectedDepositIndex={setSelectedExpansionCycle}
+											/>
+											<TextInfo
+												isMobile={isMobile}
+												label="Total Rewards Accrued"
+												value={parseFloat(
+													expansionCycles.data[selectedExpansionCycle].rewardAccrued - 1
+												).toFixed(6)}
+												token="Debase"
+												img={debase}
+											/>
+											<TextInfo
+												isMobile={isMobile}
+												label="Cycle Id"
+												value={expansionCycles.data[selectedExpansionCycle].cycleExpansion}
+												isDropDown={true}
+												setSelectedDepositIndex={setSelectedExpansionData}
+											/>
+											<TextInfo
+												isMobile={isMobile}
+												label="Exchange Rate"
+												value={
+													expansionCycles.data[selectedExpansionCycle].exchangeRate[
+														selectedExpansionData
+													]
+												}
+												token="Debase"
+												img={dai}
+											/>
+											<TextInfo
+												isMobile={isMobile}
+												label="Expansion"
+												value={parseFloat(
+													(expansionCycles.data[selectedExpansionCycle].cycleExpansion[
+														selectedExpansionData
+													] -
+														1) /
+														expansionCycles.data[selectedExpansionCycle].curveValue[
+															selectedExpansionData
+														]
+												).toFixed(6)}
+												token="Debase"
+												img={debase}
+											/>
+											<TextInfo
+												isMobile={isMobile}
+												label="Curve Value"
+												value={parseFloat(
+													expansionCycles.data[selectedExpansionCycle].curveValue[
+														selectedExpansionData
+													]
+												).toFixed(6)}
+												noImage={true}
+											/>
+											<TextInfo
+												isMobile={isMobile}
+												label="Expansion Scaled"
+												value={parseFloat(
+													expansionCycles.data[selectedExpansionCycle].cycleExpansion[
+														selectedExpansionData
+													] - 1
+												).toFixed(6)}
+												token="Debase"
+												img={debase}
+											/>
+										</Fragment>
+									</tbody>
+								</table>
+							) : null}
 							<table className="table is-fullwidth">
 								<tbody>
 									{rewardCycles.data && rewardCycles.data.length !== 0 ? (
