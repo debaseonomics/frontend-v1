@@ -9,7 +9,8 @@ import {
 	lpAbi,
 	burnPoolAbi,
 	toaster,
-	burnPoolOracleAbi
+	burnPoolOracleAbi,
+	debasePolicyAbi
 } from '../../utils/index';
 import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
@@ -57,7 +58,7 @@ const expansionCycleSub = `
 `;
 
 const rewardCycleSub = `
-	subscription{
+	subscription ($address: String!) {
 		rewardCycles(orderBy:id,orderDirection:desc){
 			id
 			rewardShare
@@ -80,6 +81,9 @@ const rewardCycleSub = `
 				deviation
 				peakScaler
 			}
+			users(where:{address: $address}){
+				couponBalance
+			}
 		}
 	}
 `;
@@ -101,7 +105,12 @@ export default function BurnPool() {
 	const { library, account } = useWeb3React();
 	const [ setting ] = useSubscription({ query: settingsSub }, handleSettingSubscription);
 	const [ expansionCycles ] = useSubscription({ query: expansionCycleSub }, handleExpansionSubscription);
-	const [ rewardCycles ] = useSubscription({ query: rewardCycleSub }, handleRewardCycleSubscription);
+	const [ rewardCycles ] = useSubscription(
+		{ query: rewardCycleSub, variables: { address: account.toLowerCase() } },
+		handleRewardCycleSubscription
+	);
+
+	const isMobile = useMediaQuery({ query: `(max-width: 482px)` });
 
 	const [ stakingLoading, setStakingLoading ] = useState(false);
 	const [ claimLoading, setClaimLoading ] = useState(false);
@@ -111,7 +120,7 @@ export default function BurnPool() {
 	const [ selectedRewardCycle, setSelectedRewardCycle ] = useState(0);
 	const [ selectedDistributionCycle, setSelectedDistributionCycle ] = useState(0);
 
-	if (setting.data && logNormalDistribution.length == 0) {
+	if (setting.data && logNormalDistribution.length === 0) {
 		generateLogNormalDistribution();
 	}
 
@@ -134,22 +143,37 @@ export default function BurnPool() {
 		fetcher: fetcher(library)
 	});
 
-	const { data: circBalance } = useSWR([ contractAddress.burnPool, 'circBalance' ], {
+	const { data: circBalance, mutate: getCircBalance } = useSWR([ contractAddress.burnPool, 'circBalance' ], {
 		fetcher: fetcher(library, burnPoolAbi)
 	});
 
-	const isMobile = useMediaQuery({ query: `(max-width: 482px)` });
+	const { data: couponOraclePrice, mutate: getCouponOraclePrice } = useSWR(
+		[ contractAddress.burnPoolOracle, 'currentAveragePrice' ],
+		{
+			fetcher: fetcher(library, burnPoolOracleAbi)
+		}
+	);
+
+	const { data: lowerDeviationThreshold, mutate: getLowerDeviationThreshold } = useSWR(
+		[ contractAddress.debasePolicy, 'lowerDeviationThreshold' ],
+		{
+			fetcher: fetcher(library, debasePolicyAbi)
+		}
+	);
 
 	useEffect(
 		() => {
 			library.on('block', () => {
 				getBlockNumber(undefined, true);
+				getCircBalance(undefined, true);
+				getCouponOraclePrice(undefined, true);
+				getLowerDeviationThreshold(undefined, true);
 			});
 			return () => {
 				library.removeAllListeners('block');
 			};
 		},
-		[ library, getBlockNumber ]
+		[ library, getBlockNumber, getCircBalance, getCouponOraclePrice, getLowerDeviationThreshold ]
 	);
 
 	const paramsData = [
@@ -204,7 +228,7 @@ export default function BurnPool() {
 		setLogNormalDistribution(disArr);
 	}
 
-	async function buyCoupons() {
+	async function handleBuyCoupons() {
 		setStakingLoading(false);
 		const tokenContract = new Contract(contractAddress.debase, lpAbi, library.getSigner());
 		const burnPoolContract = new Contract(contractAddress.burnPool, burnPoolAbi, library.getSigner());
@@ -240,16 +264,17 @@ export default function BurnPool() {
 		setClaimLoading(false);
 	}
 
-	// async function getPotentialReward() {
-	// 	if (couponRef.current.value === 0) {
-	// 		return 0;
-	// 	} else {
-	// 		const toStake = parseUnits(couponRef.current.value, 18);
+	function getPotentialReward() {
+		if (rewardCycles.data && rewardCycles.data.length !== 0 && couponRef.current) {
+			const toStake = parseUnits(couponRef.current.value, 18);
+			const res = parseFloat(formatEther(debaseSupply)) * rewardCycles.data[selectedRewardCycle].rewardShare;
 
-	// 		const res = rewardsAccrued.mul(debaseSupply).div(parseEther('1'));
-	// 		return parseFloat(formatEther(toStake.div(cycle[3]).mul(res))).toFixed(4);
-	// 	}
-	// }
+			return parseFloat(
+				formatEther(toStake.div(rewardCycles.data[selectedRewardCycle].couponsIssued).mul(res))
+			).toFixed(4);
+		}
+		return 0;
+	}
 
 	return (
 		<div className="columns is-centered">
@@ -435,10 +460,29 @@ export default function BurnPool() {
 
 											<TextInfo
 												isMobile={isMobile}
-												label="Coupons Issued"
+												label="Total Coupons Issued"
 												value={rewardCycles.data[selectedRewardCycle].couponsIssued}
 												noImage={true}
 											/>
+											{rewardCycles.data[selectedRewardCycle].users.length !== 0 ? (
+												<Fragment>
+													<TextInfo
+														isMobile={isMobile}
+														label="Coupons Balance"
+														value={
+															rewardCycles.data[selectedRewardCycle].users[0]
+																.couponBalance
+														}
+														noImage={true}
+													/>
+													{debaseSupply ? (
+														<CouponInfo
+															id={rewardCycles.data[selectedRewardCycle].id}
+															debaseSupply={debaseSupply}
+														/>
+													) : null}
+												</Fragment>
+											) : null}
 											{rewardCycles.data[selectedRewardCycle].distributions.length !== 0 ? (
 												<Fragment>
 													<TextInfo
@@ -471,58 +515,106 @@ export default function BurnPool() {
 													/>
 												</Fragment>
 											) : null}
-
-											{/* <CouponInfo
-												isMobile={isMobile}
-												index={selectedRewardCycle}
-												tokenAddress={contractAddress.debase}
-												poolAddress={contractAddress.burnPool}
-											/> */}
 										</Fragment>
 									) : null}
 								</tbody>
 							</table>
 						</div>
-						{/* {lastRebaseIndex ? lastRebaseArr[lastRebaseIndex] === 'Negative' ? (
-							<div className="columns is-multiLine">
-								<div className="column">
-									{lastPrice ? parseFloat(formatEther(lastPrice)).toFixed(4) : '...'}
-								</div>
-								<div className="column">
-									{oracleNextUpdate && blockNumber ? (
-										getBlockDifference(blockNumber, oracleNextUpdate)
-									) : (
-										'...'
-									)}
-								</div>
-								<div className="column">
-									{getPotentialReward()}
-									<PoolInput
-										action={buyCoupons}
-										loading={stakingLoading}
-										buttonText="Deposit Amount"
-										ref={couponRef}
-										balance={debaseBalance}
-										placeholderText="Enter deposit amount"
-										unit={18}
-									/>
-								</div>
+						<div className="columns">
+							<div className="column is-offset-one-fifth is-three-fifths">
+								{rewardCycles.data[selectedRewardCycle].distributions.length ? (
+									<button
+										className={
+											claimLoading ? (
+												'mt-2 mb-2 button is-loading is-link is-fullwidth  is-edged'
+											) : (
+												'mt-2 mb-2 button is-link is-fullwidth is-edged'
+											)
+										}
+										onClick={handleClaim}
+									>
+										Claim Selected Cycle Reward
+									</button>
+								) : null}
 							</div>
-						) : null : null}
-						{rewardCycles.length !== 0 ? (
-							<button
-								className={
-									claimLoading ? (
-										'mt-2 button is-loading is-link is-fullwidth is-edged'
-									) : (
-										'mt-2 button is-link is-fullwidth is-edged'
-									)
-								}
-								onClick={handleClaim}
-							>
-								Claim Selected Cycle
-							</button>
-						) : null} */}
+						</div>
+
+						{rewardCycles.data && setting.data && setting.data.lastRebase === 'NEGATIVE' ? (
+							<Fragment>
+								<nav className="level">
+									<div className="level-item has-text-centered">
+										<div>
+											<p className="heading">Target Price</p>
+											<p className="title">
+												{/* {lowerDeviationThreshold ? (
+													parseFloat(formatEther(lowerDeviationThreshold))
+												) : (
+													'...'
+												)} */}
+												{0.95}
+											</p>
+										</div>
+									</div>
+									<div className="level-item has-text-centered">
+										<div>
+											<p className="heading">Last Update Price</p>
+											<p className="title">
+												{parseFloat(
+													rewardCycles.data[selectedRewardCycle].oracleLastPrices[
+														rewardCycles.data[selectedRewardCycle].oracleLastPrices.length -
+															1
+													]
+												).toFixed(4)}
+											</p>
+										</div>
+									</div>
+									<div className="level-item has-text-centered">
+										<div>
+											<p className="heading">Current TWAP Price</p>
+											<p className="title">
+												{couponOraclePrice ? (
+													parseFloat(formatEther(couponOraclePrice[1])).toFixed(4)
+												) : (
+													'...'
+												)}
+											</p>
+										</div>
+									</div>
+									<div className="level-item has-text-centered">
+										<div>
+											<p className="heading">Oracle Updates In</p>
+											<p className="title">
+												{rewardCycles.data[selectedRewardCycle].oracleNextUpdates[
+													rewardCycles.data[selectedRewardCycle].oracleNextUpdates.length - 1
+												] -
+													blockNumber >=
+												0 ? (
+													rewardCycles.data[selectedRewardCycle].oracleNextUpdates[
+														rewardCycles.data[selectedRewardCycle].oracleNextUpdates
+															.length - 1
+													]
+												) : (
+													0
+												)}
+											</p>
+										</div>
+									</div>
+								</nav>
+								<div className="columns">
+									<div className="column is-offset-one-fifth is-three-fifths ">
+										<PoolInput
+											action={handleBuyCoupons}
+											loading={stakingLoading}
+											buttonText="Buy Coupons"
+											ref={couponRef}
+											balance={debaseBalance}
+											placeholderText="Enter deposit amount"
+											unit={18}
+										/>
+									</div>
+								</div>
+							</Fragment>
+						) : null}
 					</Fragment>
 				)}
 			</div>

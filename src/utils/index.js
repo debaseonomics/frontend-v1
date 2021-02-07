@@ -156,32 +156,13 @@ export const mph88Abi = [
 ];
 
 export const burnPoolAbi = [
-	'function epochs() view returns(uint256)',
-	'function totalRewardsDistributed() view returns(uint256)',
-	'function oraclePeriod() view returns(uint256)',
-	'function oracleNextUpdate() view returns(uint256)',
-	'function rewardsAccrued() view returns(uint256)',
-	'function curveShifter() view returns(uint256)',
-	'function blockDuration() view returns(uint256)',
-	'function initialRewardShare() view returns(uint256)',
-	'function multiSigRewardShare() view returns(uint256)',
-	'function rewardCyclesLength() view returns(uint256)',
-	'function getUserCouponBalance(uint256) view returns(uint256)',
 	'function circBalance() view returns(uint256)',
-	'function lastRebase() view returns(uint256)',
-	'function mean() view returns(bytes16)',
-	'function deviation() view returns(bytes16)',
-	'function peakScaler() view returns(bytes16)',
-	'function oneDivDeviationSqrtTwoPi() view returns(bytes16)',
-	'function twoDeviationSquare() view returns(bytes16)',
-	'function bytes16ToUnit256(bytes16,uint256) view returns(uint256)',
-	'function getCurveValue(uint256,bytes16,bytes16,bytes16) view returns(bytes16)',
 	'function buyCoupons(uint256) external',
 	'function getReward(uint256) external',
-	'function rewardCycles(uint256) view returns(uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)'
+	'function earned(uint256,address) view returns(uint256)'
 ];
 
-export const burnPoolOracleAbi = [ 'function lastPrice() view returns(uint256)' ];
+export const burnPoolOracleAbi = [ 'function currentAveragePrice() external view returns (uint256, uint256)' ];
 
 export const vestingAbi = [ 'function accountVestList(address,uint256) view returns(uint256,uint256,uint256,uint256)' ];
 
@@ -213,8 +194,8 @@ export const contractAddress = {
 	thresholdCounterV2Eth: '0xA36206621e6F14E6D4fCD9B3426209530c9c5f30',
 	randomNumberConsumer: '0x68bf7a502515270c7ef849df7b26ca308ac5b0a2',
 	debaseEthLp: '0xa8e5533d1e22be2df5e9ad9f67dd22a4e7d5b371',
-	burnPool: '0x15A6AAeeD75F2B41999e39D57bB364344C8c94AD',
-	burnPoolOracle: '0x940742846134aBaE727915a9C56a7bafb44Ec446'
+	burnPool: '0x477D8221A2D38CC31C296B3340677B43007cbA2b',
+	burnPoolOracle: '0xf679A304A546045e10965D9274bA0De18FABc518'
 };
 
 export const uniAddress = {
