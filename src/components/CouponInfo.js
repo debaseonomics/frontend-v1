@@ -4,6 +4,7 @@ import { fetcher, burnPoolAbi, contractAddress } from '../utils/index';
 import useSWR from 'swr';
 import { formatEther, parseEther } from 'ethers/lib/utils';
 import TextInfo from './TextInfo.js';
+import debase from '../assets/debase.png';
 
 export default function CouponInfo({ debaseSupply, isMobile, id }) {
 	const { library, account } = useWeb3React();
@@ -42,6 +43,7 @@ export default function CouponInfo({ debaseSupply, isMobile, id }) {
 					'0'
 				)
 			}
+			img={debase}
 			token="Debase"
 		/>
 	);

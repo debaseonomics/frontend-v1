@@ -1,5 +1,7 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
 import debase from '../../assets/debase.png';
+import empty from '../../assets/empty.png';
+
 import { useHistory } from 'react-router-dom';
 import {
 	contractAddress,
@@ -21,6 +23,7 @@ import { useMediaQuery } from 'react-responsive';
 import { Contract } from 'ethers';
 import TextInfo from '../../components/TextInfo';
 import { useSubscription } from 'urql';
+import Curve from '../../components/Curve';
 
 const settingsSub = `
 	subscription {
@@ -114,15 +117,10 @@ export default function BurnPool() {
 
 	const [ stakingLoading, setStakingLoading ] = useState(false);
 	const [ claimLoading, setClaimLoading ] = useState(false);
-	const [ logNormalDistribution, setLogNormalDistribution ] = useState([]);
 	const [ hideStake, setHideStake ] = useState(true);
 
 	const [ selectedRewardCycle, setSelectedRewardCycle ] = useState(0);
 	const [ selectedDistributionCycle, setSelectedDistributionCycle ] = useState(0);
-
-	if (setting.data && logNormalDistribution.length === 0) {
-		generateLogNormalDistribution();
-	}
 
 	const couponRef = useRef();
 
@@ -209,25 +207,6 @@ export default function BurnPool() {
 		}
 	];
 
-	async function generateLogNormalDistribution() {
-		let disArr = [];
-		//Make distribution up till 5$ with an precision of 0.01$
-		for (let offset = 1; offset <= 500; offset++) {
-			const offsetScaled = offset / 100;
-			const result =
-				setting.data.peakScaler *
-				(1 / (offsetScaled * setting.data.deviation * Math.sqrt(2 * Math.PI))) *
-				Math.exp(-1 * ((Math.log(offsetScaled) - setting.data.mean) ** 2 / (2 * setting.data.deviation ** 2)));
-
-			disArr.push({
-				x: offsetScaled,
-				y: result
-			});
-		}
-
-		setLogNormalDistribution(disArr);
-	}
-
 	async function handleBuyCoupons() {
 		setStakingLoading(false);
 		const tokenContract = new Contract(contractAddress.debase, lpAbi, library.getSigner());
@@ -276,9 +255,11 @@ export default function BurnPool() {
 		return 0;
 	}
 
+	function generateDistributionCurve() {}
+
 	return (
 		<div className="columns is-centered">
-			<div className="box boxs column is-7">
+			<div className="box boxs column is-6">
 				<div className=" has-text-centered">
 					<h3 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">Debase burn Pool</h3>
 					<span className="delete is-pulled-right" onClick={() => history.goBack()} />
@@ -387,22 +368,9 @@ export default function BurnPool() {
 				) : (
 					<Fragment>
 						<div className="boxs has-text-centered">
+							<Curve mean={0} deviation={1} peakScaler={1} />
 							<table className="table is-fullwidth">
 								<tbody>
-									<TextInfo
-										isMobile={isMobile}
-										label="Balance"
-										value={
-											debaseBalance !== undefined ? (
-												parseFloat(formatEther(debaseBalance)).toFixed(isMobile ? 4 : 8) * 1
-											) : (
-												'0'
-											)
-										}
-										token="Debase"
-										img={debase}
-									/>
-
 									{rewardCycles.data && rewardCycles.data.length !== 0 ? (
 										<Fragment>
 											<TextInfo
@@ -414,33 +382,23 @@ export default function BurnPool() {
 											/>
 											<TextInfo
 												isMobile={isMobile}
+												label="Balance"
+												value={
+													debaseBalance !== undefined ? (
+														parseFloat(formatEther(debaseBalance)).toFixed(
+															isMobile ? 4 : 8
+														) * 1
+													) : (
+														'0'
+													)
+												}
+												token="Debase"
+												img={debase}
+											/>
+											<TextInfo
+												isMobile={isMobile}
 												label="Epochs"
 												value={rewardCycles.data[selectedRewardCycle].epochsToReward}
-												noImage={true}
-											/>
-											<TextInfo
-												isMobile={isMobile}
-												label="Epochs Rewarded"
-												value={rewardCycles.data[selectedRewardCycle].epochsRewarded}
-												noImage={true}
-											/>
-											<TextInfo
-												isMobile={isMobile}
-												label="Debase Per Epoch"
-												value={
-													parseFloat(formatEther(debaseSupply)) *
-													rewardCycles.data[selectedRewardCycle].debasePerEpoch
-												}
-												noImage={true}
-											/>
-
-											<TextInfo
-												isMobile={isMobile}
-												label="Reward Share Accrued"
-												value={
-													parseFloat(formatEther(debaseSupply)) *
-													rewardCycles.data[selectedRewardCycle].rewardShare
-												}
 												noImage={true}
 											/>
 
@@ -450,20 +408,68 @@ export default function BurnPool() {
 												value={rewardCycles.data[selectedRewardCycle].rewardBlockPeriod}
 												noImage={true}
 											/>
-
 											<TextInfo
 												isMobile={isMobile}
 												label="Oracle Block Period"
 												value={rewardCycles.data[selectedRewardCycle].oracleBlockPeriod}
 												noImage={true}
 											/>
-
+											<TextInfo
+												isMobile={isMobile}
+												label="Reward Accrued"
+												value={
+													parseFloat(formatEther(debaseSupply)) *
+													rewardCycles.data[selectedRewardCycle].rewardShare
+												}
+												token="Debase"
+												img={debase}
+											/>
+											<TextInfo
+												isMobile={isMobile}
+												label="Max Reward Per Epoch"
+												value={
+													parseFloat(formatEther(debaseSupply)) *
+													rewardCycles.data[selectedRewardCycle].debasePerEpoch
+												}
+												token="Debase"
+												img={debase}
+											/>
+											<TextInfo
+												isMobile={isMobile}
+												label="Epochs Rewarded"
+												value={rewardCycles.data[selectedRewardCycle].epochsRewarded}
+												noImage={true}
+											/>
 											<TextInfo
 												isMobile={isMobile}
 												label="Total Coupons Issued"
 												value={rewardCycles.data[selectedRewardCycle].couponsIssued}
-												noImage={true}
+												token="Coupons"
+												img={empty}
 											/>
+											{rewardCycles.data[selectedRewardCycle].distributions.length !== 0 ? (
+												<Fragment>
+													<TextInfo
+														isMobile={isMobile}
+														label="Distribution Cycle Id"
+														value={rewardCycles.data[selectedRewardCycle].distributions}
+														isDropDown={true}
+														setSelectedDepositIndex={setSelectedDistributionCycle}
+													/>
+
+													<TextInfo
+														isMobile={isMobile}
+														label="Reward to Distribute"
+														value={
+															parseFloat(formatEther(debaseSupply)) *
+															rewardCycles.data[selectedRewardCycle].distributions[
+																selectedDistributionCycle
+															].poolTotalShare
+														}
+														noImage={true}
+													/>
+												</Fragment>
+											) : null}
 											{rewardCycles.data[selectedRewardCycle].users.length !== 0 ? (
 												<Fragment>
 													<TextInfo
@@ -483,38 +489,6 @@ export default function BurnPool() {
 													) : null}
 												</Fragment>
 											) : null}
-											{rewardCycles.data[selectedRewardCycle].distributions.length !== 0 ? (
-												<Fragment>
-													<TextInfo
-														isMobile={isMobile}
-														label="Distribution Cycle Id"
-														value={rewardCycles.data[selectedRewardCycle].distributions}
-														isDropDown={true}
-														setSelectedDepositIndex={setSelectedDistributionCycle}
-													/>
-													<TextInfo
-														isMobile={isMobile}
-														label="Exchange Rate"
-														value={
-															rewardCycles.data[selectedRewardCycle].distributions[
-																selectedDistributionCycle
-															].exchangeRate
-														}
-														noImage={true}
-													/>
-													<TextInfo
-														isMobile={isMobile}
-														label="Reward to Distribute"
-														value={
-															parseFloat(formatEther(debaseSupply)) *
-															rewardCycles.data[selectedRewardCycle].distributions[
-																selectedDistributionCycle
-															].poolTotalShare
-														}
-														noImage={true}
-													/>
-												</Fragment>
-											) : null}
 										</Fragment>
 									) : null}
 								</tbody>
@@ -522,7 +496,7 @@ export default function BurnPool() {
 						</div>
 						<div className="columns">
 							<div className="column is-offset-one-fifth is-three-fifths">
-								{rewardCycles.data[selectedRewardCycle].distributions.length ? (
+								{rewardCycles.data && rewardCycles.data[selectedRewardCycle].distributions.length ? (
 									<button
 										className={
 											claimLoading ? (
