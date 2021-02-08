@@ -276,9 +276,7 @@ export default function BurnPool() {
 					<div className="contractinfo">
 						<div className="desc">
 							<h5 className="pt-2 pl-1 pr-1 subtitle is-size-5-tablet is-size-6-mobile">
-								This stabilizer counts the number of positive rebases until a random threshold is hit,
-								sampled from a normal distribution. Once the threshold is hit, counter is reset and the
-								pool starts to reward DEBASE for staked DEBASE/DAI LPs, as per the parameters mentioned.
+								SP2: Issues and redeems d-bills
 							</h5>
 							<span className="mb-0 subtitle is-size-5-tablet is-size-6-mobile">
 								<a
