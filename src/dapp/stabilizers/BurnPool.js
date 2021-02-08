@@ -159,7 +159,7 @@ export default function BurnPool() {
 	);
 
 	const { data: oraclePrice, mutate: getOraclePrice } = useSWR(
-		[ contractAddress.burnPoolOracle, 'currentAveragePrice' ],
+		[ contractAddress.oracleV2, 'currentAveragePrice' ],
 		{
 			fetcher: fetcher(library, oracleAbi)
 		}
@@ -283,7 +283,7 @@ export default function BurnPool() {
 									className="is-primary"
 									target="_blank"
 									rel="noopener noreferrer"
-									href={etherScanAddress + contractAddress.thresholdCounterV2Eth}
+									href={etherScanAddress + contractAddress.burnPool}
 								>
 									<svg
 										width="16"
@@ -302,9 +302,9 @@ export default function BurnPool() {
 											fill="currentColor"
 										/>
 									</svg>
-									{turncate(contractAddress.thresholdCounterV2Eth, 18, '...')}
+									{turncate(contractAddress.burnPool, 18, '...')}
 								</a>
-								<a
+								{/* <a
 									className="is-primary"
 									target="_blank"
 									rel="noopener noreferrer"
@@ -325,7 +325,7 @@ export default function BurnPool() {
 										/>
 									</svg>
 									S-Pools
-								</a>
+								</a> */}
 								<a
 									className="is-primary"
 									target="_blank"
@@ -348,7 +348,7 @@ export default function BurnPool() {
 											fill="currentColor"
 										/>
 									</svg>
-									DEBASE / Eth LP
+									DEBASE
 								</a>
 							</span>
 						</div>
