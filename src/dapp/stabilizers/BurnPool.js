@@ -13,7 +13,8 @@ import {
 	burnPoolAbi,
 	toaster,
 	burnPoolOracleAbi,
-	debasePolicyAbi
+	debasePolicyAbi,
+	oracleAbi
 } from '../../utils/index';
 import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
@@ -25,6 +26,7 @@ import { Contract } from 'ethers';
 import TextInfo from '../../components/TextInfo';
 import { useSubscription } from 'urql';
 import Curve from '../../components/Curve';
+import { DateTime } from 'luxon';
 
 const settingsSub = `
 	subscription {
@@ -156,12 +158,28 @@ export default function BurnPool() {
 		}
 	);
 
-	const { data: lowerDeviationThreshold, mutate: getLowerDeviationThreshold } = useSWR(
-		[ contractAddress.debasePolicy, 'lowerDeviationThreshold' ],
+	const { data: oraclePrice, mutate: getOraclePrice } = useSWR(
+		[ contractAddress.burnPoolOracle, 'currentAveragePrice' ],
 		{
-			fetcher: fetcher(library, debasePolicyAbi)
+			fetcher: fetcher(library, oracleAbi)
 		}
 	);
+
+	const { data: priceTargetRate } = useSWR([ contractAddress.debasePolicy, 'priceTargetRate' ], {
+		fetcher: fetcher(library, debasePolicyAbi)
+	});
+
+	const { data: lowerDeviationThreshold } = useSWR([ contractAddress.debasePolicy, 'lowerDeviationThreshold' ], {
+		fetcher: fetcher(library, debasePolicyAbi)
+	});
+
+	const { data: upperDeviationThreshold } = useSWR([ contractAddress.debasePolicy, 'upperDeviationThreshold' ], {
+		fetcher: fetcher(library, debasePolicyAbi)
+	});
+
+	const { data: lastRebaseTimestampSec } = useSWR([ contractAddress.debasePolicy, 'lastRebaseTimestampSec' ], {
+		fetcher: fetcher(library, debasePolicyAbi)
+	});
 
 	useEffect(
 		() => {
@@ -169,13 +187,13 @@ export default function BurnPool() {
 				getBlockNumber(undefined, true);
 				getCircBalance(undefined, true);
 				getCouponOraclePrice(undefined, true);
-				getLowerDeviationThreshold(undefined, true);
+				getOraclePrice(undefined, true);
 			});
 			return () => {
 				library.removeAllListeners('block');
 			};
 		},
-		[ library, getBlockNumber, getCircBalance, getCouponOraclePrice, getLowerDeviationThreshold ]
+		[ library, getBlockNumber, getCircBalance, getCouponOraclePrice, getOraclePrice ]
 	);
 
 	const paramsData = [
@@ -356,314 +374,108 @@ export default function BurnPool() {
 						Stake Into Pool
 					</button>
 				) : (
-					<Fragment>
-						<div className="boxs has-text-centered">
-							{expansionCycles.data && expansionCycles.data.length !== 0 ? (
-								<Fragment>
-									<Curve
-										mean={expansionCycles.data[selectedExpansionCycle].mean[selectedExpansionData]}
-										deviation={
-											expansionCycles.data[selectedExpansionCycle].deviation[
-												selectedExpansionData
-											]
-										}
-										peakScaler={
-											expansionCycles.data[selectedExpansionCycle].peakScaler[
-												selectedExpansionData
-											]
-										}
-									/>
-									<table className="table is-fullwidth">
-										<tbody>
-											<Fragment>
-												<TextInfo
-													isMobile={isMobile}
-													label="Expansion Cycle Id"
-													value={expansionCycles.data}
-													isDropDown={true}
-													setSelectedDepositIndex={setSelectedExpansionCycle}
-												/>
-												<TextInfo
-													isMobile={isMobile}
-													label="Total Rewards Accrued"
-													value={
-														parseFloat(
-															parseFloat(formatEther(circBalance)) *
-																parseFloat(
-																	expansionCycles.data[selectedExpansionCycle]
-																		.rewardAccrued - 1
-																)
-														).toFixed(4) * 1
-													}
-													token="Debase"
-													img={debase}
-												/>
-												<TextInfo
-													isMobile={isMobile}
-													label="Cycle Id"
-													value={expansionCycles.data[selectedExpansionCycle].cycleExpansion}
-													isDropDown={true}
-													setSelectedDepositIndex={setSelectedExpansionData}
-												/>
-												<TextInfo
-													isMobile={isMobile}
-													label="Exchange Rate"
-													value={
-														parseFloat(
-															expansionCycles.data[selectedExpansionCycle].exchangeRate[
-																selectedExpansionData
-															]
-														).toFixed(4) * 1
-													}
-													token="Dai"
-													img={dai}
-												/>
-												<TextInfo
-													isMobile={isMobile}
-													label="Expansion"
-													value={
-														parseFloat(
-															parseFloat(formatEther(circBalance)) *
-																parseFloat(
-																	(expansionCycles.data[selectedExpansionCycle]
-																		.cycleExpansion[selectedExpansionData] -
-																		1) /
-																		expansionCycles.data[selectedExpansionCycle]
-																			.curveValue[selectedExpansionData]
-																)
-														).toFixed(4) * 1
-													}
-													token="Debase"
-													img={debase}
-												/>
-												<TextInfo
-													isMobile={isMobile}
-													label="Curve Value"
-													value={
-														parseFloat(
-															expansionCycles.data[selectedExpansionCycle].curveValue[
-																selectedExpansionData
-															]
-														).toFixed(4) * 1
-													}
-													noImage={true}
-												/>
-												<TextInfo
-													isMobile={isMobile}
-													label="Expansion Scaled"
-													value={
-														parseFloat(
-															parseFloat(formatEther(circBalance)) *
-																parseFloat(
-																	expansionCycles.data[selectedExpansionCycle]
-																		.cycleExpansion[selectedExpansionData] - 1
-																)
-														).toFixed(4) * 1
-													}
-													token="Debase"
-													img={debase}
-												/>
-											</Fragment>
-										</tbody>
-									</table>
-								</Fragment>
-							) : null}
-							<div className="divider">Reward Cycles Information</div>
+					<div className="boxs has-text-centered">
+						{setting.data ? (
+							<Fragment>
+								<div className="divider">Next Applicable Curve</div>
+								<Curve
+									mean={setting.data.mean}
+									deviation={setting.data.deviation}
+									peakScaler={setting.data.peakScaler}
+								/>
+								<table className="table is-fullwidth">
+									<tbody>
+										<TextInfo
+											isMobile={isMobile}
+											label="Positive Rebase Threshold"
+											value={
+												'Above' + upperDeviationThreshold && priceTargetRate ? (
+													parseFloat(formatEther(upperDeviationThreshold)) +
+													parseFloat(formatEther(priceTargetRate))
+												) : (
+													'...'
+												)
+											}
+											token="Dai"
+											img={dai}
+										/>
+										<TextInfo
+											isMobile={isMobile}
+											label="Negative Rebase Threshold"
+											value={
+												'Below' + lowerDeviationThreshold && priceTargetRate ? (
+													parseFloat(formatEther(priceTargetRate)) -
+													parseFloat(formatEther(lowerDeviationThreshold))
+												) : (
+													'...'
+												)
+											}
+											token="Dai"
+											img={dai}
+										/>
 
-							<table className="table is-fullwidth">
-								<tbody>
-									{rewardCycles.data && rewardCycles.data.length !== 0 ? (
+										<TextInfo
+											isMobile={isMobile}
+											label="Current Oracle TWAP"
+											value={parseFloat(formatEther(oraclePrice[1])).toFixed(4) * 1}
+											token="Dai"
+											img={dai}
+										/>
+
+										<TextInfo
+											isMobile={isMobile}
+											label="Rebase occurs in"
+											value={
+												lastRebaseTimestampSec ? lastRebaseTimestampSec.toNumber() === 0 ? (
+													"Hasn't Happened"
+												) : (
+													DateTime.fromSeconds(lastRebaseTimestampSec.toNumber()).toRelative({
+														round: false
+													})
+												) : (
+													'...'
+												)
+											}
+											noImage={true}
+										/>
+									</tbody>
+								</table>
+							</Fragment>
+						) : null}
+
+						{expansionCycles.data && expansionCycles.data.length !== 0 ? (
+							<Fragment>
+								<div className="divider">Previous Expansion Curves</div>
+
+								<Curve
+									mean={expansionCycles.data[selectedExpansionCycle].mean[selectedExpansionData]}
+									deviation={
+										expansionCycles.data[selectedExpansionCycle].deviation[selectedExpansionData]
+									}
+									peakScaler={
+										expansionCycles.data[selectedExpansionCycle].peakScaler[selectedExpansionData]
+									}
+								/>
+								<table className="table is-fullwidth">
+									<tbody>
 										<Fragment>
 											<TextInfo
 												isMobile={isMobile}
-												label="Reward Cycle Id"
-												value={rewardCycles.data}
+												label="Expansion Cycle Id"
+												value={expansionCycles.data}
 												isDropDown={true}
-												setSelectedDepositIndex={setSelectedRewardCycle}
-											/>
-
-											<TextInfo
-												isMobile={isMobile}
-												label="Epochs"
-												value={
-													rewardCycles.data[selectedRewardCycle].epochsToReward + ' Cycles'
-												}
-												noImage={true}
-												token="Cycles"
+												setSelectedDepositIndex={setSelectedExpansionCycle}
 											/>
 											<TextInfo
 												isMobile={isMobile}
-												label="Epochs Rewarded"
-												value={
-													rewardCycles.data[selectedRewardCycle].epochsRewarded + ' Cycles'
-												}
-												noImage={true}
-												token="Cycle"
-											/>
-
-											<TextInfo
-												isMobile={isMobile}
-												label="Reward Block Period"
-												value={
-													rewardCycles.data[selectedRewardCycle].rewardBlockPeriod + ' Blocks'
-												}
-												noImage={true}
-												token="Blocks"
-											/>
-											<TextInfo
-												isMobile={isMobile}
-												label="Oracle Block Period"
-												value={
-													rewardCycles.data[selectedRewardCycle].oracleBlockPeriod + ' Blocks'
-												}
-												noImage={true}
-												token="Blocks"
-											/>
-											<TextInfo
-												isMobile={isMobile}
-												label="Reward Accrued Before Scaling"
+												label="Total Rewards Accrued"
 												value={
 													parseFloat(
-														parseFloat(formatEther(debaseSupply)) *
-															rewardCycles.data[selectedRewardCycle].rewardShare
-													).toFixed(4) * 1
-												}
-												token="Debase"
-												img={debase}
-											/>
-
-											<TextInfo
-												isMobile={isMobile}
-												label="Total Coupons Issued"
-												value={
-													parseFloat(
-														rewardCycles.data[selectedRewardCycle].couponsIssued
-													).toFixed(4) * 1
-												}
-												token="Coupons"
-												img={empty}
-											/>
-											{rewardCycles.data[selectedRewardCycle].users.length !== 0 &&
-											debaseSupply ? (
-												<Fragment>
-													<TextInfo
-														isMobile={isMobile}
-														label="Your Coupons Balance"
-														value={
+														parseFloat(formatEther(circBalance)) *
 															parseFloat(
-																rewardCycles.data[selectedRewardCycle].users[0]
-																	.couponBalance
-															).toFixed(4) * 1
-														}
-														token="Coupons"
-														img={empty}
-													/>
-													<TextInfo
-														isMobile={isMobile}
-														label="Max Debase Earnable"
-														value={
-															parseFloat(
-																parseFloat(formatEther(debaseSupply)) *
-																	rewardCycles.data[selectedRewardCycle].rewardShare *
-																	(rewardCycles.data[selectedRewardCycle].users[0]
-																		.couponBalance /
-																		rewardCycles.data[selectedRewardCycle]
-																			.couponsIssued)
-															).toFixed(4) * 1
-														}
-														token="Debase"
-														img={debase}
-													/>
-													<TextInfo
-														isMobile={isMobile}
-														label="Max Debase after curve"
-														value={
-															parseFloat(
-																parseFloat(formatEther(debaseSupply)) *
-																	rewardCycles.data[selectedRewardCycle]
-																		.debasePerEpoch *
-																	rewardCycles.data[
-																		selectedRewardCycle
-																	].distributions.reduce((res, ele) => {
-																		return res + parseFloat(ele.curveValue);
-																	}, 0)
-															).toFixed(4) * 1
-														}
-														token="Debase"
-														img={debase}
-													/>
-													<CouponInfo
-														id={rewardCycles.data[selectedRewardCycle].id}
-														debaseSupply={debaseSupply}
-													/>
-												</Fragment>
-											) : null}
-										</Fragment>
-									) : null}
-								</tbody>
-							</table>
-							{rewardCycles.data &&
-							rewardCycles.data[selectedRewardCycle].users.length &&
-							rewardCycles.data[selectedRewardCycle].users[0].couponBalance != 0 ? (
-								<button
-									className={
-										claimLoading ? (
-											'mt-2 mb-2 button is-loading is-link is-fullwidth  is-edged'
-										) : (
-											'mt-2 mb-2 button is-link is-fullwidth is-edged'
-										)
-									}
-									onClick={handleClaim}
-								>
-									Claim Selected Cycle Reward
-								</button>
-							) : null}
-
-							{rewardCycles.data && rewardCycles.data[selectedRewardCycle].distributions.length ? (
-								<button
-									className="mt-2 mb-2 button is-info is-fullwidth is-edged"
-									onClick={() => setHideDistribution(!hideDistribution)}
-								>
-									Show Distribution Cycles
-								</button>
-							) : null}
-
-							{!hideDistribution ? (
-								<Fragment>
-									<div className="divider">Distribution Cycles Information</div>
-									<Curve
-										mean={
-											rewardCycles.data[selectedRewardCycle].distributions[
-												selectedDistributionCycle
-											].mean
-										}
-										deviation={
-											rewardCycles.data[selectedRewardCycle].distributions[
-												selectedDistributionCycle
-											].deviation
-										}
-										peakScaler={
-											rewardCycles.data[selectedRewardCycle].distributions[
-												selectedDistributionCycle
-											].peakScaler
-										}
-									/>
-									<table className="table is-fullwidth">
-										<tbody>
-											<TextInfo
-												isMobile={isMobile}
-												label="Distribution Cycle Id"
-												value={rewardCycles.data[selectedRewardCycle].distributions}
-												isDropDown={true}
-												setSelectedDepositIndex={setSelectedDistributionCycle}
-											/>
-											<TextInfo
-												isMobile={isMobile}
-												label="Cycle Reward"
-												value={
-													parseFloat(
-														parseFloat(formatEther(debaseSupply)) *
-															rewardCycles.data[selectedRewardCycle].debasePerEpoch
+																expansionCycles.data[selectedExpansionCycle]
+																	.rewardAccrued - 1
+															)
 													).toFixed(4) * 1
 												}
 												token="Debase"
@@ -671,12 +483,19 @@ export default function BurnPool() {
 											/>
 											<TextInfo
 												isMobile={isMobile}
-												label="Price"
+												label="Cycle Id"
+												value={expansionCycles.data[selectedExpansionCycle].cycleExpansion}
+												isDropDown={true}
+												setSelectedDepositIndex={setSelectedExpansionData}
+											/>
+											<TextInfo
+												isMobile={isMobile}
+												label="Exchange Rate"
 												value={
 													parseFloat(
-														rewardCycles.data[selectedRewardCycle].distributions[
-															selectedDistributionCycle
-														].exchangeRate
+														expansionCycles.data[selectedExpansionCycle].exchangeRate[
+															selectedExpansionData
+														]
 													).toFixed(4) * 1
 												}
 												token="Dai"
@@ -684,36 +503,286 @@ export default function BurnPool() {
 											/>
 											<TextInfo
 												isMobile={isMobile}
-												label="Curve Multiplier"
+												label="Expansion"
 												value={
 													parseFloat(
-														rewardCycles.data[selectedRewardCycle].distributions[
-															selectedDistributionCycle
-														].curveValue
-													).toFixed(4) * 1
-												}
-												noImage={true}
-											/>
-
-											<TextInfo
-												isMobile={isMobile}
-												label="Max Reward to Distribute"
-												value={
-													parseFloat(
-														parseFloat(formatEther(debaseSupply)) *
-															rewardCycles.data[selectedRewardCycle].distributions[
-																selectedDistributionCycle
-															].poolTotalShare
+														parseFloat(formatEther(circBalance)) *
+															parseFloat(
+																(expansionCycles.data[selectedExpansionCycle]
+																	.cycleExpansion[selectedExpansionData] -
+																	1) /
+																	expansionCycles.data[selectedExpansionCycle]
+																		.curveValue[selectedExpansionData]
+															)
 													).toFixed(4) * 1
 												}
 												token="Debase"
 												img={debase}
 											/>
-										</tbody>
-									</table>
-								</Fragment>
-							) : null}
-						</div>
+											<TextInfo
+												isMobile={isMobile}
+												label="Curve Value"
+												value={
+													parseFloat(
+														expansionCycles.data[selectedExpansionCycle].curveValue[
+															selectedExpansionData
+														]
+													).toFixed(4) * 1
+												}
+												noImage={true}
+											/>
+											<TextInfo
+												isMobile={isMobile}
+												label="Expansion Scaled"
+												value={
+													parseFloat(
+														parseFloat(formatEther(circBalance)) *
+															parseFloat(
+																expansionCycles.data[selectedExpansionCycle]
+																	.cycleExpansion[selectedExpansionData] - 1
+															)
+													).toFixed(4) * 1
+												}
+												token="Debase"
+												img={debase}
+											/>
+										</Fragment>
+									</tbody>
+								</table>
+							</Fragment>
+						) : null}
+
+						{rewardCycles.data && rewardCycles.data.length !== 0 ? (
+							<Fragment>
+								<table className="table is-fullwidth">
+									<tbody>
+										<div className="divider">Reward Cycles Information</div>
+
+										<TextInfo
+											isMobile={isMobile}
+											label="Reward Cycle Id"
+											value={rewardCycles.data}
+											isDropDown={true}
+											setSelectedDepositIndex={setSelectedRewardCycle}
+										/>
+
+										<TextInfo
+											isMobile={isMobile}
+											label="Epochs"
+											value={rewardCycles.data[selectedRewardCycle].epochsToReward + ' Cycles'}
+											noImage={true}
+											token="Cycles"
+										/>
+										<TextInfo
+											isMobile={isMobile}
+											label="Epochs Rewarded"
+											value={rewardCycles.data[selectedRewardCycle].epochsRewarded + ' Cycles'}
+											noImage={true}
+											token="Cycle"
+										/>
+
+										<TextInfo
+											isMobile={isMobile}
+											label="Reward Block Period"
+											value={rewardCycles.data[selectedRewardCycle].rewardBlockPeriod + ' Blocks'}
+											noImage={true}
+											token="Blocks"
+										/>
+										<TextInfo
+											isMobile={isMobile}
+											label="Oracle Block Period"
+											value={rewardCycles.data[selectedRewardCycle].oracleBlockPeriod + ' Blocks'}
+											noImage={true}
+											token="Blocks"
+										/>
+										<TextInfo
+											isMobile={isMobile}
+											label="Reward Accrued Before Scaling"
+											value={
+												parseFloat(
+													parseFloat(formatEther(debaseSupply)) *
+														rewardCycles.data[selectedRewardCycle].rewardShare
+												).toFixed(4) * 1
+											}
+											token="Debase"
+											img={debase}
+										/>
+
+										<TextInfo
+											isMobile={isMobile}
+											label="Total Coupons Issued"
+											value={
+												parseFloat(
+													rewardCycles.data[selectedRewardCycle].couponsIssued
+												).toFixed(4) * 1
+											}
+											token="Coupons"
+											img={empty}
+										/>
+										{rewardCycles.data[selectedRewardCycle].users.length !== 0 && debaseSupply ? (
+											<Fragment>
+												<TextInfo
+													isMobile={isMobile}
+													label="Your Coupons Balance"
+													value={
+														parseFloat(
+															rewardCycles.data[selectedRewardCycle].users[0]
+																.couponBalance
+														).toFixed(4) * 1
+													}
+													token="Coupons"
+													img={empty}
+												/>
+												<TextInfo
+													isMobile={isMobile}
+													label="Max Debase Earnable"
+													value={
+														parseFloat(
+															parseFloat(formatEther(debaseSupply)) *
+																rewardCycles.data[selectedRewardCycle].rewardShare *
+																(rewardCycles.data[selectedRewardCycle].users[0]
+																	.couponBalance /
+																	rewardCycles.data[selectedRewardCycle]
+																		.couponsIssued)
+														).toFixed(4) * 1
+													}
+													token="Debase"
+													img={debase}
+												/>
+												<TextInfo
+													isMobile={isMobile}
+													label="Max Debase after curve"
+													value={
+														parseFloat(
+															parseFloat(formatEther(debaseSupply)) *
+																rewardCycles.data[selectedRewardCycle].debasePerEpoch *
+																rewardCycles.data[
+																	selectedRewardCycle
+																].distributions.reduce((res, ele) => {
+																	return res + parseFloat(ele.curveValue);
+																}, 0)
+														).toFixed(4) * 1
+													}
+													token="Debase"
+													img={debase}
+												/>
+												<CouponInfo
+													id={rewardCycles.data[selectedRewardCycle].id}
+													debaseSupply={debaseSupply}
+												/>
+											</Fragment>
+										) : null}
+									</tbody>
+								</table>
+								{rewardCycles.data[selectedRewardCycle].users.length &&
+								rewardCycles.data[selectedRewardCycle].users[0].couponBalance != 0 ? (
+									<button
+										className={
+											claimLoading ? (
+												'mt-2 mb-2 button is-loading is-link is-fullwidth  is-edged'
+											) : (
+												'mt-2 mb-2 button is-link is-fullwidth is-edged'
+											)
+										}
+										onClick={handleClaim}
+									>
+										Claim Selected Cycle Reward
+									</button>
+								) : null}
+
+								{rewardCycles.data[selectedRewardCycle].distributions.length ? (
+									<button
+										className="mt-2 mb-2 button is-info is-fullwidth is-edged"
+										onClick={() => setHideDistribution(!hideDistribution)}
+									>
+										Show Distribution Cycles
+									</button>
+								) : null}
+							</Fragment>
+						) : null}
+
+						{!hideDistribution ? (
+							<Fragment>
+								<div className="divider">Distribution Cycles Information</div>
+								<Curve
+									mean={
+										rewardCycles.data[selectedRewardCycle].distributions[selectedDistributionCycle]
+											.mean
+									}
+									deviation={
+										rewardCycles.data[selectedRewardCycle].distributions[selectedDistributionCycle]
+											.deviation
+									}
+									peakScaler={
+										rewardCycles.data[selectedRewardCycle].distributions[selectedDistributionCycle]
+											.peakScaler
+									}
+								/>
+								<table className="table is-fullwidth">
+									<tbody>
+										<TextInfo
+											isMobile={isMobile}
+											label="Distribution Cycle Id"
+											value={rewardCycles.data[selectedRewardCycle].distributions}
+											isDropDown={true}
+											setSelectedDepositIndex={setSelectedDistributionCycle}
+										/>
+										<TextInfo
+											isMobile={isMobile}
+											label="Cycle Reward"
+											value={
+												parseFloat(
+													parseFloat(formatEther(debaseSupply)) *
+														rewardCycles.data[selectedRewardCycle].debasePerEpoch
+												).toFixed(4) * 1
+											}
+											token="Debase"
+											img={debase}
+										/>
+										<TextInfo
+											isMobile={isMobile}
+											label="Price"
+											value={
+												parseFloat(
+													rewardCycles.data[selectedRewardCycle].distributions[
+														selectedDistributionCycle
+													].exchangeRate
+												).toFixed(4) * 1
+											}
+											token="Dai"
+											img={dai}
+										/>
+										<TextInfo
+											isMobile={isMobile}
+											label="Curve Multiplier"
+											value={
+												parseFloat(
+													rewardCycles.data[selectedRewardCycle].distributions[
+														selectedDistributionCycle
+													].curveValue
+												).toFixed(4) * 1
+											}
+											noImage={true}
+										/>
+
+										<TextInfo
+											isMobile={isMobile}
+											label="Max Reward to Distribute"
+											value={
+												parseFloat(
+													parseFloat(formatEther(debaseSupply)) *
+														rewardCycles.data[selectedRewardCycle].distributions[
+															selectedDistributionCycle
+														].poolTotalShare
+												).toFixed(4) * 1
+											}
+											token="Debase"
+											img={debase}
+										/>
+									</tbody>
+								</table>
+							</Fragment>
+						) : null}
 
 						{rewardCycles.data &&
 						setting.data &&
@@ -767,7 +836,7 @@ export default function BurnPool() {
 
 										<TextInfo
 											isMobile={isMobile}
-											label="Coupon TWAP Updates In"
+											label="Coupon Oracle TWAP Updates In"
 											value={
 												rewardCycles.data[selectedRewardCycle].oracleNextUpdates[
 													rewardCycles.data[selectedRewardCycle].oracleNextUpdates.length - 1
@@ -804,7 +873,7 @@ export default function BurnPool() {
 								/>
 							</Fragment>
 						) : null}
-					</Fragment>
+					</div>
 				)}
 			</div>
 		</div>

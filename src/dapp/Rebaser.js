@@ -86,9 +86,10 @@ export default function Rebaser() {
 		},
 		{
 			label: 'Price Lower Deviation',
-			value: lowerDeviationThreshold
-				? parseFloat(formatEther(priceTargetRate)) - parseFloat(formatEther(lowerDeviationThreshold))
-				: '...',
+			value:
+				lowerDeviationThreshold && priceTargetRate
+					? parseFloat(formatEther(priceTargetRate)) - parseFloat(formatEther(lowerDeviationThreshold))
+					: '...',
 			toolTip: 'The negative deviation from the target price within not to rebase',
 			image: dai
 		},

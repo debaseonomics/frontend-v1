@@ -163,6 +163,7 @@ export const burnPoolAbi = [
 ];
 
 export const burnPoolOracleAbi = [ 'function currentAveragePrice() external view returns (uint256, uint256)' ];
+export const oracleAbi = [ 'function currentAveragePrice() external view returns (uint256, uint256)' ];
 
 export const vestingAbi = [ 'function accountVestList(address,uint256) view returns(uint256,uint256,uint256,uint256)' ];
 
