@@ -13,7 +13,12 @@ export default function Curve({ peakScaler, mean, deviation }) {
 		let disArr = [];
 		//Make distribution up till 5$ with an precision of 0.05$
 
-		for (let offset = 1; offset <= 500; offset += 2) {
+		disArr.push({
+			x: 0,
+			y: 0
+		});
+
+		for (let offset = 2; offset <= 500; offset += 2) {
 			const offsetScaled = offset / 100;
 			const result =
 				parseFloat(peakScaler) *
@@ -58,8 +63,32 @@ export default function Curve({ peakScaler, mean, deviation }) {
 				yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
 				axisTop={null}
 				axisRight={null}
-				axisBottom={null}
-				axisLeft={null}
+				xFormat=" >-.2f"
+				yFormat=" >-.3f"
+				axisLeft={{
+					orient: 'left',
+					tickValues: [ 0, 0.5, 1 ],
+					tickSize: 2,
+					legend: 'Value',
+					legendOffset: -15,
+					legendPosition: 'middle'
+				}}
+				axisBottom={{
+					orient: 'bottom',
+					tickValues: [ 0, 1, 2, 3, 4, 5 ],
+					tickSize: 5,
+					legend: 'Price ($DAI)',
+					legendOffset: 36,
+					legendPosition: 'middle'
+				}}
+				// markers={[
+				// 	{
+				// 		axis: 'x',
+				// 		value: 1,
+
+				// 		lineStyle: { stroke: '#b0413e', strokeWidth: 2 }
+				// 	}
+				// ]}
 				colors="#d741a7"
 				lineWidth={2}
 				pointSize={0}
@@ -67,9 +96,7 @@ export default function Curve({ peakScaler, mean, deviation }) {
 				enableGridY={false}
 				pointColor="#d741a7"
 				pointBorderWidth={2}
-				pointBorderColor={{ from: 'serieColor' }}
 				pointLabelYOffset={-12}
-				enableSlices="x"
 				useMesh={true}
 			/>
 		</div>

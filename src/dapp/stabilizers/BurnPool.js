@@ -25,7 +25,6 @@ import { Contract } from 'ethers';
 import TextInfo from '../../components/TextInfo';
 import { useSubscription } from 'urql';
 import Curve from '../../components/Curve';
-import RewardCurve from '../../components/RewardCurve';
 
 const settingsSub = `
 	subscription {
@@ -182,27 +181,27 @@ export default function BurnPool() {
 	const paramsData = [
 		{
 			label: 'Epochs',
-			value: setting.data ? setting.data.epochs : '...',
+			value: setting.data ? setting.data.epochs + ' Cycles' : '...',
 			toolTip: 'Current pool rewards available'
 		},
 		{
 			label: 'Oracle Block Period',
-			value: setting.data ? setting.data.oracleBlockPeriod : '...',
+			value: setting.data ? setting.data.oracleBlockPeriod + ' Blocks' : '...',
 			toolTip: 'Current pool rewards available'
 		},
 		{
 			label: 'Reward Block Duration',
-			value: setting.data ? setting.data.rewardBlockPeriod : '...',
+			value: setting.data ? setting.data.rewardBlockPeriod + ' Block' : '...',
 			toolTip: 'Current pool rewards available'
 		},
 		{
 			label: 'Initial Reward Share',
-			value: setting.data ? setting.data.initialRewardShare : '...',
+			value: setting.data ? setting.data.initialRewardShare + '% of Circ Supply' : '...',
 			toolTip: 'Current pool rewards available'
 		},
 		{
 			label: 'Multi Sig Reward Share',
-			value: setting.data ? setting.data.multiSigRewardShare : '...',
+			value: setting.data ? setting.data.multiSigRewardShare + '% of Cycle Reward' : '...',
 			toolTip: 'Current pool rewards available'
 		},
 		{
@@ -247,10 +246,6 @@ export default function BurnPool() {
 		}
 		setClaimLoading(false);
 	}
-
-	console.log(rewardCycles.data ? rewardCycles.data[selectedRewardCycle] : 'null');
-
-	function generateDistributionCurve() {}
 
 	return (
 		<div className="columns is-centered">
@@ -391,9 +386,15 @@ export default function BurnPool() {
 												<TextInfo
 													isMobile={isMobile}
 													label="Total Rewards Accrued"
-													value={parseFloat(
-														expansionCycles.data[selectedExpansionCycle].rewardAccrued - 1
-													).toFixed(6)}
+													value={
+														parseFloat(
+															parseFloat(formatEther(circBalance)) *
+																parseFloat(
+																	expansionCycles.data[selectedExpansionCycle]
+																		.rewardAccrued - 1
+																)
+														).toFixed(4) * 1
+													}
 													token="Debase"
 													img={debase}
 												/>
@@ -408,11 +409,13 @@ export default function BurnPool() {
 													isMobile={isMobile}
 													label="Exchange Rate"
 													value={
-														expansionCycles.data[selectedExpansionCycle].exchangeRate[
-															selectedExpansionData
-														]
+														parseFloat(
+															expansionCycles.data[selectedExpansionCycle].exchangeRate[
+																selectedExpansionData
+															]
+														).toFixed(4) * 1
 													}
-													token="Debase"
+													token="Dai"
 													img={dai}
 												/>
 												<TextInfo
@@ -420,13 +423,15 @@ export default function BurnPool() {
 													label="Expansion"
 													value={
 														parseFloat(
-															(expansionCycles.data[selectedExpansionCycle]
-																.cycleExpansion[selectedExpansionData] -
-																1) /
-																expansionCycles.data[selectedExpansionCycle].curveValue[
-																	selectedExpansionData
-																]
-														).toFixed(6) * 1
+															parseFloat(formatEther(circBalance)) *
+																parseFloat(
+																	(expansionCycles.data[selectedExpansionCycle]
+																		.cycleExpansion[selectedExpansionData] -
+																		1) /
+																		expansionCycles.data[selectedExpansionCycle]
+																			.curveValue[selectedExpansionData]
+																)
+														).toFixed(4) * 1
 													}
 													token="Debase"
 													img={debase}
@@ -434,21 +439,27 @@ export default function BurnPool() {
 												<TextInfo
 													isMobile={isMobile}
 													label="Curve Value"
-													value={parseFloat(
-														expansionCycles.data[selectedExpansionCycle].curveValue[
-															selectedExpansionData
-														]
-													).toFixed(6)}
+													value={
+														parseFloat(
+															expansionCycles.data[selectedExpansionCycle].curveValue[
+																selectedExpansionData
+															]
+														).toFixed(4) * 1
+													}
 													noImage={true}
 												/>
 												<TextInfo
 													isMobile={isMobile}
 													label="Expansion Scaled"
-													value={parseFloat(
-														expansionCycles.data[selectedExpansionCycle].cycleExpansion[
-															selectedExpansionData
-														] - 1
-													).toFixed(6)}
+													value={
+														parseFloat(
+															parseFloat(formatEther(circBalance)) *
+																parseFloat(
+																	expansionCycles.data[selectedExpansionCycle]
+																		.cycleExpansion[selectedExpansionData] - 1
+																)
+														).toFixed(4) * 1
+													}
 													token="Debase"
 													img={debase}
 												/>
@@ -470,37 +481,43 @@ export default function BurnPool() {
 												isDropDown={true}
 												setSelectedDepositIndex={setSelectedRewardCycle}
 											/>
-											<TextInfo
-												isMobile={isMobile}
-												label="Balance"
-												value={
-													debaseBalance !== undefined ? (
-														parseFloat(formatEther(debaseBalance)).toFixed(4) * 1
-													) : (
-														'0'
-													)
-												}
-												token="Debase"
-												img={debase}
-											/>
+
 											<TextInfo
 												isMobile={isMobile}
 												label="Epochs"
-												value={rewardCycles.data[selectedRewardCycle].epochsToReward}
+												value={
+													rewardCycles.data[selectedRewardCycle].epochsToReward + ' Cycles'
+												}
 												noImage={true}
+												token="Cycles"
+											/>
+											<TextInfo
+												isMobile={isMobile}
+												label="Epochs Rewarded"
+												value={
+													rewardCycles.data[selectedRewardCycle].epochsRewarded + ' Cycles'
+												}
+												noImage={true}
+												token="Cycle"
 											/>
 
 											<TextInfo
 												isMobile={isMobile}
 												label="Reward Block Period"
-												value={rewardCycles.data[selectedRewardCycle].rewardBlockPeriod}
+												value={
+													rewardCycles.data[selectedRewardCycle].rewardBlockPeriod + ' Blocks'
+												}
 												noImage={true}
+												token="Blocks"
 											/>
 											<TextInfo
 												isMobile={isMobile}
 												label="Oracle Block Period"
-												value={rewardCycles.data[selectedRewardCycle].oracleBlockPeriod}
+												value={
+													rewardCycles.data[selectedRewardCycle].oracleBlockPeriod + ' Blocks'
+												}
 												noImage={true}
+												token="Blocks"
 											/>
 											<TextInfo
 												isMobile={isMobile}
@@ -517,14 +534,12 @@ export default function BurnPool() {
 
 											<TextInfo
 												isMobile={isMobile}
-												label="Epochs Rewarded"
-												value={rewardCycles.data[selectedRewardCycle].epochsRewarded}
-												noImage={true}
-											/>
-											<TextInfo
-												isMobile={isMobile}
 												label="Total Coupons Issued"
-												value={rewardCycles.data[selectedRewardCycle].couponsIssued}
+												value={
+													parseFloat(
+														rewardCycles.data[selectedRewardCycle].couponsIssued
+													).toFixed(4) * 1
+												}
 												token="Coupons"
 												img={empty}
 											/>
@@ -533,13 +548,49 @@ export default function BurnPool() {
 												<Fragment>
 													<TextInfo
 														isMobile={isMobile}
-														label="Coupons Balance"
+														label="Your Coupons Balance"
 														value={
-															rewardCycles.data[selectedRewardCycle].users[0]
-																.couponBalance
+															parseFloat(
+																rewardCycles.data[selectedRewardCycle].users[0]
+																	.couponBalance
+															).toFixed(4) * 1
 														}
 														token="Coupons"
 														img={empty}
+													/>
+													<TextInfo
+														isMobile={isMobile}
+														label="Max Debase Earnable"
+														value={
+															parseFloat(
+																parseFloat(formatEther(debaseSupply)) *
+																	rewardCycles.data[selectedRewardCycle].rewardShare *
+																	(rewardCycles.data[selectedRewardCycle].users[0]
+																		.couponBalance /
+																		rewardCycles.data[selectedRewardCycle]
+																			.couponsIssued)
+															).toFixed(4) * 1
+														}
+														token="Debase"
+														img={debase}
+													/>
+													<TextInfo
+														isMobile={isMobile}
+														label="Max Debase after curve"
+														value={
+															parseFloat(
+																parseFloat(formatEther(debaseSupply)) *
+																	rewardCycles.data[selectedRewardCycle]
+																		.debasePerEpoch *
+																	rewardCycles.data[
+																		selectedRewardCycle
+																	].distributions.reduce((res, ele) => {
+																		return res + parseFloat(ele.curveValue);
+																	}, 0)
+															).toFixed(4) * 1
+														}
+														token="Debase"
+														img={debase}
 													/>
 													<CouponInfo
 														id={rewardCycles.data[selectedRewardCycle].id}
@@ -610,8 +661,10 @@ export default function BurnPool() {
 												isMobile={isMobile}
 												label="Cycle Reward"
 												value={
-													parseFloat(formatEther(debaseSupply)) *
-													rewardCycles.data[selectedRewardCycle].debasePerEpoch
+													parseFloat(
+														parseFloat(formatEther(debaseSupply)) *
+															rewardCycles.data[selectedRewardCycle].debasePerEpoch
+													).toFixed(4) * 1
 												}
 												token="Debase"
 												img={debase}
@@ -619,11 +672,13 @@ export default function BurnPool() {
 											<TextInfo
 												isMobile={isMobile}
 												label="Price"
-												value={parseFloat(
-													rewardCycles.data[selectedRewardCycle].distributions[
-														selectedDistributionCycle
-													].exchangeRate
-												)}
+												value={
+													parseFloat(
+														rewardCycles.data[selectedRewardCycle].distributions[
+															selectedDistributionCycle
+														].exchangeRate
+													).toFixed(4) * 1
+												}
 												token="Dai"
 												img={dai}
 											/>
@@ -631,22 +686,25 @@ export default function BurnPool() {
 												isMobile={isMobile}
 												label="Curve Multiplier"
 												value={
-													rewardCycles.data[selectedRewardCycle].distributions[
-														selectedDistributionCycle
-													].curveValue
+													parseFloat(
+														rewardCycles.data[selectedRewardCycle].distributions[
+															selectedDistributionCycle
+														].curveValue
+													).toFixed(4) * 1
 												}
-												token="Debase"
-												img={debase}
+												noImage={true}
 											/>
 
 											<TextInfo
 												isMobile={isMobile}
 												label="Max Reward to Distribute"
 												value={
-													parseFloat(formatEther(debaseSupply)) *
-													rewardCycles.data[selectedRewardCycle].distributions[
-														selectedDistributionCycle
-													].poolTotalShare
+													parseFloat(
+														parseFloat(formatEther(debaseSupply)) *
+															rewardCycles.data[selectedRewardCycle].distributions[
+																selectedDistributionCycle
+															].poolTotalShare
+													).toFixed(4) * 1
 												}
 												token="Debase"
 												img={debase}
@@ -657,38 +715,54 @@ export default function BurnPool() {
 							) : null}
 						</div>
 
-						{rewardCycles.data && setting.data && setting.data.lastRebase === 'NEGATIVE' ? (
+						{rewardCycles.data &&
+						setting.data &&
+						debaseBalance &&
+						setting.data.lastRebase === 'NEGATIVE' ? (
 							<Fragment>
 								<div className="divider">Coupon Buying Information</div>
 								<table className="table is-fullwidth">
 									<tbody>
 										<TextInfo
 											isMobile={isMobile}
-											label="Coupon Buy Threshold"
-											value={0.95}
-											token="Debase"
-											img={debase}
-										/>
-										<TextInfo
-											isMobile={isMobile}
-											label="Last Oracle TWAP"
+											label="Current Balance"
 											value={
-												parseFloat(
-													rewardCycles.data[selectedRewardCycle].oracleLastPrices[
-														rewardCycles.data[selectedRewardCycle].oracleLastPrices.length -
-															1
-													]
-												).toFixed(4) * 1
+												debaseBalance !== undefined ? (
+													parseFloat(formatEther(debaseBalance)).toFixed(4) * 1
+												) : (
+													'0'
+												)
 											}
 											token="Debase"
 											img={debase}
 										/>
 										<TextInfo
 											isMobile={isMobile}
+											label="Coupon Buy Threshold"
+											value={0.95}
+											token="Dai"
+											img={dai}
+										/>
+										<TextInfo
+											isMobile={isMobile}
+											label="Last Oracle TWAP"
+											value={parseFloat(
+												parseFloat(
+													rewardCycles.data[selectedRewardCycle].oracleLastPrices[
+														rewardCycles.data[selectedRewardCycle].oracleLastPrices.length -
+															1
+													]
+												)
+											).toFixed(4)}
+											token="Dai"
+											img={dai}
+										/>
+										<TextInfo
+											isMobile={isMobile}
 											label="Current Coupon Oracle TWAP"
 											value={parseFloat(formatEther(couponOraclePrice[1])).toFixed(4) * 1}
-											token="Debase"
-											img={debase}
+											token="Dai"
+											img={dai}
 										/>
 
 										<TextInfo
@@ -700,25 +774,22 @@ export default function BurnPool() {
 												] -
 													blockNumber >=
 												0 ? (
-													rewardCycles.data[selectedRewardCycle].oracleNextUpdates[
-														rewardCycles.data[selectedRewardCycle].oracleNextUpdates
-															.length - 1
-													]
+													parseFloat(
+														rewardCycles.data[selectedRewardCycle].oracleNextUpdates[
+															rewardCycles.data[selectedRewardCycle].oracleNextUpdates
+																.length - 1
+														]
+													).toFixed(4) * 1
 												) : (
 													0
 												)
 											}
-											token="Debase"
-											img={debase}
+											token="Blocks"
+											noImage={true}
 										/>
 									</tbody>
 								</table>
 								<PoolInput
-									couponBalance={parseFloat(
-										rewardCycles.data[selectedRewardCycle].users.length
-											? rewardCycles.data[selectedRewardCycle].users[0].couponBalance
-											: 0
-									)}
 									couponIssued={parseFloat(rewardCycles.data[selectedRewardCycle].couponsIssued)}
 									rewardAccrued={parseFloat(rewardCycles.data[selectedRewardCycle].rewardShare)}
 									debaseSupply={parseFloat(formatEther(debaseSupply))}
