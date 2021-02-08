@@ -878,7 +878,7 @@ export default function BurnPool() {
 									showDepositReward={true}
 									action={handleBuyCoupons}
 									loading={stakingLoading}
-									buttonText="Buy Coupons"
+									buttonText="Buy d-bills"
 									ref={couponRef}
 									balance={debaseBalance}
 									placeholderText="Enter deposit amount"
