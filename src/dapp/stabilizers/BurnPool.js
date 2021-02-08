@@ -76,7 +76,7 @@ const rewardCycleSub = `
 			epochsToReward
 			epochsRewarded
 			couponsIssued
-			rewardDistributionDisabled
+			distributionStatus
 			rewardDistributed
 			distributions(orderBy:blockNumber,orderDirection:asc)  {
 				exchangeRate
@@ -573,14 +573,8 @@ export default function BurnPool() {
 
 										<TextInfo
 											isMobile={isMobile}
-											label="Distribution"
-											value={
-												rewardCycles.data[selectedRewardCycle].rewardDistributionDisabled ? (
-													'Is Disabled'
-												) : (
-													'Is Enabled'
-												)
-											}
+											label="Distribution Status"
+											value={rewardCycles.data[selectedRewardCycle].distributionStatus}
 											noImage={true}
 											token="Cycles"
 										/>
@@ -805,7 +799,7 @@ export default function BurnPool() {
 
 						{rewardCycles.data &&
 						rewardCycles.data.length &&
-						!rewardCycles.data[selectedRewardCycle].rewardDistributionDisabled &&
+						rewardCycles.data[selectedRewardCycle].distributionsStatus == 'IN_PROGRESS' &&
 						setting.data &&
 						debaseBalance &&
 						setting.data.lastRebase === 'NEGATIVE' ? (

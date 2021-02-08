@@ -173,7 +173,7 @@ export const uniAbi = [ 'function getReserves() view returns (uint112,uint112,ui
 
 export const contractAddress = {
 	degov: '0x469E66e06fEc34839E5eB1273ba85A119B8D702F',
-	debase: '0xcef9b7df27f06b9a2d1decc45b23930e3fc6a9a9',
+	debase: '0x9248c485b0B80f76DA451f167A8db30F33C70907',
 	debasePolicy: '0x989Edd2e87B1706AB25b2E8d9D9480DE3Cc383eD',
 	governorAlpha: '0x291BC8eDFE98155224502282444cC2E98d80d2d5',
 	timelock: '0x969e1d56682305963c6b7f8920D0200189B22482',
@@ -196,7 +196,8 @@ export const contractAddress = {
 	randomNumberConsumer: '0x68bf7a502515270c7ef849df7b26ca308ac5b0a2',
 	debaseEthLp: '0xa8e5533d1e22be2df5e9ad9f67dd22a4e7d5b371',
 	burnPool: '0x477D8221A2D38CC31C296B3340677B43007cbA2b',
-	burnPoolOracle: '0xf679A304A546045e10965D9274bA0De18FABc518'
+	burnPoolOracle: '0xf679A304A546045e10965D9274bA0De18FABc518',
+	oracleV2:""
 };
 
 export const uniAddress = {
