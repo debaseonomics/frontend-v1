@@ -304,11 +304,11 @@ export default function BurnPool() {
 									</svg>
 									{turncate(contractAddress.burnPool, 18, '...')}
 								</a>
-								{/* <a
+								<a
 									className="is-primary"
 									target="_blank"
 									rel="noopener noreferrer"
-									href="https://debaseonomics.medium.com/randomness-in-debaseonomics-mainnet-integration-with-chainlink-vrf-523e45ab5571"
+									href="https://link.medium.com/fZT77eXZHdb"
 								>
 									<svg
 										width="16"
@@ -325,7 +325,7 @@ export default function BurnPool() {
 										/>
 									</svg>
 									S-Pools
-								</a> */}
+								</a>
 								<a
 									className="is-primary"
 									target="_blank"
