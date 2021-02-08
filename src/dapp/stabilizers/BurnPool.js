@@ -409,7 +409,7 @@ export default function BurnPool() {
 
 										<TextInfo
 											isMobile={isMobile}
-											label="Current Oracle TWAP"
+											label="Current TWAP Oracle Price"
 											value={
 												oraclePrice ? (
 													parseFloat(formatEther(oraclePrice[1])).toFixed(4) * 1
