@@ -198,9 +198,9 @@ export default function BurnPool() {
 
 	const paramsData = [
 		{
-			label: 'Epochs',
+			label: 'Cycle length',
 			value: setting.data ? setting.data.epochs + ' Cycles' : '...',
-			toolTip: 'Current pool rewards available'
+			toolTip: 'Time duration during which rewards are given out'
 		},
 		{
 			label: 'Oracle Block Period',
@@ -208,19 +208,19 @@ export default function BurnPool() {
 			toolTip: 'Current pool rewards available'
 		},
 		{
-			label: 'Reward Block Duration',
+			label: 'Rewards duration per epoch',
 			value: setting.data ? setting.data.rewardBlockPeriod + ' Block' : '...',
-			toolTip: 'Current pool rewards available'
+			toolTip: 'Reward duration of each epoch'
 		},
 		{
 			label: 'Initial Reward Share',
 			value: setting.data ? setting.data.initialRewardShare * 100 + '% of Circ Supply' : '...',
-			toolTip: 'Current pool rewards available'
+			toolTip: 'Default value of rewards pot'
 		},
 		{
 			label: 'Multi Sig Reward Share',
 			value: setting.data ? setting.data.multiSigRewardShare * 100 + '% of Cycle Reward' : '...',
-			toolTip: 'Current pool rewards available'
+			toolTip: 'Debase sent to multi-sig for development of pool'
 		}
 	];
 
