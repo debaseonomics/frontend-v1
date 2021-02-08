@@ -195,8 +195,8 @@ export const contractAddress = {
 	thresholdCounterV2Eth: '0xA36206621e6F14E6D4fCD9B3426209530c9c5f30',
 	randomNumberConsumer: '0x68bf7a502515270c7ef849df7b26ca308ac5b0a2',
 	debaseEthLp: '0xa8e5533d1e22be2df5e9ad9f67dd22a4e7d5b371',
-	burnPool: '0x477D8221A2D38CC31C296B3340677B43007cbA2b',
-	burnPoolOracle: '0xf679A304A546045e10965D9274bA0De18FABc518',
+	burnPool: '0xf4dbd5429F3bF1fBb107914B3C7937422Ae76168',
+	burnPoolOracle: '0x31cE82f64B8e5620abA05D19828326E7198cB4F2',
 	oracleV2:""
 };
 
