@@ -65,7 +65,7 @@ const expansionCycleSub = `
 
 const rewardCycleSub = `
 	subscription ($address: String!) {
-		rewardCycles(orderBy:id,orderDirection:desc){
+		rewardCycles(orderBy:id,orderDirection:asc){
 			id
 			rewardShare
 			debasePerEpoch
@@ -78,7 +78,7 @@ const rewardCycleSub = `
 			couponsIssued
 			rewardDistributionDisabled
 			rewardDistributed
-			distributions(orderBy:blockNumber,orderDirection:desc)  {
+			distributions(orderBy:blockNumber,orderDirection:asc)  {
 				exchangeRate
 				poolTotalShare
 				periodFinish
@@ -417,7 +417,13 @@ export default function BurnPool() {
 										<TextInfo
 											isMobile={isMobile}
 											label="Current Oracle TWAP"
-											value={parseFloat(formatEther(oraclePrice[1])).toFixed(4) * 1}
+											value={
+												oraclePrice ? (
+													parseFloat(formatEther(oraclePrice[1])).toFixed(4) * 1
+												) : (
+													'...'
+												)
+											}
 											token="Dai"
 											img={dai}
 										/>
@@ -563,6 +569,20 @@ export default function BurnPool() {
 											value={rewardCycles.data}
 											isDropDown={true}
 											setSelectedDepositIndex={setSelectedRewardCycle}
+										/>
+
+										<TextInfo
+											isMobile={isMobile}
+											label="Distribution"
+											value={
+												rewardCycles.data[selectedRewardCycle].rewardDistributionDisabled ? (
+													'Is Disabled'
+												) : (
+													'Is Enabled'
+												)
+											}
+											noImage={true}
+											token="Cycles"
 										/>
 
 										<TextInfo
@@ -784,6 +804,8 @@ export default function BurnPool() {
 						) : null}
 
 						{rewardCycles.data &&
+						rewardCycles.data.length &&
+						!rewardCycles.data[selectedRewardCycle].rewardDistributionDisabled &&
 						setting.data &&
 						debaseBalance &&
 						setting.data.lastRebase === 'NEGATIVE' ? (
