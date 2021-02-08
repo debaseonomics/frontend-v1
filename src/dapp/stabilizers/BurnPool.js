@@ -554,10 +554,9 @@ export default function BurnPool() {
 
 						{rewardCycles.data && rewardCycles.data.length !== 0 ? (
 							<Fragment>
+								<div className="divider">Reward Cycles Information</div>
 								<table className="table is-fullwidth">
 									<tbody>
-										<div className="divider">Reward Cycles Information</div>
-
 										<TextInfo
 											isMobile={isMobile}
 											label="Reward Cycle Id"

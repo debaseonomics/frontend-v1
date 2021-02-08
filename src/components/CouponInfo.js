@@ -16,8 +16,6 @@ export default function CouponInfo({ debaseSupply, isMobile, id }) {
 		}
 	);
 
-	console.log(debaseAccrued ? formatEther(debaseAccrued) : null);
-
 	useEffect(
 		() => {
 			library.on('block', () => {
