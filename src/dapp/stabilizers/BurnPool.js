@@ -214,12 +214,12 @@ export default function BurnPool() {
 		},
 		{
 			label: 'Initial Reward Share',
-			value: setting.data ? setting.data.initialRewardShare + '% of Circ Supply' : '...',
+			value: setting.data ? setting.data.initialRewardShare * 100 + '% of Circ Supply' : '...',
 			toolTip: 'Current pool rewards available'
 		},
 		{
 			label: 'Multi Sig Reward Share',
-			value: setting.data ? setting.data.multiSigRewardShare + '% of Cycle Reward' : '...',
+			value: setting.data ? setting.data.multiSigRewardShare * 100 + '% of Cycle Reward' : '...',
 			toolTip: 'Current pool rewards available'
 		},
 		{
