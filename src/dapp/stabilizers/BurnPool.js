@@ -221,11 +221,6 @@ export default function BurnPool() {
 			label: 'Multi Sig Reward Share',
 			value: setting.data ? setting.data.multiSigRewardShare * 100 + '% of Cycle Reward' : '...',
 			toolTip: 'Current pool rewards available'
-		},
-		{
-			label: 'Last Rebase',
-			value: setting.data ? setting.data.lastRebase : '...',
-			toolTip: 'Current pool rewards available'
 		}
 	];
 
