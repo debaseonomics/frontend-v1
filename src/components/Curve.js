@@ -14,11 +14,11 @@ export default function Curve({ peakScaler, mean, deviation }) {
 		//Make distribution up till 5$ with an precision of 0.05$
 
 		disArr.push({
-			x: 0,
+			x: 1.05,
 			y: 0
 		});
 
-		for (let offset = 2; offset <= 500; offset += 2) {
+		for (let offset = 2; offset <= 500; offset += 1) {
 			const offsetScaled = offset / 100;
 			const result =
 				parseFloat(peakScaler) *
@@ -26,7 +26,7 @@ export default function Curve({ peakScaler, mean, deviation }) {
 				Math.exp(-1 * ((Math.log(offsetScaled) - parseFloat(mean)) ** 2 / (2 * parseFloat(deviation) ** 2)));
 
 			disArr.push({
-				x: offsetScaled,
+				x: (offset + 115) / 100,
 				y: result
 			});
 		}
@@ -70,12 +70,12 @@ export default function Curve({ peakScaler, mean, deviation }) {
 					tickValues: [ 0, 0.5, 1 ],
 					tickSize: 2,
 					legend: 'Value',
-					legendOffset: -15,
+					legendOffset: -36,
 					legendPosition: 'middle'
 				}}
 				axisBottom={{
 					orient: 'bottom',
-					tickValues: [ 0, 1, 2, 3, 4, 5 ],
+					tickValues: [ 1.05, 2, 3, 4, 5, 6 ],
 					tickSize: 5,
 					legend: 'Price ($DAI)',
 					legendOffset: 36,
