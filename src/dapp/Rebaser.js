@@ -230,7 +230,6 @@ export default function Rebaser() {
 					</div>
 					<div className="block">
 						<button
-							onClick={handleRebase}
 							className={
 								loading ? (
 									'button is-edged is-fullwidth is-primary is-loading'
