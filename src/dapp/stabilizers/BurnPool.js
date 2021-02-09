@@ -641,7 +641,7 @@ export default function BurnPool() {
 												/>
 												<TextInfo
 													isMobile={isMobile}
-													label="Max Debase Earnable"
+													label="Max Debase Earnable Diluted"
 													value={
 														parseFloat(
 															parseFloat(formatEther(debaseSupply)) *
