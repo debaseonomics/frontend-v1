@@ -14,7 +14,8 @@ const PoolInput = React.forwardRef(
 			couponBalance,
 			couponIssued,
 			rewardAccrued,
-			debaseSupply
+			debaseSupply,
+			currentBalance
 		},
 		ref
 	) => {
@@ -33,7 +34,8 @@ const PoolInput = React.forwardRef(
 									rewardAccrued *
 									((parseFloat(value) + couponBalance) / (parseFloat(value) + couponIssued))
 							).toFixed(4) *
-								1 +
+								1 -
+							currentBalance +
 							' Debase'
 						)}
 					</div>

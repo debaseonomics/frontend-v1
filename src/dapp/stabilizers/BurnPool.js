@@ -209,6 +209,8 @@ export default function BurnPool() {
 		[ library, getBlockNumber, getCircBalance, getCouponOraclePrice, getOraclePrice ]
 	);
 
+	console.log(priceTargetRate, lowerDeviationThreshold);
+
 	const paramsData = [
 		{
 			label: 'Cycle length',
@@ -256,8 +258,6 @@ export default function BurnPool() {
 			toolTip: 'Debase sent to multi-sig for development of pool'
 		}
 	];
-
-	console.log(rewardCycles.data);
 
 	async function handleBuyCoupons() {
 		setStakingLoading(true);
@@ -881,6 +881,8 @@ export default function BurnPool() {
 						rewardCycles.data.length &&
 						rewardCycles.data[selectedRewardCycle].distributionStatus === 'WAITING_FOR_POSITIVE_REBASE' &&
 						setting.data &&
+						lowerDeviationThreshold &&
+						priceTargetRate &&
 						debaseBalance &&
 						blockNumber &&
 						setting.data.lastRebase === 'NEGATIVE' ? (
@@ -901,21 +903,19 @@ export default function BurnPool() {
 											token="Debase"
 											img={debase}
 										/>
-										{/* <TextInfo
+										<TextInfo
 											isMobile={isMobile}
 											label="Coupon Buy Threshold"
 											value={
-												lowerDeviationThreshold && priceTargetRate ? (
-													'Below ' +
-													parseFloat(formatEther(priceTargetRate)) -
-													parseFloat(formatEther(lowerDeviationThreshold))
-												) : (
-													'...'
-												)
+												'Below ' +
+												(lowerDeviationThreshold && priceTargetRate
+													? parseFloat(formatEther(priceTargetRate)) -
+														parseFloat(formatEther(lowerDeviationThreshold))
+													: '...')
 											}
 											token="Dai"
 											img={dai}
-										/> */}
+										/>
 										<TextInfo
 											isMobile={isMobile}
 											label="Last Coupon Oracle TWAP"
@@ -963,6 +963,18 @@ export default function BurnPool() {
 									</tbody>
 								</table>
 								<PoolInput
+									currentBalance={
+										rewardCycles.data[selectedRewardCycle].users.length ? (
+											parseFloat(
+												parseFloat(formatEther(debaseSupply)) *
+													rewardCycles.data[selectedRewardCycle].rewardShare *
+													(rewardCycles.data[selectedRewardCycle].users[0].couponBalance /
+														rewardCycles.data[selectedRewardCycle].couponsIssued)
+											).toFixed(4) * 1
+										) : (
+											0
+										)
+									}
 									couponBalance={parseFloat(
 										rewardCycles.data[selectedRewardCycle].users.length
 											? rewardCycles.data[selectedRewardCycle].users[0].couponBalance
