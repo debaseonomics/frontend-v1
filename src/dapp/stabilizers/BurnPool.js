@@ -269,30 +269,26 @@ export default function BurnPool() {
 				rewardCycles.data[selectedRewardCycle].oracleNextUpdates.length - 1
 			] - blockNumber;
 
-		if (blockRemaining <= 0 && parseFloat(formatEther(couponOraclePrice[1])) >= 0.95) {
-			toaster('Price above threshold, cant buy d-bills', 'is-danger');
-		} else {
-			try {
-				const toStake = parseUnits(couponRef.current.value, 18);
-				let allowance = await tokenContract.allowance(account, contractAddress.burnPool);
-				let transaction;
-				if (allowance.lt(toStake)) {
-					transaction = await tokenContract.approve(contractAddress.burnPool, toStake);
-					await transaction.wait(1);
-				}
-				transaction = await burnPoolContract.buyCoupons(toStake);
+		try {
+			const toStake = parseUnits(couponRef.current.value, 18);
+			let allowance = await tokenContract.allowance(account, contractAddress.burnPool);
+			let transaction;
+			if (allowance.lt(toStake)) {
+				transaction = await tokenContract.approve(contractAddress.burnPool, toStake);
 				await transaction.wait(1);
-
-				getDebaseBalance(undefined, true);
-				getDebaseSupply(undefined, true);
-				getBlockNumber(undefined, true);
-				getCircBalance(undefined, true);
-				getCouponOraclePrice(undefined, true);
-
-				toaster('D-bills successfully bought', 'is-success');
-			} catch (error) {
-				toaster('D-bills buying failing, please try again', 'is-danger');
 			}
+			transaction = await burnPoolContract.buyCoupons(toStake);
+			await transaction.wait(1);
+
+			getDebaseBalance(undefined, true);
+			getDebaseSupply(undefined, true);
+			getBlockNumber(undefined, true);
+			getCircBalance(undefined, true);
+			getCouponOraclePrice(undefined, true);
+
+			toaster('D-bills successfully bought', 'is-success');
+		} catch (error) {
+			toaster('D-bills buying failing, please try again', 'is-danger');
 		}
 
 		setStakingLoading(false);
