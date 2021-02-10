@@ -25,7 +25,7 @@ const PoolInput = React.forwardRef(
 			<Fragment>
 				{showDepositReward ? (
 					<div>
-						Potential Total Deposit Reward :{' '}
+						Potential Deposit Reward :{' '}
 						{value === '' ? (
 							0
 						) : (
