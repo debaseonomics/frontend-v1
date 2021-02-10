@@ -136,6 +136,14 @@ export default function BurnPool() {
 
 	const couponRef = useRef();
 
+	const status = {
+		EPOCHS_COMPLETED: 'Epochs Completed',
+		IN_PROGRESS: 'In progress',
+		WAITING_FOR_POSITIVE_REBASE: 'Waiting for positive rebase',
+		ENDED_DUE_TO_NEUTRAL_REBASE: 'Ended due to neutral rebase',
+		ENDED_DUE_TO_NEGATIVE_REBASE: 'Ended due to negative rebase'
+	};
+
 	const numberFormat = (value) =>
 		new Intl.NumberFormat('en-US', {
 			style: 'decimal'
@@ -253,27 +261,38 @@ export default function BurnPool() {
 		setStakingLoading(true);
 		const tokenContract = new Contract(contractAddress.debase, lpAbi, library.getSigner());
 		const burnPoolContract = new Contract(contractAddress.burnPool, burnPoolAbi, library.getSigner());
-		try {
-			const toStake = parseUnits(couponRef.current.value, 18);
-			let allowance = await tokenContract.allowance(account, contractAddress.burnPool);
-			let transaction;
-			if (allowance.lt(toStake)) {
-				transaction = await tokenContract.approve(contractAddress.burnPool, toStake);
+
+		const blockRemaining =
+			rewardCycles.data[selectedRewardCycle].oracleNextUpdates[
+				rewardCycles.data[selectedRewardCycle].oracleNextUpdates.length - 1
+			] - blockNumber;
+
+		if (blockRemaining <= 0 && parseFloat(formatEther(couponOraclePrice[1])) >= 0.95) {
+			toaster('Price above threshold, cant buy coupons', 'is-danger');
+		} else {
+			try {
+				const toStake = parseUnits(couponRef.current.value, 18);
+				let allowance = await tokenContract.allowance(account, contractAddress.burnPool);
+				let transaction;
+				if (allowance.lt(toStake)) {
+					transaction = await tokenContract.approve(contractAddress.burnPool, toStake);
+					await transaction.wait(1);
+				}
+				transaction = await burnPoolContract.buyCoupons(toStake);
 				await transaction.wait(1);
+
+				getDebaseBalance(undefined, true);
+				getDebaseSupply(undefined, true);
+				getBlockNumber(undefined, true);
+				getCircBalance(undefined, true);
+				getCouponOraclePrice(undefined, true);
+
+				toaster('Coupon successfully bought', 'is-success');
+			} catch (error) {
+				toaster('Coupon buying failing, please try again', 'is-danger');
 			}
-			transaction = await burnPoolContract.buyCoupons(toStake);
-			await transaction.wait(1);
-
-			getDebaseBalance(undefined, true);
-			getDebaseSupply(undefined, true);
-			getBlockNumber(undefined, true);
-			getCircBalance(undefined, true);
-			getCouponOraclePrice(undefined, true);
-
-			toaster('Coupon successfully bought', 'is-success');
-		} catch (error) {
-			toaster('Coupon buying failing, please try again', 'is-danger');
 		}
+
 		setStakingLoading(false);
 	}
 
@@ -602,7 +621,7 @@ export default function BurnPool() {
 										<TextInfo
 											isMobile={isMobile}
 											label="Distribution Status"
-											value={rewardCycles.data[selectedRewardCycle].distributionStatus}
+											value={status[rewardCycles.data[selectedRewardCycle].distributionStatus]}
 											noImage={true}
 											token="Cycles"
 										/>
