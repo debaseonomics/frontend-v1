@@ -257,6 +257,8 @@ export default function BurnPool() {
 		}
 	];
 
+	console.log(rewardCycles.data);
+
 	async function handleBuyCoupons() {
 		setStakingLoading(true);
 		const tokenContract = new Contract(contractAddress.debase, lpAbi, library.getSigner());
@@ -903,7 +905,7 @@ export default function BurnPool() {
 											token="Debase"
 											img={debase}
 										/>
-										<TextInfo
+										{/* <TextInfo
 											isMobile={isMobile}
 											label="Coupon Buy Threshold"
 											value={
@@ -917,7 +919,7 @@ export default function BurnPool() {
 											}
 											token="Dai"
 											img={dai}
-										/>
+										/> */}
 										<TextInfo
 											isMobile={isMobile}
 											label="Last Coupon Oracle TWAP"
@@ -966,7 +968,9 @@ export default function BurnPool() {
 								</table>
 								<PoolInput
 									couponBalance={parseFloat(
-										rewardCycles.data[selectedRewardCycle].users[0].couponBalance
+										rewardCycles.data[selectedRewardCycle].users.length
+											? rewardCycles.data[selectedRewardCycle].users[0].couponBalance
+											: 0
 									)}
 									couponIssued={parseFloat(rewardCycles.data[selectedRewardCycle].couponsIssued)}
 									rewardAccrued={parseFloat(rewardCycles.data[selectedRewardCycle].rewardShare)}
