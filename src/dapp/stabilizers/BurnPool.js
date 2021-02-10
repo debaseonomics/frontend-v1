@@ -405,13 +405,12 @@ export default function BurnPool() {
 											isMobile={isMobile}
 											label="Positive Rebase Threshold"
 											value={
-												upperDeviationThreshold && priceTargetRate ? (
-													'Above' +
-													parseFloat(formatEther(upperDeviationThreshold)) +
-													parseFloat(formatEther(priceTargetRate))
-												) : (
-													'...'
-												)
+												'Above' +
+												(upperDeviationThreshold && priceTargetRate
+													? 'Above' +
+														parseFloat(formatEther(upperDeviationThreshold)) +
+														parseFloat(formatEther(priceTargetRate))
+													: '...')
 											}
 											token="Dai"
 											img={dai}
@@ -420,13 +419,11 @@ export default function BurnPool() {
 											isMobile={isMobile}
 											label="Negative Rebase Threshold"
 											value={
-												lowerDeviationThreshold && priceTargetRate ? (
-													'Below' +
-													parseFloat(formatEther(priceTargetRate)) -
-													parseFloat(formatEther(lowerDeviationThreshold))
-												) : (
-													'...'
-												)
+												'Below' +
+												(lowerDeviationThreshold && priceTargetRate
+													? parseFloat(formatEther(priceTargetRate)) -
+														parseFloat(formatEther(lowerDeviationThreshold))
+													: '...')
 											}
 											token="Dai"
 											img={dai}
