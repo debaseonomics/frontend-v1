@@ -37,6 +37,10 @@ const settingsSub = `
 			curveShifter
 			initialRewardShare
 			multiSigRewardShare
+			enableMinimumRewardAccruedCap
+			minimumRewardAccruedCap
+			enableMaximumRewardAccruedCap
+			maximumRewardAccruedCap
 			mean
 			deviation
 			oneDivDeviationSqrtTwoPi
@@ -89,6 +93,8 @@ const rewardCycleSub = `
 			}
 			users(where:{address: $address}){
 				couponBalance
+				couponIssued
+				debaseEarned
 			}
 		}
 	}
@@ -158,12 +164,9 @@ export default function BurnPool() {
 		}
 	);
 
-	const { data: oraclePrice, mutate: getOraclePrice } = useSWR(
-		[ contractAddress.oracleV2, 'currentAveragePrice' ],
-		{
-			fetcher: fetcher(library, oracleAbi)
-		}
-	);
+	const { data: oraclePrice, mutate: getOraclePrice } = useSWR([ contractAddress.oracleV2, 'currentAveragePrice' ], {
+		fetcher: fetcher(library, oracleAbi)
+	});
 
 	const { data: priceTargetRate } = useSWR([ contractAddress.debasePolicy, 'priceTargetRate' ], {
 		fetcher: fetcher(library, debasePolicyAbi)
@@ -220,6 +223,26 @@ export default function BurnPool() {
 		{
 			label: 'Multi Sig Reward Share',
 			value: setting.data ? setting.data.multiSigRewardShare * 100 + '% of Cycle Reward' : '...',
+			toolTip: 'Debase sent to multi-sig for development of pool'
+		},
+		{
+			label: 'Minimum Reward Cap Flag',
+			value: setting.data ? (setting.data.enableMinimumRewardAccruedCap ? 'Enabled' : 'Disabled') : '...',
+			toolTip: 'Debase sent to multi-sig for development of pool'
+		},
+		{
+			label: 'Minimum Reward Cap',
+			value: setting.data ? setting.data.minimumRewardAccruedCap * 100 + '%' : '...',
+			toolTip: 'Debase sent to multi-sig for development of pool'
+		},
+		{
+			label: 'Maximum Reward Cap Flag',
+			value: setting.data ? (setting.data.enableMaximumRewardAccruedCap ? 'Enabled' : 'Disabled') : '...',
+			toolTip: 'Debase sent to multi-sig for development of pool'
+		},
+		{
+			label: 'Maximum Reward Cap',
+			value: setting.data ? setting.data.maximumRewardAccruedCap * 100 + '%' : '...',
 			toolTip: 'Debase sent to multi-sig for development of pool'
 		}
 	];
@@ -423,7 +446,7 @@ export default function BurnPool() {
 
 										<TextInfo
 											isMobile={isMobile}
-											label="Rebase occurs in"
+											label="Last Rebase happened"
 											value={
 												lastRebaseTimestampSec ? lastRebaseTimestampSec.toNumber() === 0 ? (
 													"Hasn't Happened"
@@ -641,6 +664,22 @@ export default function BurnPool() {
 												/>
 												<TextInfo
 													isMobile={isMobile}
+													label="Max Debase Earnable Undiluted"
+													value={
+														parseFloat(
+															parseFloat(formatEther(debaseSupply)) *
+																rewardCycles.data[selectedRewardCycle].rewardShare *
+																(rewardCycles.data[selectedRewardCycle].users[0]
+																	.couponBalance /
+																	rewardCycles.data[selectedRewardCycle].users[0]
+																		.couponIssued)
+														).toFixed(4) * 1
+													}
+													token="Debase"
+													img={debase}
+												/>
+												<TextInfo
+													isMobile={isMobile}
 													label="Max Debase Earnable Diluted"
 													value={
 														parseFloat(
@@ -672,6 +711,16 @@ export default function BurnPool() {
 													token="Debase"
 													img={debase}
 												/>
+												<TextInfo
+													isMobile={isMobile}
+													label="Debase reward claimed"
+													value={
+														parseFloat(formatEther(debaseSupply)) *
+														rewardCycles.data[selectedRewardCycle].users[0].debaseEarned
+													}
+													token="Debase"
+													img={debase}
+												/>
 												<CouponInfo
 													id={rewardCycles.data[selectedRewardCycle].id}
 													debaseSupply={debaseSupply}
@@ -680,12 +729,14 @@ export default function BurnPool() {
 										) : null}
 									</tbody>
 								</table>
-								{rewardCycles.data[selectedRewardCycle].users.length &&
+								{setting.data &&
+								setting.data.lastRebase === 'POSITIVE' &&
+								rewardCycles.data[selectedRewardCycle].users.length &&
 								rewardCycles.data[selectedRewardCycle].users[0].couponBalance != 0 ? (
 									<button
 										className={
 											claimLoading ? (
-												'mt-2 mb-2 button is-loading is-link is-fullwidth  is-edged'
+												'mt-2 mb-2 button is-loading is-link is-fullwidth is-edged'
 											) : (
 												'mt-2 mb-2 button is-link is-fullwidth is-edged'
 											)
