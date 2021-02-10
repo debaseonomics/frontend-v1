@@ -18,7 +18,7 @@ import {
 } from '../../utils/index';
 import useSWR from 'swr';
 import { useWeb3React } from '@web3-react/core';
-import { formatEther, parseEther, parseUnits } from 'ethers/lib/utils';
+import { formatEther, parseUnits } from 'ethers/lib/utils';
 import CouponInfo from '../../components/CouponInfo';
 import PoolInput from '../../components/PoolInput';
 import { useMediaQuery } from 'react-responsive';
@@ -405,7 +405,8 @@ export default function BurnPool() {
 											isMobile={isMobile}
 											label="Positive Rebase Threshold"
 											value={
-												'Above' + upperDeviationThreshold && priceTargetRate ? (
+												upperDeviationThreshold && priceTargetRate ? (
+													'Above' +
 													parseFloat(formatEther(upperDeviationThreshold)) +
 													parseFloat(formatEther(priceTargetRate))
 												) : (
@@ -419,7 +420,8 @@ export default function BurnPool() {
 											isMobile={isMobile}
 											label="Negative Rebase Threshold"
 											value={
-												'Below' + lowerDeviationThreshold && priceTargetRate ? (
+												lowerDeviationThreshold && priceTargetRate ? (
+													'Below' +
 													parseFloat(formatEther(priceTargetRate)) -
 													parseFloat(formatEther(lowerDeviationThreshold))
 												) : (
@@ -846,6 +848,7 @@ export default function BurnPool() {
 						rewardCycles.data[selectedRewardCycle].distributionsStatus == 'IN_PROGRESS' &&
 						setting.data &&
 						debaseBalance &&
+						blockNumber &&
 						setting.data.lastRebase === 'NEGATIVE' ? (
 							<Fragment>
 								<div className="divider">Coupon Buying Information</div>
@@ -867,13 +870,21 @@ export default function BurnPool() {
 										<TextInfo
 											isMobile={isMobile}
 											label="Coupon Buy Threshold"
-											value={0.95}
+											value={
+												lowerDeviationThreshold && priceTargetRate ? (
+													'Below' +
+													parseFloat(formatEther(priceTargetRate)) -
+													parseFloat(formatEther(lowerDeviationThreshold))
+												) : (
+													'...'
+												)
+											}
 											token="Dai"
 											img={dai}
 										/>
 										<TextInfo
 											isMobile={isMobile}
-											label="Last Oracle TWAP"
+											label="Last Coupon Oracle TWAP"
 											value={parseFloat(
 												parseFloat(
 													rewardCycles.data[selectedRewardCycle].oracleLastPrices[
@@ -895,19 +906,17 @@ export default function BurnPool() {
 
 										<TextInfo
 											isMobile={isMobile}
-											label="Coupon Oracle TWAP Updates In"
+											label="Coupon Oracle Updates In"
 											value={
 												rewardCycles.data[selectedRewardCycle].oracleNextUpdates[
 													rewardCycles.data[selectedRewardCycle].oracleNextUpdates.length - 1
 												] -
 													blockNumber >=
 												0 ? (
-													parseFloat(
-														rewardCycles.data[selectedRewardCycle].oracleNextUpdates[
-															rewardCycles.data[selectedRewardCycle].oracleNextUpdates
-																.length - 1
-														]
-													).toFixed(4) * 1
+													rewardCycles.data[selectedRewardCycle].oracleNextUpdates[
+														rewardCycles.data[selectedRewardCycle].oracleNextUpdates
+															.length - 1
+													] - blockNumber
 												) : (
 													0
 												)
