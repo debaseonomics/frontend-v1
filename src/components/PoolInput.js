@@ -11,6 +11,7 @@ const PoolInput = React.forwardRef(
 			action,
 			buttonText,
 			showDepositReward,
+			couponBalance,
 			couponIssued,
 			rewardAccrued,
 			debaseSupply
@@ -23,11 +24,17 @@ const PoolInput = React.forwardRef(
 			<Fragment>
 				{showDepositReward ? (
 					<div>
-						Deposit Reward :{' '}
+						Potential Total Deposit Reward :{' '}
 						{value === '' ? (
 							0
 						) : (
-							debaseSupply * rewardAccrued * (parseFloat(value) / (parseFloat(value) + couponIssued))
+							parseFloat(
+								debaseSupply *
+									rewardAccrued *
+									((parseFloat(value) + couponBalance) / (parseFloat(value) + couponIssued))
+							).toFixed(4) *
+								1 +
+							' Debase'
 						)}
 					</div>
 				) : null}

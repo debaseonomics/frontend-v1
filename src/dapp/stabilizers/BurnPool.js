@@ -93,7 +93,7 @@ const rewardCycleSub = `
 			}
 			users(where:{address: $address}){
 				couponBalance
-				couponIssued
+				couponsIssued
 				debaseEarned
 			}
 		}
@@ -141,11 +141,11 @@ export default function BurnPool() {
 			style: 'decimal'
 		}).format(value);
 
-	const { data: debaseSupply } = useSWR([ contractAddress.debase, 'totalSupply' ], {
+	const { data: debaseSupply, mutate: getDebaseSupply } = useSWR([ contractAddress.debase, 'totalSupply' ], {
 		fetcher: fetcher(library, lpAbi)
 	});
 
-	const { data: debaseBalance } = useSWR([ contractAddress.debase, 'balanceOf', account ], {
+	const { data: debaseBalance, mutate: getDebaseBalance } = useSWR([ contractAddress.debase, 'balanceOf', account ], {
 		fetcher: fetcher(library, lpAbi)
 	});
 
@@ -187,6 +187,8 @@ export default function BurnPool() {
 	useEffect(
 		() => {
 			library.on('block', () => {
+				getDebaseBalance(undefined, true);
+				getDebaseSupply(undefined, true);
 				getBlockNumber(undefined, true);
 				getCircBalance(undefined, true);
 				getCouponOraclePrice(undefined, true);
@@ -248,7 +250,7 @@ export default function BurnPool() {
 	];
 
 	async function handleBuyCoupons() {
-		setStakingLoading(false);
+		setStakingLoading(true);
 		const tokenContract = new Contract(contractAddress.debase, lpAbi, library.getSigner());
 		const burnPoolContract = new Contract(contractAddress.burnPool, burnPoolAbi, library.getSigner());
 		try {
@@ -262,11 +264,17 @@ export default function BurnPool() {
 			transaction = await burnPoolContract.buyCoupons(toStake);
 			await transaction.wait(1);
 
+			getDebaseBalance(undefined, true);
+			getDebaseSupply(undefined, true);
+			getBlockNumber(undefined, true);
+			getCircBalance(undefined, true);
+			getCouponOraclePrice(undefined, true);
+
 			toaster('Coupon successfully bought', 'is-success');
 		} catch (error) {
 			toaster('Coupon buying failing, please try again', 'is-danger');
 		}
-		setStakingLoading(true);
+		setStakingLoading(false);
 	}
 
 	async function handleClaim() {
@@ -275,6 +283,12 @@ export default function BurnPool() {
 		try {
 			const transaction = await burnPoolContract.getReward(selectedRewardCycle);
 			await transaction.wait(1);
+
+			getDebaseBalance(undefined, true);
+			getDebaseSupply(undefined, true);
+			getBlockNumber(undefined, true);
+			getCircBalance(undefined, true);
+			getCouponOraclePrice(undefined, true);
 
 			toaster('Claim reward successful', 'is-success');
 		} catch (error) {
@@ -624,7 +638,7 @@ export default function BurnPool() {
 										/>
 										<TextInfo
 											isMobile={isMobile}
-											label="Reward Accrued Before Scaling"
+											label="Total Cycle Reward"
 											value={
 												parseFloat(
 													parseFloat(formatEther(debaseSupply)) *
@@ -670,7 +684,7 @@ export default function BurnPool() {
 																(rewardCycles.data[selectedRewardCycle].users[0]
 																	.couponBalance /
 																	rewardCycles.data[selectedRewardCycle].users[0]
-																		.couponIssued)
+																		.couponsIssued)
 														).toFixed(4) * 1
 													}
 													token="Debase"
@@ -692,7 +706,7 @@ export default function BurnPool() {
 													token="Debase"
 													img={debase}
 												/>
-												<TextInfo
+												{/* <TextInfo
 													isMobile={isMobile}
 													label="Max Debase after curve"
 													value={
@@ -708,21 +722,27 @@ export default function BurnPool() {
 													}
 													token="Debase"
 													img={debase}
-												/>
-												<TextInfo
-													isMobile={isMobile}
-													label="Debase reward claimed"
-													value={
-														parseFloat(formatEther(debaseSupply)) *
-														rewardCycles.data[selectedRewardCycle].users[0].debaseEarned
-													}
-													token="Debase"
-													img={debase}
-												/>
-												<CouponInfo
-													id={rewardCycles.data[selectedRewardCycle].id}
-													debaseSupply={debaseSupply}
-												/>
+												/> */}
+												{rewardCycles.data[selectedRewardCycle].distributionStatus !==
+												'WAITING_FOR_POSITIVE_REBASE' ? (
+													<Fragment>
+														<TextInfo
+															isMobile={isMobile}
+															label="Debase reward claimed"
+															value={
+																parseFloat(formatEther(debaseSupply)) *
+																rewardCycles.data[selectedRewardCycle].users[0]
+																	.debaseEarned
+															}
+															token="Debase"
+															img={debase}
+														/>
+														<CouponInfo
+															id={rewardCycles.data[selectedRewardCycle].id}
+															debaseSupply={debaseSupply}
+														/>
+													</Fragment>
+												) : null}
 											</Fragment>
 										) : null}
 									</tbody>
@@ -841,7 +861,7 @@ export default function BurnPool() {
 
 						{rewardCycles.data &&
 						rewardCycles.data.length &&
-						rewardCycles.data[selectedRewardCycle].distributionsStatus == 'IN_PROGRESS' &&
+						rewardCycles.data[selectedRewardCycle].distributionStatus === 'WAITING_FOR_POSITIVE_REBASE' &&
 						setting.data &&
 						debaseBalance &&
 						blockNumber &&
@@ -904,7 +924,7 @@ export default function BurnPool() {
 											isMobile={isMobile}
 											label="Coupon Oracle Updates In"
 											value={
-												rewardCycles.data[selectedRewardCycle].oracleNextUpdates[
+												blockNumber ? rewardCycles.data[selectedRewardCycle].oracleNextUpdates[
 													rewardCycles.data[selectedRewardCycle].oracleNextUpdates.length - 1
 												] -
 													blockNumber >=
@@ -915,6 +935,8 @@ export default function BurnPool() {
 													] - blockNumber
 												) : (
 													0
+												) : (
+													'...'
 												)
 											}
 											token="Blocks"
@@ -923,6 +945,9 @@ export default function BurnPool() {
 									</tbody>
 								</table>
 								<PoolInput
+									couponBalance={parseFloat(
+										rewardCycles.data[selectedRewardCycle].users[0].couponBalance
+									)}
 									couponIssued={parseFloat(rewardCycles.data[selectedRewardCycle].couponsIssued)}
 									rewardAccrued={parseFloat(rewardCycles.data[selectedRewardCycle].rewardShare)}
 									debaseSupply={parseFloat(formatEther(debaseSupply))}
