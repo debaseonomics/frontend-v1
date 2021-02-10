@@ -405,10 +405,9 @@ export default function BurnPool() {
 											isMobile={isMobile}
 											label="Positive Rebase Threshold"
 											value={
-												'Above' +
+												'Above ' +
 												(upperDeviationThreshold && priceTargetRate
-													? 'Above' +
-														parseFloat(formatEther(upperDeviationThreshold)) +
+													? parseFloat(formatEther(upperDeviationThreshold)) +
 														parseFloat(formatEther(priceTargetRate))
 													: '...')
 											}
@@ -419,7 +418,7 @@ export default function BurnPool() {
 											isMobile={isMobile}
 											label="Negative Rebase Threshold"
 											value={
-												'Below' +
+												'Below ' +
 												(lowerDeviationThreshold && priceTargetRate
 													? parseFloat(formatEther(priceTargetRate)) -
 														parseFloat(formatEther(lowerDeviationThreshold))
@@ -855,7 +854,7 @@ export default function BurnPool() {
 											isMobile={isMobile}
 											label="Current Balance"
 											value={
-												debaseBalance !== undefined ? (
+												debaseBalance ? (
 													parseFloat(formatEther(debaseBalance)).toFixed(4) * 1
 												) : (
 													'0'
@@ -869,7 +868,7 @@ export default function BurnPool() {
 											label="Coupon Buy Threshold"
 											value={
 												lowerDeviationThreshold && priceTargetRate ? (
-													'Below' +
+													'Below ' +
 													parseFloat(formatEther(priceTargetRate)) -
 													parseFloat(formatEther(lowerDeviationThreshold))
 												) : (
