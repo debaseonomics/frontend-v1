@@ -941,7 +941,7 @@ export default function BurnPool() {
 
 										<TextInfo
 											isMobile={isMobile}
-											label="Coupon Oracle Updates In"
+											label="Coupon Buying Period "
 											value={
 												blockNumber ? rewardCycles.data[selectedRewardCycle].oracleNextUpdates[
 													rewardCycles.data[selectedRewardCycle].oracleNextUpdates.length - 1
