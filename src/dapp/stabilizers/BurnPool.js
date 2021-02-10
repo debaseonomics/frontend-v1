@@ -268,7 +268,7 @@ export default function BurnPool() {
 			] - blockNumber;
 
 		if (blockRemaining <= 0 && parseFloat(formatEther(couponOraclePrice[1])) >= 0.95) {
-			toaster('Price above threshold, cant buy coupons', 'is-danger');
+			toaster('Price above threshold, cant buy d-bills', 'is-danger');
 		} else {
 			try {
 				const toStake = parseUnits(couponRef.current.value, 18);
@@ -287,9 +287,9 @@ export default function BurnPool() {
 				getCircBalance(undefined, true);
 				getCouponOraclePrice(undefined, true);
 
-				toaster('Coupon successfully bought', 'is-success');
+				toaster('D-bills successfully bought', 'is-success');
 			} catch (error) {
-				toaster('Coupon buying failing, please try again', 'is-danger');
+				toaster('D-bills buying failing, please try again', 'is-danger');
 			}
 		}
 
@@ -327,7 +327,8 @@ export default function BurnPool() {
 					<div className="contractinfo">
 						<div className="desc">
 							<h5 className="pt-2 pl-1 pr-1 subtitle is-size-5-tablet is-size-6-mobile">
-								SP2: Issues and redeems d-bills
+								SP2: Issues and redeems d-bills. Users compete to get d-bills and disallow others from
+								getting d-bills by shutting the door on buying them.
 							</h5>
 							<span className="mb-0 subtitle is-size-5-tablet is-size-6-mobile">
 								<a
@@ -670,27 +671,27 @@ export default function BurnPool() {
 
 										<TextInfo
 											isMobile={isMobile}
-											label="Total Coupons Issued"
+											label="Total D-bills Issued"
 											value={
 												parseFloat(
 													rewardCycles.data[selectedRewardCycle].couponsIssued
 												).toFixed(4) * 1
 											}
-											token="Coupons"
+											token="D-bills"
 											img={empty}
 										/>
 										{rewardCycles.data[selectedRewardCycle].users.length !== 0 && debaseSupply ? (
 											<Fragment>
 												<TextInfo
 													isMobile={isMobile}
-													label="Your Coupons Balance"
+													label="Your D-bills Balance"
 													value={
 														parseFloat(
 															rewardCycles.data[selectedRewardCycle].users[0]
 																.couponBalance
 														).toFixed(4) * 1
 													}
-													token="Coupons"
+													token="D-bills"
 													img={empty}
 												/>
 												<TextInfo
