@@ -85,6 +85,23 @@ export const thresholdCounterV2Abi = [
 	'function normalDistribution(uint256) external view returns(uint256)'
 ];
 
+export const V3Abi = [
+	'function rewardPercentage() public view returns (uint256)',
+	'function blockDuration() public view returns (uint256)',
+	'function poolEnabled() public view returns (bool)',
+	'function poolLpLimit() public view returns (uint256)',
+	'function enablePoolLpLimit() public view returns (bool)',
+	'function periodFinish() public view returns(uint256)',
+	'function userLpLimit() public view returns (uint256)',
+	'function poolLpLimit() public view returns (uint256)',
+	'function enableUserLpLimit() public view returns (bool)',
+	'function totalSupply() public view returns (uint256)',
+	'function balanceOf(address) public view returns (uint256)',
+	'function cycleEnds() public view returns(uint256)',
+	'function rewardPerTokenMax() public view returns(uint256)',
+	'function rewardShare() public view returns(uint256)'
+];
+
 export const incentivizerAbi = [
 	'function rewardPercentage() public view returns (uint256)',
 	'function blockDuration() public view returns (uint256)',
@@ -197,7 +214,8 @@ export const contractAddress = {
 	debaseEthLp: '0xa8e5533d1e22be2df5e9ad9f67dd22a4e7d5b371',
 	burnPool: '0x8c9354C0def4a39D53Ac0730CEfe12d019439640',
 	burnPoolOracle: '0x27fe90d99de424d083e116f3d17a52f379eebf33',
-	oracleV2: '0x6a5254a4621a1a558E706f5972f7A9b22F7566D2'
+	oracleV2: '0x6a5254a4621a1a558E706f5972f7A9b22F7566D2',
+	sp3Pool: '0x29e92C31C980098d5724fe82EbC5A824e32d9C9B'
 };
 
 export const uniAddress = {

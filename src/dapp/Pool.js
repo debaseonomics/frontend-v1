@@ -179,7 +179,7 @@ export default function Pool({
 						isMobile={isMobile}
 						label="Balance"
 						value={
-							rewardBalance !== undefined ? (
+							rewardTokenBalance !== undefined ? (
 								parseFloat(formatEther(rewardTokenBalance)).toFixed(isMobile ? 4 : 8) * 1
 							) : (
 								'0'

@@ -15,13 +15,17 @@ export default function Stabilizers() {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
+	const { data: expansionRewarder } = useSWR([ contractAddress.debasePolicy, 'stabilizerPools', 7 ], {
+		fetcher: fetcher(library, debasePolicyAbi)
+	});
+
 	const { data: burnPool } = useSWR([ contractAddress.debasePolicy, 'stabilizerPools', 6 ], {
 		fetcher: fetcher(library, debasePolicyAbi)
 	});
 
 	const data = [
 		{
-			name: 'Threshold Counter',
+			name: 'Threshold Counter V1',
 			type: 'Passive Pool',
 			description:
 				'This stabilizer counts the number of positive rebases until a random threshold, sampled from a normal distribution, is hit. Once the threshold is hit, counter is reset and the pool starts to reward DEBASE for staked DEBASE/DAI LPs, as per parameters decided by governance.',
@@ -35,6 +39,14 @@ export default function Stabilizers() {
 				'This stabilizer counts the number of positive rebases until a random threshold, sampled from a normal distribution, is hit. Once the threshold is hit, counter is reset and the pool starts to reward DEBASE for staked DEBASE/ETH LPs, as per parameters decided by governance.',
 			status: thresholdCounterV2Eth,
 			link: 'thresholdCounter-v2-eth-debase'
+		},
+		{
+			name: 'Expansion rewarder Dai/Debase',
+			type: 'Passive Pool',
+			description:
+				'This stabilizer rewards Debase when the last rebase was in expansion or stability. It stops rewarding when Debase goes into a contraction',
+			status: expansionRewarder,
+			link: 'expansion-rewarder-dai-debase'
 		},
 		{
 			name: 'burn Pool',
