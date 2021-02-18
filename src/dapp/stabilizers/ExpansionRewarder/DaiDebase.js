@@ -41,6 +41,10 @@ export default function DaiDebase() {
 		fetcher: fetcher(library, lpAbi)
 	});
 
+	const { data: poolSupply, mutate: getPoolSupply } = useSWR([ contractAddress.sp3Pool, 'totalSupply' ], {
+		fetcher: fetcher(library, lpAbi)
+	});
+
 	const { data: cycleEnds, mutate: getCycleEnds } = useSWR([ contractAddress.sp3Pool, 'cycleEnds' ], {
 		fetcher: fetcher(library, V3Abi)
 	});
@@ -75,9 +79,12 @@ export default function DaiDebase() {
 			toolTip: 'LP limit per wallet'
 		},
 		{
-			label: 'Pool Lp Limit',
-			value: poolLpLimit ? formatEther(poolLpLimit) + ' LP' : '...',
-			toolTip: 'Total pool LP limit'
+			label: 'Total Pool Limit',
+			value:
+				poolLpLimit && poolSupply
+					? parseFloat(formatEther(poolSupply)).toFixed(6) + ' / ' + formatEther(poolLpLimit) + ' LP'
+					: '...',
+			toolTip: 'Total LP limit per pool'
 		},
 		{
 			label: 'Current Pool Reward',
@@ -111,12 +118,13 @@ export default function DaiDebase() {
 				getCycleEnds(undefined, true);
 				getTokenSupply(undefined, true);
 				getRewardShare(undefined, true);
+				getPoolSupply(undefined, true);
 			});
 			return () => {
 				library.removeAllListeners('block');
 			};
 		},
-		[ library, getBlockNumber, getCycleEnds, getTokenSupply, getRewardShare ]
+		[ library, getBlockNumber, getCycleEnds, getTokenSupply, getPoolSupply, getRewardShare ]
 	);
 
 	return (
