@@ -105,9 +105,14 @@ export default function DaiDebase() {
 			toolTip: 'Current pool rewards available'
 		},
 		{
-			label: 'Pool Apy',
+			label: 'Pool Apy During Expansions',
 			value: '1500 %',
-			toolTip: 'Apy of the pool'
+			toolTip: 'Expansion Apy of the pool'
+		},
+		{
+			label: 'Pool Apy During Expansions',
+			value: '750 %',
+			toolTip: 'Stability Apy of the pool'
 		}
 	];
 
