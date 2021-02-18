@@ -105,14 +105,19 @@ export default function DaiDebase() {
 			toolTip: 'Current pool rewards available'
 		},
 		{
-			label: 'Pool Apy During Expansions',
+			label: 'Pool APR During Expansions',
 			value: '1500 %',
-			toolTip: 'Expansion Apy of the pool'
+			toolTip: 'Expansion APR of the pool'
 		},
 		{
-			label: 'Pool Apy During Expansions',
+			label: 'Pool APR During Stability',
 			value: '750 %',
-			toolTip: 'Stability Apy of the pool'
+			toolTip: 'Stability APR of the pool'
+		},
+		{
+			label: 'Pool APR During Contractions',
+			value: '0 %',
+			toolTip: 'Contraction APR of the pool'
 		}
 	];
 
