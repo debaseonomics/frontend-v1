@@ -90,7 +90,7 @@ export default function DaiDebase() {
 			label: 'Current Pool Reward',
 			value:
 				tokenSupply && rewardShare
-					? parseFloat(formatEther(rewardShare.mul(tokenSupply).div(parseEther('1'))))
+					? parseFloat(formatEther(rewardShare.mul(tokenSupply).div(parseEther('1')))).toFixed(4) + ' Debase'
 					: '...',
 			toolTip: 'Current pool rewards available'
 		},
