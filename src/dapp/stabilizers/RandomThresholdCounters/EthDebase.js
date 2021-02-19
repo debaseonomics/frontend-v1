@@ -165,9 +165,7 @@ export default function ThresholdCounter() {
 		<div className="columns is-centered">
 			<div className="box boxs column is-6">
 				<div className=" has-text-centered">
-					<h3 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">
-						Threshold Counter V2 Eth/Debase
-					</h3>
+					<h3 className="title is-size-4-tablet is-size-5-mobile is-family-secondary">SP1 V2 Eth/Debase</h3>
 					<span className="delete is-pulled-right" onClick={() => history.goBack()} />
 				</div>
 				<div className="infowrapper">

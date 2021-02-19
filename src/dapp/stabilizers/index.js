@@ -25,7 +25,7 @@ export default function Stabilizers() {
 
 	const data = [
 		{
-			name: 'Threshold Counter V1',
+			name: 'SP1 V1 Dai/Debase',
 			type: 'Passive Pool',
 			description:
 				'This stabilizer counts the number of positive rebases until a random threshold, sampled from a normal distribution, is hit. Once the threshold is hit, counter is reset and the pool starts to reward DEBASE for staked DEBASE/DAI LPs, as per parameters decided by governance.',
@@ -33,7 +33,7 @@ export default function Stabilizers() {
 			link: 'thresholdCounter'
 		},
 		{
-			name: 'Threshold Counter V2 Eth/Debase',
+			name: 'SP1 V2 Eth/Debase',
 			type: 'Passive Pool',
 			description:
 				'This stabilizer counts the number of positive rebases until a random threshold, sampled from a normal distribution, is hit. Once the threshold is hit, counter is reset and the pool starts to reward DEBASE for staked DEBASE/ETH LPs, as per parameters decided by governance.',
@@ -41,7 +41,7 @@ export default function Stabilizers() {
 			link: 'thresholdCounter-v2-eth-debase'
 		},
 		{
-			name: 'Expansion rewarder Dai/Debase',
+			name: 'SP1 V3 Dai/Debase',
 			type: 'Passive Pool',
 			description:
 				'This stabilizer rewards Debase when the last rebase was in expansion or stability. It stops rewarding when Debase goes into a contraction',
@@ -49,7 +49,7 @@ export default function Stabilizers() {
 			link: 'expansion-rewarder-dai-debase'
 		},
 		{
-			name: 'burn Pool',
+			name: 'SP2 V1',
 			type: 'Active Pool',
 			description:
 				'SP2: Issues and redeems d-bills. Users compete to get d-bills and disallow others from getting d-bills by shutting the door on buying them.',
