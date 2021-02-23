@@ -229,6 +229,7 @@ export default function MPH88() {
 				}
 				return null;
 			});
+			console.log(allDepositIds, allFundingIds);
 
 			try {
 				const transaction = await poolContract.multiWithdraw(allDepositIds, allFundingIds);

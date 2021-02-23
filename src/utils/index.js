@@ -162,6 +162,7 @@ export const mph88Abi = [
 	'function daiFee() view returns (uint256)',
 	'function mphFee() view returns (uint256)',
 	'function periodFinish() view returns (uint256)',
+	'function multiWithdraw(uint256[],uint256[]) external',
 	'function debaseRewardDistributed() view returns (uint256)',
 	'function poolEnabled() view returns (bool)',
 	'function allowEmergencyWithdraw() view returns (bool)',
