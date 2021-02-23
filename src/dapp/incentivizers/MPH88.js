@@ -155,7 +155,7 @@ export default function MPH88() {
 			try {
 				let transaction = await poolContract.withdraw(
 					depositIds[selectedDepositIndex].id.toNumber(),
-					parseInt(depositIds[selectedDepositIndex].fundingID)
+					parseInt(depositIds[selectedDepositIndex].fundingId)
 				);
 				await transaction.wait(1);
 
