@@ -93,7 +93,7 @@ export default function DepositInfo({
 			<TextInfo
 				isMobile={isMobile}
 				label="88Mph Reward"
-				value={parseFloat(deposit.mphReward).toFixed(isMobile ? 4 : 8) * 1}
+				value={parseFloat(deposit.mphReward * 0.51).toFixed(isMobile ? 4 : 8) * 1}
 				token="88MPH"
 				img={mph88}
 			/>
