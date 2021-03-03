@@ -37,7 +37,7 @@ export default function Staking() {
 					duration="1 week"
 					enabled={true}
 					battery={<div className="part" style={{ animationName: 'highBattery' }} />}
-					button="Stake"
+					button="Withdraw"
 					tvl="894241"
 					apy="80%"
 				/>
